@@ -1,0 +1,8 @@
+prefix=/home/hieron/catkin_ws/install
+
+Name: numpy_tutorial
+Description: Description of numpy_tutorial
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hieron/catkin_ws/install/lib 
+Requires: std_msgs
