@@ -230,7 +230,7 @@ gtest/preinstall:
 gtest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  12
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  1
 	@echo "Built target gtest"
 .PHONY : gtest/CMakeFiles/gtest.dir/all
 
@@ -261,7 +261,7 @@ clean: gtest/CMakeFiles/gtest.dir/clean
 gtest/CMakeFiles/gtest_main.dir/all: gtest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  13
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  2
 	@echo "Built target gtest_main"
 .PHONY : gtest/CMakeFiles/gtest_main.dir/all
 
@@ -286,924 +286,401 @@ clean: gtest/CMakeFiles/gtest_main.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory TCC
+# Directory level rules for directory bci_training_platform
 
 # Convenience name for "all" pass in the directory.
-TCC/all:
-.PHONY : TCC/all
+bci_training_platform/all:
+.PHONY : bci_training_platform/all
 
 # Convenience name for "clean" pass in the directory.
-TCC/clean: TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
-TCC/clean: TCC/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-TCC/clean: TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
-TCC/clean: TCC/CMakeFiles/roscpp_generate_messages_py.dir/clean
-TCC/clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-TCC/clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
-TCC/clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
-TCC/clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
-TCC/clean: TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-TCC/clean: TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
-TCC/clean: TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
-TCC/clean: TCC/CMakeFiles/std_msgs_generate_messages_py.dir/clean
-.PHONY : TCC/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+bci_training_platform/clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/clean
+.PHONY : bci_training_platform/clean
 
 # Convenience name for "preinstall" pass in the directory.
-TCC/preinstall:
-.PHONY : TCC/preinstall
+bci_training_platform/preinstall:
+.PHONY : bci_training_platform/preinstall
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/roscpp_generate_messages_cpp.dir
+# Target rules for target bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_cpp"
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_cpp: TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+roscpp_generate_messages_cpp: bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 .PHONY : roscpp_generate_messages_cpp
 
 # clean rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/roscpp_generate_messages_eus.dir
+# Target rules for target bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_eus.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_eus.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_eus.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_eus.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_eus.dir/build
+bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_eus"
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_eus.dir/all
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/roscpp_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_eus: TCC/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+roscpp_generate_messages_eus: bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/rule
 .PHONY : roscpp_generate_messages_eus
 
 # clean rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_eus.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_eus.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/roscpp_generate_messages_lisp.dir
+# Target rules for target bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_lisp"
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_lisp: TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+roscpp_generate_messages_lisp: bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 .PHONY : roscpp_generate_messages_lisp
 
 # clean rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/roscpp_generate_messages_py.dir
+# Target rules for target bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_py.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_py.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_py.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_py.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_py.dir/build
+bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target roscpp_generate_messages_py"
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_py.dir/all
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/roscpp_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_py: TCC/CMakeFiles/roscpp_generate_messages_py.dir/rule
+roscpp_generate_messages_py: bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/rule
 .PHONY : roscpp_generate_messages_py
 
 # clean rule for target.
-TCC/CMakeFiles/roscpp_generate_messages_py.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/roscpp_generate_messages_py.dir/build.make TCC/CMakeFiles/roscpp_generate_messages_py.dir/clean
-.PHONY : TCC/CMakeFiles/roscpp_generate_messages_py.dir/clean
+bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/roscpp_generate_messages_py.dir/clean
+clean: bci_training_platform/CMakeFiles/roscpp_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
+# Target rules for target bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_cpp"
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_cpp: TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+rosgraph_msgs_generate_messages_cpp: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 .PHONY : rosgraph_msgs_generate_messages_cpp
 
 # clean rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
+# Target rules for target bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_eus"
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_eus: TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+rosgraph_msgs_generate_messages_eus: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
 .PHONY : rosgraph_msgs_generate_messages_eus
 
 # clean rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir
+# Target rules for target bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_lisp"
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_lisp: TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+rosgraph_msgs_generate_messages_lisp: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 .PHONY : rosgraph_msgs_generate_messages_lisp
 
 # clean rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir
+# Target rules for target bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target rosgraph_msgs_generate_messages_py"
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_py: TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+rosgraph_msgs_generate_messages_py: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 .PHONY : rosgraph_msgs_generate_messages_py
 
 # clean rule for target.
-TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
-.PHONY : TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+clean: bci_training_platform/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir
+# Target rules for target bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_cpp"
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_cpp: TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+std_msgs_generate_messages_cpp: bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 .PHONY : std_msgs_generate_messages_cpp
 
 # clean rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/std_msgs_generate_messages_eus.dir
+# Target rules for target bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/build
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_eus"
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/all
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_eus: TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+std_msgs_generate_messages_eus: bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 .PHONY : std_msgs_generate_messages_eus
 
 # clean rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir
+# Target rules for target bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_lisp"
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_lisp: TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+std_msgs_generate_messages_lisp: bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : std_msgs_generate_messages_lisp
 
 # clean rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target TCC/CMakeFiles/std_msgs_generate_messages_py.dir
+# Target rules for target bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir
 
 # All Build rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_py.dir/build
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
 	@echo "Built target std_msgs_generate_messages_py"
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_py.dir/all
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
-TCC/CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 TCC/CMakeFiles/std_msgs_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_py: TCC/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+std_msgs_generate_messages_py: bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 .PHONY : std_msgs_generate_messages_py
 
 # clean rule for target.
-TCC/CMakeFiles/std_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f TCC/CMakeFiles/std_msgs_generate_messages_py.dir/build.make TCC/CMakeFiles/std_msgs_generate_messages_py.dir/clean
-.PHONY : TCC/CMakeFiles/std_msgs_generate_messages_py.dir/clean
+bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/build.make bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/clean
+.PHONY : bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 
 # clean rule for target.
-clean: TCC/CMakeFiles/std_msgs_generate_messages_py.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory beginner_tutorials
-
-# Convenience name for "all" pass in the directory.
-beginner_tutorials/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all
-.PHONY : beginner_tutorials/all
-
-# Convenience name for "clean" pass in the directory.
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/clean
-beginner_tutorials/clean: beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/clean
-.PHONY : beginner_tutorials/clean
-
-# Convenience name for "preinstall" pass in the directory.
-beginner_tutorials/preinstall:
-.PHONY : beginner_tutorials/preinstall
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target _beginner_tutorials_generate_messages_check_deps_AddTwoInts"
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/rule
-
-# Convenience name for target.
-_beginner_tutorials_generate_messages_check_deps_AddTwoInts: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/rule
-.PHONY : _beginner_tutorials_generate_messages_check_deps_AddTwoInts
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target _beginner_tutorials_generate_messages_check_deps_Num"
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/rule
-
-# Convenience name for target.
-_beginner_tutorials_generate_messages_check_deps_Num: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/rule
-.PHONY : _beginner_tutorials_generate_messages_check_deps_Num
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/build.make beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target beginner_tutorials_gencpp"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_gencpp: beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/rule
-.PHONY : beginner_tutorials_gencpp
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_gencpp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target beginner_tutorials_generate_messages"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all
-
-# Include target in all.
-all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 11
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_generate_messages: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/rule
-.PHONY : beginner_tutorials_generate_messages
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all: TCC/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  1 2
-	@echo "Built target beginner_tutorials_generate_messages_cpp"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_generate_messages_cpp: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/rule
-.PHONY : beginner_tutorials_generate_messages_cpp
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_cpp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all: TCC/CMakeFiles/std_msgs_generate_messages_eus.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  3 4 5
-	@echo "Built target beginner_tutorials_generate_messages_eus"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_generate_messages_eus: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/rule
-.PHONY : beginner_tutorials_generate_messages_eus
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all: TCC/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  6 7
-	@echo "Built target beginner_tutorials_generate_messages_lisp"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_generate_messages_lisp: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/rule
-.PHONY : beginner_tutorials_generate_messages_lisp
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_AddTwoInts.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all: TCC/CMakeFiles/std_msgs_generate_messages_py.dir/all
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all: beginner_tutorials/CMakeFiles/_beginner_tutorials_generate_messages_check_deps_Num.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles  8 9 10 11
-	@echo "Built target beginner_tutorials_generate_messages_py"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_generate_messages_py: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/rule
-.PHONY : beginner_tutorials_generate_messages_py
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_eus.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target beginner_tutorials_geneus"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_geneus: beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/rule
-.PHONY : beginner_tutorials_geneus
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_geneus.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_lisp.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target beginner_tutorials_genlisp"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_genlisp: beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/rule
-.PHONY : beginner_tutorials_genlisp
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_genlisp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir
-
-# All Build rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/all: beginner_tutorials/CMakeFiles/beginner_tutorials_generate_messages_py.dir/all
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/depend
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target beginner_tutorials_genpy"
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/all
-
-# Build rule for subdir invocation for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/rule
-
-# Convenience name for target.
-beginner_tutorials_genpy: beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/rule
-.PHONY : beginner_tutorials_genpy
-
-# clean rule for target.
-beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/clean:
-	$(MAKE) -f beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/build.make beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/clean
-.PHONY : beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/clean
-
-# clean rule for target.
-clean: beginner_tutorials/CMakeFiles/beginner_tutorials_genpy.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory numpy_tutorial
-
-# Convenience name for "all" pass in the directory.
-numpy_tutorial/all:
-.PHONY : numpy_tutorial/all
-
-# Convenience name for "clean" pass in the directory.
-numpy_tutorial/clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/clean
-numpy_tutorial/clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/clean
-numpy_tutorial/clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/clean
-numpy_tutorial/clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/clean
-.PHONY : numpy_tutorial/clean
-
-# Convenience name for "preinstall" pass in the directory.
-numpy_tutorial/preinstall:
-.PHONY : numpy_tutorial/preinstall
-
-#=============================================================================
-# Target rules for target numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir
-
-# All Build rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/all:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/depend
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target rospy_tutorials_generate_messages_cpp"
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-rospy_tutorials_generate_messages_cpp: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/rule
-.PHONY : rospy_tutorials_generate_messages_cpp
-
-# clean rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/clean:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/clean
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/clean
-
-# clean rule for target.
-clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_cpp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir
-
-# All Build rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/all:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/depend
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target rospy_tutorials_generate_messages_eus"
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rospy_tutorials_generate_messages_eus: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/rule
-.PHONY : rospy_tutorials_generate_messages_eus
-
-# clean rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/clean:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/clean
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/clean
-
-# clean rule for target.
-clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_eus.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir
-
-# All Build rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/all:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/depend
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target rospy_tutorials_generate_messages_lisp"
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-rospy_tutorials_generate_messages_lisp: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/rule
-.PHONY : rospy_tutorials_generate_messages_lisp
-
-# clean rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/clean:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/clean
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/clean
-
-# clean rule for target.
-clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_lisp.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir
-
-# All Build rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/all:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/depend
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hieron/catkin_ws/build/CMakeFiles 
-	@echo "Built target rospy_tutorials_generate_messages_py"
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hieron/catkin_ws/build/CMakeFiles 0
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/rule
-
-# Convenience name for target.
-rospy_tutorials_generate_messages_py: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/rule
-.PHONY : rospy_tutorials_generate_messages_py
-
-# clean rule for target.
-numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/clean:
-	$(MAKE) -f numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/build.make numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/clean
-.PHONY : numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/clean
-
-# clean rule for target.
-clean: numpy_tutorial/CMakeFiles/rospy_tutorials_generate_messages_py.dir/clean
+clean: bci_training_platform/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================

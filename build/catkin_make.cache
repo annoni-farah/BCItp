@@ -1,2 +1,2 @@
-TCC:beginner_tutorials:numpy_tutorial
+bci_training_platform
 -DCATKIN_DEVEL_PREFIX=/home/hieron/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/hieron/catkin_ws/install -G Unix Makefiles

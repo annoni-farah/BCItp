@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+ackage>
+  <name>bci_training_platform</name>
+  <version>0.0.0</version>
+  <description>The bci_training_platform package</description>
+  <maintainer email="hieron@outlook.com">hieron</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>numpy</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>scipy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>numpy</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>scipy</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <export>
+  </export>
+</package>

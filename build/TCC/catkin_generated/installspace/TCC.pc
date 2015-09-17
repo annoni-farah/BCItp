@@ -1,8 +1,0 @@
-prefix=/home/hieron/catkin_ws/install
-
-Name: TCC
-Description: Description of TCC
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/hieron/catkin_ws/install/lib 
-Requires: 

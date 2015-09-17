@@ -117,9 +117,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/hieron/catkin_ws/build/gtest/cmake_install.cmake")
-  include("/home/hieron/catkin_ws/build/TCC/cmake_install.cmake")
-  include("/home/hieron/catkin_ws/build/beginner_tutorials/cmake_install.cmake")
-  include("/home/hieron/catkin_ws/build/numpy_tutorial/cmake_install.cmake")
+  include("/home/hieron/catkin_ws/build/bci_training_platform/cmake_install.cmake")
 
 endif()
 

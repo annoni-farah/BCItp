@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "TCC")
-set(TCC_MAINTAINER "hieron <hieron@todo.todo>")
-set(TCC_DEPRECATED "")
-set(TCC_VERSION "0.0.0")
-set(TCC_BUILD_DEPENDS "roscpp" "rospy" "std_msgs" "scipy" "numpy")
-set(TCC_RUN_DEPENDS "roscpp" "rospy" "numpy" "scipy" "std_msgs")
-set(TCC_BUILDTOOL_DEPENDS "catkin")
