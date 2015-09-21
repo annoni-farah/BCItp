@@ -2,11 +2,27 @@
 
 Inclusao do arquivo bci_training_platform.launch
 
-$roscd bci_training_platform
 
-$roslaunch bci_training_platform bci_training_platform.launch
+```
+#!bash
+
+roscd bci_training_platform
+```
+
+
+
+```
+#!bash
+
+roslaunch bci_training_platform bci_training_platform.launch
+```
+
 
 ps. caso nao tenha instalado
 
-$sudo apt-get install python-scipy
 
+```
+#!bash
+
+sudo apt-get install python-scipy
+```
