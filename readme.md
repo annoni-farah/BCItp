@@ -1,5 +1,5 @@
 # BCI Training Platform #
-
+--------------------------------
 
 ** Códigos em python para treinamento de usuário para Interface Cérebro-Máquina **
 
