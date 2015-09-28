@@ -1,7 +1,35 @@
+# BCI Training Platform #
+--------------------------------
+
 ** Códigos em python para treinamento de usuário para Interface Cérebro-Máquina **
 
-Inclusao do arquivo bci_training_platform.launch
+Inclusao do arquivo bci_training_platform2.launch
 
-$roscd bci_training_platform
 
-$roslaunch bci_training_platform bci_training_platform.launch
+<<<<<<< HEAD
+$roslaunch bci_training_platform bci_training_platform2.launch
+=======
+```
+#!bash
+
+roscd bci_training_platform
+```
+
+
+
+```
+#!bash
+
+roslaunch bci_training_platform bci_training_platform.launch
+```
+
+
+ps. caso nao tenha instalado
+
+
+```
+#!bash
+
+sudo apt-get install python-scipy
+```
+>>>>>>> 3375eb016d944159992fa2aeb3623b2e496dff7d
