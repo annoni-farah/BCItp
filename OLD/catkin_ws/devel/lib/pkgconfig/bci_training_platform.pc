@@ -1,8 +1,0 @@
-prefix=/home/hieron/catkin_ws/devel
-
-Name: bci_training_platform
-Description: Description of bci_training_platform
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/hieron/catkin_ws/devel/lib 
-Requires: 
