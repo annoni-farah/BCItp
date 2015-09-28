@@ -3,4 +3,5 @@
 Inclusao do arquivo bci_training_platform.launch
 
 $roscd bci_training_platform
-$roslaunch bci_training_platform bci_training_platform.launch	
+
+$roslaunch bci_training_platform bci_training_platform.launch
