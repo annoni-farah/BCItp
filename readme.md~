@@ -3,33 +3,16 @@
 
 ** Códigos em python para treinamento de usuário para Interface Cérebro-Máquina **
 
-Inclusao do arquivo bci_training_platform2.launch
+Brand-New files, a interface wrote with pygame (took a lot of time)
+Nota:
+Quando não houver botao de exit ou back, ESC ou ENTER pra voltar
 
 
-<<<<<<< HEAD
-$roslaunch bci_training_platform bci_training_platform2.launch
-=======
-```
-#!bash
-
-roscd bci_training_platform
-```
+To-do: 
+link the (filter,csp,lda archive) with the openbci block
+tests online
 
 
 
-```
-#!bash
-
-roslaunch bci_training_platform bci_training_platform.launch
-```
 
 
-ps. caso nao tenha instalado
-
-
-```
-#!bash
-
-sudo apt-get install python-scipy
-```
->>>>>>> 3375eb016d944159992fa2aeb3623b2e496dff7d

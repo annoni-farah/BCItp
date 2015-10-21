@@ -1,0 +1,6 @@
+<launch>
+  <node name="first" pkg="bci_training_platform" type="first.py" />
+  <node name="second" pkg="bci_training_platform" type="second.py" />
+  <node name="third" pkg="bci_training_platform" type="third.py" />
+  <node name="fourth" pkg="bci_training_platform" type="fourth.py" />
+</launch>
