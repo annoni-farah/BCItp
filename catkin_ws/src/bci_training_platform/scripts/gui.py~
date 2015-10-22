@@ -25,7 +25,7 @@ def inicio():
     global screen,sound,beep,myFont,gray,black,blue,white,red,USER,FPS,nivel,score,cord,flag,flag2,i
     rospack = rospkg.RosPack()
     mypath=rospack.get_path('bci_training_platform')
-    mypath = mypath + '/scripts/'
+    mypath = mypath + 'scripts/'
     pygame.init()
     screen=pygame.display.set_mode((700,500),HWSURFACE|DOUBLEBUF|RESIZABLE)
     sound = pygame.mixer.Sound(mypath+"resources/sounds/intro_sound2.ogg")
