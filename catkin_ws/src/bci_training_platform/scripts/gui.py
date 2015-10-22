@@ -22,7 +22,7 @@ def listener():
         main_menu()
 
 def inicio():
-    global screen,sound,beep,myFont,gray,black,blue,white,red,USER,FPS,nivel,score,cord,flag,flag2,i
+    global screen,sound,beep,myFont,gray,black,blue,white,red,USER,FPS,nivel,score,cord,flag,flag2,i,mypath
     rospack = rospkg.RosPack()
     mypath=rospack.get_path('bci_training_platform')
     mypath = mypath + '/scripts/'
@@ -189,7 +189,7 @@ def start_menu():
         pygame.display.flip();
 
 def newuser_menu():
-        global w,h,screen
+        global w,h,screen,mypath
         draw_(menu_list[2],[white]*3)
         while True:
             k=0
@@ -225,7 +225,7 @@ def newuser_menu():
             pygame.display.flip()
 
 def createuser_menu():
-    global w,h,screen,char
+    global w,h,screen,char,mypath
     flag=0
     i=w//9 - 1
     while i<w*1.8//9:
@@ -291,7 +291,7 @@ def deleteuser_menu():
     pass
 
 def existinguser_menu():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath,char
     flag=0
     i=w//9 - 1
     while i<w*1.8//9:
@@ -344,6 +344,7 @@ def existinguser_menu():
                     else:
                         draw_([" ","Nickname do not exist",],[white]*2,w*1.8//9 -1,(90,0,0))
                         char=[]
+                        USER=[]
                         pygame.display.flip()
                         pygame.time.wait(1000)
                     draw_([" ","Type your nickname",],[white]*2,w*1.8//9 -1,(90,0,0))
@@ -351,7 +352,7 @@ def existinguser_menu():
             pygame.display.flip()
 
 def user_menu():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath,char
     draw_([USER,"Calibration","Training","Back"],[blue]+[white]*3)
     k=0
     while True:
@@ -367,6 +368,7 @@ def user_menu():
                 temp = w/2.355<a<w/1.75
                 if temp and h/1.5<b<h/1.3:      #botao back
                     USER=[]
+                    char=[]
                     return
                 elif temp and h/2.61<b<h/2.076:     #botao training
                     calibration_menu()
@@ -386,7 +388,7 @@ def user_menu():
         pygame.display.flip()
 
 def training_menu():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath
     draw_(["Start Training","Back"],[white]*2)
     k=0
     while True:
@@ -545,7 +547,7 @@ def task_session(task_type):
     pygame.display.flip()
 
 def cali_instructions():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath
     draw_(["Hello!","These are the calibration session instructions",\
         "Press Left to back and Right to continue","ESC to return exit"],\
             [white]*4,arg5=black)
@@ -627,7 +629,7 @@ def cali_instructions():
 
 
 def calibration_menu():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath
     draw_(["Guide","New","Back"],[white]*3)
     while True:
         k=0
@@ -676,7 +678,7 @@ def calibration_menu():
         pygame.display.flip()
 
 def new_calibration():
-    global w,h,screen,USER
+    global w,h,screen,USER,mypath
     N=70
     lista=[up,right,left,down]*N
     time=len(lista)*10
