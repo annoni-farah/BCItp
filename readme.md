@@ -3,14 +3,26 @@
 
 ** Códigos em python para treinamento de usuário para Interface Cérebro-Máquina **
 
-Brand-New files, a interface wrote with pygame (took a lot of time)
-Nota:
-Quando não houver botao de exit ou back, ESC ou ENTER pra voltar
+Mover a pasta bci_training_platform para dentro da pasta catkin_ws/src
+
+Abrir um terminal e navegar até a pasta catkin_ws e executar os seguintes comandos:
+
+$ catkin_make
+
+$ cd src/bci_training_platform/scripts
+
+$ chmod +x gui.py
+
+$ chmod +x setas.py
+
+$ chmod +x bci_training_platform.launch
 
 
-To-do: 
-link the (filter,csp,lda archive) with the openbci block
-tests online
+Para rodar executar:
+
+$ roslaunch bci_training_platform bci_training_platform.launch
+
+
 
 
 

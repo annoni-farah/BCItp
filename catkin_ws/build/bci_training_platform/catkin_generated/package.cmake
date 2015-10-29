@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "bci_training_platform")
-set(bci_training_platform_MAINTAINER "hieron <hieron.giacomini@outlook.com>")
-set(bci_training_platform_DEPRECATED "")
-set(bci_training_platform_VERSION "0.0.0")
-set(bci_training_platform_BUILD_DEPENDS "roscpp" "rospy" "std_msgs")
-set(bci_training_platform_RUN_DEPENDS "roscpp" "rospy" "std_msgs")
-set(bci_training_platform_BUILDTOOL_DEPENDS "catkin")
