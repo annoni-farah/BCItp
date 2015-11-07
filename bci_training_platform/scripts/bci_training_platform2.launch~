@@ -1,7 +1,0 @@
-<launch>
-  <node name="samples" pkg="bci_training_platform" type="bloco1.py" />
-  <node name="buffer" pkg="bci_training_platform" type="bloco2.py" />
-  <node name="filter" pkg="bci_training_platform" type="bloco3.py" />
-  <node name="csp" pkg="bci_training_platform" type="bloco4.py" />
-  <node name="lda" pkg="bci_training_platform" type="bloco5.py" />
-</launch>

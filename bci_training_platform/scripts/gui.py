@@ -12,8 +12,10 @@ def callback(data):
     flag=1
 
 def listener():
+    global pub
     rospy.init_node('listener', anonymous=True)
     rospy.Subscriber('canal5', String, callback)
+    pub=rospy.Publisher('manager_gui', String, queue_size=100)
     global i
     global flag,flag2
     while True:
@@ -22,7 +24,7 @@ def listener():
         main_menu()
 
 def inicio():
-    global screen,sound,beep,myFont,gray,black,blue,white,red,USER,FPS,nivel,score,cord,flag,flag2,i,mypath
+    global screen,sound,beep,myFont,gray,black,blue,white,red,USER,FPS,nivel,score,cord,flag,flag2,i,mypath,pub
     rospack = rospkg.RosPack()
     mypath=rospack.get_path('bci_training_platform')
     mypath = mypath + '/scripts/'
@@ -33,7 +35,6 @@ def inicio():
     myFont = pygame.font.Font(mypath+"resources/fonts/touch.ttf", 40)
     flag=0
     gray = (126,126,126)
-    #gray = (54,220,220)
     black  = (0,0,0)
     blue = (0,0,255)
     white= (255, 255, 255)
@@ -262,11 +263,11 @@ def createuser_menu():
                         draw_(menu_list[2],[white]*3)
                         return
                     try:
-                        file=open("users/user_list.txt",'r')
+                        file=open(mypath+"/users/user_list.txt",'r')
                     except:
-                        file=open("users/user_list.txt",'w')
+                        file=open(mypath+"/users/user_list.txt",'w')
                         file.close()
-                        file=open("users/user_list.txt",'r')
+                        file=open(mypath+"/users/user_list.txt",'r')
                     temp=file.read().split('\n')
                     if "".join(char) in temp:
                         draw_([" ","Nickname already exist",],[white]*2,w*1.8//9 -1,(90,0,0))
@@ -275,7 +276,7 @@ def createuser_menu():
                         pygame.display.flip()
                         pygame.time.wait(1000)
                     else:
-                        file=open("users/user_list.txt",'a')
+                        file=open(mypath+"users/user_list.txt",'a')
                         file.write("".join(char)+"\n")
                         draw_([" ","Nickname created",],[white]*2,w*1.8//9 -1,(90,0,0))
                         pygame.display.flip()
@@ -678,9 +679,10 @@ def calibration_menu():
         pygame.display.flip()
 
 def new_calibration():
-    global w,h,screen,USER,mypath
-    N=70
-    lista=[up,right,left,down]*N
+    global w,h,screen,USER,mypath,pub
+    N=1
+    lista0=[1,2,3,4]*N
+    lista=[up if x==1 else right if x==2 else left if x==3 else down for x in lista0]
     time=len(lista)*10
     time=time//60
     shuffle(lista)
@@ -697,6 +699,19 @@ def new_calibration():
             break
         i=i+1
     file = open(mypath+"users/"+USER+"/calibration%s.txt" % i, 'w')
+    file2 = open(mypath+"users/"+USER+"/calibration%sparameters.txt" % i, 'w')
+    file3 = open(mypath+"users/"+USER+"/calibration%smrk.txt" % i, 'w')
+    file.close()
+    file2.close()
+    b=i
+    i=0
+    for element in lista0:
+        file3.write(str(i)+"\t"+str(element)+"\n")
+        i+=8*250
+    file3.close
+    pub.publish(str(mypath+"users/"+USER+"/calibration%s.txt" % b))
+    pub.publish(str(mypath+"users/"+USER+"/calibration%smrk.txt" % b))
+    pub.publish(str(mypath+"users/"+USER+"/calibration%sparameters.txt" % b))
     i=0
     while True:
         for event in pygame.event.get():
@@ -709,6 +724,7 @@ def new_calibration():
         if i==1: break
         draw_(["Duration: %s minutes" % time,"Press any key to start"],[white]*2,arg5=black)
         pygame.display.flip()
+    pub.publish(str(12))
     for element in lista:
         task_session(element)
         for event in pygame.event.get(KEYDOWN):
