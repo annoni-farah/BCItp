@@ -1,0 +1,5 @@
+<launch>
+  <node name="samples" pkg="bci_training_platform" type="samples.py" />
+  <node name="manager" pkg="bci_training_platform" type="user_manager.py" />
+  <node name="interface" pkg="bci_training_platform" type="user_interface.py" />
+</launch>

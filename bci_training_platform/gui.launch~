@@ -1,0 +1,4 @@
+<launch>
+  <node name="gui" pkg="bci_training_platform" type="scripts/gui.py" />
+  <node name="setas" pkg="bci_training_platform" type="scripts/setas.py" />
+</launch>
