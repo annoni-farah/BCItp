@@ -425,6 +425,7 @@ class user_interface:
 			if self.screen_w//2-54<self.mouse_x<self.screen_w//2+54:
 				self.screen.blit(self.menu0,(self.screen_w//2-54,self.screen_h//2+150),Rect(327,720,109,90))
 				if pg.mouse.get_pressed()==(1,0,0) and self.click_flag == (0,0,0):
+					self.classes.sort()
 					self.save_options()
 					self.menu=3
 					if platform.system()=='Linux':
@@ -479,6 +480,7 @@ class user_interface:
 			if self.screen_w//2-54<self.mouse_x<self.screen_w//2+54:
 				self.screen.blit(self.menu0,(self.screen_w//2-54,self.screen_h//2+150),Rect(327,720,109,90))
 				if pg.mouse.get_pressed()==(1,0,0) and self.click_flag == (0,0,0):
+					self.classes.sort()
 					self.save_options()
 					self.menu=3
 					if platform.system()=='Linux':
