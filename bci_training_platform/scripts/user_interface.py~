@@ -481,8 +481,6 @@ class user_interface:
 				if pg.mouse.get_pressed()==(1,0,0) and self.click_flag == (0,0,0):
 					self.save_options()
 					self.menu=3
-					if platform.system()=='Linux':
-						self.pub.publish("CL"+" ".join([str(x) for x in self.classes]))
 					self.click_flag=(1,0,0)
 				elif pg.mouse.get_pressed()==(0,0,0):
 					self.click_flag=(0,0,0)

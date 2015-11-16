@@ -69,6 +69,8 @@ class manager:
 			print("welldone")
 			self.calcparams()
 		elif msg.data[0:2]=="TR":
+			print("/users/%s/parameters.txt" %self.user)
+			self.file3=open(self.globalpath + "/users/%s/parameters.txt" %self.user,'r')
 			self.buffer=np.matrix([[0]*self.NUM_CHANNELS]*self.INTERVAL).T
 			self.loadparams()
 			self.task=2
