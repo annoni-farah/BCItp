@@ -43,9 +43,9 @@ class manager:
 	def callback_manager_gui(self,msg):
 		if msg.data[0:2]=="UN":
 			self.user=msg.data[2:]
-			print(msg.data[2:])
-			try:	os.stat(self.globalpath + "/" + self.user)
-			except:	os.mkdir(self.globalpath + "/" + self.user)
+			#print(msg.data[2:])
+			#try:	os.stat(self.globalpath + "/" + self.user)
+			#except:	os.mkdir(self.globalpath + "/" + self.user)
 		elif msg.data[0:2]=="TM":
 			self.NUM_SAMPLES=250*int(msg.data[2:])/1000
 			print(self.NUM_SAMPLES)

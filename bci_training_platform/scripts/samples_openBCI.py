@@ -22,7 +22,7 @@ fa = 250 # sample frequency (approx)
 def get_data(sample):
     # int64[2] data
     msg = Float64MultiArray()
-    msg.data = [rospy.get_time(), sample.channel_data]
+    msg.data = sample.channel_data
 
     # print data
 
@@ -54,7 +54,7 @@ if __name__ == '__main__': # this code is only executed if this module is not im
     port = '/dev/ttyUSB0' # port which opnbci is connected (linux). windows = COM1
     baud = 115200
     board = bci.OpenBCIBoard(port=port, baud=baud)
-    board.test_signal(3) # square waveform to channel input (test signal)
+    #board.test_signal(3) # square waveform to channel input (test signal)
     sleep(1) # need to include this to wait for test config setup
 
     board.start_streaming(get_data) # start getting data from amplifier
