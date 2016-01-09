@@ -140,8 +140,7 @@ class manager:
 				self.temp=self.buffer
 				self.count=self.number_samples
 				self.status=1		
-				self.temp=np.matrix(sig.convolve(self.temp,self.fir))
-				self.temp=self.temp.T[250*3:250*6].T
+				self.temp=np.matrix(sig.convolve(self.temp,self.fir))	
 				self.temp=cov_(self.temp)
 				self.temp=self.W_csp*self.temp*self.W_csp.T
 				self.temp=np.matrix((np.log10(np.diag(self.temp))).T)

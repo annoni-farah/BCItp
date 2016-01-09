@@ -57,10 +57,10 @@ if __name__ == '__main__': # this code is only executed if this module is not im
     #board.test_signal(3) # square waveform to channel input (test signal)
     sleep(1) # need to include this to wait for test config setup
 		
-    try:
-     board.start_streaming(get_data) # start getting data from amplifier
+		try:
+   		board.start_streaming(get_data) # start getting data from amplifier
 		
-    except:
-     board.stop()
-     board.disconnect()
+		except:
+			board.stop()
+			board.disconnect()
 

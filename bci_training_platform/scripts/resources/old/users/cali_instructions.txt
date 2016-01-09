@@ -1,5 +1,0 @@
-Hello!
-These are the calibration session instructions.
- 
-Press Left to back and Right to continue
-ESC to return exit

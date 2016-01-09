@@ -718,7 +718,7 @@ class user_interface:
 						self.RT=-1
 						pg.display.update()
 						pg.time.wait(3000)
-					file.write(str(tax_right*100/len(self.lista02))+"\n")		
+					file.write(str(tax_right/len(self.lista02))+"\n")		
 					file.close()
 						
 						
