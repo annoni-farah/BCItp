@@ -39,7 +39,7 @@ logar:
 LOGIN->
 
 OBS:
-para novo usuário usar o Training-> necessita criar uma nova calibração (demora uns 2 minutos)
+para novo usuário usar o Training-> necessita criar uma nova calibração
 
 
 

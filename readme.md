@@ -41,7 +41,8 @@ LOGIN->
 OBS:
 para novo usuário usar o Training-> necessita criar uma nova calibração
 
-
+OBS2:
+A interface gráfica tem a classe "Feet" mas ela não está implementada no manager, entao nao deve ser utilizada
 
 
 
