@@ -1069,5 +1069,3 @@ class user_interface:
             self.RT=int(msg.data[2])
         elif msg.data[0:2]=="TT":
             self.T1_flag=0
-
-a=user_interface()
