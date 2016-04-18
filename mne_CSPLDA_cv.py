@@ -14,13 +14,13 @@ from mne.decoding import CSP
 # data_train_path = "/arquivos/Documents/eeg_data/doutorado_cleison/data_set/A01T.set"
 
 #data_train_path = "/arquivos/Documents/eeg_data/doutorado_cleison/A01T.gdf"
-data_train_path = "/arquivos/mestrado/repo/bci_training_platform/data/data_teste/user4/samples.txt"
+data_train_path = "/arquivos/mestrado/repo/bci_training_platform/data/data_teste/user1/samples.txt"
 # filename = "/arquivos/downloads/testpport_1to100.bdf"
 
 # EVENTS INFO PATH
 #train_events_path = "/arquivos/Documents/eeg_data/doutorado_cleison/train_events/A01T.csv"
 
-train_events_path = "/arquivos/mestrado/repo/bci_training_platform/data/data_teste/user4/marcas.txt"
+train_events_path = "/arquivos/mestrado/repo/bci_training_platform/data/data_teste/user1/marcas.txt"
 
 # raw = mne.io.read_raw_eeglab(data_train_path)
 
@@ -43,7 +43,6 @@ raw = mne.io.RawArray(data, info)
 events_list = readEvents(train_events_path)
 dummy = range(events_list.shape[0])
 events_list = np.insert(events_list, 1, dummy, axis=1) # insert new column to fit mne event format
-events = events_list.astype(int)
 
 # Processing beggining:
 tmin, tmax = 0,1  # time before event, time after event
@@ -52,15 +51,7 @@ event_id = dict(LH=0, RH=1)
 # Apply band-pass filter
 raw.filter(8., 30., method='iir', filter_length=10)
 
-# Pick the channels which will be processed
-picks = pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,
-                   exclude='bads')
-
-# Read epochs (train will be done only between tmin and tmax)
-# Testing will be done with a running classifier
-epochs = Epochs(raw, events, event_id, tmin, tmax, proj=True, picks=picks,
-                baseline=None, preload=True, add_eeg_ref=False)
-labels = epochs.events[:, -1]
+epochs, labels = extractEpochs(raw, events, event_id, tmin, tmax)
 
 ###############################################################################
 # Classification with linear discrimant analysis

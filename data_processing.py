@@ -98,7 +98,7 @@ def readEvents(csv_path, cols=[]):
     else:
         events = np.loadtxt(open(csv_path,"rb"), usecols=cols)
 
-    events = events_list.astype(int)
+    events = events.astype(int)
 
     return events
     
@@ -140,7 +140,7 @@ def extractEpochs(data, events_list, events_id, tmin, tmax):
     
     # Read epochs (train will be done only between 1 and 2s)
     # Testing will be done with a running classifier
-    epochs = Epochs(data, events_list, event_id, tmin, tmax, proj=True, picks=picks,
+    epochs = Epochs(data, events_list, events_id, tmin, tmax, proj=True, picks=picks,
                     baseline=None, preload=True, add_eeg_ref=False, verbose=False)
     labels = epochs.events[:, -1]
     
@@ -212,10 +212,12 @@ def calcCSPLDA(epochs_train, labels_train, nb):
     >>> data_path = "/PATH/TO/FILE/somematrix.txt"
     >>> matrix_data = loadAsMatrix(data_path)
     """
-
+    svc = LDA()
     csp = CSP(n_components=4, reg=None, log=True, cov_est='epoch')
     clf = Pipeline([('CSP', csp), ('SVC', svc)])
 
-    clf.fit(epochs_train, labels_train)
+    epochs_data = epochs_train.get_data()
+
+    clf.fit(epochs_data, labels_train)
 
     return clf, csp.filters_, svc.coef_
