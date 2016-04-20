@@ -76,9 +76,6 @@ class user_interface:
         #define cor do fundo da tela
         self.color=(33,155,74)
 
-        #cria loop
-        self.loop()
-
     #funcao que carrega as imagens
     def bottoms(self):
         
@@ -118,237 +115,11 @@ class user_interface:
         self.ghost0=pg.image.load(self.pathtoresources +"red_ghost.png")
         self.window_size=pg.image.load(self.pathtoresources +"window_size.png")         
         self.displacement=pg.image.load(self.pathtoresources +"displacement.png")   
-        
-    #funcao que carrega a lista de usuarios
-    def files(self):
-        self.users_list=self.pathtousers+"users_list.txt"
 
     #funcao que carrea a fonte
     def fonts(self):
         self.fonte=pg.font.Font(self.pathtoresources +"ubuntu.bold.ttf", 20)
-
-    #define parametros padrão 
-    def values(self):
-        #tempo em ms das imagens na calibraçao
-        self.alert_time="2000"
-        self.cue_time="2000"
-        self.task_time="3000"
-        self.pause_time="2000"
-        self.total_time=str(int(self.alert_time)+int(self.cue_time)+int(self.task_time)+int(self.pause_time))
-        #classes mao direita e esquerda
-        self.classes=[0,1]
-        #janela de amostras da tarefa em ms começo e ms fim
-        self.feature_window_0="3000"
-        self.feature_window_1="6000"
-        #número de testes por classe
-        self.number_trials="20"
-
-        #tempo em ms das imagens do teste de calibração
-        self.alert_time2="2000"
-        self.cue_time2="2000"
-        self.task_time2="3000"
-        self.pause_time2="2000"
-        self.total_time2=str(int(self.alert_time)+int(self.cue_time)+int(self.task_time)+int(self.pause_time))
-        #classes (mao direita e esquerda)
-        self.classes2=[0,1]
-        #janela de tempo a ser utilizada na classificaçao ms começo ms fim
-        self.feature_window_02="3000"
-        self.feature_window_12="6000"
-        #número de ensaios por classe
-        self.number_trials2="20"
-
-        #tamanho da janela em ms
-        self.win_size="3000"
-        #deslocamento em ms
-        self.win_displacement="500"
-                        
-    #define loop
-    def loop(self): #main loop
-        while True:
-            #lida com as teclas apertadas, com o tamanho da janela modificada e com os valores escritos
-            self.handler()
-            #lida com o plote dos elementos gráficos de cada menu
-            self.draw()
-            #lida com o fps
-            self.d=self.clock.tick(self.fps)
-            #armazena o tempo
-            self.playtime += self.d / 1000.0
-            
-    def handler(self):
-        for event in pg.event.get():
-                        
-            # checks if the event triggered is a Quit. If so, closes the GUI and
-            # sends a cmd to ROS indicating the GUI was closed
-            if event.type==QUIT:
-            #envia comando para fechar o manager caso feche a interface grafica
-            #               if platform.system()=='Linux':
-            #                   self.pub.publish("DY")
-                pg.quit()
-                sys.exit()
-            # Deals with GUI resizing. If remove, GUI has a static shape   
-            elif event.type==VIDEORESIZE:
-                self.screen= pg.display.set_mode(event.size,HWSURFACE|DOUBLEBUF|RESIZABLE)
-                self.screen_w, self.screen_h=self.screen.get_size()
-
-            #lida com as teclas para os menus   
-            elif event.type==KEYDOWN:
-                #teclas, menu de criar usuario e logar
-                if self.menu==1 or self.menu==2:
-                    if len(self.user)<21:
-                        if 64<event.key<91 or 96<event.key<123 or event.key==95 or 47<event.key<58:
-                            self.user=self.user+chr(event.key)
-                    if event.key==K_BACKSPACE and len(self.user)>0:
-                        self.user=self.user[0:-1]
-                    if event.key==K_RETURN:
-                        self.retur=1
-                #teclas, menu parametros da calibraçao
-                elif self.menu==5:
-                    if 47<event.key<58:
-                        if self.menu_flag==1:
-                            self.alert_time=str(int(self.alert_time+chr(event.key)))
-                        elif self.menu_flag==2:
-                            self.cue_time=str(int(self.cue_time+chr(event.key)))
-                        elif self.menu_flag==3:
-                            self.task_time=str(int(self.task_time+chr(event.key)))
-                        elif self.menu_flag==4:
-                            self.pause_time=str(int(self.pause_time+chr(event.key)))
-                        elif self.menu_flag==5:
-                            self.feature_window_0=str(int(self.feature_window_0+chr(event.key)))
-                        elif self.menu_flag==6:
-                            self.feature_window_1=str(int(self.feature_window_1+chr(event.key)))
-                        elif self.menu_flag==7:
-                            self.number_trials=str(int(self.number_trials+chr(event.key)))
-                    if event.key==K_BACKSPACE:
-                        if len(self.alert_time)>0 and self.menu_flag==1:
-                            self.alert_time=self.alert_time[0:-1]
-                            if len(self.alert_time)==0:
-                                self.alert_time="0"
-                        elif len(self.cue_time)>0 and self.menu_flag==2:
-                            self.cue_time=self.cue_time[0:-1]
-                            if len(self.cue_time)==0:
-                                self.cue_time="0"
-                        elif len(self.task_time)>0 and self.menu_flag==3:
-                            self.task_time=self.task_time[0:-1]
-                            if len(self.task_time)==0:
-                                self.task_time="0"
-                        elif len(self.pause_time)>0 and self.menu_flag==4:
-                            self.pause_time=self.pause_time[0:-1]
-                            if len(self.pause_time)==0:
-                                self.pause_time="0"
-                        elif len(self.feature_window_0)>0 and self.menu_flag==5:
-                            self.feature_window_0=self.feature_window_0[0:-1]
-                            if len(self.feature_window_0)==0:
-                                self.feature_window_0="0"
-                        elif len(self.feature_window_1)>0 and self.menu_flag==6:
-                            self.feature_window_1=self.feature_window_1[0:-1]
-                            if len(self.feature_window_1)==0:
-                                self.feature_window_1="0"
-                        elif len(self.number_trials)>0 and self.menu_flag==7:
-                            self.number_trials=self.number_trials[0:-1]
-                            if len(self.number_trials)==0:
-                                self.number_trials="0"
-                    self.total_time=str(int(self.alert_time)+int(self.cue_time)+int(self.task_time)+int(self.pause_time))
-                #teclas, menu parametros do teste
-                elif self.menu==7:
-                    if 47<event.key<58:
-                        if self.menu_flag==1:
-                            self.alert_time2=str(int(self.alert_time2+chr(event.key)))
-                            
-                        elif self.menu_flag==2:
-                            self.cue_time2=str(int(self.cue_time2+chr(event.key)))
-                            
-                        elif self.menu_flag==3:
-                            self.task_time2=str(int(self.task_time2+chr(event.key)))
-                            
-                        elif self.menu_flag==4:
-                            self.pause_time2=str(int(self.pause_time2+chr(event.key)))
-                            
-                        elif self.menu_flag==5:
-                            self.feature_window_02=str(int(self.feature_window_02+chr(event.key)))
-                            
-                        elif self.menu_flag==6:
-                            self.feature_window_12=str(int(self.feature_window_12+chr(event.key)))
-                            
-                        elif self.menu_flag==7:
-                            self.number_trials2=str(int(self.number_trials2+chr(event.key)))
-                            
-                    if event.key==K_BACKSPACE:
-                        if len(self.alert_time2)>0 and self.menu_flag==1:
-                            self.alert_time2=self.alert_time2[0:-1]
-                            if len(self.alert_time2)==0:
-                                self.alert_time2="0"
-                                
-                        elif len(self.cue_time2)>0 and self.menu_flag==2:
-                            self.cue_time2=self.cue_time2[0:-1]
-                            if len(self.cue_time2)==0:
-                                self.cue_time2="0"
-                                
-                        elif len(self.task_time2)>0 and self.menu_flag==3:
-                            self.task_time2=self.task_time2[0:-1]
-                            if len(self.task_time2)==0:
-                                self.task_time2="0"
-                                
-                        elif len(self.pause_time2)>0 and self.menu_flag==4:
-                            self.pause_time2=self.pause_time2[0:-1]
-                            if len(self.pause_time2)==0:
-                                self.pause_time2="0"
-                                
-                        elif len(self.feature_window_02)>0 and self.menu_flag==5:
-                            self.feature_window_02=self.feature_window_02[0:-1]
-                            if len(self.feature_window_02)==0:
-                                self.feature_window_02="0"
-                                
-                        elif len(self.feature_window_12)>0 and self.menu_flag==6:
-                            self.feature_window_12=self.feature_window_12[0:-1]
-                            if len(self.feature_window_12)==0:
-                                self.feature_window_12="0"
-                                
-                        elif len(self.number_trials2)>0 and self.menu_flag==7:
-                            self.number_trials2=self.number_trials2[0:-1]
-                            if len(self.number_trials2)==0:
-                                self.number_trials2="0"
-                                
-                    self.total_time2=str(int(self.alert_time2)+int(self.cue_time2)+int(self.task_time2)+int(self.pause_time2))
-                #teclas mover o fantasma
-                elif self.menu==11:
-                    if event.key==K_RETURN:
-                        self.menu=10
-                        pg.mouse.set_visible(True)
-                        self.ghostpos_x=0
-                        self.ghostpos_y=0
-#                       if platform.system()=='Linux':
-#                           self.pub.publish('XY')
-                        
-                    elif event.key==K_RIGHT and self.ghostpos_x<5:
-                        self.ghostpos_x+=1
-                        
-                    elif event.key==K_LEFT and self.ghostpos_x>-5:
-                        self.ghostpos_x-=1
-                        
-                    elif event.key==K_DOWN and self.ghostpos_y<5:
-                        self.ghostpos_y+=1
-                        
-                    elif event.key==K_UP and self.ghostpos_y>-5:
-                        self.ghostpos_y-=1
-                #teclas, menu parametros do treinamento
-                elif self.menu==12:
-                    if 47<event.key<58:
-                        if self.menu_flag==1:
-                            self.win_size=str(int(self.win_size+chr(event.key)))
-                            
-                        elif self.menu_flag==2:
-                            self.win_displacement=str(int(self.win_displacement+chr(event.key)))
-
-                    if event.key==K_BACKSPACE:
-                        if len(self.win_size)>0 and self.menu_flag==1:
-                            self.win_size=self.win_size[0:-1]
-                            if len(self.win_size)==0:
-                                self.win_size="0"
-                                
-                        elif len(self.win_displacement)>0 and self.menu_flag==2:
-                            self.win_displacement=self.win_displacement[0:-1]
-                            if len(self.win_displacement)==0:
-                                self.win_displacement="0"                           
+                                 
                     
     def draw(self):
         #atualiza posição do mouse utilizadas para os cliques
@@ -421,44 +192,7 @@ class user_interface:
             self.screen.blit(self.user_already_exists,(self.screen_w//2 -120,self.screen_h//2 - 20 + 90)) #size (240,40)  delay (-120 + 0, -20 +90)
         elif self.menu_flag==2:
             self.screen.blit(self.user_created,(self.screen_w//2 -120,self.screen_h//2 - 20 + 90)) #size (240,40)  delay (-120 + 0, -20 +90)                        
-                    
-    # Creates a new user             
-    def users_file(self):
-        temp=0
-        try:
-            # Tries to write the user info to folder Users
-            file=open(self.users_list,'r')
-        except:
-            # If not possible, creates the folder
-            os.mkdir(pathtousers)
-            file=open(self.users_list,'w')
-            file=open(self.users_list,'r')
-        for line in file.readlines():
-            if line == (str(self.user)+'\n'):
-                if self.menu==1:
-                    self.menu_flag=1
-                    self.user=""
-                elif self.menu==2:
-                    self.menu=3
-                    self.load_parameters_1()
-                    self.load_parameters_2()
-                    self.load_parameters_4()
-                    self.menu_flag=0
-#                   if platform.system()=='Linux':
-#                       self.pub.publish('US' +self.user)
-                break
-                
-        else:
-            if self.menu==1:
-                file=open(self.users_list,'a')
-                file.write(str(self.user)+'\n')
-                os.mkdir(self.pathtousers + self.user)
-                self.menu_flag=2
-            if self.menu==2:
-                self.menu_flag=1
-                
-        file.close()
-    
+            
     # Login Screen
     def menu_2(self):
         self.screen.fill(self.color)
@@ -568,13 +302,7 @@ class user_interface:
                     
         if pg.mouse.get_pressed()==(0,0,0):
             self.mouse_flag=0
-            
-    #funcao que salva as marcações para os ensaios da calibraçao        
-    def save_marcas(self):
-        self.file0 = open(self.pathtousers + "%s/marcas.txt" %self.user,'w')
-        for index,element in enumerate(self.lista0):
-            self.file0.write(str(index*(int(self.alert_time)+int(self.cue_time)+int(self.task_time)+int(self.pause_time))*250/1000)+"\t"+str(element)+"\n")
-        self.file0.close()
+        
         
     #funcao que para cada tipo de tarefa plota as imagens dos ensaios
     def task_(self,i):
@@ -715,94 +443,8 @@ class user_interface:
                     
         if pg.mouse.get_pressed()==(0,0,0):
             self.mouse_flag=0
-
-    #funcaçao que salva os parametros da calibraçao(tempo das imagens, janela a ser utilizada, numero de ensaios por classe, classes)
-    def save_parameters_1(self):
-        file=open(self.pathtousers + self.user + "/" + "parameters_1.txt",'w')
-        file.write(self.alert_time + '\n')
-        file.write(self.cue_time + '\n')
-        file.write(self.task_time + '\n')
-        file.write(self.pause_time + '\n')
-        file.write(" ".join([str(x) for x in self.classes])+"\n")
-        file.write(self.number_trials+"\n")
-        file.write(self.feature_window_0+"\n")
-        file.write(self.feature_window_1+"\n")      
-        file.close()
     
-    #funcao que carrega os parametros da calibraçao
-    def load_parameters_1(self):
-        try:
-            file=open(self.pathtousers + self.user + "/" + "parameters_1.txt",'r')
-        except:
-            file=open(self.pathtousers + self.user + "/" + "parameters_1.txt",'w')
-            self.save_parameters_1()
-        file=open(self.pathtousers + self.user + "/" + "parameters_1.txt",'r')   
-        self.alert_time = file.readline()[0:-1]
-        self.cue_time = file.readline()[0:-1]
-        self.task_time = file.readline()[0:-1]
-        self.pause_time = file.readline()[0:-1]
-        self.classes=[int(x) for x in file.readline()[0:-1].split(" ")]
-        self.number_trials=file.readline()[0:-1]
-        self.feature_window_0=file.readline()[0:-1]
-        self.feature_window_1=file.readline()[0:-1]
-        file.close()
     
-    # Game test 1 - Only ghost wandering on black screen
-    def menu_6(self):
-        self.screen.fill(self.color)
-        self.screen.blit(self.start,(self.screen_w//2 - 110,self.screen_h//2 - 20 - 30)) #size (220,40)  delay (-110 + 0, -20 -30)
-        self.screen.blit(self.back,(self.screen_w//2 -55,self.screen_h//2 - 20 + 150)) #size (110,40)  delay (-20 - 110 - 110 + 0, -20 +30)
-        
-        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
-            self.mouse_flag=1
-            if 130<self.mouse_y<170:              #cursor                -55 < x_pos  < +55
-                if -55<self.mouse_x<55:         #cursor                -50 < y_pos  <  -10    
-                    self.menu=3
-            elif -50<self.mouse_y<-10:
-                if -110<self.mouse_x<110:         #cursor                -50 < y_pos  <  -10 
-                    self.lista02=self.classes2*int(self.number_trials2)
-                    shuffle(self.lista02)
-                    self.save_marcas2()
-#                   if platform.system()=='Linux':
-#                       self.pub.publish('T1')
-                    pg.mouse.set_visible(False)
-                    self.screen.fill((127,127,127))
-                    pg.display.update()
-                    file=open(self.pathtousers + self.user + "/" + "results_t1.txt",'w')
-                    tax_right=0
-                    pg.time.wait(5000)
-                    for element in self.lista02:
-                        self.T1_flag=1
-#                       if platform.system()=='Linux':
-#                           self.pub.publish('XX')
-                        self.task_2(element)
-                        pg.time.wait(500)
-                        while self.T1_flag:
-                            pass
-                        self.screen.fill((127,127,127))
-                        pg.display.update()
-                        if (self.RT==0   and element==0) or (self.RT==1 and element==1):
-                            self.ans=self.fonte.render("Right", 1, (30,30,250))
-                            tax_right+=1
-                        elif (self.RT==0     and element==1) or (self.RT==1 and element==0):
-                            self.ans=self.fonte.render("Wrong", 1, (250,30,30))
-                        elif self.RT==-1:
-                            self.ans=self.fonte.render("Failure", 1, (250,30,30))
-                        self.screen.blit(self.ans,(self.screen_w//2 - self.ans.get_width()//2,self.screen_h//2 - self.ans.get_height()//2))
-                        self.RT=-1
-                        pg.display.update()
-                        pg.time.wait(3000)
-                    file.write(str(tax_right*100/len(self.lista02))+"\n")       
-                    file.close()
-                        
-                        
-                        
-                    pg.mouse.set_visible(True)
-                    self.menu=3
-                    
-        if pg.mouse.get_pressed()==(0,0,0):
-            self.mouse_flag=0
-        
     #funcao que para cada tipo de tarefa plota as imagens dos ensaios do teste  
     def task_2(self,i):
         i+=1
@@ -851,7 +493,7 @@ class user_interface:
         self.screen.blit(self.task_time_2,(self.screen_w//2 - self.task_time_2.get_width()//2-110*2+20-55,self.screen_h//2 -30 - self.task_time_2.get_height()//2)) 
         self.screen.blit(self.pause_time_2,(self.screen_w//2 - self.pause_time_2.get_width()//2-110*2+20-55,self.screen_h//2 +30 - self.pause_time_2.get_height()//2))  
         self.screen.blit(self.total_time_2,(self.screen_w//2 - self.total_time_2.get_width()//2-110*2+20-55,self.screen_h//2 +90 - self.total_time_2.get_height()//2))  
-        
+        a=user_interface()
         self.screen.blit(self.right_hand,(self.screen_w//2 -110,self.screen_h//2 - 20 - 150)) #size (220,40)  delay (- 110 + 0, -20 -90)
         self.screen.blit(self.left_hand,(self.screen_w//2 -110,self.screen_h//2 - 20 - 90)) #size (220,40)  delay (- 110 + 0, -20 -90)
         self.screen.blit(self.feet,(self.screen_w//2 -110,self.screen_h//2 - 20 - 30)) #size (220,40)  delay (- 110 + 0, -20 -90)
@@ -937,37 +579,6 @@ class user_interface:
                     
         if pg.mouse.get_pressed()==(0,0,0):
             self.mouse_flag=0
-
-    #funcao que salva os parametros do teste
-    def save_parameters_2(self):
-        file=open(self.pathtousers + self.user + "/" + "parameters_2.txt",'w')
-        file.write(self.alert_time2 + '\n')
-        file.write(self.cue_time2 + '\n')
-        file.write(self.task_time2 + '\n')
-        file.write(self.pause_time2 + '\n')
-        file.write(" ".join([str(x) for x in self.classes2])+"\n")
-        file.write(self.number_trials2+"\n")
-        file.write(self.feature_window_02+"\n")
-        file.write(self.feature_window_12+"\n")     
-        file.close()
-
-    #funcao que carrega os parametros do teste
-    def load_parameters_2(self):
-        try:
-            file=open(self.pathtousers + self.user + "/" + "parameters_2.txt",'r')
-        except:
-            file=open(self.pathtousers + self.user + "/" + "parameters_2.txt",'w')
-            self.save_parameters_2()
-        file=open(self.pathtousers + self.user + "/" + "parameters_2.txt",'r')   
-        self.alert_time2 = file.readline()[0:-1]
-        self.cue_time2 = file.readline()[0:-1]
-        self.task_time2 = file.readline()[0:-1]
-        self.pause_time2 = file.readline()[0:-1]
-        self.classes2=[int(x) for x in file.readline()[0:-1].split(" ")]
-        self.number_trials2=file.readline()[0:-1]
-        self.feature_window_02=file.readline()[0:-1]
-        self.feature_window_12=file.readline()[0:-1]
-        file.close()
             
     #menu do elemento gráfico (prepara e envia mensagem ao manager)
     def menu_10(self):
@@ -1035,25 +646,7 @@ class user_interface:
                     
         if pg.mouse.get_pressed()==(0,0,0):
             self.mouse_flag=0
-            
-    #funcao que salva os parametros do treinamento
-    def save_parameters_4(self):
-        file=open(self.pathtousers + self.user + "/" + "parameters_4.txt",'w')
-        file.write(self.win_size + '\n')
-        file.write(self.win_displacement + '\n')
-        file.close()
-        
-    #funcao que carrega os parametros do treinamento
-    def load_parameters_4(self):
-        try:
-            file=open(self.pathtousers + self.user + "/" + "parameters_4.txt",'r')
-        except:
-            file=open(self.pathtousers + self.user + "/" + "parameters_4.txt",'w')
-            self.save_parameters_4()
-        file=open(self.pathtousers + self.user + "/" + "parameters_4.txt",'r')   
-        self.win_size = file.readline()[0:-1]
-        self.win_displacement = file.readline()[0:-1]
-        file.close()
+
         
     #funco que processa as mensagem enviadas pelo node manager para mover o elementro gráfico ou qual foi a classificaçao do teste 1
     def callback(self,msg):
