@@ -3,7 +3,6 @@
 
 #from threading import Thread
 import numpy as np
-import open_bci_v3 as bci
 import os
 from time import sleep
 

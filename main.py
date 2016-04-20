@@ -7,12 +7,13 @@ Created on Wed Apr 13 17:58:38 2016
 
 #from sample_manager import * 
 import sample_manager
+import open_bci_simu as bci
 
 from imp import reload
 
 # Force modules to be reloaded every time the code is run
 sample_manager = reload(sample_manager)
-
+bci = reload(bci)
 
 def get_data(sample):
     '''Get the data from amplifier and push it into the circular buffer.
