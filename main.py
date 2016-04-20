@@ -8,8 +8,9 @@ Created on Wed Apr 13 17:58:38 2016
 #from sample_manager import * 
 import sample_manager
 import open_bci_simu as bci
-
 from imp import reload
+
+import GUI
 
 # Force modules to be reloaded every time the code is run
 sample_manager = reload(sample_manager)
@@ -30,6 +31,8 @@ sm = sample_manager.SampleManager()
 port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
 baud = 115200
 board = bci.OpenBCIBoard(port=port, baud=baud)
+
+gui = GUI.user_interface()
 
 try:
 #        board.start_streaming(get_data) # start getting data from amplifier
