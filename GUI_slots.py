@@ -49,3 +49,16 @@ slots_max = np.copy(slots)
 
 slots_max[:,0] = np.add(slots_max[:,0], 30)
 slots_max[:,1] = np.add(slots_max[:,1], 55)
+
+a = [260,410]
+
+rx = a[0] > slots[:,0]
+ry = a[1] > slots[:,1]
+
+rxm = a[0] < slots_max[:,0]
+rym = a[1] < slots_max[:,1]
+
+t1 = rx & ry
+t2 = rxm & rym
+
+t = t1 & t2

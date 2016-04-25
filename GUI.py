@@ -78,7 +78,8 @@ class user_interface:
         
         self.small_box=pg.image.load(self.pathtoresources +"blank_box_small.png")
         self.medium_box=pg.image.load(self.pathtoresources +"blank_box_medium.png")
-        self.large_box=pg.image.load(self.pathtoresources +"blank_box_large.png")
+        self.large_box=pg.image.load(self.pathtoresources +"blank_box_large_3.png")
+        self.large_box_2=pg.image.load(self.pathtoresources +"blank_box_large_2.png")
         self.ghost=pg.image.load(self.pathtoresources +"ghost.png")
         
         # Signs:
@@ -89,7 +90,7 @@ class user_interface:
         
     #funcao que carrea a fonte
     def load_fonts(self):
-        self.font=pg.font.Font(self.pathtoresources +"ubuntu.bold.ttf", 20)
+        self.font=pg.font.Font(self.pathtoresources + "ubuntu.bold.ttf", 20)
 
     #define parametros padrão 
     def load_values(self):
@@ -124,20 +125,12 @@ class user_interface:
         self.add_button_text(17, 'New')
         
         pg.display.update() 
-        
-#        if pg.mouse.get_pressed()==(1,0,0): #mouse pressed event bottom left
-#            if -55<self.mouse_x<55:              #cursor                -55 < x_pos  < +55
-#                if -50<self.mouse_y<-10:         #cursor                -50 < y_pos  <  -10    
-#                    self.menu=2 
-#                elif 10<self.mouse_y<50:         #cursor                 10 < y_pos  < +50
-#                    self.menu=1
-        
 
     #create user screen
     def up_menu_1(self):
         self.screen.fill(self.color)
         
-        self.add_button_text(21, 'Back')
+        self.add_button_text(22, 'Back')
         self.add_button_text(17, 'Create')
         self.add_button_text(2, 'Type your User')
         self.add_button_text(12, '')
@@ -147,123 +140,48 @@ class user_interface:
     # Login Screen
     def up_menu_2(self):
         self.screen.fill(self.color)
-    
-        self.add_button_text('medium', -55, 130, 'Back')
-        self.add_button_text('large', -110, -50, 'Type your user')
-        self.add_button_text('large', -110, 10, '')
-        self.add_button_text('medium', 130, 10, 'Enter')
+        
+        
+        self.add_button_text(22, 'Back')
+        self.add_button_text(2, 'Type your user')
+        self.add_button_text(12, '')
+        self.add_button_text(17, 'Enter')
         
         pg.display.update()
-#        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
-#            self.mouse_flag=1
-#            if 10<self.mouse_y<50:              #cursor                -55 < x_pos  < +55
-#                if -240<self.mouse_x<-130:         #cursor                -50 < y_pos  <  -10    
-#                    self.menu=0
-#                    self.menu_flag=0
-#                    self.user=""
-#                elif 130<self.mouse_x<240:         #cursor                 10 < y_pos  < +50
-#                    self.users_file()
-#
-#        if pg.mouse.get_pressed()==(0,0,0):
-#            self.mouse_flag=0
-#        if self.menu_flag==1:
-#            self.screen.blit(self.user_does_not_exist,(self.screen_w//2 -120,self.screen_h//2 - 20 + 90)) #size (240,40)  delay (-120 + 0, -20 +90)
-
+        
     # User screen (after logging in)
     def up_menu_3(self):
         self.screen.fill(self.color)
 
-        self.add_button_text('large', -110, -110, 'Calibration')
-        self.add_button_text('medium', 130, -110, 'Options')
-        self.add_button_text('large', -110, -50, 'Test')
-        self.add_button_text('medium', 130, -50, 'Options')
-        self.add_button_text('medium', -55, 130, 'Back')
+        self.add_button_text(1, 'Calibration')
+        self.add_button_text(3, 'Options')
+        self.add_button_text(11, 'Test')
+        self.add_button_text(13, 'Options')
+        self.add_button_text(22, 'Back')
     
         pg.display.update()
-#        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
-#            self.mouse_flag=1
-#            if -110<self.mouse_y<-70:
-#                if -110<self.mouse_x<110:
-#                    self.menu=4
-#                elif 130<self.mouse_x<240:
-#                    self.menu=5
-#                    
-#            elif -50<self.mouse_y<-10:
-#                if -55<self.mouse_x<55:
-#                    self.menu=6
-#                elif 130<self.mouse_x<240:
-#                    self.menu=7
-#                
-#            elif 70<self.mouse_y<110:
-#                if -110<self.mouse_x<110:
-#                    self.menu=10
-#                elif 130<self.mouse_x<240:
-#                    self.menu=12
-#
-#            elif 130<self.mouse_y<170:
-#                if -55<self.mouse_x<55:
-#                    self.menu=0
-#                    self.user=""
-#                    self.values()
-#                    
-#        if pg.mouse.get_pressed()==(0,0,0):
-#            self.mouse_flag=0
 
     # Calibration Screen
     def up_menu_4(self):
         self.screen.fill(self.color)
         
-        self.add_button_text('medium', -55, -50, 'Start')
-        self.add_button_text('medium', -55, 130, 'Back')
+        self.add_button_text(12, 'Start')
+        self.add_button_text(22, 'Back')
         
         pg.display.update()   
-        
-#        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
-#            self.mouse_flag=1
-#            #botao voltar
-#            if 130<self.mouse_y<170:              #cursor                -55 < x_pos  < +55
-#                if -55<self.mouse_x<55:         #cursor                -50 < y_pos  <  -10    
-#                    self.menu=3
-#            #botao start        
-#            elif -50<self.mouse_y<-10:
-#                if -110<self.mouse_x<110:         #cursor                -50 < y_pos  <  -10 
-#                    #gera lista de ensaios  
-#                    self.lista0=self.classes*int(self.number_trials)
-#                    shuffle(self.lista0) #embaralha lista
-#                    self.save_marcas() #salva as marcações
-#                    #envia mensagem para o manager indicando a calibraçao
-##                   if platform.system()=='Linux':
-##                       self.pub.publish('NC')
-#                    pg.mouse.set_visible(False)
-#                    self.screen.fill((127,127,127))
-#                    pg.display.update()
-#                    pg.time.wait(5000)
-#                    #envia mensagem para o manager indicando que pode comecar a tarefa de calibraçao
-##                   if platform.system()=='Linux':
-##                       self.pub.publish('XX')
-#                    #apresenta as imagens para todos os ensaios da lista
-#                    for element in self.lista0:
-#                        self.task_(element)
-#                    #if platform.system()=='Linux':
-#                    #   self.pub.publish('XY')
-#                    pg.mouse.set_visible(True)
-#                    self.menu=3
-#                    
-#        if pg.mouse.get_pressed()==(0,0,0):
-#            self.mouse_flag=0
         
     # Calibration Menu 
     def up_menu_5(self):
         
         self.screen.fill(self.color)
 
-        self.add_button_text('medium', -110*4, -170, 'Alert')
-        self.add_button_text('medium', -110*4, -110, 'Cue')
-        self.add_button_text('medium', -110*4, -50, 'Task')
-        self.add_button_text('medium', -110*4, 10, 'Pause')
-        self.add_button_text('medium', -110*4, 70, 'Total')
-        self.add_button_text('medium', -55, 130, 'Back')
-        self.add_button_text('medium', -55, 70, 'Save')
+        self.add_button_text(0, 'Alert')
+        self.add_button_text(5, 'Cue')
+        self.add_button_text(10, 'Task')
+        self.add_button_text(15, 'Pause')
+        self.add_button_text(20, 'Total')
+        self.add_button_text(22, 'Back')
+        self.add_button_text(17, 'Save')
         
         
 #        default = str((int(self.total_time)*int(self.number_trials)*len(self.classes)//6000)/10)
@@ -271,110 +189,43 @@ class user_interface:
 #        self.total_time_calibration_ = self.fill_element(default, unity)
 #        self.add_element(self.total_time_calibration_, 110*3, 210)
         
-        self.add_button_text('medium', -110*3+20, -170, '')
-        self.add_button_text('medium', -110*3+20, -110, '')
-        self.add_button_text('medium', -110*3+20, -50, '')
-        self.add_button_text('medium', -110*3+20, 10, '')
-        self.add_button_text('medium', -110*3+20, 70, '')
+        self.add_button_text(1, '', 0)
+        self.add_button_text(6, '', 0)
+        self.add_button_text(11, '', 0)
+        self.add_button_text(16, '', 0)
+        self.add_button_text(21, '', 0)
 #        
 #        self.alert_time_=self.font.render(str(self.alert_time)+" ms", 1, (255,255,255))
 #        self.cue_time_=self.font.render(str(self.cue_time)+" ms", 1, (255,255,255))
 #        self.task_time_=self.font.render(str(self.task_time)+" ms" ,1, (255,255,255))
 #        self.pause_time_=self.font.render(str(self.pause_time)+" ms", 1, (255,255,255))
 #        self.total_time_=self.font.render(str(self.total_time)+" ms", 1, (255,255,255))
-        self.add_button_text('medium', -110*3+20, -170, '')
-        self.add_button_text('medium', -110*3+20, -110, '')
-        self.add_button_text('medium', -110*3+20, -50, '')
-        self.add_button_text('medium', -110*3+20, 10, '')
-        self.add_button_text('medium', -110*3+20, 70, '')
-      
-        self.add_button_text('medium', -110, -170, 'Right Hand')
-        self.add_button_text('medium', -110, -110, 'Left Hand')
-        self.add_button_text('medium', -110, -50, 'Feet')
+#        self.add_button_text('medium', -110*3+20, -170, '')
+#        self.add_button_text('medium', -110*3+20, -110, '')
+#        self.add_button_text('medium', -110*3+20, -50, '')
+#        self.add_button_text('medium', -110*3+20, 10, '')
+#        self.add_button_text('medium', -110*3+20, 70, '')
+#      
+#        self.add_button_text('medium', -110, -170, 'Right Hand')
+#        self.add_button_text('medium', -110, -110, 'Left Hand')
+#        self.add_button_text('medium', -110, -50, 'Feet')
+#        
+#        self.add_button_text('medium', 20, -170, '')
+#        self.add_button_text('medium', 20, -110, '')
+#        self.add_button_text('medium', 20, -50, '')
         
-        self.add_button_text('medium', 20, -170, '')
-        self.add_button_text('medium', 20, -110, '')
-        self.add_button_text('medium', 20, -50, '')
+        self.add_button_text(3, 'Epoch')
+        self.add_button_text(8, '', 0)
+        self.add_button_text(9, '', 0)
         
-        self.add_button_text('large', 100*2, -170, 'Epoch')
-        self.add_button_text('medium', 100*2, -110, '')
-        self.add_button_text('medium', 100*3 + 20, -110, '')
+        self.add_button_text(13, 'Trials per Class')
+        self.add_button_text(14, '', 0)
         
-        self.add_button_text('large', 100*2, 10, 'Trials per Class')
-        self.add_button_text('medium', 100*2+55, 70, '')
-        
-        self.add_button_text('large', 100*2, 130, 'Total Time')
-        self.add_button_text('medium', 100*2+55, 190, '')
+        self.add_button_text(18, 'Total Time')
+        self.add_button_text(19, '', 0)
         
         pg.display.update()
-#        self.number_trials_=self.font.render(str(self.number_trials), 1, (255,255,255))
-#        self.add_element(self.number_trials_, 110*2+55, 70)
-       
-#        if 0 in self.classes:
-#            self.screen.blit(self.mb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 150)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        else:
-#            self.screen.blit(self.bb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 150)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        if 1 in self.classes:
-#            self.screen.blit(self.mb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 90)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        else:
-#            self.screen.blit(self.bb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 90)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        if 2 in self.classes:
-#            self.screen.blit(self.mb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 30)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        else:
-#            self.screen.blit(self.bb1,(self.screen_w//2 +110+20,self.screen_h//2 - 20 - 30)) #size (220,40)  delay (- 110 + 0, -20 -90)
-#        
-#        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
-#            self.mouse_flag=1
-#            if -310<self.mouse_x<-200:
-#                if -170<self.mouse_y<-130:
-#                    self.menu_flag=1
-#                elif -110<self.mouse_y<-70:
-#                    self.menu_flag=2
-#                elif -50<self.mouse_y<-10:
-#                    self.menu_flag=3
-#                elif 10<self.mouse_y<50:
-#                    self.menu_flag=4
-#                else:
-#                    self.menu_flag=0
-#                    
-#            elif 130<self.mouse_x<170:
-#                if -170<self.mouse_y<-130:
-#                    if 0 in self.classes:
-#                        self.classes.remove(0)
-#                    else:
-#                        self.classes.insert(0,0)
-#                elif -110<self.mouse_y<-70:
-#                    if 1 in self.classes:
-#                        self.classes.remove(1)
-#                    else:
-#                        self.classes.insert(1,1)
-#                elif -50<self.mouse_y<-10:
-#                    if 2 in self.classes:
-#                        self.classes.remove(2)
-#                    else:
-#                        self.classes.insert(2,2)
-#            elif -110<self.mouse_y<-70:
-#                if 210<self.mouse_x<320:
-#                    self.menu_flag=5
-#                elif 340<self.mouse_x<450:
-#                    self.menu_flag=6
-#                else:
-#                    self.menu_flag=0
-#                
-#            elif 70<self.mouse_y<110:
-#                if 275<self.mouse_x<275+110:
-#                    self.menu_flag=7
-#                else:self.menu_flag=0
-#                    
-#            elif 130<self.mouse_y<170:
-#                if -55<self.mouse_x<55:
-#                    self.menu=3
-#                    self.save_parameters_1()
-#                    self.menu_flag=0
-#                    
-#        if pg.mouse.get_pressed()==(0,0,0):[-55,0],[-50,0]
-#            self.mouse_flag=0
-    
+
     
     #funcao que para cada tipo de tarefa plota as imagens dos ensaios do teste  
     def task(self, epoch_class):
@@ -456,6 +307,7 @@ class user_interface:
                        [slots_X[2], slots_Y[3]],
                        [slots_X[3], slots_Y[3]],
                        [slots_X[4], slots_Y[3]],
+                       [slots_X[0], slots_Y[4]],
                        [slots_X[1], slots_Y[4]],
                        [slots_X[2], slots_Y[4]],
                        [slots_X[3], slots_Y[4]],
@@ -463,15 +315,20 @@ class user_interface:
                        
         s_max = np.copy(self.slots)
 
-        s_max[:,0] = np.add(s_max[:,0], 30)
-        s_max[:,1] = np.add(s_max[:,1], 55)
+        s_max[:,0] = np.add(s_max[:,0], box.get_width())
+        s_max[:,1] = np.add(s_max[:,1], box.get_height())
         
         self.slots_max = s_max
                     
         
-    def add_button_text(self, slot_number, text):
-       
-        box = self.large_box
+    def add_button_text(self, slot_number, text, size_flag = 1):
+        
+        if size_flag:
+            box = self.large_box_2
+        else:
+            box = self.large_box
+            
+            
         posX, posY  = self.slots[slot_number]    
         
         a = self.screen.blit(box,(posX, posY))
@@ -482,21 +339,37 @@ class user_interface:
         return (pg.mouse.get_pressed() == (1,0,0))      
         
     def locate_mouse_press(self):
-        x, y = pg.mouse.get_pos()
+        self.mouse_x, self.mouse_y = pg.mouse.get_pos()
 
-    def map_button_press(self, slot_number):               
-        pass
+    def map_mouse_press(self):               
+        rx = self.mouse_x > self.slots[:,0]
+        ry = self.mouse_y > self.slots[:,1]
+        
+        rxm = self.mouse_x < self.slots_max[:,0]
+        rym = self.mouse_y < self.slots_max[:,1]
+        
+        t1 = rx & ry
+        t2 = rxm & rym
+        
+        t = t1 & t2
     
+        slot_number = 100       
+        
+        if 1 in t: 
+            slot_number = np.nonzero(t)[0][0]
+            
+        return slot_number
+        
     def event_handler(self):
         for event in pg.event.get():
                         
             # checks if the event triggered is a Quit. If so, closes the GUI
-            if event.type==QUIT:
+            if event.type==pg.QUIT:
             #envia comando para fechar o manager caso feche a interface grafica
                 self.close()    
                 
             # Deals with GUI resizing. If remove, GUI has a static shape   
-            elif event.type==VIDEORESIZE:
+            elif event.type==pg.VIDEORESIZE:
                 self.screen= pg.display.set_mode(event.size,HWSURFACE|DOUBLEBUF|RESIZABLE)
                 self.screen_w, self.screen_h=self.screen.get_size()
     
@@ -509,28 +382,22 @@ if __name__ == '__main__': # this code is only executed if this module is not im
 
     ui = user_interface()
     
-    ui.generate_slots()
+    ui.generate_slots()  
     
-    print ui.slots[8]
-    print ui.slots[18]    
+    ui.up_menu_5()
     
-    ui.up_menu_1()
-    
+    p = 1000
 #    ui.close()
     while(1):
+        ui.event_handler()
+        
+        if(ui.mouse_press()):
+            ui.locate_mouse_press()
+            p = ui.map_mouse_press()
+         
+        if p == 22:
+            ui.up_menu_0()
+            
+            
         ui.draw()
     
-#    while(1):
-##        p =  ui.mouse_press()
-#        ui.draw()
-#        ui.event_handler()
-#        
-##        print 'pressionado'
-##        ui.locate_mouse_press()
-#        if ui.mouse_press():
-#            ui.locate_mouse_press()
-#            
-#            if ui.check_button_press([-55,0],[-50,0]):
-#                ui.up_menu_1()
-#           
-#        sleep(1/60)
