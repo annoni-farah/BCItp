@@ -10,6 +10,7 @@ import os, platform,sys, pygame as pg
 from random import shuffle
 
 from time import sleep
+import numpy as np
 
 #esses codigos permitem testar a interface gráfica no windows
 #if platform.system()=='Linux':
@@ -424,7 +425,7 @@ class user_interface:
     
     def generate_slots(self):
                 
-        box = self.medium_box
+        box = self.large_box
         
         slots_X = [100, 300, 500, 700, 900]
         slots_X[:] = [x - box.get_width()/2 for x in slots_X]
@@ -435,7 +436,7 @@ class user_interface:
         print slots_X
         print slots_Y
 
-        self.slots = [[slots_X[0], slots_Y[0]],
+        self.slots = np.array([[slots_X[0], slots_Y[0]],
                        [slots_X[1], slots_Y[0]],
                        [slots_X[2], slots_Y[0]],
                        [slots_X[3], slots_Y[0]],
@@ -458,24 +459,19 @@ class user_interface:
                        [slots_X[1], slots_Y[4]],
                        [slots_X[2], slots_Y[4]],
                        [slots_X[3], slots_Y[4]],
-                       [slots_X[4], slots_Y[4]]]
+                       [slots_X[4], slots_Y[4]]])
+                       
+        s_max = np.copy(self.slots)
+
+        s_max[:,0] = np.add(s_max[:,0], 30)
+        s_max[:,1] = np.add(s_max[:,1], 55)
+        
+        self.slots_max = s_max
                     
-                     
-#    def add_button_text(self, size, posX, posY, text):
-#        if size == 'small':        
-#            box = self.small_box
-#        elif size == 'medium':        
-#            box = self.medium_box
-#        elif size == 'large':        
-#            box = self.large_box
-#            
-#        a = self.screen.blit(box,(self.screen_w//2 + posX,self.screen_h//2 + posY))
-#        t = self.font.render(text, 1, (255,255,255))
-#        self.screen.blit(t,(a.centerx - t.get_rect().centerx, a.centery - t.get_rect().centery))
         
     def add_button_text(self, slot_number, text):
        
-        box = self.medium_box
+        box = self.large_box
         posX, posY  = self.slots[slot_number]    
         
         a = self.screen.blit(box,(posX, posY))
@@ -487,19 +483,10 @@ class user_interface:
         
     def locate_mouse_press(self):
         x, y = pg.mouse.get_pos()
-        self.mouse_x = x - self.screen_w//2
-        self.mouse_y = y - self.screen_h//2
 
-    def check_button_press(self, coord_x, coord_y):               
-        within_x = coord_x[0] < self.mouse_x < coord_x[1]              #cursor                -55 < x_pos  < +55
-        within_y = coord_y[0] < self.mouse_y < coord_y[1]         #cursor                -50 < y_pos  <  -10    
-        
-        if (within_x & within_y):
-            return 1
-        else:
-            return 0
-     
-       
+    def map_button_press(self, slot_number):               
+        pass
+    
     def event_handler(self):
         for event in pg.event.get():
                         
