@@ -8,7 +8,8 @@ Created on Sat Apr  2 14:45:00 2016
 #!/usr/bin/env python
 import os, platform,sys, pygame as pg
 from random import shuffle
-from pygame.locals import *
+
+from time import sleep
 
 #esses codigos permitem testar a interface gráfica no windows
 #if platform.system()=='Linux':
@@ -20,7 +21,7 @@ class user_interface:
     def __init__(self):
         #inicia o pygame
         pg.init()
-        self.screen = pg.display.set_mode((900,500),HWSURFACE|DOUBLEBUF|RESIZABLE)#|pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((1000,600))#|pg.FULLSCREEN)
 
         #define o fps para o pygame
         self.fps=30
@@ -45,12 +46,13 @@ class user_interface:
         self.user=''
 
         #caminho global para esse arquivo
-        globalpath = '/home/rafaelmd/codes/repo/bci_training_platform'
+        globalpath = os.path.abspath(os.path.dirname(__file__))
         self.pathtoresources = globalpath + '/data/resources/'
         self.pathtousers = globalpath + '/data/users/'         
             
         #define variavel para tamanho da janela, utilizada para resize da janela
         self.screen_w, self.screen_h=self.screen.get_size()
+        
         #define variavel para armazenar posiçao do mouse
         self.mouse_x, self.mouse_y=0,0
 
@@ -60,13 +62,15 @@ class user_interface:
 
         #carrega as imagens dos botoes
         self.load_images()
+        
+        self.generate_slots()
         #carrega a fonte a ser utilizada
         self.load_fonts()
         
         #loads the predefined config values
         self.load_values()
         #define cor do fundo da tela
-        self.color=(33,155,74)
+        self.color=(0,0,0)
 
     #funcao que carrega as imagens
     def load_images(self):
@@ -108,44 +112,15 @@ class user_interface:
         self.win_displacement="500"
                     
     def draw(self):
-        #atualiza posição do mouse utilizadas para os cliques
-        self.mouse_x, self.mouse_y=pg.mouse.get_pos()
-        self.mouse_x = self.mouse_x - self.screen_w//2
-        self.mouse_y = self.mouse_y - self.screen_h//2
-        #seleciona o menu atual para ser plotado
-        if self.menu==0:      #login and create user
-            self.menu_0()
-        elif self.menu==1:   #create user
-            self.menu_1()
-        elif self.menu==2:   #login user
-            self.menu_2()
-        elif self.menu==3:
-            self.menu_3()
-            print 3
-        elif self.menu==4:
-            self.menu_4()
-            print 4
-        elif self.menu==5:
-            self.menu_5()
-        elif self.menu==6:
-            self.menu_6()
-        elif self.menu==7:
-            self.menu_7()
-        elif self.menu==10:
-            self.menu_10()
-        elif self.menu==11:
-            self.menu_11()
-        elif self.menu==12:
-            self.menu_12()
-        #print(self.menu)
+
         pg.display.update()  #pygame update display
             
     #login and create user screen    
     def up_menu_0(self):  
         self.screen.fill(self.color) # set backgroung color
         
-        self.add_button_text('medium', -55, -50, 'Login')
-        self.add_button_text('medium', -55, 10, 'New')
+        self.add_button_text(7, 'Login')
+        self.add_button_text(17, 'New')
         
         pg.display.update() 
         
@@ -158,34 +133,16 @@ class user_interface:
         
 
     #create user screen
-
     def up_menu_1(self):
         self.screen.fill(self.color)
         
-        self.add_button_text('medium', -55, 130, 'Back')
-        self.add_button_text('medium', 130, 10, 'Create')
-        self.add_button_text('large', -110, -50, 'Type your user')
-        self.add_button_text('large', -110, 10, '')
+        self.add_button_text(21, 'Back')
+        self.add_button_text(17, 'Create')
+        self.add_button_text(2, 'Type your User')
+        self.add_button_text(12, '')
     
         pg.display.update()
-#        if pg.mouse.get_pressed()==(1,0,0) and self.mouse_flag==0: #mouse pressed event bottom left
-#            self.mouse_flag=1
-#            print(self.mouse_flag)
-#            if 10<self.mouse_y<50:              #cursor                -55 < x_pos  < +55
-#                if -240<self.mouse_x<-130:         #cursor                -50 < y_pos  <  -10    
-#                    self.menu=0
-#                    self.menu_flag=0
-#                    self.user=""
-#                elif 130<self.mouse_x<240:         #cursor                 10 < y_pos  < +50
-#                    self.users_file()
-#                    
-#        if pg.mouse.get_pressed()==(0,0,0):
-#            self.mouse_flag=0
-#        if self.menu_flag==1:
-#            self.screen.blit(self.user_already_exists,(self.screen_w//2 -120,self.screen_h//2 - 20 + 90)) #size (240,40)  delay (-120 + 0, -20 +90)
-#        elif self.menu_flag==2:
-#            self.screen.blit(self.user_created,(self.screen_w//2 -120,self.screen_h//2 - 20 + 90)) #size (240,40)  delay (-120 + 0, -20 +90)                        
-#            
+        
     # Login Screen
     def up_menu_2(self):
         self.screen.fill(self.color)
@@ -258,9 +215,7 @@ class user_interface:
         self.add_button_text('medium', -55, -50, 'Start')
         self.add_button_text('medium', -55, 130, 'Back')
         
-        pg.display.update()
-#        self.add_element(self.start, -110, -50)
-#        self.add_element(self.back, -55, 130)        
+        pg.display.update()   
         
 #        if pg.mouse.get_pressed()==(1,0,0)  and self.mouse_flag==0: #mouse pressed event bottom left
 #            self.mouse_flag=1
@@ -416,7 +371,7 @@ class user_interface:
 #                    self.save_parameters_1()
 #                    self.menu_flag=0
 #                    
-#        if pg.mouse.get_pressed()==(0,0,0):
+#        if pg.mouse.get_pressed()==(0,0,0):[-55,0],[-50,0]
 #            self.mouse_flag=0
     
     
@@ -466,24 +421,129 @@ class user_interface:
     def add_element(self, element, posX, posY):
         
         self.screen.blit(element,(self.screen_w//2 + posX,self.screen_h//2 + posY))
+    
+    def generate_slots(self):
+                
+        box = self.medium_box
         
+        slots_X = [100, 300, 500, 700, 900]
+        slots_X[:] = [x - box.get_width()/2 for x in slots_X]
         
-    def add_button_text(self, size, posX, posY, text):
-        if size == 'small':        
-            box = self.small_box
-        elif size == 'medium':        
-            box = self.medium_box
-        elif size == 'large':        
-            box = self.large_box
-            
-        a = self.screen.blit(box,(self.screen_w//2 + posX,self.screen_h//2 + posY))
+        slots_Y = [60, 180, 300, 420, 540]
+        slots_Y[:] = [x - box.get_height()/2 for x in slots_Y]
+        
+        print slots_X
+        print slots_Y
+
+        self.slots = [[slots_X[0], slots_Y[0]],
+                       [slots_X[1], slots_Y[0]],
+                       [slots_X[2], slots_Y[0]],
+                       [slots_X[3], slots_Y[0]],
+                       [slots_X[4], slots_Y[0]],
+                       [slots_X[0], slots_Y[1]],
+                       [slots_X[1], slots_Y[1]],
+                       [slots_X[2], slots_Y[1]],
+                       [slots_X[3], slots_Y[1]],
+                       [slots_X[4], slots_Y[1]],
+                       [slots_X[0], slots_Y[2]],
+                       [slots_X[1], slots_Y[2]],
+                       [slots_X[2], slots_Y[2]],
+                       [slots_X[3], slots_Y[2]],
+                       [slots_X[4], slots_Y[2]],
+                       [slots_X[0], slots_Y[3]],
+                       [slots_X[1], slots_Y[3]],
+                       [slots_X[2], slots_Y[3]],
+                       [slots_X[3], slots_Y[3]],
+                       [slots_X[4], slots_Y[3]],
+                       [slots_X[1], slots_Y[4]],
+                       [slots_X[2], slots_Y[4]],
+                       [slots_X[3], slots_Y[4]],
+                       [slots_X[4], slots_Y[4]]]
+                    
+                     
+#    def add_button_text(self, size, posX, posY, text):
+#        if size == 'small':        
+#            box = self.small_box
+#        elif size == 'medium':        
+#            box = self.medium_box
+#        elif size == 'large':        
+#            box = self.large_box
+#            
+#        a = self.screen.blit(box,(self.screen_w//2 + posX,self.screen_h//2 + posY))
+#        t = self.font.render(text, 1, (255,255,255))
+#        self.screen.blit(t,(a.centerx - t.get_rect().centerx, a.centery - t.get_rect().centery))
+        
+    def add_button_text(self, slot_number, text):
+       
+        box = self.medium_box
+        posX, posY  = self.slots[slot_number]    
+        
+        a = self.screen.blit(box,(posX, posY))
         t = self.font.render(text, 1, (255,255,255))
         self.screen.blit(t,(a.centerx - t.get_rect().centerx, a.centery - t.get_rect().centery))
+    
+    def mouse_press(self):
+        return (pg.mouse.get_pressed() == (1,0,0))      
         
+    def locate_mouse_press(self):
+        x, y = pg.mouse.get_pos()
+        self.mouse_x = x - self.screen_w//2
+        self.mouse_y = y - self.screen_h//2
+
+    def check_button_press(self, coord_x, coord_y):               
+        within_x = coord_x[0] < self.mouse_x < coord_x[1]              #cursor                -55 < x_pos  < +55
+        within_y = coord_y[0] < self.mouse_y < coord_y[1]         #cursor                -50 < y_pos  <  -10    
+        
+        if (within_x & within_y):
+            return 1
+        else:
+            return 0
+     
+       
+    def event_handler(self):
+        for event in pg.event.get():
+                        
+            # checks if the event triggered is a Quit. If so, closes the GUI
+            if event.type==QUIT:
+            #envia comando para fechar o manager caso feche a interface grafica
+                self.close()    
+                
+            # Deals with GUI resizing. If remove, GUI has a static shape   
+            elif event.type==VIDEORESIZE:
+                self.screen= pg.display.set_mode(event.size,HWSURFACE|DOUBLEBUF|RESIZABLE)
+                self.screen_w, self.screen_h=self.screen.get_size()
+    
+        
+    def close(self):
+        pg.quit()
+        sys.exit()
             
 if __name__ == '__main__': # this code is only executed if this module is not imported
 
     ui = user_interface()
     
-    ui.up_menu_5()
-    pg.display.update()
+    ui.generate_slots()
+    
+    print ui.slots[8]
+    print ui.slots[18]    
+    
+    ui.up_menu_1()
+    
+#    ui.close()
+    while(1):
+        ui.draw()
+    
+#    while(1):
+##        p =  ui.mouse_press()
+#        ui.draw()
+#        ui.event_handler()
+#        
+##        print 'pressionado'
+##        ui.locate_mouse_press()
+#        if ui.mouse_press():
+#            ui.locate_mouse_press()
+#            
+#            if ui.check_button_press([-55,0],[-50,0]):
+#                ui.up_menu_1()
+#           
+#        sleep(1/60)

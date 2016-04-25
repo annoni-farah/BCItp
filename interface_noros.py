@@ -389,6 +389,7 @@ class user_interface:
         self.screen.blit(self.login,(self.screen_w//2 - 55,self.screen_h//2 - 20 - 30))
         self.screen.blit(self.new,(self.screen_w//2 - 55,self.screen_h//2 - 20 + 30))
         if pg.mouse.get_pressed()==(1,0,0): #mouse pressed event bottom left
+            print 'pressed'
             if -55<self.mouse_x<55:              #cursor                -55 < x_pos  < +55
                 if -50<self.mouse_y<-10:         #cursor                -50 < y_pos  <  -10    
                     self.menu=2 
