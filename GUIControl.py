@@ -24,8 +24,8 @@ reload(GUI)
 class user_interface_control:
     def __init__(self):
         
-        ui = GUI.user_interface()
-        ui.up_menu_0()        
+        self.ui = GUI.user_interface()
+        self.ui.up_menu_0()        
         
         #define o fps para o pygame
         self.fps=30
@@ -45,24 +45,23 @@ class user_interface_control:
         globalpath = os.path.abspath(os.path.dirname(__file__))
         self.pathtousers = globalpath + '/data/users/'         
 
-        #define variavel para a posiçao do fantasma(0,0 é o centro da dela)
-        self.ghostpos_x=0
-        self.ghostpos_y=0
-
         
-        def change_menu(self, menu_idx):
-            
-            if menu_idx == 0:
-                ui.up_menu_0()
-            elif menu_idx == 1:
-                ui.up_menu_1()
+    def change_menu(self, menu_idx):
         
+        if menu_idx == 0:
+            self.ui.up_menu_0()
+        elif menu_idx == 1:
+            self.ui.up_menu_1()
+    
+    
+    def on_button(self):
+        pass
+    
+    def maintaince(self):
         
-        def on_button(self):
-            if ui.mouse_press():
-                ui.locate_mouse_press()
-                if ui.check_button_press(0,1):
-                    ui.up_menu_1()
+        self.ui.draw()
+        return self.ui.event_handler()
+        
     
 
 if __name__ == '__main__': # this code is only executed if this module is not imported
@@ -70,8 +69,8 @@ if __name__ == '__main__': # this code is only executed if this module is not im
     cui = user_interface_control()
     
     while(1):
-        if(cui.check_button()):
-            cui.change_menu(1)
-            
-        sleep(1/60)
+        
+        o = cui.maintaince()
+        if o != 100:
+            print o
         

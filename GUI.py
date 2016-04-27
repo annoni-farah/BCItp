@@ -53,9 +53,6 @@ class user_interface:
             
         #define variavel para tamanho da janela, utilizada para resize da janela
         self.screen_w, self.screen_h=self.screen.get_size()
-        
-        #define variavel para armazenar posiçao do mouse
-        self.mouse_x, self.mouse_y=0,0
 
         #define variavel para a posiçao do fantasma(0,0 é o centro da dela)
         self.ghostpos_x=0
@@ -258,9 +255,6 @@ class user_interface:
         
         slots_Y = [60, 180, 300, 420, 540]
         slots_Y[:] = [x - box.get_height()/2 for x in slots_Y]
-        
-        print slots_X
-        print slots_Y
                      
         s = np.array([slots_X[0], slots_Y[0]])
 
@@ -290,20 +284,17 @@ class user_interface:
         
         a = self.screen.blit(box,(posX, posY))
         t = self.font.render(text, 1, (255,255,255))
-        self.screen.blit(t,(a.centerx - t.get_rect().centerx, a.centery - t.get_rect().centery))
+        self.screen.blit(t,(a.centerx - t.get_rect().centerx, a.centery - t.get_rect().centery))   
     
-    def mouse_press(self):
-        return (pg.mouse.get_pressed() == (1,0,0))      
         
-    def locate_mouse_press(self):
-        self.mouse_x, self.mouse_y = pg.mouse.get_pos()
-
-    def map_mouse_press(self):               
-        rx = self.mouse_x > self.slots[:,0]
-        ry = self.mouse_y > self.slots[:,1]
+    def map_mouse_press(self):
+        mouse_x, mouse_y = pg.mouse.get_pos()
+               
+        rx = mouse_x > self.slots[:,0]
+        ry = mouse_y > self.slots[:,1]
         
-        rxm = self.mouse_x < self.slots_max[:,0]
-        rym = self.mouse_y < self.slots_max[:,1]
+        rxm = mouse_x < self.slots_max[:,0]
+        rym = mouse_y < self.slots_max[:,1]
         
         t1 = rx & ry
         t2 = rxm & rym
@@ -317,6 +308,12 @@ class user_interface:
             
         return slot_number
         
+        
+    def resize_window(self):
+        self.screen= pg.display.set_mode(event.size,HWSURFACE|DOUBLEBUF|RESIZABLE)
+        self.screen_w, self.screen_h=self.screen.get_size()
+        
+        
     def event_handler(self):
         for event in pg.event.get():
                         
@@ -327,9 +324,15 @@ class user_interface:
                 
             # Deals with GUI resizing. If remove, GUI has a static shape   
             elif event.type==pg.VIDEORESIZE:
-                self.screen= pg.display.set_mode(event.size,HWSURFACE|DOUBLEBUF|RESIZABLE)
-                self.screen_w, self.screen_h=self.screen.get_size()
-    
+                self.resize_window()
+                
+            elif event.type==pg.MOUSEBUTTONDOWN:
+                return self.map_mouse_press()
+                
+            else:
+                return 100
+                
+                
         
     def close(self):
         pg.quit()
