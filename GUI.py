@@ -180,40 +180,15 @@ class user_interface:
         self.add_button_text(10, 'Task')
         self.add_button_text(15, 'Pause')
         self.add_button_text(20, 'Total')
-        self.add_button_text(22, 'Back')
-        self.add_button_text(17, 'Save')
-        
-        
-#        default = str((int(self.total_time)*int(self.number_trials)*len(self.classes)//6000)/10)
-#        unity = " min"
-#        self.total_time_calibration_ = self.fill_element(default, unity)
-#        self.add_element(self.total_time_calibration_, 110*3, 210)
+        self.add_button_text(24, 'Back')
+        self.add_button_text(23, 'Save')
         
         self.add_button_text(1, '', 0)
         self.add_button_text(6, '', 0)
         self.add_button_text(11, '', 0)
         self.add_button_text(16, '', 0)
         self.add_button_text(21, '', 0)
-#        
-#        self.alert_time_=self.font.render(str(self.alert_time)+" ms", 1, (255,255,255))
-#        self.cue_time_=self.font.render(str(self.cue_time)+" ms", 1, (255,255,255))
-#        self.task_time_=self.font.render(str(self.task_time)+" ms" ,1, (255,255,255))
-#        self.pause_time_=self.font.render(str(self.pause_time)+" ms", 1, (255,255,255))
-#        self.total_time_=self.font.render(str(self.total_time)+" ms", 1, (255,255,255))
-#        self.add_button_text('medium', -110*3+20, -170, '')
-#        self.add_button_text('medium', -110*3+20, -110, '')
-#        self.add_button_text('medium', -110*3+20, -50, '')
-#        self.add_button_text('medium', -110*3+20, 10, '')
-#        self.add_button_text('medium', -110*3+20, 70, '')
-#      
-#        self.add_button_text('medium', -110, -170, 'Right Hand')
-#        self.add_button_text('medium', -110, -110, 'Left Hand')
-#        self.add_button_text('medium', -110, -50, 'Feet')
-#        
-#        self.add_button_text('medium', 20, -170, '')
-#        self.add_button_text('medium', 20, -110, '')
-#        self.add_button_text('medium', 20, -50, '')
-        
+ 
         self.add_button_text(3, 'Epoch')
         self.add_button_text(8, '', 0)
         self.add_button_text(9, '', 0)
@@ -286,32 +261,14 @@ class user_interface:
         
         print slots_X
         print slots_Y
+                     
+        s = np.array([slots_X[0], slots_Y[0]])
 
-        self.slots = np.array([[slots_X[0], slots_Y[0]],
-                       [slots_X[1], slots_Y[0]],
-                       [slots_X[2], slots_Y[0]],
-                       [slots_X[3], slots_Y[0]],
-                       [slots_X[4], slots_Y[0]],
-                       [slots_X[0], slots_Y[1]],
-                       [slots_X[1], slots_Y[1]],
-                       [slots_X[2], slots_Y[1]],
-                       [slots_X[3], slots_Y[1]],
-                       [slots_X[4], slots_Y[1]],
-                       [slots_X[0], slots_Y[2]],
-                       [slots_X[1], slots_Y[2]],
-                       [slots_X[2], slots_Y[2]],
-                       [slots_X[3], slots_Y[2]],
-                       [slots_X[4], slots_Y[2]],
-                       [slots_X[0], slots_Y[3]],
-                       [slots_X[1], slots_Y[3]],
-                       [slots_X[2], slots_Y[3]],
-                       [slots_X[3], slots_Y[3]],
-                       [slots_X[4], slots_Y[3]],
-                       [slots_X[0], slots_Y[4]],
-                       [slots_X[1], slots_Y[4]],
-                       [slots_X[2], slots_Y[4]],
-                       [slots_X[3], slots_Y[4]],
-                       [slots_X[4], slots_Y[4]]])
+        for j in xrange(5):
+            for i in xrange(5):
+                s = np.vstack((s, [slots_X[i], slots_Y[j]]))
+        
+        self.slots = np.delete(s, 0, 0) 
                        
         s_max = np.copy(self.slots)
 

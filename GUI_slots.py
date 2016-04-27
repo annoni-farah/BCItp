@@ -44,6 +44,14 @@ slots = np.array([[slots_X[0], slots_Y[0]],
        [slots_X[2], slots_Y[4]],
        [slots_X[3], slots_Y[4]],
        [slots_X[4], slots_Y[4]]])
+     
+slots_t = np.array([slots_X[0], slots_Y[0]])
+
+for j in xrange(5):
+    for i in xrange(5):
+        slots_t = np.vstack((slots_t, [slots_X[i], slots_Y[j]]))
+
+slots_t = np.delete(slots_t, 0, 0)         
 
 slots_max = np.copy(slots)
 
