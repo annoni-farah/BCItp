@@ -1,4 +1,0 @@
-sudo apt-get install python-biosig
-sudo pip install scipy
-sudo pip install matplotlib
-sudo apt-get install python-mne

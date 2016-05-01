@@ -1,47 +1,69 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 13 17:58:38 2016
+import random
 
-@author: rafael
-"""
+import kivy
 
-#from sample_manager import * 
-import sample_manager
-import open_bci_simu as bci
-from imp import reload
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import ScreenManager, Screen
 
-import GUI
+from ScreenStart import *
+from UISettingsScreen import *
+from BCIMenu import *
 
-# Force modules to be reloaded every time the code is run
-sample_manager = reload(sample_manager)
-bci = reload(bci)
+from PreCalMenu import *
+from PreCalStart import *
 
-def get_data(sample):
-    '''Get the data from amplifier and push it into the circular buffer.
-    Also implements a counter to plot against the read value
-    ps: This function is called by the OpenBci start_streaming() function'''
-    data = sample.channel_data
-    sm.PrintData(data)
-    sm.StoreData(data)
-    
+from CalMenu import *
+from CalSettings import *
+
+from ValMenu import *
+from ValSettings import *
+
+from GameMenu import *
+
+class MyApp(App):
+
+    def build(self):
+            sm = ScreenManager()
+            start_screen = StartScreen(name='start')
+            settings_screen = UISettingsScreen(name='UISettings')
+            bci_screen = BCIMenu(name='BCIMenu')
+
+            precal_screen = PreCalMenu(name='PreCalMenu')
+            precal_start_screen = PreCalStart(name='PreCalStart')
+
+            cal_screen = CalMenu(name='CalMenu')
+            cal_settings_screen = CalSettings(name='CalSettings')
+
+            val_screen = ValMenu(name='ValMenu')
+            val_settings_screen = ValSettings(name='ValSettings')
+
+            game_screen = GameMenu(name='GameMenu')
+
+            sm.add_widget(start_screen)
+            sm.add_widget(settings_screen)
+            sm.add_widget(bci_screen)
+
+            sm.add_widget(precal_screen)
+            sm.add_widget(precal_start_screen)
+
+            sm.add_widget(cal_screen)
+            sm.add_widget(cal_settings_screen)
+
+            sm.add_widget(val_screen)
+            sm.add_widget(val_settings_screen)
+
+            sm.add_widget(game_screen)
+
+            sm.current = 'start'
+            return sm
 
 
-sm = sample_manager.SampleManager()
-# OpenBCI config
-port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
-baud = 115200
-board = bci.OpenBCIBoard(port=port, baud=baud)
 
-gui = GUI.user_interface()
-
-try:
-#        board.start_streaming(get_data) # start getting data from amplifier
-    board.start_streaming(get_data) # start getting data from amplifier
-
-except:
-    print "Interrupted by user..."    
-    board.stop()
-    board.disconnect()
-    
-    print "Saving recorded data"
-    sm.SaveData("rafael")
+# run app
+if __name__ == "__main__":
+    MyApp().run()
+ # join all items in a list into 1 big string
