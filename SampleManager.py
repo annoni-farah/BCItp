@@ -7,15 +7,35 @@ import os
 from time import sleep
 import open_bci_simu as bci
 
+import threading
+
+import collections # circular buffer
+
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
-class SampleManager:
-    def __init__(self):            
+class SampleManager(threading.Thread):
+    def __init__(self):
+        super(SampleManager, self).__init__()
+        self._stop = threading.Event()            
         
         NCHANNELS = 8
-        self.all_data = np.empty([NCHANNELS])     
+        self.all_data = np.empty([NCHANNELS])
+
+        BUFFLEN = 1000 # Circular buffer setup
+        self.circBuff = collections.deque(maxlen = BUFFLEN) # create a qeue 
+
+        self.stop_flag = False
+
+        port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
+        baud = 115200
+        self.board = bci.OpenBCIBoard(port=port, baud=baud)
+
+        self.counter = 0
+
+    def run(self):
+        self.HWStream()
         
     def StoreData(self, new_data):
         
@@ -64,19 +84,38 @@ class SampleManager:
     
         return matrix
 
-    def hw_stream(self):
+    def HWStream(self):
         # OpenBCI config
-        port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
-        baud = 115200
-        board = bci.OpenBCIBoard(port=port, baud=baud)
 
-        board.start_streaming(self.get_data) # start getting data from amplifier
+        self.board.start_streaming(self.GetData) # start getting data from amplifier
         
 
-    def get_data(self, sample):
+    def GetData(self, sample):
         '''Get the data from amplifier and push it into the circular buffer.
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
         indata =  sample.channel_data
-        self.PrintData(indata)
+        self.updateCircBuf(indata);
         # self.StoreData(indata)
+        if(self.stop_flag):
+            self.Stop()
+
+    def Stop(self):
+        print 'Streaming stopped. Closing connection to hardware'
+        self.board.stop()
+        self.board.disconnect()
+        self._stop.set()
+
+    def Stopped(self):
+        return self._stop.isSet()
+
+    def updateCircBuf(self, data):
+
+        self.circBuff.append(data)
+
+    def ComputeEnergy(self):
+        self.counter += 1
+        return 1
+
+
+

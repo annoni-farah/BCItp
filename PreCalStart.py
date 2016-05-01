@@ -4,9 +4,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
-from SampleManager import *
+from kivy.clock import Clock
 
-import thread
+# from threading import Thread
+from SampleManager import *
 
 class PreCalStart(Screen):
 # layout
@@ -19,20 +20,48 @@ class PreCalStart(Screen):
         button_back = Button(text="Back")
         button_back.bind(on_press= self.change_to_precal)
 
-        button_stream = Button(text="Start Streaming")
-        button_stream.bind(on_press= self.openbci_stream)
+        self.button_stream = Button(text="Start Streaming")
+        self.button_stream.bind(on_press= self.bci_begin)
 
-        box1.add_widget(button_stream)
+        self.label_energy = Label()
+
+
+        box1.add_widget(self.label_energy)
+        box1.add_widget(self.button_stream)
         box1.add_widget(button_back)
 
         self.add_widget(box1) 
+
+        self.stream_flag = False
+
+        Clock.schedule_interval(self.get_energy, 1)
 
     def change_to_precal(self,*args):
         self.manager.current = 'PreCalMenu'
         self.manager.transition.direction = 'right'
 
-    def openbci_stream(self,*args):
-        sm = SampleManager()
+    def bci_begin(self,*args):
 
-        sm.hw_stream()
+        if self.stream_flag:
+            self.button_stream.text = 'Start Streaming'
+            self.sm.stop_flag = True
+            self.stream_flag = False
+            self.label_energy.text = ""
+            self.sm.join()
+
+        else:
+            self.sm = SampleManager()
+            self.sm.daemon = True
+            self.button_stream.text = 'Stop Streaming'
+            self.sm.stop_flag = False
+            self.sm.start()
+            self.stream_flag = True
+
+    def get_energy(self, dt):
+        if self.stream_flag:
+            energy = self.sm.ComputeEnergy()
+            self.label_energy.text = "Energy level : {} and {}".format(energy, self.sm.counter)
+
+
+
         

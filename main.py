@@ -62,8 +62,9 @@ class MyApp(App):
             return sm
 
 
-
 # run app
 if __name__ == "__main__":
+    # stream_thread.start()
+
     MyApp().run()
  # join all items in a list into 1 big string
