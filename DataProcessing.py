@@ -5,7 +5,6 @@ Created on Fri Apr  1 11:33:00 2016
 @author: rafael
 """
 
-import biosig # used to import gdf data files
 import numpy as np # numpy - used for array and matrices operations
 import math as math # used for basic mathematical operations
 
