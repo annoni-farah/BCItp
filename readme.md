@@ -9,28 +9,28 @@
 
 * Install Dependencies 
 
-'''sh
+```shell
 
 $ sudo apt-get install python-numpy python-mne python-scipy python-pygame python-kivy
 
-'''
+```
 
 * Clone this repository
 
-'''sh 
+```shell 
 
 $ git clone https://github.com/rafaelmendes/bci_training_platform
 
-'''
+```
 
 * Open the GUI
 
-'''sh 
+```shell 
 
 $ cd bci_training_platform
 $ python main.py
 
-'''
+```
 
 
 
