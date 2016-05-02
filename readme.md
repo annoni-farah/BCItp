@@ -1,49 +1,41 @@
 # BCI Training Platform #
 --------------------------------
 
-** Códigos em python para treinamento de usuário para Interface Cérebro-Máquina **
+## Códigos em python para treinamento de usuário para Interface Cérebro-Máquina ##
 
 Mover a pasta bci_training_platform para dentro da pasta catkin_ws/src
 
 Abrir um terminal e navegar até o diretório de workspace do catkin e executar os seguintes comandos:
 
+--------------------------------
+## Install ##
 
------------------------------------------------------
-No diretório do catkin:
+On Linux
 
-$catkin_make
+Install Dependencies 
 
-$roscd bci_training_platform
+'''
 
-$chmod +x bci_training_platform.launch
+$ sudo apt-get install python-numpy python-mne python-scipy python-pygame python-kivy
 
-$cd scripts
+'''
 
-$chmod +x user_interface.py
+Clone this repository
 
-$chmod +x user_manager.py
+''' 
 
-$chmod +x samples.py
+$ git clone https://github.com/rafaelmendes/bci_training_platform
 
-------------------------------------------------------
+'''
 
-Para rodar executar:
+Open the GUI
 
-$ roslaunch bci_training_platform bci_training_platform.launch
+''' 
 
-------------------------------------------------------
-criar novo usuário:
-NEW USER-> 
+$ cd bci_training_platform
+$ python main.py
 
-logar:
-LOGIN->
-
-OBS:
-para novo usuário usar o Training-> necessita criar uma nova calibração
-
-OBS2:
-A interface gráfica tem a classe "Feet" mas ela não está implementada no manager, entao nao deve ser utilizada
-
+'''
 
 
 
