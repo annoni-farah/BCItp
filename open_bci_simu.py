@@ -59,7 +59,7 @@ class OpenBCIBoard(object):
       time.sleep(1. / SAMPLE_RATE)
       # read current sample
       packet_id = 0
-      channel_data = [0,0,0,0,0,0,0,0]  
+      channel_data = np.random.rand(8,1).tolist()  
       sample = OpenBCISample(packet_id, channel_data, [])
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback
       for call in callback:

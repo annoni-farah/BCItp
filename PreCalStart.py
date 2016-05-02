@@ -4,10 +4,16 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
+from kivy.graphics import Rectangle, Color
+
 from kivy.clock import Clock
 
 # from threading import Thread
 from SampleManager import *
+
+from kivy.uix.widget import Widget
+from kivy.properties import NumericProperty, ReferenceListProperty
+
 
 class PreCalStart(Screen):
 # layout
@@ -15,7 +21,6 @@ class PreCalStart(Screen):
         super (PreCalStart, self).__init__(**kwargs)
 
         box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
-
 
         button_back = Button(text="Back")
         button_back.bind(on_press= self.change_to_precal)
@@ -25,6 +30,11 @@ class PreCalStart(Screen):
 
         self.label_energy = Label()
 
+        with self.canvas:
+            Color(1., 0, 0)
+            self.rect = Rectangle(pos=(25,100),
+                                  size=(50,
+                                        100))
 
         box1.add_widget(self.label_energy)
         box1.add_widget(self.button_stream)
@@ -34,7 +44,7 @@ class PreCalStart(Screen):
 
         self.stream_flag = False
 
-        Clock.schedule_interval(self.get_energy, 1)
+        Clock.schedule_interval(self.get_energy, 1/20)
 
     def change_to_precal(self,*args):
         self.manager.current = 'PreCalMenu'
@@ -60,7 +70,8 @@ class PreCalStart(Screen):
     def get_energy(self, dt):
         if self.stream_flag:
             energy = self.sm.ComputeEnergy()
-            self.label_energy.text = "Energy level : {} and {}".format(energy, self.sm.counter)
+            if not energy == None:
+                self.label_energy.text = "Energy level : {}".format(energy)
 
 
 

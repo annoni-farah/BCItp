@@ -11,6 +11,8 @@ import threading
 
 import collections # circular buffer
 
+from DataProcessing import DataProcessing
+
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
@@ -20,6 +22,8 @@ class SampleManager(threading.Thread):
         super(SampleManager, self).__init__()
         self._stop = threading.Event()            
         
+        self.sample_counter = 0
+
         NCHANNELS = 8
         self.all_data = np.empty([NCHANNELS])
 
@@ -32,7 +36,11 @@ class SampleManager(threading.Thread):
         baud = 115200
         self.board = bci.OpenBCIBoard(port=port, baud=baud)
 
-        self.counter = 0
+        self.dp = DataProcessing(8, 30, self.board.getSampleRate(), 7)
+
+        self.event_list = np.array([0,0])
+
+
 
     def run(self):
         self.HWStream()
@@ -97,6 +105,9 @@ class SampleManager(threading.Thread):
         indata =  sample.channel_data
         self.updateCircBuf(indata);
         # self.StoreData(indata)
+
+        self.sample_counter += 1
+
         if(self.stop_flag):
             self.Stop()
 
@@ -114,8 +125,25 @@ class SampleManager(threading.Thread):
         self.circBuff.append(data)
 
     def ComputeEnergy(self):
-        self.counter += 1
-        return 1
+        raw_data = np.array(self.circBuff)
+
+        if raw_data.shape[0] > 500:
+
+            filt_data = self.dp.ApplyFilter(raw_data.T).T
+
+            energy = self.dp.ComputeEnergy(raw_data)
+
+            return energy[0]
+
+    def MarkEvents(self, ev_type):
+        new = np.array([self.sample_counter, ev_type])
+        self.event_list = np.vstack((self.event_list, new))
+        print new
+
+
+
+
+
 
 
 

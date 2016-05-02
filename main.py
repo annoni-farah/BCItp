@@ -15,6 +15,7 @@ from BCIMenu import *
 
 from PreCalMenu import *
 from PreCalStart import *
+from CalStart import *
 
 from CalMenu import *
 from CalSettings import *
@@ -37,6 +38,7 @@ class MyApp(App):
 
             cal_screen = CalMenu(name='CalMenu')
             cal_settings_screen = CalSettings(name='CalSettings')
+            cal_start_screen = CalStart(name='CalStart')
 
             val_screen = ValMenu(name='ValMenu')
             val_settings_screen = ValSettings(name='ValSettings')
@@ -52,6 +54,7 @@ class MyApp(App):
 
             sm.add_widget(cal_screen)
             sm.add_widget(cal_settings_screen)
+            sm.add_widget(cal_start_screen)
 
             sm.add_widget(val_screen)
             sm.add_widget(val_settings_screen)

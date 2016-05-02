@@ -33,7 +33,7 @@ class CalMenu(Screen):
         self.add_widget(box1)
 
     def change_to_acquisition(self,*args):
-        self.manager.current = ''
+        self.manager.current = 'CalStart'
         self.manager.transition.direction = 'left'
 
     def change_to_calsettings(self,*args):
