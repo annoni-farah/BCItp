@@ -55,7 +55,7 @@ class ValSettings(Screen):
 
         self.add_widget(box1)
 
-        self.load_cal_config()
+        # self.load_cal_config()
 
     def change_to_cal(self,*args):
         self.manager.current = 'ValMenu'
