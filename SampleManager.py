@@ -24,25 +24,16 @@ class SampleManager(threading.Thread):
         
         self.sample_counter = 0
 
-        NCHANNELS = 8
-        self.all_data = np.empty([NCHANNELS])
-
-        BUFFLEN = 1000 # Circular buffer setup
-        self.circBuff = collections.deque(maxlen = BUFFLEN) # create a qeue 
-
         self.stop_flag = False
 
         port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
         baud = 115200
         self.board = bci.OpenBCIBoard(port=port, baud=baud)
 
-        self.dp = DataProcessing(8, 30, self.board.getSampleRate(), 7)
-
         self.event_list = np.array([0,0])
 
-
-
     def run(self):
+
         self.HWStream()
         
     def StoreData(self, new_data):
@@ -125,20 +116,37 @@ class SampleManager(threading.Thread):
         self.circBuff.append(data)
 
     def ComputeEnergy(self):
-        raw_data = np.array(self.circBuff)
+        data = np.array(self.circBuff)
+        print data.shape
 
-        if raw_data.shape[0] > 500:
+        if data.shape[0] > 125:
+
+            raw_data = data[:,self.channels]
 
             filt_data = self.dp.ApplyFilter(raw_data.T).T
 
             energy = self.dp.ComputeEnergy(raw_data)
 
             return energy[0]
+        else:
+            return 0
 
     def MarkEvents(self, ev_type):
+
         new = np.array([self.sample_counter, ev_type])
         self.event_list = np.vstack((self.event_list, new))
         print new
+
+    def CreateDataProcessing(self, ch, buf_len, f_low, f_high, f_order):
+
+        self.channels = ch
+
+        self.all_data = np.empty([8])
+
+        self.circBuff = collections.deque(maxlen = buf_len) # create a qeue 
+
+        self.dp = DataProcessing(f_low, f_high, self.board.getSampleRate(), f_order)
+
 
 
 

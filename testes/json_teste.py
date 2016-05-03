@@ -6,7 +6,7 @@ x= '3'
 y = '3'
 
 with open("text", "w") as file:
-    file.write(json.dumps({'numbers':n, 'strings':s, 'x':x, 'y':y}, file, indent=4))
+    file.write(json.dumps({'numbers':"1 2 3 4 5", 'strings':s, 'x':x, 'y':y}, file, indent=4))
 
 
 from pprint import pprint

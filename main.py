@@ -1,5 +1,3 @@
-import random
-
 import kivy
 
 from kivy.app import App
@@ -14,11 +12,12 @@ from UISettingsScreen import *
 from BCIMenu import *
 
 from PreCalMenu import *
+from PreCalSettings import *
 from PreCalStart import *
-from CalStart import *
 
 from CalMenu import *
 from CalSettings import *
+from CalStart import *
 
 from ValMenu import *
 from ValSettings import *
@@ -35,6 +34,7 @@ class MyApp(App):
 
             precal_screen = PreCalMenu(name='PreCalMenu')
             precal_start_screen = PreCalStart(name='PreCalStart')
+            precal_settings_screen = PreCalSettings(name='PreCalSettings')
 
             cal_screen = CalMenu(name='CalMenu')
             cal_settings_screen = CalSettings(name='CalSettings')
@@ -50,6 +50,7 @@ class MyApp(App):
             sm.add_widget(bci_screen)
 
             sm.add_widget(precal_screen)
+            sm.add_widget(precal_settings_screen)
             sm.add_widget(precal_start_screen)
 
             sm.add_widget(cal_screen)

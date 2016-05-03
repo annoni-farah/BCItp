@@ -48,6 +48,3 @@ class StartScreen(Screen):
         else:
             self.label_msg.text = "UserName Saved as: " + self.username.text
             os.makedirs("data/" + self.username.text)
-
-        global username 
-        username = self.username.text
