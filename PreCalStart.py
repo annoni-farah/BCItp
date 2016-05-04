@@ -8,6 +8,8 @@ from kivy.uix.textinput import TextInput
 
 from kivy.uix.image import AsyncImage
 
+from kivy.uix.slider import Slider
+
 from kivy.graphics import Rectangle, Color
 
 from kivy.clock import Clock
@@ -24,17 +26,19 @@ import json
 
 import os
 
+from math import ceil
+
 
 class PreCalStart(Screen):
 # layout
     def __init__ (self,**kwargs):
         super (PreCalStart, self).__init__(**kwargs)
 
-        box_vleft = BoxLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
-        box_vmiddle = BoxLayout(size_hint_x=0.8, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
-        box_vright = BoxLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
+        box_vleft = FloatLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
+        box_vmiddle = FloatLayout(size_hint_x=0.8, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
+        box_vright = FloatLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
 
-        box_middle = FloatLayout()
+        # box_middle = FloatLayout()
 
         box1 = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
@@ -54,7 +58,14 @@ class PreCalStart(Screen):
 
         # self.add_arrow(0)
 
-        box_vmiddle.add_widget(box_middle)
+        self.s_left = Slider(min=0, max=100, orientation='vertical', 
+            pos_hint={'center_x': 1, 'center_y': 1})
+
+        self.s_right = Slider(min=0, max=100, orientation='vertical', 
+            pos_hint={'center_x': 9, 'center_y': 1})
+
+        box_vleft.add_widget(self.s_left)
+        box_vright.add_widget(self.s_right)
 
         box_vmiddle.add_widget(self.label_info)
 
@@ -62,16 +73,13 @@ class PreCalStart(Screen):
         box1.add_widget(self.button_stream)
         box1.add_widget(button_back)
 
-        self.add_widget(box_vleft)
         self.add_widget(box_vmiddle)
+        self.add_widget(box_vleft)
+        
         self.add_widget(box_vright)
         self.add_widget(box1) 
 
         self.stream_flag = False
-
-        self.load_dp_settings()
-        self.load_openbci_settings()
-        self.load_precal_settings()
 
     def change_to_precal(self,*args):
 
@@ -89,11 +97,15 @@ class PreCalStart(Screen):
             self.clock_unscheduler()
 
         else:
+            self.load_dp_settings()
+            self.load_openbci_settings()
+            self.load_precal_settings()
             self.label_info.text = "Managing Samples..."
             self.sm = SampleManager(self.com_port, self.baud_rate)
             self.label_info.text = "Computing filters and creating buffers..."
 
-            self.sm.CreateDataProcessing(self.channels, self.buf_len, self.f_low, self.f_high, self.f_order)
+            self.sm.CreateDataProcessing(self.channels, self.buf_len, 
+                self.f_low, self.f_high, self.f_order)
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.label_info.text = "Now Streaming..."
@@ -103,16 +115,31 @@ class PreCalStart(Screen):
             self.clock_scheduler()
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_energy, 1/5)
+        Clock.schedule_interval(self.get_energy_left, 1/5)
+        Clock.schedule_interval(self.get_energy_right, 1/5)
         Clock.schedule_once(self.bci_begin, self.total_time)
+        Clock.schedule_once(self.set_bar_max, self.relax_time)
 
     def clock_unscheduler(self):
-        Clock.unschedule(self.get_energy)
+        Clock.unschedule(self.get_energy_left)
+        Clock.unschedule(self.get_energy_right)
+        Clock.unschedule(self.bci_begin)
+        Clock.unschedule(self.set_bar_max)
 
-    def get_energy(self, dt):
 
-        energy = self.sm.ComputeEnergy()
-        self.label_info.text = "Energy level : {}".format(energy)
+    def get_energy_right(self, dt):
+
+        energy = self.sm.ComputeEnergy(self.ch_energy_right)
+        # self.label_info.text = "Energy level : {}".format(energy)
+        if energy is not 0:
+            self.s_right.value = ceil(energy*100)
+
+    def get_energy_left(self, dt):
+
+        energy = self.sm.ComputeEnergy(self.ch_energy_left)
+        # self.label_info.text = "Energy level : {}".format(energy)
+        if energy is not 0:
+            self.s_left.value = ceil(energy*100)
 
     def load_dp_settings(self):
 
@@ -142,8 +169,14 @@ class PreCalStart(Screen):
         with open("data/rafael" + "/precal_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
-        self.ch_energy = map(int, data['ch_energy'].split(" "))
-        self.total_time = int(data["total_time"])
+        self.ch_energy_right = map(int, data['ch_energy_right'].split(" "))
+        self.ch_energy_left = map(int, data['ch_energy_left'].split(" "))
+        self.total_time = int(data['total_time'])
+        self.relax_time = int(data['relax_time'])
+
+    def set_bar_max(self, dt):
+        self.s_right.max = self.sm.CalcEnergyAverage()
+        self.s_left.max = self.sm.CalcEnergyAverage()
 
     def add_arrow(self, idx):
 
@@ -165,6 +198,7 @@ class PreCalStart(Screen):
 
         self.remove_arrow()
         self.add_arrow(1)
+
 
     
 

@@ -7,6 +7,8 @@ import os
 from time import sleep
 import open_bci_simu as bci
 
+from math import ceil
+
 import threading
 
 import collections # circular buffer
@@ -121,18 +123,20 @@ class SampleManager(threading.Thread):
 
         self.circBuff.append(data)
 
-    def ComputeEnergy(self):
-        data = np.array(self.circBuff)
+    def ComputeEnergy(self, channel_list):
+        raw_data = np.array(self.circBuff)[:,channel_list]
 
-        if data.shape[0] > 125:
-
-            raw_data = data[:,self.channels]
+        if raw_data.shape[0] > 125:
 
             filt_data = self.dp.ApplyFilter(raw_data.T).T
 
-            energy = self.dp.ComputeEnergy(raw_data)
+            e = self.dp.ComputeEnergy(raw_data)
 
-            return energy[0]
+            energy = sum(e)/len(e)
+
+            self.energy_history.append(energy)
+
+            return energy
         else:
             return 0
 
@@ -155,11 +159,19 @@ class SampleManager(threading.Thread):
 
         self.all_data = np.empty([8])
 
+        self.energy_history = collections.deque(maxlen = 20)
+
         self.circBuff = collections.deque(maxlen = buf_len) # create a qeue 
 
         self.dp = DataProcessing(f_low, f_high, self.board.getSampleRate(), f_order)
 
         self.event_list = np.array([0,0])
+
+    def CalcEnergyAverage(self):
+        
+        avg = ceil(100 * sum(self.energy_history) / len(self.energy_history))
+        
+        return avg
 
 
 

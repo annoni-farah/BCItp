@@ -27,10 +27,18 @@ class PreCalSettings(Screen):
         self.total_time = TextInput(size_hint=(1, 0.8), font_size= 20,
                         hint_text='Total Time (s)', multiline=False)
 
-        self.ch_energy = TextInput(size_hint=(1, 0.8), font_size= 20,
-                hint_text='Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
+        self.relax_time = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='Time to set Max (s)', multiline=False)
 
-        box2.add_widget(self.ch_energy)
+        self.ch_energy_right = TextInput(size_hint=(1, 0.8), font_size= 20,
+                hint_text='Right - Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
+
+        self.ch_energy_left = TextInput(size_hint=(1, 0.8), font_size= 20,
+            hint_text='Left - Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
+
+        box2.add_widget(self.ch_energy_left)
+        box2.add_widget(self.ch_energy_right)
+        box2.add_widget(self.relax_time)
         box2.add_widget(self.total_time)
 
         box1.add_widget(self.label_msg)
@@ -48,8 +56,11 @@ class PreCalSettings(Screen):
 
         with open("data/rafael" + "/precal_config.txt", "w") as file:
 
-            file.write(json.dumps({'ch_energy': self.ch_energy.text, 'total_time': self.total_time.text, 
-                                }, file, indent=4))
+            file.write(json.dumps({'ch_energy_left': self.ch_energy_left.text,
+                 'ch_energy_right': self.ch_energy_right.text,
+                 'total_time': self.total_time.text,
+                 'relax_time': self.relax_time.text, }, file, indent=4))
+                                
     
 
         self.label_msg.text = "Settings Saved!"
