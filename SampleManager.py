@@ -54,7 +54,7 @@ class SampleManager(threading.Thread):
         # np.savetxt(file, self.all_data)       # Save data to txt file   
         
         # file.close()
-
+        self.all_data = np.delete(self.all_data, (0), axis = 0)
 
         with open("data/rafael" + "/data_cal.txt", "a") as data_file:    
             np.savetxt(data_file, self.all_data)
@@ -146,6 +146,8 @@ class SampleManager(threading.Thread):
         self.event_list = np.vstack((self.event_list, new))
 
     def SaveEvents(self):
+
+        self.event_list = np.delete(self.event_list, (0), axis = 0)
 
         with open("data/rafael" + "/events_cal.txt", "a") as data_file:    
             np.savetxt(data_file, self.event_list)
