@@ -22,6 +22,8 @@ from time import sleep
 
 import json
 
+import os
+
 
 class PreCalStart(Screen):
 # layout
@@ -42,25 +44,21 @@ class PreCalStart(Screen):
         self.button_stream = Button(text="Start Streaming")
         self.button_stream.bind(on_press= self.bci_begin)
 
-        # self.label_info = Label(pos_hint={'center_x': .5, 'center_y': .5})
+        self.label_info = Label(pos_hint={'center_x': .5, 'center_y': .5})
 
-        button_change = Button(text="Invert")
-        button_change.bind(on_press= self.change_arrow)
+        # src = "data/resources/left_arrow.png"
 
-        src = "data/resources/left_arrow.png"
+        # image = AsyncImage(source=src, allow_stretch=False, pos_hint={'x': 1, 'y': 1})
 
-        image = AsyncImage(source=src, allow_stretch=False, pos_hint={'x': 1, 'y': 1})
-
-        box_vmiddle.add_widget(image)
+        # box_vmiddle.add_widget(image)
 
         # self.add_arrow(0)
 
         box_vmiddle.add_widget(box_middle)
 
-        # self.box_middle.add_widget(self.label_info)
+        box_vmiddle.add_widget(self.label_info)
 
         # box1.add_widget(self.label_info)
-        box1.add_widget(button_change)
         box1.add_widget(self.button_stream)
         box1.add_widget(button_back)
 
@@ -69,11 +67,11 @@ class PreCalStart(Screen):
         self.add_widget(box_vright)
         self.add_widget(box1) 
 
-       
-
         self.stream_flag = False
 
-        self.load_settings()
+        self.load_dp_settings()
+        self.load_openbci_settings()
+        self.load_precal_settings()
 
     def change_to_precal(self,*args):
 
@@ -88,41 +86,64 @@ class PreCalStart(Screen):
             self.stream_flag = False
             self.label_info.text = ""
             self.sm.join()
-            Clock.unschedule(self.get_energy)
+            self.clock_unscheduler()
 
         else:
             self.label_info.text = "Managing Samples..."
-            self.sm = SampleManager()
+            self.sm = SampleManager(self.com_port, self.baud_rate)
             self.label_info.text = "Computing filters and creating buffers..."
 
             self.sm.CreateDataProcessing(self.channels, self.buf_len, self.f_low, self.f_high, self.f_order)
-
-            Clock.schedule_interval(self.get_energy, 1/5)
-
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.label_info.text = "Now Streaming..."
             self.sm.start()
             self.stream_flag = True
             self.button_stream.text = 'Stop Streaming'
+            self.clock_scheduler()
+
+    def clock_scheduler(self):
+        Clock.schedule_interval(self.get_energy, 1/5)
+        Clock.schedule_once(self.bci_begin, self.total_time)
+
+    def clock_unscheduler(self):
+        Clock.unschedule(self.get_energy)
 
     def get_energy(self, dt):
 
         energy = self.sm.ComputeEnergy()
         self.label_info.text = "Energy level : {}".format(energy)
 
-    def load_settings(self):
+    def load_dp_settings(self):
 
-        with open("data/rafael" + "/precal_config.txt", "r") as data_file:    
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/dp_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
-        self.total_time = int(data["total_time"])
         self.buf_len = int(data["buf_len"])
         self.f_low = int(data["f_low"])
         self.f_high = int(data["f_high"])
         self.f_order = int(data["f_order"])
-
         self.channels = map(int, data['channels'].split(" "))
+
+    def load_openbci_settings(self):
+
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/openbci_config.txt", "r") as data_file:    
+            data = json.load(data_file)
+
+        self.com_port = data["com_port"]
+        self.ch_labels = data["ch_labels"]
+        self.baud_rate = int(data["baud_rate"])
+
+    def load_precal_settings(self):
+
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/precal_config.txt", "r") as data_file:    
+            data = json.load(data_file)
+
+        self.ch_energy = map(int, data['ch_energy'].split(" "))
+        self.total_time = int(data["total_time"])
 
     def add_arrow(self, idx):
 

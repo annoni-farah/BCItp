@@ -14,6 +14,8 @@ from kivy.uix.image import AsyncImage
 
 from kivy.graphics import Rectangle, Color
 
+import json
+
 class CalStart(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -30,6 +32,8 @@ class CalStart(Screen):
         self.button_stream = Button(text="Start Streaming")
         self.button_stream.bind(on_press= self.bci_begin)
 
+        # self.button_save = Button(text="Save Data")
+        # self.button_save.bind(on_press= self.save_data)
 
         self.carousel = Carousel(direction='right')
         for i in range(10):
@@ -44,6 +48,7 @@ class CalStart(Screen):
 
         box1.add_widget(self.label_energy)
 
+        # box1.add_widget(self.button_save)
         box1.add_widget(self.button_stream)
         box1.add_widget(button_back)
 
@@ -54,7 +59,8 @@ class CalStart(Screen):
 
         self.stream_flag = False
 
-        Clock.schedule_interval(self.get_energy, 1/20)
+        self.load_dp_settings()
+        self.load_openbci_settings()
 
     def change_to_precal(self,*args):
         self.manager.current = 'CalMenu'
@@ -66,17 +72,20 @@ class CalStart(Screen):
             self.button_stream.text = 'Start Streaming'
             self.sm.stop_flag = True
             self.stream_flag = False
-            self.label_energy.text = ""
             self.sm.join()
             self.clock_unscheduler()
 
         else:
-            self.sm = SampleManager()
-            self.sm.daemon = True
-            self.button_stream.text = 'Stop Streaming'
+            self.sm = SampleManager(self.com_port, self.baud_rate, rec = True)
+
+            self.sm.CreateDataProcessing(self.channels, self.buf_len, 
+                                        self.f_low, self.f_high, self.f_order)
+
+            self.sm.daemon = True  
             self.sm.stop_flag = False
             self.sm.start()
             self.stream_flag = True
+            self.button_stream.text = 'Stop Streaming'
             self.clock_scheduler()
 
     def get_energy(self, dt):
@@ -86,6 +95,8 @@ class CalStart(Screen):
                 self.label_energy.text = "Energy level : {}".format(energy)
 
     def clock_scheduler(self):
+        # Clock.schedule_interval(self.get_energy, 1/6)
+        Clock.schedule_interval(self.save_data, 10)
         Clock.schedule_once(self.schedule_first_sign, 1)
         Clock.schedule_once(self.schedule_second_sign, 3)
         Clock.schedule_once(self.schedule_third_sign, 5)
@@ -94,6 +105,8 @@ class CalStart(Screen):
         Clock.unschedule(self.set_sign_pause)
         Clock.unschedule(self.set_sign_left)
         Clock.unschedule(self.set_sign_right)
+        Clock.unschedule(self.get_energy)
+        Clock.unschedule(self.save_data)
 
     def schedule_first_sign(self, dt):
         Clock.schedule_interval(self.set_sign_pause, 1)
@@ -115,4 +128,42 @@ class CalStart(Screen):
     def set_sign_right(self, dt):
         self.carousel.index = 2
         self.sm.MarkEvents(2)
-  
+
+    def load_dp_settings(self):
+
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/dp_config.txt", "r") as data_file:    
+            data = json.load(data_file)
+
+        self.buf_len = int(data["buf_len"])
+        self.f_low = int(data["f_low"])
+        self.f_high = int(data["f_high"])
+        self.f_order = int(data["f_order"])
+        self.channels = map(int, data['channels'].split(" "))
+
+    def load_openbci_settings(self):
+
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/openbci_config.txt", "r") as data_file:    
+            data = json.load(data_file)
+
+        self.com_port = data["com_port"]
+        self.ch_labels = data["ch_labels"]
+        self.baud_rate = data["baud_rate"]
+
+    def load_cal_settings(self):
+
+        # if os.path.exists("data/rafael/precal_config"):
+        with open("data/rafael" + "/cal_config.txt", "r") as data_file:    
+            data = json.load(data_file)
+
+        self.n_trials = data["n_trials"]
+        self.cue_offset = data["cue_offset"]
+        self.pause_offset = data["pause_offset"]
+        self.epoch_start = data["epoch_start"]
+        self.epoch_end = data["epoch_end"]
+
+    def save_data(self, dt):
+        print "Saving data"
+        self.sm.SaveData()
+        self.sm.SaveEvents()

@@ -11,6 +11,10 @@ from ScreenStart import *
 from UISettingsScreen import *
 from BCIMenu import *
 
+from OpenBCISettings import *
+
+from DataProcessingSettings import *
+
 from PreCalMenu import *
 from PreCalSettings import *
 from PreCalStart import *
@@ -32,6 +36,10 @@ class MyApp(App):
             settings_screen = UISettingsScreen(name='UISettings')
             bci_screen = BCIMenu(name='BCIMenu')
 
+            openbci_settings_screen = OpenBCISettings(name='OpenBCISettings')
+
+            data_processing_settings_screen = DataProcessingSettings(name='DataProcessingSettings')
+
             precal_screen = PreCalMenu(name='PreCalMenu')
             precal_start_screen = PreCalStart(name='PreCalStart')
             precal_settings_screen = PreCalSettings(name='PreCalSettings')
@@ -48,6 +56,10 @@ class MyApp(App):
             sm.add_widget(start_screen)
             sm.add_widget(settings_screen)
             sm.add_widget(bci_screen)
+
+            sm.add_widget(openbci_settings_screen)
+
+            sm.add_widget(data_processing_settings_screen)
 
             sm.add_widget(precal_screen)
             sm.add_widget(precal_settings_screen)

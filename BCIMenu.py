@@ -10,9 +10,15 @@ class BCIMenu(Screen):
     def __init__ (self,**kwargs):
         super (BCIMenu, self).__init__(**kwargs)
 
-        box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
+        box1 = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, spacing=10, orientation='vertical')
 
         self.label_msg = Label(text="BCI Menu", font_size=20)
+
+        button_openbci = Button(text="OpenBCI Settings")
+        button_openbci.bind(on_press= self.change_to_openbci)
+
+        button_dp = Button(text="Data Processing Settings")
+        button_dp.bind(on_press= self.change_to_dp)
 
         button_precal = Button(text="Pre Calibration")
         button_precal.bind(on_press= self.change_to_precal)
@@ -32,6 +38,8 @@ class BCIMenu(Screen):
 
         box1.add_widget(self.label_msg)
 
+        box1.add_widget(button_openbci)
+        box1.add_widget(button_dp)
         box1.add_widget(button_precal)
         box1.add_widget(button_cal)
         box1.add_widget(button_val)
@@ -54,6 +62,14 @@ class BCIMenu(Screen):
 
     def change_to_game(self,*args):
         self.manager.current = 'GameMenu'
+        self.manager.transition.direction = 'left'
+
+    def change_to_openbci(self,*args):
+        self.manager.current = 'OpenBCISettings'
+        self.manager.transition.direction = 'left'
+
+    def change_to_dp(self,*args):
+        self.manager.current = 'DataProcessingSettings'
         self.manager.transition.direction = 'left'
 
     def change_to_start(self,*args):

@@ -18,7 +18,7 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self):
+    def __init__(self, p, b, rec = False ):
         super(SampleManager, self).__init__()
         self._stop = threading.Event()            
         
@@ -26,20 +26,18 @@ class SampleManager(threading.Thread):
 
         self.stop_flag = False
 
-        port = '/dev/ttyUSB0'  # port which opnbci is connected (linux). windows = COM1
-        baud = 115200
-        self.board = bci.OpenBCIBoard(port=port, baud=baud)
+        self.rec_flag = rec
 
-        self.event_list = np.array([0,0])
+        self.board = bci.OpenBCIBoard(port=p, baud=b)
 
     def run(self):
 
         self.HWStream()
         
     def StoreData(self, new_data):
-        
-        data = np.array(new_data) # transform list into numpy array
-        
+         
+
+        data = np.array(new_data)[:,0] # transform list into numpy array
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
     
     def PrintData(self, data):
@@ -47,13 +45,19 @@ class SampleManager(threading.Thread):
         print data
         
         
-    def SaveData(self, user):
+    def SaveData(self):
         
-        file = open(PATHTOUSERS + user + '/' + 'DATA.txt','w')
+        # file = open('data/rafael" + "/precal_config.txt','a')
         
-        np.savetxt(file, self.all_data)       # Save data to txt file   
+        # np.savetxt(file, self.all_data)       # Save data to txt file   
         
-        file.close()
+        # file.close()
+
+
+        with open("data/rafael" + "/data_cal.txt", "a") as data_file:    
+            np.savetxt(data_file, self.all_data)
+
+        self.all_data = np.empty([8]) # erase all_data content
         
     def LoadDataAsMatrix(self, user, cols=[]):
         """Loads text file content as numpy matrix
@@ -95,7 +99,9 @@ class SampleManager(threading.Thread):
         ps: This function is called by the OpenBci start_streaming() function'''
         indata =  sample.channel_data
         self.updateCircBuf(indata);
-        # self.StoreData(indata)
+        
+        if self.rec_flag:
+            self.StoreData(indata)
 
         self.sample_counter += 1
 
@@ -117,7 +123,6 @@ class SampleManager(threading.Thread):
 
     def ComputeEnergy(self):
         data = np.array(self.circBuff)
-        print data.shape
 
         if data.shape[0] > 125:
 
@@ -135,7 +140,14 @@ class SampleManager(threading.Thread):
 
         new = np.array([self.sample_counter, ev_type])
         self.event_list = np.vstack((self.event_list, new))
-        print new
+
+    def SaveEvents(self):
+
+        with open("data/rafael" + "/events_cal.txt", "a") as data_file:    
+            np.savetxt(data_file, self.event_list)
+
+        self.all_data = np.empty([8]) # erase all_data content
+        self.event_list = np.array([0,0])
 
     def CreateDataProcessing(self, ch, buf_len, f_low, f_high, f_order):
 
@@ -146,6 +158,8 @@ class SampleManager(threading.Thread):
         self.circBuff = collections.deque(maxlen = buf_len) # create a qeue 
 
         self.dp = DataProcessing(f_low, f_high, self.board.getSampleRate(), f_order)
+
+        self.event_list = np.array([0,0])
 
 
 

@@ -6,10 +6,10 @@ from kivy.uix.textinput import TextInput
 
 import json
 
-class PreCalSettings(Screen):
+class OpenBCISettings(Screen):
 # layout
     def __init__ (self,**kwargs):
-        super (PreCalSettings, self).__init__(**kwargs)
+        super (OpenBCISettings, self).__init__(**kwargs)
 
         box1 = BoxLayout(padding=10, spacing=10, orientation='vertical')
 
@@ -24,14 +24,18 @@ class PreCalSettings(Screen):
         box2 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
 
 
-        self.total_time = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='Total Time (s)', multiline=False)
+        self.com_port = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='COM port', multiline=False)
 
-        self.ch_energy = TextInput(size_hint=(1, 0.8), font_size= 20,
-                hint_text='Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
+        self.baud_rate = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='Baud Rate', multiline=False)
 
-        box2.add_widget(self.ch_energy)
-        box2.add_widget(self.total_time)
+        self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= 20,
+                hint_text='Channels Labels :Cz C4 C3 ...', multiline=False)
+
+        box2.add_widget(self.com_port)
+        box2.add_widget(self.baud_rate)
+        box2.add_widget(self.ch_labels)
 
         box1.add_widget(self.label_msg)
         box1.add_widget(box2)
@@ -41,14 +45,16 @@ class PreCalSettings(Screen):
         self.add_widget(box1)
 
     def change_to_cal(self,*args):
-        self.manager.current = 'PreCalMenu'
+        self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
 
     def save_config(self,*args):
 
-        with open("data/rafael" + "/precal_config.txt", "w") as file:
+        with open("data/rafael" + "/openbci_config.txt", "w") as file:
 
-            file.write(json.dumps({'ch_energy': self.ch_energy.text, 'total_time': self.total_time.text, 
+            file.write(json.dumps({'com_port': self.com_port.text,
+                                  'ch_labels': self.ch_labels.text,
+                                  'baud_rate': self.baud_rate.text,
                                 }, file, indent=4))
     
 
