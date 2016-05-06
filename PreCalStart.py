@@ -34,13 +34,39 @@ class PreCalStart(Screen):
     def __init__ (self,**kwargs):
         super (PreCalStart, self).__init__(**kwargs)
 
-        box_vleft = FloatLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
-        box_vmiddle = FloatLayout(size_hint_x=0.8, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
-        box_vright = FloatLayout(size_hint_x=0.1, size_hint_y=0.7,padding=10, spacing=10, orientation='horizontal')
 
-        # box_middle = FloatLayout()
+    # Top part
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
+            spacing=10, orientation='horizontal')
 
-        box1 = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
+        box_vleft = BoxLayout(size_hint_x=0.2)
+        box_vmiddle = BoxLayout(size_hint_x=0.6, orientation='vertical')
+        box_vright = BoxLayout(size_hint_x=0.2)
+
+        self.s_left = Slider(min=0, max=100, orientation='vertical')
+        self.s_right = Slider(min=0, max=100, orientation='vertical')
+        self.label_info = Label(text= 'Msg:')
+
+        src = "data/resources/left_arrow.png"
+
+        image = AsyncImage(source=src, allow_stretch=False)
+
+
+        box_vleft.add_widget(self.s_left, 0)
+        box_vright.add_widget(self.s_right, 1)
+        box_vmiddle.add_widget(self.label_info)
+        box_vmiddle.add_widget(image)
+
+
+        box_top.add_widget(box_vleft, 0)
+        box_top.add_widget(box_vmiddle, 1)
+        box_top.add_widget(box_vright, 2)
+
+
+    # Bottom part
+
+        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
+            spacing=10, orientation='vertical')
 
         button_back = Button(text="Back")
         button_back.bind(on_press= self.change_to_precal)
@@ -48,36 +74,23 @@ class PreCalStart(Screen):
         self.button_stream = Button(text="Start Streaming")
         self.button_stream.bind(on_press= self.bci_begin)
 
-        self.label_info = Label(pos_hint={'center_x': .5, 'center_y': .5})
+        button_bar_default = Button(text="Reset Bar Max")
+        button_bar_default.bind(on_press= self.set_bar_default)
 
-        # src = "data/resources/left_arrow.png"
+        box_bottom.add_widget(self.button_stream)
+        box_bottom.add_widget(button_bar_default)
+        box_bottom.add_widget(button_back)
 
-        # image = AsyncImage(source=src, allow_stretch=False, pos_hint={'x': 1, 'y': 1})
+    # Whole part
 
-        # box_vmiddle.add_widget(image)
+        boxg = BoxLayout(orientation='vertical', padding=10, 
+            spacing=10)
 
-        # self.add_arrow(0)
-
-        self.s_left = Slider(min=0, max=100, orientation='vertical', 
-            pos_hint={'center_x': 1, 'center_y': 1})
-
-        self.s_right = Slider(min=0, max=100, orientation='vertical', 
-            pos_hint={'center_x': 9, 'center_y': 1})
-
-        box_vleft.add_widget(self.s_left)
-        box_vright.add_widget(self.s_right)
-
-        box_vmiddle.add_widget(self.label_info)
-
-        # box1.add_widget(self.label_info)
-        box1.add_widget(self.button_stream)
-        box1.add_widget(button_back)
-
-        self.add_widget(box_vmiddle)
-        self.add_widget(box_vleft)
+        boxg.add_widget(box_bottom, 0)
+        boxg.add_widget(box_top, 1)
         
-        self.add_widget(box_vright)
-        self.add_widget(box1) 
+
+        self.add_widget(boxg) 
 
         self.stream_flag = False
 
@@ -85,6 +98,10 @@ class PreCalStart(Screen):
 
         self.manager.current = 'PreCalMenu'
         self.manager.transition.direction = 'right'
+
+    def set_bar_default(self,*args):
+        self.s_right.max = 100
+        self.s_left.max = 100
 
     def bci_begin(self,*args):
 
@@ -115,8 +132,8 @@ class PreCalStart(Screen):
             self.clock_scheduler()
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_energy_left, 1/5)
-        Clock.schedule_interval(self.get_energy_right, 1/5)
+        Clock.schedule_interval(self.get_energy_left, 1/2)
+        Clock.schedule_interval(self.get_energy_right, 1/2)
         Clock.schedule_once(self.bci_begin, self.total_time)
         Clock.schedule_once(self.set_bar_max, self.relax_time)
 
@@ -131,15 +148,15 @@ class PreCalStart(Screen):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
         # self.label_info.text = "Energy level : {}".format(energy)
-        if energy is not 0:
-            self.s_right.value = ceil(energy*100)
+        if hasattr(self, 'bar_max'):
+            self.s_right.value = ceil((energy / self.bar_max )*100)
 
     def get_energy_left(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
         # self.label_info.text = "Energy level : {}".format(energy)
-        if energy is not 0:
-            self.s_left.value = ceil(energy*100)
+        if hasattr(self, 'bar_max'):
+            self.s_left.value = ceil((energy / self.bar_max )*100)
 
     def load_dp_settings(self):
 
@@ -174,9 +191,18 @@ class PreCalStart(Screen):
         self.total_time = int(data['total_time'])
         self.relax_time = int(data['relax_time'])
 
+    def calc_bar_max(self):
+        max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)
+        max_left = self.sm.CalcEnergyAverage(self.ch_energy_left)
+
+        self.bar_max = max(max_right, max_left)
+
     def set_bar_max(self, dt):
-        self.s_right.max = self.sm.CalcEnergyAverage()
-        self.s_left.max = self.sm.CalcEnergyAverage()
+
+        self.calc_bar_max()
+
+        self.s_left.max = self.bar_max
+        self.s_right.max = self.bar_max
 
     def add_arrow(self, idx):
 

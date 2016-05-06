@@ -124,7 +124,7 @@ class SampleManager(threading.Thread):
         self.circBuff.append(data)
 
     def ComputeEnergy(self, channel_list):
-        raw_data = np.array(self.circBuff)[:,channel_list]
+        raw_data = np.array(self.circBuff)
 
         if raw_data.shape[0] > 125:
 
@@ -132,9 +132,9 @@ class SampleManager(threading.Thread):
 
             e = self.dp.ComputeEnergy(raw_data)
 
-            energy = sum(e)/len(e)
+            energy = sum(e[channel_list]) / len(e[channel_list])
 
-            self.energy_history.append(energy)
+            self.energy_history.append(e)
 
             return energy
         else:
@@ -169,11 +169,17 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([0,0])
 
-    def CalcEnergyAverage(self):
+    def CalcEnergyAverage(self, channel_list):
         
-        avg = ceil(100 * sum(self.energy_history) / len(self.energy_history))
+        eh = np.array(self.energy_history)
+
+        energy_ch = eh[:,channel_list]
+
+        avg_smp = sum(energy_ch) / energy_ch.shape[0]
+
+        avg_ch = ceil(100 * sum(avg_smp) / len(avg_smp))
         
-        return avg
+        return avg_ch
 
 
 

@@ -1,38 +1,51 @@
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
 import os
+
+BUTTON_SIZE = (100, 300)
+TEXT_SIZE = (1, 0.7)
+FONT_SIZE = 20
 
 class StartScreen(Screen):
 # layout
     def __init__ (self,**kwargs):
         super (StartScreen, self).__init__(**kwargs)
 
-        box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
+        boxg = AnchorLayout(anchor_x='center', anchor_y='center')
+
+        box1 = BoxLayout(size_hint = (0.5, 0.5), padding=10, spacing=10,
+                         orientation='vertical')
 
         self.label_msg = Label(text="", font_size=20)
 
-        button_ui_settings = Button(text="UIX Settings")
+        button_ui_settings = Button(text="UIX Settings", font_size = FONT_SIZE ,size=BUTTON_SIZE)
         button_ui_settings.bind(on_press= self.change_to_ui_settings)
 
-        button_next = Button(text="BCI Menu")
+        button_next = Button(text="BCI Menu", size=BUTTON_SIZE, font_size = FONT_SIZE)
         button_next.bind(on_press= self.change_to_bci)
 
-        button_save = Button(text="Save")
+        button_save = Button(text="Save", size=BUTTON_SIZE, font_size = FONT_SIZE)
         button_save.bind(on_press= self.save_username)
 
-        self.username = TextInput(size_hint=(1, 0.8), font_size= 20,
-            hint_text='Username', multiline=False)
+        self.username = TextInput(font_size= FONT_SIZE, size_hint=TEXT_SIZE,
+            hint_text='Username', multiline=False, font_name= 'Roboto')
 
         box1.add_widget(self.label_msg)
         box1.add_widget(self.username)
         box1.add_widget(button_save)
         box1.add_widget(button_ui_settings)
         box1.add_widget(button_next)
-        self.add_widget(box1)
+
+        box1.size = box1.minimum_size
+
+        boxg.add_widget(box1)
+
+        self.add_widget(boxg)
 
     def change_to_ui_settings(self,*args):
         self.manager.current = 'UISettings'
