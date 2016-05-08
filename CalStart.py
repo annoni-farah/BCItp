@@ -14,6 +14,8 @@ from kivy.uix.image import AsyncImage
 
 from kivy.graphics import Rectangle, Color
 
+import random
+
 import json
 
 class CalStart(Screen):
@@ -36,9 +38,14 @@ class CalStart(Screen):
         # self.button_save.bind(on_press= self.save_data)
 
         self.carousel = Carousel(direction='right')
-        for i in range(10):
-            src = "http://placehold.it/480x270.png&text=slide-%d&.png" % i
-            image = AsyncImage(source=src, allow_stretch=True)
+
+        src = ["data/resources/cross.png",
+               "data/resources/left.png",
+               "data/resources/right.png",
+               "data/resources/blank.png"]
+
+        for i in range(len(src)):
+            image = AsyncImage(source=src[i], allow_stretch=False)
             self.carousel.add_widget(image)
 
         self.label_energy = Label()
@@ -59,9 +66,6 @@ class CalStart(Screen):
 
         self.stream_flag = False
 
-        self.load_dp_settings()
-        self.load_openbci_settings()
-
     def change_to_precal(self,*args):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'right'
@@ -76,6 +80,12 @@ class CalStart(Screen):
             self.clock_unscheduler()
 
         else:
+            self.load_dp_settings()
+            self.load_openbci_settings()
+            self.load_cal_settings()
+
+            self.generate_stim_list()
+
             self.sm = SampleManager(self.com_port, self.baud_rate, rec = True)
 
             self.sm.CreateDataProcessing(self.channels, self.buf_len, 
@@ -97,37 +107,44 @@ class CalStart(Screen):
     def clock_scheduler(self):
         # Clock.schedule_interval(self.get_energy, 1/6)
         Clock.schedule_interval(self.save_data, 10)
-        Clock.schedule_once(self.schedule_first_sign, 1)
-        Clock.schedule_once(self.schedule_second_sign, 3)
-        Clock.schedule_once(self.schedule_third_sign, 5)
+        Clock.schedule_once(self.schedule_pause_display, self.pause_offset)
+        Clock.schedule_once(self.schedule_cue_display, self.cue_offset)
+        Clock.schedule_once(self.schedule_blank_display, self.cue_offset + 1)
 
-    def clock_unscheduler(self):
+    def clock_unscheduler(self, dt):
         Clock.unschedule(self.set_sign_pause)
         Clock.unschedule(self.set_sign_left)
         Clock.unschedule(self.set_sign_right)
         Clock.unschedule(self.get_energy)
         Clock.unschedule(self.save_data)
 
-    def schedule_first_sign(self, dt):
-        Clock.schedule_interval(self.set_sign_pause, 1)
+    def schedule_pause_display(self, dt):
+        Clock.schedule_interval(self.set_pause, self.end_trial_offset)
 
-    def schedule_second_sign(self, dt):
-        Clock.schedule_interval(self.set_sign_left, 1)
+    def schedule_cue_display(self, dt):
+        Clock.schedule_interval(self.set_cue, self.end_trial_offset)
 
-    def schedule_third_sign(self, dt):
-        Clock.schedule_interval(self.set_sign_right, 1)
+    def schedule_blank_display(self, dt):
+        Clock.schedule_interval(self.set_blank, self.end_trial_offset)
 
-    def set_sign_pause(self, dt):
+    def set_pause(self, dt):
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
-    def set_sign_left(self, dt):
-        self.carousel.index = 1
-        self.sm.MarkEvents(1)
+    def set_cue(self, dt):
 
-    def set_sign_right(self, dt):
-        self.carousel.index = 2
-        self.sm.MarkEvents(2)
+        if self.stim_list[self.stim_counter] is 1:
+            self.carousel.index = 1
+            self.sm.MarkEvents(1)
+
+        elif self.stim_list[self.stim_counter] is 2:
+            self.carousel.index = 2
+            self.sm.MarkEvents(2) 
+
+        self.stim_counter += 1                   
+
+    def set_blank(self, dt):
+        self.carousel.index = 3
 
     def load_dp_settings(self):
 
@@ -139,6 +156,8 @@ class CalStart(Screen):
         self.f_low = int(data["f_low"])
         self.f_high = int(data["f_high"])
         self.f_order = int(data["f_order"])
+        self.epoch_start = int(data["epoch_start"])
+        self.epoch_end = int(data["epoch_end"])
         self.channels = map(int, data['channels'].split(" "))
 
     def load_openbci_settings(self):
@@ -149,7 +168,7 @@ class CalStart(Screen):
 
         self.com_port = data["com_port"]
         self.ch_labels = data["ch_labels"]
-        self.baud_rate = data["baud_rate"]
+        self.baud_rate = int(data["baud_rate"])
 
     def load_cal_settings(self):
 
@@ -157,13 +176,17 @@ class CalStart(Screen):
         with open("data/rafael" + "/cal_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
-        self.n_trials = data["n_trials"]
-        self.cue_offset = data["cue_offset"]
-        self.pause_offset = data["pause_offset"]
-        self.epoch_start = data["epoch_start"]
-        self.epoch_end = data["epoch_end"]
+        self.n_trials = int(data["n_trials"])
+        self.cue_offset = int(data["cue_offset"])
+        self.pause_offset = int(data["pause_offset"])
+        self.end_trial_offset = int(data["end_trial_offset"])
 
     def save_data(self, dt):
         print "Saving data"
         self.sm.SaveData()
         self.sm.SaveEvents()
+
+    def generate_stim_list(self):
+        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.n_trials)]
+        self.stim_counter = 0
+

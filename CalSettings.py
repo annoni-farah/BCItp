@@ -26,29 +26,22 @@ class CalSettings(Screen):
         self.n_trials = TextInput(size_hint=(1, 0.8), font_size= 20,
                         hint_text='Number of Trials', multiline=False)
 
-        self.cue_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='Cue Offset', multiline=False)
-
         self.pause_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
                         hint_text='Pause Offset', multiline=False)
 
-        box3 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='horizontal')
-        
-        self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='Epoch Start', multiline=False)
+        self.cue_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='Cue Offset', multiline=False)
 
-        self.epoch_end = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='Epoch End', multiline=False)
+        self.end_trial_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='End of Trial Offset', multiline=False)
 
-        box3.add_widget(self.epoch_start)
-        box3.add_widget(self.epoch_end)
 
         box2.add_widget(self.n_trials)
-        box2.add_widget(self.cue_offset)
         box2.add_widget(self.pause_offset)
+        box2.add_widget(self.cue_offset)
+        box2.add_widget(self.end_trial_offset)
 
         box1.add_widget(self.label_msg)
-        box1.add_widget(box3)
         box1.add_widget(box2)
         box1.add_widget(button_save)
         box1.add_widget(button_back)
@@ -63,9 +56,10 @@ class CalSettings(Screen):
 
         with open("data/rafael" + "/cal_config.txt", "w") as file:
 
-            file.write(json.dumps({'n_trials': self.n_trials.text, 'cue_offset': self.cue_offset.text, 
-                'pause_offset': self.pause_offset.text, 'epoch_start': self.epoch_start.text,
-                'epoch_end': self.epoch_end.text}, file, indent=4))
+            file.write(json.dumps({'n_trials': self.n_trials.text, 
+                'cue_offset': self.cue_offset.text, 
+                'pause_offset': self.pause_offset.text, 
+                'end_trial_offset': self.end_trial_offset.text}, file, indent=4))
     
 
         self.label_msg.text = "Settings Saved!"

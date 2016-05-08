@@ -117,6 +117,7 @@ class PreCalStart(Screen):
             self.load_dp_settings()
             self.load_openbci_settings()
             self.load_precal_settings()
+            
             self.label_info.text = "Managing Samples..."
             self.sm = SampleManager(self.com_port, self.baud_rate)
             self.label_info.text = "Computing filters and creating buffers..."

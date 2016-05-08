@@ -38,7 +38,6 @@ class SampleManager(threading.Thread):
         
     def StoreData(self, new_data):
          
-
         data = np.array(new_data)[:,0] # transform list into numpy array
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
     

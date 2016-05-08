@@ -40,6 +40,17 @@ class DataProcessingSettings(Screen):
         self.f_order = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Filter Order', multiline=False)
 
+        box4 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='horizontal')
+        
+        self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='Epoch Start', multiline=False)
+
+        self.epoch_end = TextInput(size_hint=(1, 0.8), font_size= 20,
+                        hint_text='Epoch End', multiline=False)
+
+        box4.add_widget(self.epoch_start)
+        box4.add_widget(self.epoch_end)
+
         box3.add_widget(self.f_high)
         box3.add_widget(self.f_low)
         box3.add_widget(self.f_order)
@@ -48,6 +59,7 @@ class DataProcessingSettings(Screen):
         box2.add_widget(self.buf_len)
 
         box1.add_widget(self.label_msg)
+        box1.add_widget(box4)
         box1.add_widget(box3)
         box1.add_widget(box2)
         box1.add_widget(button_save)
@@ -60,12 +72,23 @@ class DataProcessingSettings(Screen):
         self.manager.transition.direction = 'right'
 
     def save_config(self,*args):
+        print "testing"
+
+        print self.channels.text
+
+        if self.channels.text == "":
+            self.channels.text = "1 2 3 4 5 6 7 8"
 
         with open("data/rafael" + "/dp_config.txt", "w") as file:
 
             file.write(json.dumps({'buf_len': self.buf_len.text, 
-                'channels': self.channels.text, 'f_low': self.f_low.text, 'f_high': self.f_high.text,
-                'f_order': self.f_order.text}, file, indent=4))
+                'channels': self.channels.text, 
+                'f_low': self.f_low.text, 
+                'f_high': self.f_high.text,
+                'f_order': self.f_order.text,
+                'epoch_start': self.epoch_start.text,
+                'epoch_end': self.epoch_end.text,
+                }, file, indent=4))
     
 
         self.label_msg.text = "Settings Saved!"
