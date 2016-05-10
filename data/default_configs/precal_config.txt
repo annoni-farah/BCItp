@@ -1,0 +1,7 @@
+{
+    "ch_energy_right": "", 
+    "total_time": "300", 
+    "sign_direction": "left", 
+    "relax_time": "30", 
+    "ch_energy_left": ""
+}

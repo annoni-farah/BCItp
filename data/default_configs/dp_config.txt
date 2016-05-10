@@ -1,0 +1,9 @@
+{
+    "epoch_end": "4", 
+    "epoch_start": "2", 
+    "f_high": "30", 
+    "channels": "0 1 2 3 4 5 6 7", 
+    "f_low": "8", 
+    "f_order": "7", 
+    "buf_len": "500"
+}
