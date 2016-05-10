@@ -11,7 +11,9 @@ class DataProcessingSettings(Screen):
     def __init__ (self,**kwargs):
         super (DataProcessingSettings, self).__init__(**kwargs)
 
-        box1 = BoxLayout(padding=10, spacing=10, orientation='vertical')
+        boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
 
         self.label_msg = Label(text="", font_size=20)
         
@@ -24,7 +26,7 @@ class DataProcessingSettings(Screen):
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
-        box2 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
+        box2 = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
         self.buf_len = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Circular Buffer Length (in samples - min 125)', multiline=False)
@@ -32,7 +34,7 @@ class DataProcessingSettings(Screen):
         self.channels = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Channels to use in Computation :1 2 3 ...', multiline=False)
 
-        box3 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='horizontal')
+        box3 = BoxLayout(size_hint_x=1, size_hint_y=0.15,padding=10, spacing=10, orientation='horizontal')
 
         self.f_high = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Upper cutoff frequency (Hz)', multiline=False)
@@ -43,7 +45,7 @@ class DataProcessingSettings(Screen):
         self.f_order = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Filter Order', multiline=False)
 
-        box4 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='horizontal')
+        box4 = BoxLayout(size_hint_x=1, size_hint_y=0.15,padding=10, spacing=10, orientation='horizontal')
         
         self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= 20,
                         hint_text='Epoch Start', multiline=False)
@@ -61,15 +63,17 @@ class DataProcessingSettings(Screen):
         box2.add_widget(self.channels)
         box2.add_widget(self.buf_len)
 
-        box1.add_widget(self.label_msg)
-        box1.add_widget(box4)
-        box1.add_widget(box3)
-        box1.add_widget(box2)
-        box1.add_widget(button_save)
-        box1.add_widget(button_default)
-        box1.add_widget(button_back)
+        box_bottom.add_widget(self.label_msg)
+        box_bottom.add_widget(button_save)
+        box_bottom.add_widget(button_default)
+        box_bottom.add_widget(button_back)
 
-        self.add_widget(box1)
+        boxg.add_widget(box4)
+        boxg.add_widget(box3)
+        boxg.add_widget(box2)
+        boxg.add_widget(box_bottom)
+
+        self.add_widget(boxg)
 
     def change_to_cal(self,*args):
         self.manager.current = 'BCIMenu'
