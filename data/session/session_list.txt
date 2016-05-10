@@ -1,7 +1,0 @@
-{
-    "session_list": [
-        "", 
-        "t1", 
-        "rafael1"
-    ]
-}

@@ -1,5 +1,0 @@
-{
-    "ch_labels": "", 
-    "baud_rate": "115200", 
-    "com_port": "dev/ttyUSB0"
-}
