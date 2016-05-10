@@ -1,5 +1,5 @@
 *.pyc
 
-data/sessions
+data/session/*
 data/session_list.txt
 backup/
