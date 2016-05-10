@@ -11,7 +11,10 @@ class OpenBCISettings(Screen):
     def __init__ (self,**kwargs):
         super (OpenBCISettings, self).__init__(**kwargs)
 
-        box1 = BoxLayout(padding=10, spacing=10, orientation='vertical')
+        boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.4, 
+            padding=10, spacing=10, orientation='vertical')
 
         self.label_msg = Label(text="", font_size=20)
         
@@ -24,7 +27,8 @@ class OpenBCISettings(Screen):
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
-        box2 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.2,
+            padding=10, spacing=10, orientation='vertical')
 
 
         self.com_port = TextInput(size_hint=(1, 0.8), font_size= 20,
@@ -36,17 +40,20 @@ class OpenBCISettings(Screen):
         self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= 20,
                 hint_text='Channels Labels :Cz C4 C3 ...', multiline=False)
 
-        box2.add_widget(self.com_port)
-        box2.add_widget(self.baud_rate)
-        box2.add_widget(self.ch_labels)
+        box_top.add_widget(self.com_port)
+        box_top.add_widget(self.baud_rate)
+        box_top.add_widget(self.ch_labels)
 
-        box1.add_widget(self.label_msg)
-        box1.add_widget(box2)
-        box1.add_widget(button_save)
-        box1.add_widget(button_default)
-        box1.add_widget(button_back)
+        box_bottom.add_widget(self.label_msg)
+        box_bottom.add_widget(button_save)
+        box_bottom.add_widget(button_default)
+        box_bottom.add_widget(button_back)
 
-        self.add_widget(box1)
+        boxg.add_widget(box_top)
+        boxg.add_widget(box_bottom)
+        
+
+        self.add_widget(boxg)
 
     def change_to_cal(self,*args):
         self.manager.current = 'BCIMenu'
