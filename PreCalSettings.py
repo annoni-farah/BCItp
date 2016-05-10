@@ -11,7 +11,10 @@ class PreCalSettings(Screen):
     def __init__ (self,**kwargs):
         super (PreCalSettings, self).__init__(**kwargs)
 
-        box1 = BoxLayout(padding=10, spacing=10, orientation='vertical')
+        boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3, 
+            padding=10, spacing=10, orientation='vertical')
 
         self.label_msg = Label(text="", font_size=20)
         
@@ -21,7 +24,8 @@ class PreCalSettings(Screen):
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
-        box2 = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.5,
+            padding=10, spacing=10, orientation='vertical')
 
 
         self.total_time = TextInput(size_hint=(1, 0.8), font_size= 20,
@@ -36,17 +40,24 @@ class PreCalSettings(Screen):
         self.ch_energy_left = TextInput(size_hint=(1, 0.8), font_size= 20,
             hint_text='Left - Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
 
-        box2.add_widget(self.ch_energy_left)
-        box2.add_widget(self.ch_energy_right)
-        box2.add_widget(self.relax_time)
-        box2.add_widget(self.total_time)
+        self.sign_direction = TextInput(size_hint=(1, 0.8), font_size= 20,
+            hint_text='Sign - left or right', multiline=False)
 
-        box1.add_widget(self.label_msg)
-        box1.add_widget(box2)
-        box1.add_widget(button_save)
-        box1.add_widget(button_back)
+        box_top.add_widget(self.sign_direction)
+        box_top.add_widget(self.ch_energy_left)
+        box_top.add_widget(self.ch_energy_right)
+        box_top.add_widget(self.relax_time)
+        box_top.add_widget(self.total_time)
 
-        self.add_widget(box1)
+        box_bottom.add_widget(self.label_msg)
+        box_bottom.add_widget(button_save)
+        box_bottom.add_widget(button_back)
+
+        boxg.add_widget(box_top)
+        boxg.add_widget(box_bottom)
+
+        self.add_widget(boxg)
+
 
     def change_to_cal(self,*args):
         self.manager.current = 'PreCalMenu'
@@ -59,7 +70,8 @@ class PreCalSettings(Screen):
             file.write(json.dumps({'ch_energy_left': self.ch_energy_left.text,
                  'ch_energy_right': self.ch_energy_right.text,
                  'total_time': self.total_time.text,
-                 'relax_time': self.relax_time.text, }, file, indent=4))
+                 'relax_time': self.relax_time.text, 
+                 'sign_direction': self.sign_direction.text, }, file, indent=4))
                                 
     
 

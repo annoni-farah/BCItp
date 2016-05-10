@@ -40,26 +40,20 @@ class PreCalStart(Screen):
             spacing=10, orientation='horizontal')
 
         box_vleft = BoxLayout(size_hint_x=0.2)
-        box_vmiddle = BoxLayout(size_hint_x=0.6, orientation='vertical')
+        self.box_vmiddle = BoxLayout(size_hint_x=0.6, orientation='vertical')
         box_vright = BoxLayout(size_hint_x=0.2)
 
         self.s_left = Slider(min=0, max=100, orientation='vertical')
         self.s_right = Slider(min=0, max=100, orientation='vertical')
         self.label_info = Label(text= 'Msg:')
 
-        src = "data/resources/left_arrow.png"
-
-        image = AsyncImage(source=src, allow_stretch=False)
-
-
         box_vleft.add_widget(self.s_left, 0)
         box_vright.add_widget(self.s_right, 1)
-        box_vmiddle.add_widget(self.label_info)
-        box_vmiddle.add_widget(image)
+        self.box_vmiddle.add_widget(self.label_info)
 
 
         box_top.add_widget(box_vleft, 0)
-        box_top.add_widget(box_vmiddle, 1)
+        box_top.add_widget(self.box_vmiddle, 1)
         box_top.add_widget(box_vright, 2)
 
 
@@ -117,6 +111,8 @@ class PreCalStart(Screen):
             self.load_dp_settings()
             self.load_openbci_settings()
             self.load_precal_settings()
+
+            self.add_arrow()
             
             self.label_info.text = "Managing Samples..."
             self.sm = SampleManager(self.com_port, self.baud_rate)
@@ -191,6 +187,7 @@ class PreCalStart(Screen):
         self.ch_energy_left = map(int, data['ch_energy_left'].split(" "))
         self.total_time = int(data['total_time'])
         self.relax_time = int(data['relax_time'])
+        self.sign_direction = data['sign_direction']
 
     def calc_bar_max(self):
         max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)
@@ -205,26 +202,16 @@ class PreCalStart(Screen):
         self.s_left.max = self.bar_max
         self.s_right.max = self.bar_max
 
-    def add_arrow(self, idx):
+    def add_arrow(self):
 
-        if idx == 0:
-            src = "data/resources/left_arrow.png"
-        elif idx ==1:
-            src = "data/resources/right_arrow.png"
+        if self.sign_direction is 'left':
+            src = "data/resources/left.png"
+        elif self.sign_direction is 'right':
+            src = "data/resources/right.png"
 
-        self.image = AsyncImage(source=src, allow_stretch=False, pos_hint={'center_x': 1, 'center_y': 1})
+        image = AsyncImage(source=src, allow_stretch=False)
 
-        self.box_middle.add_widget(self.image)
-
-    def remove_arrow(self):
-
-        self.box_middle.remove_widget(self.image)
-
-
-    def change_arrow(self,*args):
-
-        self.remove_arrow()
-        self.add_arrow(1)
+        self.box_vmiddle.add_widget(image)
 
 
     

@@ -51,8 +51,8 @@ class DataProcessingSettings(Screen):
         box4.add_widget(self.epoch_start)
         box4.add_widget(self.epoch_end)
 
-        box3.add_widget(self.f_high)
         box3.add_widget(self.f_low)
+        box3.add_widget(self.f_high)
         box3.add_widget(self.f_order)
 
         box2.add_widget(self.channels)
