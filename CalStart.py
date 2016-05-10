@@ -32,7 +32,7 @@ class CalStart(Screen):
         button_back.bind(on_press= self.change_to_precal)
 
         self.button_stream = Button(text="Start Streaming")
-        self.button_stream.bind(on_press= self.bci_begin)
+        self.button_stream.bind(on_press= self.start)
 
         # self.button_save = Button(text="Save Data")
         # self.button_save.bind(on_press= self.save_data)
@@ -70,34 +70,37 @@ class CalStart(Screen):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'right'
 
-    def bci_begin(self,*args):
+    def start(self,*args):
 
         if self.stream_flag:
+            self.bci_stop()
+        else:
+            self.bci_begin()
+
+
+    def bci_stop(self):
             self.button_stream.text = 'Start Streaming'
             self.sm.stop_flag = True
             self.stream_flag = False
             self.sm.join()
             self.clock_unscheduler()
 
-        else:
+    def bci_begin(self):
             self.load_session_config()
             self.load_dp_settings()
             self.load_openbci_settings()
             self.load_cal_settings()
-
             self.generate_stim_list()
-
             self.sm = SampleManager(self.com_port, self.baud_rate, rec = True)
-
             self.sm.CreateDataProcessing(self.channels, self.buf_len, 
                                         self.f_low, self.f_high, self.f_order)
-
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.sm.start()
             self.stream_flag = True
             self.button_stream.text = 'Stop Streaming'
             self.clock_scheduler()
+
 
     def get_energy(self, dt):
         if self.stream_flag:
@@ -108,44 +111,42 @@ class CalStart(Screen):
     def clock_scheduler(self):
         # Clock.schedule_interval(self.get_energy, 1/6)
         Clock.schedule_interval(self.save_data, 10)
-        Clock.schedule_once(self.schedule_pause_display, self.pause_offset)
-        Clock.schedule_once(self.schedule_cue_display, self.cue_offset)
-        Clock.schedule_once(self.schedule_blank_display, self.cue_offset + 1)
+        Clock.schedule_interval(self.display_epoch, self.end_trial_offset)
 
-    def clock_unscheduler(self, dt):
-        Clock.unschedule(self.set_sign_pause)
-        Clock.unschedule(self.set_sign_left)
-        Clock.unschedule(self.set_sign_right)
+
+    def clock_unscheduler(self):
+        Clock.unschedule(self.display_epoch)
         Clock.unschedule(self.get_energy)
         Clock.unschedule(self.save_data)
 
-    def schedule_pause_display(self, dt):
-        Clock.schedule_interval(self.set_pause, self.end_trial_offset)
+    def display_epoch(self, dt):
+        print self.epoch_counter
 
-    def schedule_cue_display(self, dt):
-        Clock.schedule_interval(self.set_cue, self.end_trial_offset)
+        if self.epoch_counter < self.n_trials:
+            Clock.schedule_once(self.set_pause, self.pause_offset)
+            Clock.schedule_once(self.set_cue, self.cue_offset)
+            Clock.schedule_once(self.set_blank, self.cue_offset + 1)
+        else:
+            self.bci_stop() 
 
-    def schedule_blank_display(self, dt):
-        Clock.schedule_interval(self.set_blank, self.end_trial_offset)
-
+        
     def set_pause(self, dt):
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
     def set_cue(self, dt):
 
-        if self.stim_list[self.stim_counter] is 1:
+        if self.stim_list[self.epoch_counter] is 1:
             self.carousel.index = 1
             self.sm.MarkEvents(1)
 
-        elif self.stim_list[self.stim_counter] is 2:
+        elif self.stim_list[self.epoch_counter] is 2:
             self.carousel.index = 2
-            self.sm.MarkEvents(2) 
-
-        self.stim_counter += 1                   
+            self.sm.MarkEvents(2)                   
 
     def set_blank(self, dt):
         self.carousel.index = 3
+        self.epoch_counter += 1
 
     def load_session_config(self):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
@@ -191,11 +192,14 @@ class CalStart(Screen):
         self.end_trial_offset = int(data["end_trial_offset"])
 
     def save_data(self, dt):
+        PATH_TO_DATA = "data/session/"+ self.session + "/data_cal.txt"
+        PATH_TO_EVENTS = "data/session/"+ self.session + "/events_cal.txt"
+
         print "Saving data"
-        self.sm.SaveData()
-        self.sm.SaveEvents()
+        self.sm.SaveData(PATH_TO_DATA)
+        self.sm.SaveEvents(PATH_TO_EVENTS)
 
     def generate_stim_list(self):
         self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.n_trials)]
-        self.stim_counter = 0
+        self.epoch_counter = 0
 

@@ -175,7 +175,7 @@ class PreCalStart(Screen):
         self.f_low = int(data["f_low"])
         self.f_high = int(data["f_high"])
         self.f_order = int(data["f_order"])
-        self.channels = map(int, data['channels'].split(" "))
+        self.channels = map(int, data['channels'].split())
 
     def load_openbci_settings(self):
 
@@ -211,6 +211,14 @@ class PreCalStart(Screen):
 
         self.s_left.max = self.bar_max
         self.s_right.max = self.bar_max
+
+    def calc_bar_th(self):
+
+        self.bar_th = 0.3 * self.bar_max
+
+    def set_bar_th(self, dt):
+
+        self.calc_bar_th()
 
     def add_arrow(self):
 

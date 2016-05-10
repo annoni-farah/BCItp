@@ -21,6 +21,9 @@ class PreCalSettings(Screen):
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
 
+        button_default = Button(text="Load Default Config", size_hint_x=1, size_hint_y=0.5)
+        button_default.bind(on_press= self.load_default_settings)
+
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
@@ -51,6 +54,7 @@ class PreCalSettings(Screen):
 
         box_bottom.add_widget(self.label_msg)
         box_bottom.add_widget(button_save)
+        box_bottom.add_widget(button_default)
         box_bottom.add_widget(button_back)
 
         boxg.add_widget(box_top)
@@ -69,6 +73,17 @@ class PreCalSettings(Screen):
             data = json.load(data_file)
             session_list = data["session_list"]
             self.session = session_list[-1]
+
+    def load_default_settings(self,*args):
+        PATH_TO_DEFAULT = 'data/default_configs/precal_config.txt'
+
+        with open(PATH_TO_DEFAULT, "r") as data_file:    
+            data = json.load(data_file)
+            self.ch_energy_left.text = data["ch_energy_left"]
+            self.ch_energy_right.text = data["ch_energy_right"]
+            self.total_time.text = data["total_time"]
+            self.relax_time.text = data["relax_time"]
+            self.sign_direction.text = data["sign_direction"]
 
     def save_config(self,*args):
         self.load_session_config()

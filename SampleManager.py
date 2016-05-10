@@ -46,7 +46,7 @@ class SampleManager(threading.Thread):
         print data
         
         
-    def SaveData(self):
+    def SaveData(self, path):
         
         # file = open('data/rafael" + "/precal_config.txt','a')
         
@@ -55,7 +55,7 @@ class SampleManager(threading.Thread):
         # file.close()
         self.all_data = np.delete(self.all_data, (0), axis = 0)
 
-        with open("data/rafael" + "/data_cal.txt", "a") as data_file:    
+        with open(path, "a") as data_file:    
             np.savetxt(data_file, self.all_data)
 
         self.all_data = np.empty([8]) # erase all_data content
@@ -144,11 +144,11 @@ class SampleManager(threading.Thread):
         new = np.array([self.sample_counter, ev_type])
         self.event_list = np.vstack((self.event_list, new))
 
-    def SaveEvents(self):
+    def SaveEvents(self, path):
 
         self.event_list = np.delete(self.event_list, (0), axis = 0)
 
-        with open("data/rafael" + "/events_cal.txt", "a") as data_file:    
+        with open(path, "a") as data_file:    
             np.savetxt(data_file, self.event_list)
 
         self.all_data = np.empty([8]) # erase all_data content

@@ -18,6 +18,9 @@ class DataProcessingSettings(Screen):
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
 
+        button_default = Button(text="Load Default Config", size_hint_x=1, size_hint_y=0.5)
+        button_default.bind(on_press= self.load_default_settings)
+
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
@@ -63,6 +66,7 @@ class DataProcessingSettings(Screen):
         box1.add_widget(box3)
         box1.add_widget(box2)
         box1.add_widget(button_save)
+        box1.add_widget(button_default)
         box1.add_widget(button_back)
 
         self.add_widget(box1)
@@ -78,6 +82,19 @@ class DataProcessingSettings(Screen):
             data = json.load(data_file)
             session_list = data["session_list"]
             self.session = session_list[-1]
+
+    def load_default_settings(self,*args):
+        PATH_TO_DEFAULT = 'data/default_configs/dp_config.txt'
+
+        with open(PATH_TO_DEFAULT, "r") as data_file:    
+            data = json.load(data_file)
+            self.buf_len.text = data["buf_len"]
+            self.channels.text = data["channels"]
+            self.f_low.text = data["f_low"]
+            self.f_high.text = data["f_high"]
+            self.f_order.text = data["f_order"]
+            self.epoch_start.text = data["epoch_start"]
+            self.epoch_end.text = data["epoch_end"]
 
     def save_config(self,*args):
 
