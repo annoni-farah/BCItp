@@ -35,7 +35,7 @@ class StartScreen(Screen):
         button_save.bind(on_press= self.save_session_name)
 
         self.session_name = TextInput(font_size= FONT_SIZE, size_hint=TEXT_SIZE,
-            hint_text='Session Name', multiline=False, font_name= 'Roboto')
+            hint_text='Session Name', multiline=False)
 
         box1.add_widget(self.label_msg)
         box1.add_widget(self.session_name)
@@ -43,7 +43,7 @@ class StartScreen(Screen):
         box1.add_widget(button_ui_settings)
         box1.add_widget(button_next)
 
-        box1.size = box1.minimum_size
+        # box1.size = box1.minimum_size
 
         boxg.add_widget(box1)
 
