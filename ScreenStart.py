@@ -62,7 +62,7 @@ class StartScreen(Screen):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
         PATH_TO_SESSION = 'data/session/'
 
-        if not os.path.isfile(PATH_TO_SESSION):
+        if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
         if os.path.isfile(PATH_TO_SESSION_LIST):
