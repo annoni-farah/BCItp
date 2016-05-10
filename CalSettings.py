@@ -48,13 +48,24 @@ class CalSettings(Screen):
 
         self.add_widget(box1)
 
+        self.load_session_config()
+
     def change_to_cal(self,*args):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'right'
 
+    def load_session_config(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
+
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session = session_list[-1]
+
+
     def save_config(self,*args):
 
-        with open("data/rafael" + "/cal_config.txt", "w") as file:
+        with open("data/session/"+ self.session + "/cal_config.txt", "w") as file:
 
             file.write(json.dumps({'n_trials': self.n_trials.text, 
                 'cue_offset': self.cue_offset.text, 

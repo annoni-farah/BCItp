@@ -58,14 +58,22 @@ class PreCalSettings(Screen):
 
         self.add_widget(boxg)
 
-
     def change_to_cal(self,*args):
         self.manager.current = 'PreCalMenu'
         self.manager.transition.direction = 'right'
 
-    def save_config(self,*args):
+    def load_session_config(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
 
-        with open("data/rafael" + "/precal_config.txt", "w") as file:
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session = session_list[-1]
+
+    def save_config(self,*args):
+        self.load_session_config()
+
+        with open("data/session/"+ self.session + "/precal_config.txt", "w") as file:
 
             file.write(json.dumps({'ch_energy_left': self.ch_energy_left.text,
                  'ch_energy_right': self.ch_energy_right.text,

@@ -71,15 +71,22 @@ class DataProcessingSettings(Screen):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
 
-    def save_config(self,*args):
-        print "testing"
+    def load_session_config(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
 
-        print self.channels.text
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session = session_list[-1]
+
+    def save_config(self,*args):
+
+        self.load_session_config()
 
         if self.channels.text == "":
             self.channels.text = "1 2 3 4 5 6 7 8"
 
-        with open("data/rafael" + "/dp_config.txt", "w") as file:
+        with open("data/session/"+ self.session + "/dp_config.txt", "w") as file:
 
             file.write(json.dumps({'buf_len': self.buf_len.text, 
                 'channels': self.channels.text, 

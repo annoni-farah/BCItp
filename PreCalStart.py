@@ -106,8 +106,10 @@ class PreCalStart(Screen):
             self.label_info.text = ""
             self.sm.join()
             self.clock_unscheduler()
+            self.remove_arrow()
 
         else:
+            self.load_session_config()
             self.load_dp_settings()
             self.load_openbci_settings()
             self.load_precal_settings()
@@ -155,10 +157,18 @@ class PreCalStart(Screen):
         if hasattr(self, 'bar_max'):
             self.s_left.value = ceil((energy / self.bar_max )*100)
 
+    def load_session_config(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
+
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session = session_list[-1]
+
     def load_dp_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/dp_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/dp_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.buf_len = int(data["buf_len"])
@@ -170,7 +180,7 @@ class PreCalStart(Screen):
     def load_openbci_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/openbci_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.com_port = data["com_port"]
@@ -180,7 +190,7 @@ class PreCalStart(Screen):
     def load_precal_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/precal_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/precal_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.ch_energy_right = map(int, data['ch_energy_right'].split(" "))
@@ -204,14 +214,18 @@ class PreCalStart(Screen):
 
     def add_arrow(self):
 
-        if self.sign_direction is 'left':
+        if self.sign_direction == 'left':
             src = "data/resources/left.png"
-        elif self.sign_direction is 'right':
+        elif self.sign_direction == 'right':
             src = "data/resources/right.png"
 
-        image = AsyncImage(source=src, allow_stretch=False)
+        self.image = AsyncImage(source=src, allow_stretch=False)
 
-        self.box_vmiddle.add_widget(image)
+        self.box_vmiddle.add_widget(self.image)
+
+    def remove_arrow(self):
+
+        self.box_vmiddle.remove_widget(self.image)
 
 
     

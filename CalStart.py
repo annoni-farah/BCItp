@@ -80,6 +80,7 @@ class CalStart(Screen):
             self.clock_unscheduler()
 
         else:
+            self.load_session_config()
             self.load_dp_settings()
             self.load_openbci_settings()
             self.load_cal_settings()
@@ -146,10 +147,18 @@ class CalStart(Screen):
     def set_blank(self, dt):
         self.carousel.index = 3
 
+    def load_session_config(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
+
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session = session_list[-1]
+
     def load_dp_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/dp_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/dp_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.buf_len = int(data["buf_len"])
@@ -163,7 +172,7 @@ class CalStart(Screen):
     def load_openbci_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/openbci_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.com_port = data["com_port"]
@@ -173,7 +182,7 @@ class CalStart(Screen):
     def load_cal_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
-        with open("data/rafael" + "/cal_config.txt", "r") as data_file:    
+        with open("data/session/"+ self.session + "/cal_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
         self.n_trials = int(data["n_trials"])
