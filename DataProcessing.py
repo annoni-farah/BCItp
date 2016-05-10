@@ -29,7 +29,6 @@ class DataProcessing:
         self.f_high = fh
         self.fs = srate
         self.filter_order = forder
-
         self.DesignFilter()
 
 

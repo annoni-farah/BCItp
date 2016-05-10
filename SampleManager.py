@@ -20,8 +20,13 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, rec = False ):
+    def __init__(self, p, b, ch, rec = False):
         super(SampleManager, self).__init__()
+
+        self.channels = ch
+
+        self.n_channels = len(self.channels)
+
         self._stop = threading.Event()            
         
         self.sample_counter = 0
@@ -38,7 +43,7 @@ class SampleManager(threading.Thread):
         
     def StoreData(self, new_data):
          
-        data = np.array(new_data)[:,0] # transform list into numpy array
+        data = np.array(new_data) # transform list into numpy array
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
     
     def PrintData(self, data):
@@ -58,7 +63,7 @@ class SampleManager(threading.Thread):
         with open(path, "a") as data_file:    
             np.savetxt(data_file, self.all_data)
 
-        self.all_data = np.empty([8]) # erase all_data content
+        self.all_data = np.empty([self.n_channels]) # erase all_data content
         
     def LoadDataAsMatrix(self, user, cols=[]):
         """Loads text file content as numpy matrix
@@ -90,7 +95,6 @@ class SampleManager(threading.Thread):
 
     def HWStream(self):
         # OpenBCI config
-
         self.board.start_streaming(self.GetData) # start getting data from amplifier
         
 
@@ -98,7 +102,7 @@ class SampleManager(threading.Thread):
         '''Get the data from amplifier and push it into the circular buffer.
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
-        indata =  sample.channel_data
+        indata =  [sample.channel_data[x] for x in self.channels]
         self.updateCircBuf(indata);
         
         if self.rec_flag:
@@ -151,14 +155,12 @@ class SampleManager(threading.Thread):
         with open(path, "a") as data_file:    
             np.savetxt(data_file, self.event_list)
 
-        self.all_data = np.empty([8]) # erase all_data content
+        self.all_data = np.empty([self.n_channels]) # erase all_data content
         self.event_list = np.array([0,0])
 
-    def CreateDataProcessing(self, ch, buf_len, f_low, f_high, f_order):
+    def CreateDataProcessing(self, buf_len, f_low, f_high, f_order):
 
-        self.channels = ch
-
-        self.all_data = np.empty([8])
+        self.all_data = np.empty([self.n_channels])
 
         self.energy_history = collections.deque(maxlen = 20)
 

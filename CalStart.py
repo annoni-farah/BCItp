@@ -91,9 +91,8 @@ class CalStart(Screen):
             self.load_openbci_settings()
             self.load_cal_settings()
             self.generate_stim_list()
-            self.sm = SampleManager(self.com_port, self.baud_rate, rec = True)
-            self.sm.CreateDataProcessing(self.channels, self.buf_len, 
-                                        self.f_low, self.f_high, self.f_order)
+            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels, rec = True)
+            self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.sm.start()

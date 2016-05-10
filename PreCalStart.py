@@ -117,11 +117,10 @@ class PreCalStart(Screen):
             self.add_arrow()
             
             self.label_info.text = "Managing Samples..."
-            self.sm = SampleManager(self.com_port, self.baud_rate)
+            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels)
             self.label_info.text = "Computing filters and creating buffers..."
 
-            self.sm.CreateDataProcessing(self.channels, self.buf_len, 
-                self.f_low, self.f_high, self.f_order)
+            self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.label_info.text = "Now Streaming..."
