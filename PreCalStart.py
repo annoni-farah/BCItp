@@ -99,6 +99,7 @@ class PreCalStart(Screen):
             self.sm.join()
             self.clock_unscheduler()
             self.remove_arrow()
+            self.sef_bar_default()
 
         else:
             self.load_session_config()
@@ -138,19 +139,24 @@ class PreCalStart(Screen):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
         
-        if hasattr(self, 'bar_max'):
-            norm_energy = ceil(100 * (energy / self.bar_max ))
-            self.s_right.value = norm_energy
-            # self.label_info.text = "Energy level right: {}".format(norm_energy)
+        if hasattr(self, 'bar_max_right'):
+            norm_energy = ceil(100 * (energy / self.bar_max_right ))
             # print "energy right: ", norm_energy
+            if norm_energy > 100:
+                norm_energy = 100
+            self.s_right.value = norm_energy
 
+            # self.label_info.text = "Energy level right: {}".format(norm_energy)
 
     def get_energy_left(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
         # self.label_info.text = "Energy level left: {}".format(energy)
-        if hasattr(self, 'bar_max'):
-            norm_energy = ceil(100 * (energy / self.bar_max ))
+        if hasattr(self, 'bar_max_left'):
+            norm_energy = ceil(100 * (energy / self.bar_max_left ))
+
+            if norm_energy > 100:
+                norm_energy = 100
             self.s_left.value = norm_energy
             # self.label_info.text = "Energy level left: {}".format(norm_energy)
             # print "energy left: ", norm_energy
@@ -205,10 +211,16 @@ class PreCalStart(Screen):
         print 'max right ', max_right 
         print 'max left ', max_left 
 
-        self.bar_max = max(max_right, max_left)
+        self.bar_max_right = 2 * max_right
+        self.bar_max_left = 2 * max_left
 
-        print 'max bar ', self.bar_max 
+        # print 'max bar ', self.bar_max 
 
+    def sef_bar_default(self):
+        self.bar_max_left = 1.0
+        self.bar_max_right = 1.0 
+        self.s_left.value = 0
+        self.s_right.value = 0
 
     def calc_bar_th(self):
 

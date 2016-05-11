@@ -138,43 +138,53 @@ class DataProcessing:
 
     def DesignFilter(self, filt_type = 'fir'):
         
-        nyq_rate = self.fs / 2
+        # nyq_rate = self.fs / 2
 
-        if filt_type == 'iir':
-            self.coefb_low, self.coefa_low = sp.butter(self.filter_order, 
-                                            [self.f_high / nyq_rate], btype='lowpass')
+        # if filt_type == 'iir':
+        #     self.coefb_low, self.coefa_low = sp.butter(self.filter_order, 
+        #                                     [self.f_high / nyq_rate], btype='lowpass')
             
-            self.coefb_high, self.coefa_high = sp.butter(self.filter_order, 
-                                                [self.f_low / nyq_rate], btype='highpass')
-        elif filt_type == 'fir':
-            self.coefb_low = sp.firwin(self.filter_order, 
-                            cutoff = self.f_high,
-                            window = "hamming", 
-                            nyq = nyq_rate)
-            self.coefa_low = 1.0
+        #     self.coefb_high, self.coefa_high = sp.butter(self.filter_order, 
+        #                                         [self.f_low / nyq_rate], btype='highpass')
+        # elif filt_type == 'fir':
+        #     self.coefb_low = sp.firwin(self.filter_order, 
+        #                     cutoff = self.f_high,
+        #                     window = "hamming", 
+        #                     nyq = nyq_rate)
+        #     self.coefa_low = [1.0]
             
-            self.coefb_high = sp.firwin(self.filter_order, 
-                            cutoff = self.f_low,
-                            window = "hamming",
-                            nyq = nyq_rate, 
-                            pass_zero=False)
-            self.coefa_high = 1.0
+        #     self.coefb_high = sp.firwin(self.filter_order, 
+        #                     cutoff = self.f_low,
+        #                     window = "hamming",
+        #                     nyq = nyq_rate, 
+        #                     pass_zero=False)
+        #     self.coefa_high = [1.0]
+
+        nyq = 0.5 * self.fs
+        low = self.f_low / nyq
+        high = self.f_high / nyq
+        self.b, self.a = sp.butter(self.filter_order, [low, high], btype='band')
+
 
 
     def ApplyFilter(self, data_in):
     
         # data_out = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
-        y = sp.lfilter(self.coefb_low, self.coefa_low, data_in)
+        # y = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
+        data_out = sp.filtfilt(self.b, self.a, data_in)
         
-        data_out = sp.lfilter(self.coefb_high, self.coefa_high, y)
+        # data_out = sp.filtfilt(self.coefb_high, self.coefa_high, y)
 
         # data_out = sp.filtfilt(self.coefb_high, self.coefa_high, data_out)
 
         return data_out
 
     def ComputeEnergy(self, data_in):
-        data_squared = np.square(data_in)
+
+        data_squared = data_in ** 2
 
         # energy in each channel [e(ch1) e(ch2) ...]
-        energy = data_squared.sum(axis = 0) / data_in.shape[0]
+        # energy = data_squared.sum(axis = 0) / data_in.shape[0]
+        energy = np.mean(data_squared, axis = 0)
+
         return energy

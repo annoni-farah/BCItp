@@ -5,7 +5,7 @@
 import numpy as np
 import os
 from time import sleep
-import open_bci_simu as bci
+import open_bci_v3 as bci
 
 from math import ceil
 
@@ -168,11 +168,17 @@ class SampleManager(threading.Thread):
     def ComputeEnergy(self, channel_list):
         raw_data = np.array(self.circBuff)
 
+        # print raw_data.shape
+
         if raw_data.shape[0] > 125:
 
             filt_data = self.dp.ApplyFilter(raw_data.T).T
 
-            e = self.dp.ComputeEnergy(raw_data)
+            # print filt_data
+
+            e = self.dp.ComputeEnergy(filt_data)
+
+            print e
 
             energy = sum(e[channel_list]) / len(e[channel_list])
 
