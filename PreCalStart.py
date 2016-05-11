@@ -43,18 +43,18 @@ class PreCalStart(Screen):
         self.box_vmiddle = BoxLayout(size_hint_x=0.6, orientation='vertical')
         box_vright = BoxLayout(size_hint_x=0.2)
 
-        self.s_left = Slider(min=0, max=100, orientation='vertical')
         self.s_right = Slider(min=0, max=100, orientation='vertical')
+        self.s_left = Slider(min=0, max=100, orientation='vertical')
         self.label_info = Label(text= 'Msg:')
 
-        box_vleft.add_widget(self.s_left, 0)
-        box_vright.add_widget(self.s_right, 1)
+        box_vleft.add_widget(self.s_left)
+        box_vright.add_widget(self.s_right)
         self.box_vmiddle.add_widget(self.label_info)
 
-
-        box_top.add_widget(box_vleft, 0)
+        box_top.add_widget(box_vright, 0)
         box_top.add_widget(self.box_vmiddle, 1)
-        box_top.add_widget(box_vright, 2)
+        box_top.add_widget(box_vleft, 2)
+        
 
 
     # Bottom part
@@ -137,18 +137,24 @@ class PreCalStart(Screen):
     def get_energy_right(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
-        # self.label_info.text = "Energy level : {}".format(energy)
+        
         if hasattr(self, 'bar_max'):
-            norm_energy = 100 * ceil((energy / self.bar_max ))
+            norm_energy = ceil(100 * (energy / self.bar_max ))
             self.s_right.value = norm_energy
+            # self.label_info.text = "Energy level right: {}".format(norm_energy)
+            # print "energy right: ", norm_energy
+
 
     def get_energy_left(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
-        # self.label_info.text = "Energy level : {}".format(energy)
+        # self.label_info.text = "Energy level left: {}".format(energy)
         if hasattr(self, 'bar_max'):
-            norm_energy = 100 * ceil((energy / self.bar_max ))
+            norm_energy = ceil(100 * (energy / self.bar_max ))
             self.s_left.value = norm_energy
+            # self.label_info.text = "Energy level left: {}".format(norm_energy)
+            # print "energy left: ", norm_energy
+
 
     def load_session_config(self):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
@@ -196,7 +202,13 @@ class PreCalStart(Screen):
         max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)
         max_left = self.sm.CalcEnergyAverage(self.ch_energy_left)
 
+        print 'max right ', max_right 
+        print 'max left ', max_left 
+
         self.bar_max = max(max_right, max_left)
+
+        print 'max bar ', self.bar_max 
+
 
     def calc_bar_th(self):
 
