@@ -14,7 +14,7 @@ class BCIMenu(Screen):
 
         self.label_msg = Label(text="BCI Menu", font_size=20)
 
-        button_openbci = Button(text="OpenBCI Settings")
+        button_openbci = Button(text="Acquisition Settings")
         button_openbci.bind(on_press= self.change_to_openbci)
 
         button_dp = Button(text="Data Processing Settings")
@@ -65,7 +65,7 @@ class BCIMenu(Screen):
         self.manager.transition.direction = 'left'
 
     def change_to_openbci(self,*args):
-        self.manager.current = 'OpenBCISettings'
+        self.manager.current = 'AcquisitionSettings'
         self.manager.transition.direction = 'left'
 
     def change_to_dp(self,*args):

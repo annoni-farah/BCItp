@@ -11,7 +11,7 @@ from ScreenStart import *
 from UISettingsScreen import *
 from BCIMenu import *
 
-from OpenBCISettings import *
+from AcquisitionSettings import *
 
 from DataProcessingSettings import *
 
@@ -36,7 +36,7 @@ class MyApp(App):
             settings_screen = UISettingsScreen(name='UISettings')
             bci_screen = BCIMenu(name='BCIMenu')
 
-            openbci_settings_screen = OpenBCISettings(name='OpenBCISettings')
+            acquisition_settings_screen = AcquisitionSettings(name='AcquisitionSettings')
 
             data_processing_settings_screen = DataProcessingSettings(name='DataProcessingSettings')
 
@@ -57,7 +57,7 @@ class MyApp(App):
             sm.add_widget(settings_screen)
             sm.add_widget(bci_screen)
 
-            sm.add_widget(openbci_settings_screen)
+            sm.add_widget(acquisition_settings_screen)
 
             sm.add_widget(data_processing_settings_screen)
 
