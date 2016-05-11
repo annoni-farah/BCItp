@@ -126,23 +126,6 @@ class SampleManager(threading.Thread):
 
         self.circBuff.append(data)
 
-    def ComputeEnergy(self, channel_list):
-        raw_data = np.array(self.circBuff)
-
-        if raw_data.shape[0] > 125:
-
-            filt_data = self.dp.ApplyFilter(raw_data.T).T
-
-            e = self.dp.ComputeEnergy(raw_data)
-
-            energy = sum(e[channel_list]) / len(e[channel_list])
-
-            self.energy_history.append(e)
-
-            return energy
-        else:
-            return 0
-
     def MarkEvents(self, ev_type):
 
         new = np.array([self.sample_counter, ev_type])
@@ -178,9 +161,26 @@ class SampleManager(threading.Thread):
 
         avg_smp = sum(energy_ch) / energy_ch.shape[0]
 
-        avg_ch = ceil(100 * sum(avg_smp) / len(avg_smp))
+        avg_ch = sum(avg_smp) / len(avg_smp)
         
         return avg_ch
+
+    def ComputeEnergy(self, channel_list):
+        raw_data = np.array(self.circBuff)
+
+        if raw_data.shape[0] > 125:
+
+            filt_data = self.dp.ApplyFilter(raw_data.T).T
+
+            e = self.dp.ComputeEnergy(raw_data)
+
+            energy = sum(e[channel_list]) / len(e[channel_list])
+
+            self.energy_history.append(e)
+
+            return energy
+        else:
+            return 0
 
 
 

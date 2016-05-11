@@ -32,7 +32,7 @@ class DataProcessing:
         self.DesignFilter()
 
 
-    def nanCleaner(data_in):
+    def nanCleaner(self, data_in):
         """Removes NaN from data by interpolation
         Parameters
         ----------
@@ -52,7 +52,7 @@ class DataProcessing:
             
             bad_idx = np.isnan(data_in[i, ...])
             data_in[i, bad_idx] = np.interp(bad_idx.nonzero()[0], (~bad_idx).nonzero()[0], data_in[i, ~bad_idx])
-         
+        
         return data_in
         
     def extractEpochs(data, events_list, events_id, tmin, tmax):
@@ -136,27 +136,45 @@ class DataProcessing:
         return clf, csp.filters_, svc.coef_
 
 
-    def DesignFilter(self):
+    def DesignFilter(self, filt_type = 'fir'):
         
         nyq_rate = self.fs / 2
 
-        self.coefb_low, self.coefa_low = sp.butter(self.filter_order, 
-                                        [self.f_low / nyq_rate], btype='low')
-        
-        self.coefb_high, self.coefa_high = sp.butter(self.filter_order, 
-                                            [self.f_high / nyq_rate], btype='high')
+        if filt_type == 'iir':
+            self.coefb_low, self.coefa_low = sp.butter(self.filter_order, 
+                                            [self.f_high / nyq_rate], btype='lowpass')
+            
+            self.coefb_high, self.coefa_high = sp.butter(self.filter_order, 
+                                                [self.f_low / nyq_rate], btype='highpass')
+        elif filt_type == 'fir':
+            self.coefb_low = sp.firwin(self.filter_order, 
+                            cutoff = self.f_high,
+                            window = "hamming", 
+                            nyq = nyq_rate)
+            self.coefa_low = 1.0
+            
+            self.coefb_high = sp.firwin(self.filter_order, 
+                            cutoff = self.f_low,
+                            window = "hamming",
+                            nyq = nyq_rate, 
+                            pass_zero=False)
+            self.coefa_high = 1.0
 
 
     def ApplyFilter(self, data_in):
     
-        data_out = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
+        # data_out = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
+        y = sp.lfilter(self.coefb_low, self.coefa_low, data_in)
         
-        data_out = sp.filtfilt(self.coefb_high, self.coefa_high, data_out)
+        data_out = sp.lfilter(self.coefb_high, self.coefa_high, y)
+
+        # data_out = sp.filtfilt(self.coefb_high, self.coefa_high, data_out)
 
         return data_out
 
     def ComputeEnergy(self, data_in):
-        
         data_squared = np.square(data_in)
+
+        # energy in each channel [e(ch1) e(ch2) ...]
         energy = data_squared.sum(axis = 0) / data_in.shape[0]
         return energy

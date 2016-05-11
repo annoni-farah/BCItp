@@ -68,11 +68,7 @@ class PreCalStart(Screen):
         self.button_stream = Button(text="Start Streaming")
         self.button_stream.bind(on_press= self.bci_begin)
 
-        button_bar_default = Button(text="Reset Bar Max")
-        button_bar_default.bind(on_press= self.set_bar_default)
-
         box_bottom.add_widget(self.button_stream)
-        box_bottom.add_widget(button_bar_default)
         box_bottom.add_widget(button_back)
 
     # Whole part
@@ -92,10 +88,6 @@ class PreCalStart(Screen):
 
         self.manager.current = 'PreCalMenu'
         self.manager.transition.direction = 'right'
-
-    def set_bar_default(self,*args):
-        self.s_right.max = 100
-        self.s_left.max = 100
 
     def bci_begin(self,*args):
 
@@ -133,13 +125,13 @@ class PreCalStart(Screen):
         Clock.schedule_interval(self.get_energy_left, 1/2)
         Clock.schedule_interval(self.get_energy_right, 1/2)
         Clock.schedule_once(self.bci_begin, self.total_time)
-        Clock.schedule_once(self.set_bar_max, self.relax_time)
+        Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_energy_left)
         Clock.unschedule(self.get_energy_right)
         Clock.unschedule(self.bci_begin)
-        Clock.unschedule(self.set_bar_max)
+        Clock.unschedule(self.calc_bar_max)
 
 
     def get_energy_right(self, dt):
@@ -147,14 +139,16 @@ class PreCalStart(Screen):
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
         # self.label_info.text = "Energy level : {}".format(energy)
         if hasattr(self, 'bar_max'):
-            self.s_right.value = ceil((energy / self.bar_max )*100)
+            norm_energy = 100 * ceil((energy / self.bar_max ))
+            self.s_right.value = norm_energy
 
     def get_energy_left(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
         # self.label_info.text = "Energy level : {}".format(energy)
         if hasattr(self, 'bar_max'):
-            self.s_left.value = ceil((energy / self.bar_max )*100)
+            norm_energy = 100 * ceil((energy / self.bar_max ))
+            self.s_left.value = norm_energy
 
     def load_session_config(self):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
@@ -198,18 +192,11 @@ class PreCalStart(Screen):
         self.relax_time = int(data['relax_time'])
         self.sign_direction = data['sign_direction']
 
-    def calc_bar_max(self):
+    def calc_bar_max(self, dt):
         max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)
         max_left = self.sm.CalcEnergyAverage(self.ch_energy_left)
 
         self.bar_max = max(max_right, max_left)
-
-    def set_bar_max(self, dt):
-
-        self.calc_bar_max()
-
-        self.s_left.max = self.bar_max
-        self.s_right.max = self.bar_max
 
     def calc_bar_th(self):
 
