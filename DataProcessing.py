@@ -136,35 +136,19 @@ class DataProcessing:
         return clf, csp.filters_, svc.coef_
 
 
-    def DesignFilter(self, filt_type = 'fir'):
+    def DesignFilter(self, filt_type = 'iir'):
         
-        # nyq_rate = self.fs / 2
-
-        # if filt_type == 'iir':
-        #     self.coefb_low, self.coefa_low = sp.butter(self.filter_order, 
-        #                                     [self.f_high / nyq_rate], btype='lowpass')
-            
-        #     self.coefb_high, self.coefa_high = sp.butter(self.filter_order, 
-        #                                         [self.f_low / nyq_rate], btype='highpass')
-        # elif filt_type == 'fir':
-        #     self.coefb_low = sp.firwin(self.filter_order, 
-        #                     cutoff = self.f_high,
-        #                     window = "hamming", 
-        #                     nyq = nyq_rate)
-        #     self.coefa_low = [1.0]
-            
-        #     self.coefb_high = sp.firwin(self.filter_order, 
-        #                     cutoff = self.f_low,
-        #                     window = "hamming",
-        #                     nyq = nyq_rate, 
-        #                     pass_zero=False)
-        #     self.coefa_high = [1.0]
-
         nyq = 0.5 * self.fs
         low = self.f_low / nyq
         high = self.f_high / nyq
-        self.b, self.a = sp.butter(self.filter_order, [low, high], btype='band')
 
+        if filt_type == 'iir':
+            # self.b, self.a = sp.butter(self.filter_order, [low, high], btype='band')
+            self.b, self.a = sp.iirfilter(self.filter_order, [low, high], btype='band')
+
+        elif filt_type == 'fir':
+            self.b = sp.firwin(self.filter_order, [low, high], window = 'hamming',pass_zero=False)
+            self.a = [1]
 
 
     def ApplyFilter(self, data_in):

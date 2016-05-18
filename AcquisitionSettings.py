@@ -69,10 +69,10 @@ class AcquisitionSettings(Screen):
 
         self.box_text_playback = BoxLayout(orientation='vertical')
 
-        self.file_path = TextInput(font_size= 20,
+        self.path_to_file = TextInput(font_size= 20,
                 hint_text='Path to EEG file', multiline=False)
 
-        self.box_text_playback.add_widget(self.file_path)
+        self.box_text_playback.add_widget(self.path_to_file)
 
         label_simu = Label(text="Simulator", font_size=20)
         label_openbci = Label(text="OpenBCI", font_size=20)
@@ -123,18 +123,21 @@ class AcquisitionSettings(Screen):
     def enable_openbci_config(self, checkbox, value):
         if value:
             self.box_text.add_widget(self.box_text_openbci)
+            self.mode = 'openbci'
         else:
             self.box_text.remove_widget(self.box_text_openbci)
 
     def enable_simu_config(self, checkbox, value):
         if value:
             self.box_text.add_widget(self.box_text_simu)
+            self.mode = 'simu'
         else:
             self.box_text.remove_widget(self.box_text_simu)
 
     def enable_playback_config(self, checkbox, value):
         if value:
             self.box_text.add_widget(self.box_text_playback)
+            self.mode = 'playback'
         else:
             self.box_text.remove_widget(self.box_text_playback)
 
@@ -150,21 +153,43 @@ class AcquisitionSettings(Screen):
         PATH_TO_DEFAULT = 'data/default_configs/openbci_config.txt'
 
         with open(PATH_TO_DEFAULT, "r") as data_file:    
+
             data = json.load(data_file)
-            self.com_port.text = data["com_port"]
-            self.baud_rate.text = data["baud_rate"]
-            self.ch_labels.text = data["ch_labels"]
+            if self.mode == 'openbci':
+                self.mode = data["mode"]
+                self.com_port.text = data["com_port"]
+                self.baud_rate.text = data["baud_rate"]
+                self.ch_labels.text = data["ch_labels"]
+
+            elif self.mode == 'simu':
+                self.mode = data["mode"]
+                self.ch_labels.text = data["ch_labels"]
+
+            elif self.mode == 'playback':
+                self.mode = data["mode"]
+                self.path_to_file.text = data["path_to_file"]
 
     def save_config(self,*args):
         
         self.load_session_config()
 
         with open("data/session/"+ self.session + "/openbci_config.txt", "w") as file:
+            if self.mode == 'openbci':
+                file.write(json.dumps({'com_port': self.com_port.text,
+                                      'ch_labels': self.ch_labels.text,
+                                      'baud_rate': self.baud_rate.text,
+                                      'mode': self.mode,
+                                    }, file, indent=4))
 
-            file.write(json.dumps({'com_port': self.com_port.text,
-                                  'ch_labels': self.ch_labels.text,
-                                  'baud_rate': self.baud_rate.text,
-                                }, file, indent=4))
+            elif self.mode == 'simu':
+                file.write(json.dumps({'ch_labels': self.ch_labels.text,
+                                      'mode': self.mode,
+                                    }, file, indent=4))
+
+            elif self.mode == 'playback':
+                file.write(json.dumps({'path_to_file': self.path_to_file.text,
+                                      'mode': self.mode,
+                                    }, file, indent=4))
     
 
         self.label_msg.text = "Settings Saved!"
