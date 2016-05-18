@@ -6,9 +6,9 @@ from DataProcessing import DataProcessing
 import scipy.signal as sp
 
 
-f_low = 60
-f_high = 65
-f_order = 11
+f_low = 8
+f_high = 30
+f_order = 15
 fs = 250
 
 dp = DataProcessing(f_low,f_high,250,f_order)

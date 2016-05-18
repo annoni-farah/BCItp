@@ -169,15 +169,24 @@ class CalStart(Screen):
         self.epoch_end = int(data["epoch_end"])
         self.channels = map(int, data['channels'].split(" "))
 
-    def load_openbci_settings(self):
+    def load_acquisition_settings(self):
 
         # if os.path.exists("data/rafael/precal_config"):
         with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
             data = json.load(data_file)
 
-        self.com_port = data["com_port"]
-        self.ch_labels = data["ch_labels"]
-        self.baud_rate = int(data["baud_rate"])
+        self.mode = data["mode"]
+
+        if self.mode == 'openbci':
+            self.com_port.text = data["com_port"]
+            self.baud_rate.text = data["baud_rate"]
+            self.ch_labels.text = data["ch_labels"]
+
+        elif self.mode == 'simu':
+            self.ch_labels.text = data["ch_labels"]
+
+        elif self.mode == 'playback':
+            self.path_to_file.text = data["path_to_file"]
 
     def load_cal_settings(self):
 
