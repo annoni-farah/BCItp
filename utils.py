@@ -1,6 +1,6 @@
 import numpy as np
 
-def LoadDataAsMatrix(user, cols=[]):
+def LoadDataAsMatrix(path, cols=[]):
     """Loads text file content as numpy matrix
     Parameters
     ----------
@@ -17,8 +17,6 @@ def LoadDataAsMatrix(user, cols=[]):
     >>> data_path = "/PATH/TO/FILE/somematrix.txt"
     >>> matrix_data = loadAsMatrix(data_path)
     """
-    
-    path = PATHTOUSERS + user + "DATA.TXT"     
     
     if cols == []:
         matrix = np.loadtxt(open(path,"rb"), skiprows=1)

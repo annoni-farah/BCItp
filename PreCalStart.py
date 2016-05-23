@@ -65,7 +65,7 @@ class PreCalStart(Screen):
         button_back.bind(on_press= self.change_to_precal)
 
         self.button_stream = Button(text="Start Streaming")
-        self.button_stream.bind(on_press= self.bci_begin)
+        self.button_stream.bind(on_press= self.toogle_stream)
 
         box_bottom.add_widget(self.button_stream)
         box_bottom.add_widget(button_back)
@@ -83,59 +83,84 @@ class PreCalStart(Screen):
 
         self.stream_flag = False
 
+    # BUTTON CALLBACKS    
+    # ----------------------
     def change_to_precal(self,*args):
 
         self.manager.current = 'PreCalMenu'
         self.manager.transition.direction = 'right'
 
-    def bci_begin(self,*args):
-
+    def toogle_stream(self,*args):
         if self.stream_flag:
-            self.button_stream.text = 'Start Streaming'
-            self.sm.stop_flag = True
-            self.stream_flag = False
-            self.label_info.text = ""
-            self.sm.join()
-            self.clock_unscheduler()
-            self.remove_arrow()
-            self.sef_bar_default()
+            self.stream_stop()
+        else:
+            self.stream_start()
+
+    # ----------------------
+
+
+    def stream_start(self):
+        self.load_settings()
+        self.add_arrow()
+
+        self.label_info.text = "Managing Samples..."
+
+        if self.mode == 'playback':
+
+            self.sm = SampleManager('', '', self.channels, mode = self.mode,
+                path = self.path_to_file)
+
+            self.sm.SetupFig()
 
         else:
-            self.load_settings()
-            self.add_arrow()
+            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
+                mode = self.mode)
 
-            self.label_info.text = "Managing Samples..."
+        self.label_info.text = "Computing filters and creating buffers..."
 
-            if self.mode == 'playback':
-                self.sm = SampleManager('', '', self.channels, mode = self.mode,
-                    path = self.path_to_file)
-            else:
-                self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
-                    mode = self.mode)
+        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
+        self.sm.daemon = True  
+        self.sm.stop_flag = False
+        self.label_info.text = "Now Streaming..."
+        self.sm.start()
+        self.stream_flag = True
+        self.button_stream.text = 'Stop Streaming'
+        self.clock_scheduler()
 
-            self.label_info.text = "Computing filters and creating buffers..."
+    def stream_stop(self):
+        self.button_stream.text = 'Start Streaming'
+        self.sm.stop_flag = True
+        self.stream_flag = False
+        self.label_info.text = ""
+        self.sm.join()
+        self.clock_unscheduler()
+        self.remove_arrow()
+        self.sef_bar_default()
 
-            self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
-            self.sm.daemon = True  
-            self.sm.stop_flag = False
-            self.label_info.text = "Now Streaming..."
-            self.sm.start()
-            self.stream_flag = True
-            self.button_stream.text = 'Stop Streaming'
-            self.clock_scheduler()
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_energy_left, 1/2)
         Clock.schedule_interval(self.get_energy_right, 1/2)
-        Clock.schedule_once(self.bci_begin, self.total_time)
+        Clock.schedule_once(self.toogle_stream, self.total_time)
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
+
+        if self.mode == 'playback':
+            Clock.schedule_interval(self.handle_figure, 1/3)
+
+
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_energy_left)
         Clock.unschedule(self.get_energy_right)
-        Clock.unschedule(self.bci_begin)
+        Clock.unschedule(self.toogle_stream)
         Clock.unschedule(self.calc_bar_max)
+        if self.mode == 'playback':
+            Clock.unschedule(self.handle_figure)
+            self.sm.CloseFig()
 
+    def handle_figure(self, dt):
+
+        self.sm.UpdateFigBuffer()
 
     def get_energy_right(self, dt):
 

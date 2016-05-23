@@ -16,6 +16,12 @@ from DataProcessing import DataProcessing
 
 from utils import *
 
+import open_bci_v3 as bci
+import open_bci_simu as simulator
+import open_bci_playback as playback
+
+from Plotter import Figure
+
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
@@ -40,6 +46,20 @@ class SampleManager(threading.Thread):
 
         self.playback_path = path
 
+        if self.acq_mode == 'openbci':
+
+            self.board = bci.OpenBCIBoard(port=p, baud=b)
+
+        elif self.acq_mode == 'simu':
+
+            self.board = simulator.OpenBCIBoard(port=p, baud=b)
+
+        elif self.acq_mode == 'playback':
+
+            loadedData = LoadDataAsMatrix(self.playback_path)
+
+            self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
+
     def run(self):
 
         self.HWStream()
@@ -53,7 +73,6 @@ class SampleManager(threading.Thread):
         
         print data
         
-        
     def SaveData(self, path):
         
         self.all_data = np.delete(self.all_data, (0), axis = 0)
@@ -64,28 +83,8 @@ class SampleManager(threading.Thread):
 
     def HWStream(self):
 
-        if self.acq_mode == 'openbci':
+        self.board.start_streaming(self.GetData) # start getting data from amplifier
 
-            import open_bci_v3 as bci
-
-            self.board = bci.OpenBCIBoard(port=p, baud=b)
-            self.board.start_streaming(self.GetData) # start getting data from amplifier
-
-        elif self.acq_mode == 'simu':
-
-            import open_bci_simu as bci
-
-            self.board = bci.OpenBCIBoard(port=p, baud=b)
-            self.board.start_streaming(self.GetData) # start getting data from amplifier
-
-        elif self.acq_mode == 'playback':
-
-            import open_bci_playback as bci
-
-            self.LoadDataAsMatrix(self.playback_path)
-
-            self.board = bci.OpenBCIBoard(port=p, baud=b, data=self.loadedData)
-            self.board.start_streaming(self.GetData) # start getting data from amplifier
 
     def GetData(self, sample):
         '''Get the data from amplifier and push it into the circular buffer.
@@ -114,6 +113,7 @@ class SampleManager(threading.Thread):
     def updateCircBuf(self, data):
 
         self.circBuff.append(data)
+        self.tBuff.append(self.sample_counter)
 
     def MarkEvents(self, ev_type):
 
@@ -136,7 +136,8 @@ class SampleManager(threading.Thread):
 
         self.energy_history = collections.deque(maxlen = 20)
 
-        self.circBuff = collections.deque(maxlen = buf_len) # create a qeue 
+        self.circBuff = collections.deque(maxlen = buf_len) # create a qeue for input data
+        self.tBuff = collections.deque(maxlen = buf_len) # create a qeue for time series
 
         self.dp = DataProcessing(f_low, f_high, self.board.getSampleRate(), f_order)
 
@@ -148,9 +149,9 @@ class SampleManager(threading.Thread):
 
         energy_ch = eh[:,channel_list]
 
-        avg_smp = sum(energy_ch) / energy_ch.shape[0]
+        avg_smp = np.mean(energy_ch)
 
-        avg_ch = sum(avg_smp) / len(avg_smp)
+        avg_ch = np.mean(avg_smp)
         
         return avg_ch
 
@@ -163,13 +164,37 @@ class SampleManager(threading.Thread):
 
             e = self.dp.ComputeEnergy(filt_data)
 
-            energy = sum(e[channel_list]) / len(e[channel_list])
+            energy = np.mean(e[channel_list])
 
             self.energy_history.append(e)
 
             return energy
         else:
             return 0
+
+    def SetupFig(self):
+
+        print 'asdadsadaddsa'
+
+        self.fig = Figure()
+        self.fig.daemon = True # just to interrupt both threads at the end
+        self.fig.start() # starts running the plot_data thread
+
+    def UpdateFigBuffer(self):
+
+        t = np.array(self.tBuff)
+        d = np.array(self.circBuff)
+
+        if d.shape[0] > 125:
+            filt_d = self.dp.ApplyFilter(d.T).T
+
+            self.fig.fillBuffer(t, filt_d)
+
+    def CloseFig(self):
+        self.fig.Stop()
+        # self.fig.join()
+
+
 
 
 

@@ -23,7 +23,7 @@ class OpenBCIBoard(object):
     daisy: Enable or disable daisy module and 16 chans readings
   """
 
-  def __init__(self, port=None, baud=115200, data, filter_data=True,
+  def __init__(self, port=None, baud=115200, data = [], filter_data=True,
     scaled_output=True, daisy=False, log=True, timeout=None):
 
     print("Connecting to V3 simulator")
@@ -71,7 +71,7 @@ class OpenBCIBoard(object):
       f = [5, 20, 30, 60, 80]
       A = [0, 0, 0, 5, 0]
 
-      channel_data = self.playback_data[sample_counter,:].to_list()
+      channel_data = self.playback_data[sample_counter,:].tolist()
 
       sample = OpenBCISample(packet_id, channel_data, [])
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback

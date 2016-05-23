@@ -30,43 +30,6 @@ class DataProcessing:
         self.fs = srate
         self.filter_order = forder
         self.DesignFilter()
-        
-
-    def calcCSPLDA(epochs_train, labels_train, nb):
-        """Creates the CSP+LDA pipeline and applies it to training data. 
-        (just really a function to call the MNE and SKlearn processing functs)
-
-        Parameters
-        ----------
-        epochs_train : epochs in mne data format
-
-        labels_train : labels of epochs in mne format
-
-        nb: number of CSP components, must be even. (6 implies the 3 top-most and bottom eigenvectors)
-
-        Returns
-        -------
-        clf : the fitted model for the CSP+LDA approach
-
-        csp.filters_ : CSP weight vector, shape (nchannels, nchannels)
-
-        svc.coef_ : LDA weight vector, shape (1, nb)
-
-        Examples
-        --------
-        >>> data_path = "/PATH/TO/FILE/somematrix.txt"
-        >>> matrix_data = loadAsMatrix(data_path)
-        """
-        svc = LDA()
-        csp = CSP(n_components=4, reg=None, log=True, cov_est='epoch')
-        clf = Pipeline([('CSP', csp), ('SVC', svc)])
-
-        epochs_data = epochs_train.get_data()
-
-        clf.fit(epochs_data, labels_train)
-
-        return clf, csp.filters_, svc.coef_
-
 
     def DesignFilter(self, filt_type = 'iir'):
         
@@ -81,7 +44,6 @@ class DataProcessing:
         elif filt_type == 'fir':
             self.b = sp.firwin(self.filter_order, [low, high], window = 'hamming',pass_zero=False)
             self.a = [1]
-
 
     def ApplyFilter(self, data_in):
     

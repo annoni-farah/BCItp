@@ -6,14 +6,14 @@ from DataProcessing import DataProcessing
 import scipy.signal as sp
 
 
-f_low = 2
+f_low = 8
 f_high = 30
 f_order = 7
 fs = 250
 
-dp = DataProcessing(2,30,250,7)
+dp = DataProcessing(f_low,f_high,250,f_order)
 
-dp.DesignFilter('fir')
+dp.DesignFilter('iir')
 
 din = np.loadtxt('data_cal.txt')
 # t = np.arange(1000)
