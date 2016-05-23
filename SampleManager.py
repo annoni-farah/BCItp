@@ -5,7 +5,6 @@
 import numpy as np
 import os
 from time import sleep
-import open_bci_v3 as bci
 
 from math import ceil
 
@@ -20,7 +19,7 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, ch, rec = False):
+    def __init__(self, p, b, ch, mode = 'openbci' , path = None, rec = False):
         super(SampleManager, self).__init__()
 
         self.channels = ch
@@ -33,9 +32,11 @@ class SampleManager(threading.Thread):
 
         self.stop_flag = False
 
+        self.acq_mode = mode
+
         self.rec_flag = rec
 
-        self.board = bci.OpenBCIBoard(port=p, baud=b)
+        self.playback_path = path
 
     def run(self):
 
@@ -91,12 +92,33 @@ class SampleManager(threading.Thread):
         else:
             matrix = np.loadtxt(open(path,"rb"), skiprows=1, usecols=cols)
     
-        return matrix
+        self.loadedData = matrix
 
     def HWStream(self):
-        # OpenBCI config
-        self.board.start_streaming(self.GetData) # start getting data from amplifier
-        
+        if self.acq_mode == 'openbci':
+
+            import open_bci_v3 as bci
+
+            self.board = bci.OpenBCIBoard(port=p, baud=b)
+            self.board.start_streaming(self.GetData) # start getting data from amplifier
+
+        elif self.acq_mode == 'simu':
+
+            import open_bci_simu as bci
+
+            self.board = bci.OpenBCIBoard(port=p, baud=b)
+            self.board.start_streaming(self.GetData) # start getting data from amplifier
+
+        elif self.acq_mode == 'playback':
+
+            print 'entrou em playback'
+
+            import open_bci_playback as bci
+
+            self.LoadDataAsMatrix(self.playback_path)
+
+            self.board = bci.OpenBCIBoard(port=p, baud=b, data=self.loadedData)
+            self.board.start_streaming(self.GetData) # start getting data from amplifier
 
     def GetData(self, sample):
         '''Get the data from amplifier and push it into the circular buffer.

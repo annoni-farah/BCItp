@@ -110,7 +110,14 @@ class PreCalStart(Screen):
             self.add_arrow()
             
             self.label_info.text = "Managing Samples..."
-            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels)
+
+            if self.mode == 'playback':
+                self.sm = SampleManager('', '', self.channels, mode = self.mode,
+                    path = self.path_to_file)
+            else:
+                self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
+                    mode = self.mode)
+
             self.label_info.text = "Computing filters and creating buffers..."
 
             self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
@@ -191,15 +198,15 @@ class PreCalStart(Screen):
         self.mode = data["mode"]
 
         if self.mode == 'openbci':
-            self.com_port.text = data["com_port"]
-            self.baud_rate.text = data["baud_rate"]
-            self.ch_labels.text = data["ch_labels"]
+            self.com_port = data["com_port"]
+            self.baud_rate = data["baud_rate"]
+            self.ch_labels = data["ch_labels"]
 
         elif self.mode == 'simu':
-            self.ch_labels.text = data["ch_labels"]
+            self.ch_labels = data["ch_labels"]
 
         elif self.mode == 'playback':
-            self.path_to_file.text = data["path_to_file"]
+            self.path_to_file = data["path_to_file"]
 
     def load_precal_settings(self):
 
