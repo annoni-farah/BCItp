@@ -56,7 +56,6 @@ class PreCalStart(Screen):
         box_top.add_widget(box_vleft, 2)
         
 
-
     # Bottom part
 
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
@@ -102,13 +101,9 @@ class PreCalStart(Screen):
             self.sef_bar_default()
 
         else:
-            self.load_session_config()
-            self.load_dp_settings()
-            self.load_acquisition_settings()
-            self.load_precal_settings()
-
+            self.load_settings()
             self.add_arrow()
-            
+
             self.label_info.text = "Managing Samples..."
 
             if self.mode == 'playback':
@@ -219,6 +214,12 @@ class PreCalStart(Screen):
         self.total_time = int(data['total_time'])
         self.relax_time = int(data['relax_time'])
         self.sign_direction = data['sign_direction']
+
+    def load_settings(self):
+        self.load_session_config()
+        self.load_dp_settings()
+        self.load_acquisition_settings()
+        self.load_precal_settings()
 
     def calc_bar_max(self, dt):
         max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)

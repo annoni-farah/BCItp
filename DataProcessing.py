@@ -30,74 +30,6 @@ class DataProcessing:
         self.fs = srate
         self.filter_order = forder
         self.DesignFilter()
-
-
-    def nanCleaner(self, data_in):
-        """Removes NaN from data by interpolation
-        Parameters
-        ----------
-        data_in : input data - np matrix channels x samples
-
-        Returns
-        -------
-        data_out : clean dataset with no NaN samples
-
-        Examples
-        --------
-        >>> data_path = "/PATH/TO/DATASET/dataset.gdf"
-        >>> EEGdata_withNaN = loadBiosig(data_path)
-        >>> EEGdata_clean = nanCleaner(EEGdata_withNaN)
-        """
-        for i in range(data_in.shape[0]):
-            
-            bad_idx = np.isnan(data_in[i, ...])
-            data_in[i, bad_idx] = np.interp(bad_idx.nonzero()[0], (~bad_idx).nonzero()[0], data_in[i, ~bad_idx])
-        
-        return data_in
-        
-    def extractEpochs(data, events_list, events_id, tmin, tmax):
-        """Extracts the epochs from data based on event information
-        Parameters
-        ----------
-        data : raw data in mne format
-
-        events_list: list of events in mne format,
-        shape(time stamp (in samples), offset (can be a range arr), label)
-        
-        event_id : labels of each class
-        
-        tmin: time in seconds at which the epoch starts (event as reference) 
-        
-        tmax: time in seconds at which the epoch ends (event as reference) 
-
-        Returns
-        -------
-        epochs: epochs in mne format
-        
-        labels: labels of each extracted epoch
-
-        Examples
-        --------
-        >>> data, sfreq = loadBiosig(data_eval_path)
-        >>> raw = mne.io.RawArray(data, info)
-        >>> csv_path = "/PATH/TO/CSVFILE/events.csv"
-        >>> raw = addEvents(raw, eval_events_path)
-        >>> event_id = dict(LH=769, RH=770)
-        >>> tmin, tmax = 1, 3 # epoch starts 1 sec after event and ends 3 sec after
-        >>> epochs_train, labels_train = extractEpochs(raw, event_id, tmin, tmax)
-        
-        """
-
-        picks = pick_types(data.info, meg=False, eeg=True, stim=False, eog=False,
-                           exclude='bads')
-        
-        # Read epochs (train will be done only between 1 and 2s)
-        # Testing will be done with a running classifier
-        epochs = Epochs(data, events_list, events_id, tmin, tmax, proj=True, picks=picks,
-                        baseline=None, preload=True, add_eeg_ref=False, verbose=False)
-        labels = epochs.events[:, -1]
-        
-        return epochs, labels
         
 
     def calcCSPLDA(epochs_train, labels_train, nb):
@@ -153,22 +85,14 @@ class DataProcessing:
 
     def ApplyFilter(self, data_in):
     
-        # data_out = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
-        # y = sp.filtfilt(self.coefb_low, self.coefa_low, data_in)
         data_out = sp.filtfilt(self.b, self.a, data_in)
-        
-        # data_out = sp.filtfilt(self.coefb_high, self.coefa_high, y)
-
-        # data_out = sp.filtfilt(self.coefb_high, self.coefa_high, data_out)
 
         return data_out
 
     def ComputeEnergy(self, data_in):
 
         data_squared = data_in ** 2
-
         # energy in each channel [e(ch1) e(ch2) ...]
-        # energy = data_squared.sum(axis = 0) / data_in.shape[0]
         energy = np.mean(data_squared, axis = 0)
 
         return energy
