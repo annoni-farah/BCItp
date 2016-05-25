@@ -42,8 +42,10 @@ dout = dp.ApplyFilter(ch1)
 # plt.show()
 
 dsq = np.square(dout)
-b = np.ones(125)/125
+b = np.ones(500)/500
 dsq_out = np.convolve(dsq,b)
 
 plt.plot(dsq_out)
 plt.show()
+
+bar_points = npdqs_out

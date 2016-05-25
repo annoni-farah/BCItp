@@ -145,8 +145,8 @@ class PreCalStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_energy_left, 1/2)
-        Clock.schedule_interval(self.get_energy_right, 1/2)
+        Clock.schedule_interval(self.get_energy_left, 1/8)
+        Clock.schedule_interval(self.get_energy_right, 1/8)
         Clock.schedule_once(self.toogle_stream, self.total_time)
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
@@ -177,8 +177,8 @@ class PreCalStart(Screen):
             # print "energy right: ", norm_energy
             if norm_energy > 100:
                 norm_energy = 100
-            self.s_right.value = norm_energy
-
+            # self.s_right.value = norm_energy
+            self.s_right.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right))
             # self.label_info.text = "Energy level right: {}".format(norm_energy)
 
     def get_energy_left(self, dt):
@@ -190,7 +190,9 @@ class PreCalStart(Screen):
 
             if norm_energy > 100:
                 norm_energy = 100
-            self.s_left.value = norm_energy
+            # self.s_left.value = norm_energy
+            self.s_left.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
+
             # self.label_info.text = "Energy level left: {}".format(norm_energy)
             # print "energy left: ", norm_energy
 

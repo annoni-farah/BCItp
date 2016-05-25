@@ -29,8 +29,8 @@ dout = dp.ApplyFilter(ch1)
 # plt.plot(dout)
 # plt.show()
 
-plt.specgram(ch1, 1024, fs)
-plt.show()
+# plt.specgram(ch1, 1024, fs)
+# plt.show()
 
-plt.specgram(dout, 1024, fs)
-plt.show()
+# plt.specgram(dout, 1024, fs)
+# plt.show()

@@ -15,6 +15,7 @@ import collections # circular buffer
 from DataProcessing import DataProcessing
 
 from utils import saveMatrixAsTxt
+from utils import LoadDataAsMatrix
 
 import open_bci_v3 as bci
 import open_bci_simu as simulator
