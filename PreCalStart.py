@@ -112,7 +112,13 @@ class PreCalStart(Screen):
 
             self.sm.SetupFig()
 
-        else:
+        elif self.mode == 'simu':
+        
+            self.sm = SampleManager('', '', self.channels,
+                mode = self.mode)
+
+        elif self.mode == 'openbci':
+        
             self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
                 mode = self.mode)
 

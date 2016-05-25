@@ -11,19 +11,17 @@ class Figure(threading.Thread):
 
     def __init__(self):  # executed on instantiation of the class PlotData
 
-        threading.Thread.__init__(self)
+        super(Figure, self).__init__()
 
         self._stop = threading.Event()            
 
         self.x_data = []
         self.y_data = []
 
-        self.stop_flag = False
-
-
     def run(self):
 
         # Plot figure setup
+        # if ~self.stop_flag:
         plt.ion()
         plt.show()
         plt.hold(False) # hold is off
@@ -31,16 +29,16 @@ class Figure(threading.Thread):
         while True:
             if len(self.y_data) > 125:
 
+                if self.stop_flag:
+                    self.Stop()
+
+                # else:
                 plt.plot(self.x_data, self.y_data, linewidth=3)
                 plt.axis([self.x_data[0], self.x_data[-1], -300, 300])
                 plt.xlabel('Sample Count')
                 plt.ylabel('Voltage on Channel')
                 plt.grid(True)
                 plt.draw()
-
-                if self.stop_flag:
-                    plt.close()
-                    self._stop.set()
                     
 
 
@@ -50,10 +48,19 @@ class Figure(threading.Thread):
         self.y_data = y
 
     def Stop(self):
-        self.stop_flag = True
+        self._stop.set()
 
     def Stopped(self):
         return self._stop.isSet()
+
+    def join(self, timeout=None):
+        """ Stop the thread and wait for it to end. """
+        plt.close()
+        self._stop.set( )
+        threading.Thread.join(self, timeout)
+
+
+        
 
     
 

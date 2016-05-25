@@ -73,32 +73,54 @@ class CalStart(Screen):
     def start(self,*args):
 
         if self.stream_flag:
-            self.bci_stop()
+            self.stream_stop()
         else:
-            self.bci_begin()
+            self.stream_start()
 
 
-    def bci_stop(self):
-            self.button_stream.text = 'Start Streaming'
-            self.sm.stop_flag = True
-            self.stream_flag = False
-            self.sm.join()
-            self.clock_unscheduler()
+    def stream_stop(self):
+        self.sm.stop_flag = True
+        self.stream_flag = False
+        self.sm.join()
+        self.button_stream.text = 'Start Streaming'
+        self.clock_unscheduler()
 
-    def bci_begin(self):
-            self.load_session_config()
-            self.load_dp_settings()
-            self.load_openbci_settings()
-            self.load_cal_settings()
-            self.generate_stim_list()
-            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels, rec = True)
-            self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
-            self.sm.daemon = True  
-            self.sm.stop_flag = False
-            self.sm.start()
-            self.stream_flag = True
-            self.button_stream.text = 'Stop Streaming'
-            self.clock_scheduler()
+    def stream_start(self):
+
+        self.load_settings()
+        self.generate_stim_list()
+
+        if self.mode == 'playback':
+
+            self.sm = SampleManager('', '', self.channels, mode = self.mode,
+                path = self.path_to_file, rec = True)
+
+            self.sm.SetupFig()
+
+        elif self.mode == 'simu':
+        
+            self.sm = SampleManager('', '', self.channels,
+                mode = self.mode, rec = True)
+
+        elif self.mode == 'openbci':
+        
+            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
+                mode = self.mode, rec = True)
+
+        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
+        self.sm.daemon = True  
+        self.sm.stop_flag = False
+        self.sm.start()
+        self.button_stream.text = 'Stop Streaming'
+        self.stream_flag = True
+        self.clock_scheduler()
+
+    def load_settings(self):
+
+        self.load_session_config()
+        self.load_dp_settings()
+        self.load_acquisition_settings()
+        self.load_cal_settings()
 
 
     def get_energy(self, dt):
@@ -109,16 +131,17 @@ class CalStart(Screen):
 
     def clock_scheduler(self):
         # Clock.schedule_interval(self.get_energy, 1/6)
-        Clock.schedule_interval(self.save_data, 10)
+        # Clock.schedule_interval(self.save_data, 10)
         Clock.schedule_interval(self.display_epoch, self.end_trial_offset)
 
 
     def clock_unscheduler(self):
         Clock.unschedule(self.display_epoch)
         Clock.unschedule(self.get_energy)
-        Clock.unschedule(self.save_data)
+        # Clock.unschedule(self.save_data)
 
     def display_epoch(self, dt):
+        self.save_data()
         print self.epoch_counter
 
         if self.epoch_counter < self.n_trials:
@@ -126,7 +149,7 @@ class CalStart(Screen):
             Clock.schedule_once(self.set_cue, self.cue_offset)
             Clock.schedule_once(self.set_blank, self.cue_offset + 1)
         else:
-            self.bci_stop() 
+            self.stream_stop() 
 
         
     def set_pause(self, dt):
@@ -178,15 +201,15 @@ class CalStart(Screen):
         self.mode = data["mode"]
 
         if self.mode == 'openbci':
-            self.com_port.text = data["com_port"]
-            self.baud_rate.text = data["baud_rate"]
-            self.ch_labels.text = data["ch_labels"]
+            self.com_port = data["com_port"]
+            self.baud_rate = data["baud_rate"]
+            self.ch_labels = data["ch_labels"]
 
         elif self.mode == 'simu':
-            self.ch_labels.text = data["ch_labels"]
+            self.ch_labels = data["ch_labels"]
 
         elif self.mode == 'playback':
-            self.path_to_file.text = data["path_to_file"]
+            self.path_to_file = data["path_to_file"]
 
     def load_cal_settings(self):
 
@@ -199,7 +222,7 @@ class CalStart(Screen):
         self.pause_offset = int(data["pause_offset"])
         self.end_trial_offset = int(data["end_trial_offset"])
 
-    def save_data(self, dt):
+    def save_data(self):
         PATH_TO_DATA = "data/session/"+ self.session + "/data_cal.txt"
         PATH_TO_EVENTS = "data/session/"+ self.session + "/events_cal.txt"
 

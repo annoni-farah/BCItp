@@ -14,7 +14,7 @@ import collections # circular buffer
 
 from DataProcessing import DataProcessing
 
-from utils import *
+from utils import saveMatrixAsTxt
 
 import open_bci_v3 as bci
 import open_bci_simu as simulator
@@ -77,7 +77,7 @@ class SampleManager(threading.Thread):
         
         self.all_data = np.delete(self.all_data, (0), axis = 0)
 
-        saveDataAsTxt(self.all_data, path)
+        saveMatrixAsTxt(self.all_data, path)
 
         self.all_data = np.empty([self.n_channels]) # erase all_data content
 
@@ -124,7 +124,7 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.delete(self.event_list, (0), axis = 0)
 
-        saveDataAsTxt(self.event_list, path)
+        saveMatrixAsTxt(self.event_list, path)
 
         # erase all_data content
         self.all_data = np.empty([self.n_channels]) 
@@ -174,10 +174,9 @@ class SampleManager(threading.Thread):
 
     def SetupFig(self):
 
-        print 'asdadsadaddsa'
-
         self.fig = Figure()
         self.fig.daemon = True # just to interrupt both threads at the end
+        self.fig.stop_flag = False
         self.fig.start() # starts running the plot_data thread
 
     def UpdateFigBuffer(self):
@@ -191,8 +190,12 @@ class SampleManager(threading.Thread):
             self.fig.fillBuffer(t, filt_d)
 
     def CloseFig(self):
-        self.fig.Stop()
+        # self.fig.Stop()
         # self.fig.join()
+        self.fig.stop_flag = True
+        self.fig.join()
+        
+
 
 
 

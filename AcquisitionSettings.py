@@ -156,17 +156,14 @@ class AcquisitionSettings(Screen):
 
             data = json.load(data_file)
             if self.mode == 'openbci':
-                self.mode = data["mode"]
                 self.com_port.text = data["com_port"]
                 self.baud_rate.text = data["baud_rate"]
                 self.ch_labels.text = data["ch_labels"]
 
             elif self.mode == 'simu':
-                self.mode = data["mode"]
                 self.ch_labels.text = data["ch_labels"]
 
             elif self.mode == 'playback':
-                self.mode = data["mode"]
                 self.path_to_file.text = data["path_to_file"]
 
     def save_config(self,*args):
