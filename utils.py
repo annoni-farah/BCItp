@@ -24,7 +24,8 @@ def LoadDataAsMatrix(path, cols=[]):
     else:
         matrix = np.loadtxt(open(path,"rb"), skiprows=1, usecols=cols)
 
-    return np.fliplr(matrix.T).T
+    # return np.fliplr(matrix.T).T
+    return matrix
 
 def extractEpochs(data, events_list, events_id, tmin, tmax):
     """Extracts the epochs from data based on event information

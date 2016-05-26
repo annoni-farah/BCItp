@@ -186,12 +186,13 @@ class PreCalStart(Screen):
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
         # self.label_info.text = "Energy level left: {}".format(energy)
         if hasattr(self, 'bar_max_left'):
-            norm_energy = ceil(100 * (energy / self.bar_max_left ))
+            # norm_energy = ceil(100 * (energy / self.bar_max_left ))
+            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
 
             if norm_energy > 100:
                 norm_energy = 100
-            # self.s_left.value = norm_energy
-            self.s_left.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
+            self.s_left.value = norm_energy
+            # self.s_left.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
 
             # self.label_info.text = "Energy level left: {}".format(norm_energy)
             # print "energy left: ", norm_energy
