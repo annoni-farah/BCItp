@@ -31,6 +31,8 @@ from math import ceil, sin, isnan
 from kivy.garden.graph import Graph, MeshLinePlot
 Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
 
+from kivy.garden.bar import Bar
+
 
 class PreCalStart(Screen):
 # layout
@@ -42,12 +44,13 @@ class PreCalStart(Screen):
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
             spacing=10, orientation='horizontal')
 
-        box_vleft = BoxLayout(size_hint_x=0.2)
-        self.box_vmiddle = BoxLayout(size_hint_x=0.6, orientation='vertical')
-        box_vright = BoxLayout(size_hint_x=0.2)
+        box_vleft = BoxLayout(size_hint_x=0.1)
+        self.box_vmiddle = BoxLayout(size_hint_x=0.8, orientation='vertical')
+        box_vright = BoxLayout(size_hint_x=0.1)
 
-        self.s_right = Slider(min=0, max=100, orientation='vertical')
-        self.s_left = Slider(min=0, max=100, orientation='vertical')
+        self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1])
+        self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1])
+
         self.label_info = Label(text= 'Msg:')
 
         box_vleft.add_widget(self.s_left)
