@@ -51,11 +51,8 @@ class PreCalStart(Screen):
         self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1])
         self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1])
 
-        self.label_info = Label(text= 'Msg:')
-
         box_vleft.add_widget(self.s_left)
         box_vright.add_widget(self.s_right)
-        self.box_vmiddle.add_widget(self.label_info)
 
         box_top.add_widget(box_vright, 0)
         box_top.add_widget(self.box_vmiddle, 1)
@@ -72,6 +69,10 @@ class PreCalStart(Screen):
 
         self.button_stream = Button(text="Start Streaming")
         self.button_stream.bind(on_press= self.toogle_stream)
+
+        self.label_info = Label(text= 'Msg:')
+
+        box_bottom.add_widget(self.label_info)
 
         box_bottom.add_widget(self.button_stream)
         box_bottom.add_widget(button_back)
