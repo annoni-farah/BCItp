@@ -102,6 +102,9 @@ class SampleManager(threading.Thread):
         if(self.stop_flag):
             self.Stop()
 
+    def GetBuffData(self):
+        return self.tBuff, self.circBuff
+
     def Stop(self):
         print 'Streaming stopped. Closing connection to hardware'
         self.board.stop()

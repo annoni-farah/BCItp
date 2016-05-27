@@ -26,7 +26,10 @@ import json
 
 import os
 
-from math import ceil
+from math import ceil, sin
+
+from kivy.garden.graph import Graph, MeshLinePlot
+Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
 
 
 class PreCalStart(Screen):
@@ -98,19 +101,15 @@ class PreCalStart(Screen):
 
     # ----------------------
 
-
     def stream_start(self):
         self.load_settings()
-        self.add_arrow()
-
+        self.add_to_middle()
         self.label_info.text = "Managing Samples..."
 
         if self.mode == 'playback':
 
             self.sm = SampleManager('', '', self.channels, mode = self.mode,
                 path = self.path_to_file)
-
-            self.sm.SetupFig()
 
         elif self.mode == 'simu':
         
@@ -133,6 +132,7 @@ class PreCalStart(Screen):
         self.button_stream.text = 'Stop Streaming'
         self.clock_scheduler()
 
+
     def stream_stop(self):
         self.button_stream.text = 'Start Streaming'
         self.sm.stop_flag = True
@@ -140,19 +140,19 @@ class PreCalStart(Screen):
         self.label_info.text = ""
         self.sm.join()
         self.clock_unscheduler()
-        self.remove_arrow()
+        self.remove_from_middle()
         self.sef_bar_default()
 
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_energy_left, 1/8)
         Clock.schedule_interval(self.get_energy_right, 1/8)
+
         Clock.schedule_once(self.toogle_stream, self.total_time)
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
         if self.mode == 'playback':
-            Clock.schedule_interval(self.handle_figure, 1/3)
-
+            Clock.schedule_once(self.update_graph, 2)
 
 
     def clock_unscheduler(self):
@@ -161,8 +161,7 @@ class PreCalStart(Screen):
         Clock.unschedule(self.toogle_stream)
         Clock.unschedule(self.calc_bar_max)
         if self.mode == 'playback':
-            Clock.unschedule(self.handle_figure)
-            self.sm.CloseFig()
+            Clock.unschedule(self.update_graph)
 
     def handle_figure(self, dt):
 
@@ -292,9 +291,60 @@ class PreCalStart(Screen):
 
         self.box_vmiddle.add_widget(self.image)
 
-    def remove_arrow(self):
+    def add_graph(self):
+        self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=10,
+            x_ticks_major=50, y_ticks_major=50,
+            y_grid_label=True, x_grid_label=True, padding=5,
+            x_grid=True, y_grid=True, ymin=-300, ymax=300)
 
-        self.box_vmiddle.remove_widget(self.image)
+        # self.graph = Graph(xlabel='X', ylabel='Y')
+        self.plot = MeshLinePlot()
+        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        # print plot.points
+        # plot.points = (range(10),range(10))
+        self.graph.add_plot(self.plot)
+        self.box_vmiddle.add_widget(self.graph)
+
+    def add_to_middle(self):
+
+        if self.mode == 'playback':
+            self.add_graph()
+
+        else:
+            self.add_arrow()
+
+    def remove_from_middle(self):
+
+        self.box_vmiddle.clear_widgets()
+
+    def update_graph(self, dt):
+
+        print 'plotting data'
+
+        time, data = self.sm.GetBuffData()
+        data = np.array(data)[:,self.ch_energy_left[0]]
+
+        time = np.array(time)
+
+        time_data = np.vstack((time, data)).T
+
+        # print time_data
+
+        data_to_plot = tuple(map(tuple,time_data))
+
+        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+
+        # print data_to_plot
+
+        # self.graph.xmin = -time[0]
+        # self.graph.xmax = 500
+
+        self.plot.points = data_to_plot
+        self.plot.update
+        self.plot.draw()
+
+
+
 
 
     
