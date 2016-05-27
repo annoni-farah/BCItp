@@ -320,7 +320,7 @@ class PreCalStart(Screen):
 
         # print isnan(data)
 
-
+        # check if data is an array and therefore not a nan value
         if isinstance(data,np.ndarray):
 
             data = data[:,self.ch_energy_left[0]]
