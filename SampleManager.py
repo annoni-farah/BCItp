@@ -21,8 +21,6 @@ import open_bci_v3 as bci
 import open_bci_simu as simulator
 import open_bci_playback as playback
 
-from Plotter import Figure
-
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
@@ -183,29 +181,6 @@ class SampleManager(threading.Thread):
             return energy
         else:
             return 0
-
-    def SetupFig(self):
-
-        self.fig = Figure()
-        self.fig.daemon = True # just to interrupt both threads at the end
-        self.fig.stop_flag = False
-        self.fig.start() # starts running the plot_data thread
-
-    def UpdateFigBuffer(self):
-
-        t = np.array(self.tBuff)
-        d = np.array(self.circBuff)
-
-        if d.shape[0] > 125:
-            filt_d = self.dp.ApplyFilter(d.T).T
-
-            self.fig.fillBuffer(t, filt_d)
-
-    def CloseFig(self):
-        # self.fig.Stop()
-        # self.fig.join()
-        self.fig.stop_flag = True
-        self.fig.join()
         
 
 

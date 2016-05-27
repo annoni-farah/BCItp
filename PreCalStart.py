@@ -165,10 +165,6 @@ class PreCalStart(Screen):
         if self.mode == 'playback':
             Clock.unschedule(self.update_graph)
 
-    def handle_figure(self, dt):
-
-        self.sm.UpdateFigBuffer()
-
     def get_energy_right(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
