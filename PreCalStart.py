@@ -302,10 +302,13 @@ class PreCalStart(Screen):
             x_grid=True, y_grid=True, ymin=-100, ymax=100)
 
         # self.graph = Graph(xlabel='X', ylabel='Y')
-        self.plot = MeshLinePlot()
+        self.plot_left = MeshLinePlot(color = [1,0,0,1])
+        self.plot_right = MeshLinePlot(color = [0,0,1,1])
         # print plot.points
         # plot.points = (range(10),range(10))
-        self.graph.add_plot(self.plot)
+        self.graph.add_plot(self.plot_left)
+        self.graph.add_plot(self.plot_right)
+
         self.box_vmiddle.add_widget(self.graph)
 
     def add_to_middle(self):
@@ -329,16 +332,21 @@ class PreCalStart(Screen):
         # check if data is an array and therefore not a nan value
         if isinstance(data,np.ndarray):
 
-            data = data[:,self.ch_energy_left[0]]
+            data_left = data[:,self.ch_energy_left[0]]
+            data_right = data[:,self.ch_energy_right[0]]
 
-            time_data = np.vstack((time, data)).T
+            time_data_left = np.vstack((time, data_left)).T
+            time_data_right = np.vstack((time, data_right)).T
 
             self.graph.xmin = int(time[0])
             self.graph.xmax = int(time[-1])
 
-            data_to_plot = tuple(map(tuple,time_data))
+            data_to_plot_left = tuple(map(tuple,time_data_left))
+            data_to_plot_right = tuple(map(tuple,time_data_right))
 
-            self.plot.points = data_to_plot
+            self.plot_left.points = data_to_plot_left
+            self.plot_right.points = data_to_plot_right
+
 
 
 
