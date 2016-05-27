@@ -95,8 +95,6 @@ class CalStart(Screen):
             self.sm = SampleManager('', '', self.channels, mode = self.mode,
                 path = self.path_to_file, rec = True)
 
-            self.sm.SetupFig()
-
         elif self.mode == 'simu':
         
             self.sm = SampleManager('', '', self.channels,

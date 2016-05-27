@@ -172,31 +172,22 @@ class PreCalStart(Screen):
     def get_energy_right(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
-        
         if hasattr(self, 'bar_max_right'):
-            norm_energy = ceil(100 * (energy / self.bar_max_right ))
-            # print "energy right: ", norm_energy
+
+            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right,5))
             if norm_energy > 100:
                 norm_energy = 100
-            # self.s_right.value = norm_energy
-            self.s_right.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right))
-            # self.label_info.text = "Energy level right: {}".format(norm_energy)
+            self.s_right.value = norm_energy
 
     def get_energy_left(self, dt):
 
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
-        # self.label_info.text = "Energy level left: {}".format(energy)
         if hasattr(self, 'bar_max_left'):
-            # norm_energy = ceil(100 * (energy / self.bar_max_left ))
-            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
-
+            
+            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left,5))
             if norm_energy > 100:
                 norm_energy = 100
             self.s_left.value = norm_energy
-            # self.s_left.value = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
-
-            # self.label_info.text = "Energy level left: {}".format(norm_energy)
-            # print "energy left: ", norm_energy
 
 
     def load_session_config(self):

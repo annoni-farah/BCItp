@@ -148,7 +148,7 @@ class SampleManager(threading.Thread):
 
         self.all_data = np.empty([self.n_channels])
 
-        self.energy_history = collections.deque(maxlen = 20)
+        self.energy_history = collections.deque(maxlen = 500)
 
         self.circBuff = collections.deque(maxlen = buf_len) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = buf_len) # create a qeue for time series
@@ -157,11 +157,14 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([0,0])
 
-    def CalcEnergyAverage(self, channel_list):
-        
-        eh = np.array(self.energy_history)
+    def CalcEnergyAverage(self, channel_list, n_samples = 0):
+        # print self.energy_history
+
+        eh = np.array(self.energy_history)[-n_samples:]
 
         energy_ch = eh[:,channel_list]
+
+        print energy_ch.shape
 
         avg_smp = np.mean(energy_ch)
 
