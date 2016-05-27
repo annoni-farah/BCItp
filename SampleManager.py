@@ -59,6 +59,8 @@ class SampleManager(threading.Thread):
 
             self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
 
+        self.sample_rate = self.board.getSampleRate()
+
     def run(self):
 
         self.HWStream()
@@ -103,6 +105,8 @@ class SampleManager(threading.Thread):
     def GetBuffData(self, filt = False):
         t = np.array(self.tBuff)
         d = np.array(self.circBuff)
+
+        # t = t / self.sample_rate
 
         if d.shape[0] > 125:
             filt_d = self.dp.ApplyFilter(d.T).T
@@ -149,7 +153,7 @@ class SampleManager(threading.Thread):
         self.circBuff = collections.deque(maxlen = buf_len) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = buf_len) # create a qeue for time series
 
-        self.dp = DataProcessing(f_low, f_high, self.board.getSampleRate(), f_order)
+        self.dp = DataProcessing(f_low, f_high, self.sample_rate, f_order)
 
         self.event_list = np.array([0,0])
 

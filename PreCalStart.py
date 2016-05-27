@@ -158,7 +158,7 @@ class PreCalStart(Screen):
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
         if self.plot_flag:
-            Clock.schedule_interval(self.update_graph, 1/3)
+            Clock.schedule_interval(self.update_graph, 1/2)
 
 
     def clock_unscheduler(self):
@@ -298,8 +298,8 @@ class PreCalStart(Screen):
         self.box_vmiddle.add_widget(self.image)
 
     def add_graph(self):
-        self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=10,
-            x_ticks_major=50, y_ticks_major=50,
+        self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=100,
+            x_ticks_major=250, y_ticks_major=50,
             y_grid_label=True, x_grid_label=True, padding=5,
             x_grid=True, y_grid=True, ymin=-100, ymax=100)
 
@@ -338,6 +338,8 @@ class PreCalStart(Screen):
             time_data_left = np.vstack((time, data_left)).T
             time_data_right = np.vstack((time, data_right)).T
 
+            # print time[-1]
+
             self.graph.xmin = int(time[0])
             self.graph.xmax = int(time[-1])
 
@@ -346,6 +348,9 @@ class PreCalStart(Screen):
 
             self.plot_left.points = data_to_plot_left
             self.plot_right.points = data_to_plot_right
+
+
+
 
 
 
