@@ -102,8 +102,16 @@ class SampleManager(threading.Thread):
         if(self.stop_flag):
             self.Stop()
 
-    def GetBuffData(self):
-        return self.tBuff, self.circBuff
+    def GetBuffData(self, filt = False):
+        t = np.array(self.tBuff)
+        d = np.array(self.circBuff)
+
+        if d.shape[0] > 125:
+            filt_d = self.dp.ApplyFilter(d.T).T
+            return t, filt_d
+        else:
+            return t, float('NaN')
+
 
     def Stop(self):
         print 'Streaming stopped. Closing connection to hardware'

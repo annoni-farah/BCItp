@@ -26,7 +26,7 @@ import json
 
 import os
 
-from math import ceil, sin
+from math import ceil, sin, isnan
 
 from kivy.garden.graph import Graph, MeshLinePlot
 Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
@@ -106,6 +106,7 @@ class PreCalStart(Screen):
         self.add_to_middle()
         self.label_info.text = "Managing Samples..."
 
+
         if self.mode == 'playback':
 
             self.sm = SampleManager('', '', self.channels, mode = self.mode,
@@ -121,9 +122,10 @@ class PreCalStart(Screen):
             self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
                 mode = self.mode)
 
+        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
+
         self.label_info.text = "Computing filters and creating buffers..."
 
-        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.label_info.text = "Now Streaming..."
@@ -152,7 +154,7 @@ class PreCalStart(Screen):
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
         if self.mode == 'playback':
-            Clock.schedule_once(self.update_graph, 2)
+            Clock.schedule_interval(self.update_graph, 1/3)
 
 
     def clock_unscheduler(self):
@@ -295,11 +297,10 @@ class PreCalStart(Screen):
         self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=10,
             x_ticks_major=50, y_ticks_major=50,
             y_grid_label=True, x_grid_label=True, padding=5,
-            x_grid=True, y_grid=True, ymin=-300, ymax=300)
+            x_grid=True, y_grid=True, ymin=-100, ymax=100)
 
         # self.graph = Graph(xlabel='X', ylabel='Y')
         self.plot = MeshLinePlot()
-        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
         # print plot.points
         # plot.points = (range(10),range(10))
         self.graph.add_plot(self.plot)
@@ -319,30 +320,23 @@ class PreCalStart(Screen):
 
     def update_graph(self, dt):
 
-        print 'plotting data'
+        time, data = self.sm.GetBuffData(filt = True)
 
-        time, data = self.sm.GetBuffData()
-        data = np.array(data)[:,self.ch_energy_left[0]]
+        # print isnan(data)
 
-        time = np.array(time)
 
-        time_data = np.vstack((time, data)).T
+        if isinstance(data,np.ndarray):
 
-        # print time_data
+            data = data[:,self.ch_energy_left[0]]
 
-        data_to_plot = tuple(map(tuple,time_data))
+            time_data = np.vstack((time, data)).T
 
-        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+            self.graph.xmin = int(time[0])
+            self.graph.xmax = int(time[-1])
 
-        # print data_to_plot
+            data_to_plot = tuple(map(tuple,time_data))
 
-        # self.graph.xmin = -time[0]
-        # self.graph.xmax = 500
-
-        self.plot.points = data_to_plot
-        self.plot.update
-        self.plot.draw()
-
+            self.plot.points = data_to_plot
 
 
 
