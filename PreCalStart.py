@@ -157,7 +157,7 @@ class PreCalStart(Screen):
         Clock.schedule_once(self.toogle_stream, self.total_time)
         Clock.schedule_once(self.calc_bar_max, self.relax_time)
 
-        if self.mode == 'playback':
+        if self.plot_flag:
             Clock.schedule_interval(self.update_graph, 1/3)
 
 
@@ -249,6 +249,7 @@ class PreCalStart(Screen):
         self.total_time = int(data['total_time'])
         self.relax_time = int(data['relax_time'])
         self.sign_direction = data['sign_direction']
+        self.plot_flag = data['plot_flag']
 
     def load_settings(self):
         self.load_session_config()
@@ -314,10 +315,10 @@ class PreCalStart(Screen):
 
     def add_to_middle(self):
 
-        if self.mode == 'playback':
+        if self.plot_flag:
             self.add_graph()
 
-        else:
+        if self.mode != 'playback':
             self.add_arrow()
 
     def remove_from_middle(self):
@@ -327,8 +328,6 @@ class PreCalStart(Screen):
     def update_graph(self, dt):
 
         time, data = self.sm.GetBuffData(filt = True)
-
-        # print isnan(data)
 
         # check if data is an array and therefore not a nan value
         if isinstance(data,np.ndarray):
