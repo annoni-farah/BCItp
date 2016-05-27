@@ -270,6 +270,9 @@ class PreCalStart(Screen):
         self.s_left.value = 0
         self.s_right.value = 0
 
+        del self.bar_max_left
+        del self.bar_max_right
+
     def calc_bar_th(self):
 
         self.bar_th = 0.3 * self.bar_max
