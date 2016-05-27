@@ -61,18 +61,19 @@ class OpenBCIBoard(object):
       time.sleep(1. / SAMPLE_RATE)
       # read current sample
       packet_id = 0
-      channel_data = np.random.rand(8,1).tolist()
+      # channel_data = np.random.rand(8,1).tolist()
 
-      f = [5, 20, 30, 60, 80]
-      A = [0, 0, 0, 5, 0]
+      # f = [5, 20, 30, 60, 80]
+      # A = [0, 0, 0, 5, 0]
 
-      signal =A[0]*np.sin(2 * np.pi * f[0] * self.t / SAMPLE_RATE) + \
-              A[1]*np.sin(2 * np.pi * f[1] * self.t / SAMPLE_RATE) + \
-              A[2]*np.sin(2 * np.pi * f[2] * self.t / SAMPLE_RATE) + \
-              A[3]*np.sin(2 * np.pi * f[3] * self.t / SAMPLE_RATE) + \
-              A[4]*np.sin(2 * np.pi * f[4] * self.t / SAMPLE_RATE) 
+      # signal =A[0]*np.sin(2 * np.pi * f[0] * self.t / SAMPLE_RATE) + \
+      #         A[1]*np.sin(2 * np.pi * f[1] * self.t / SAMPLE_RATE) + \
+      #         A[2]*np.sin(2 * np.pi * f[2] * self.t / SAMPLE_RATE) + \
+      #         A[3]*np.sin(2 * np.pi * f[3] * self.t / SAMPLE_RATE) + \
+      #         A[4]*np.sin(2 * np.pi * f[4] * self.t / SAMPLE_RATE) 
 
-      channel_data = [signal, 2*signal, signal, signal, signal, signal, signal, signal]
+      # channel_data = [signal, 2*signal, signal, signal, signal, signal, signal, signal]
+      channel_data = [self.t,1,1,1,1,1,1,1]
 
       sample = OpenBCISample(packet_id, channel_data, [])
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback

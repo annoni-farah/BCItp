@@ -76,11 +76,12 @@ class SampleManager(threading.Thread):
         
     def SaveData(self, path):
         
-        self.all_data = np.delete(self.all_data, (0), axis = 0)
+        # self.all_data = np.delete(self.all_data, (0), axis = 0)
 
         saveMatrixAsTxt(self.all_data, path)
 
-        self.all_data = np.empty([self.n_channels]) # erase all_data content
+        # self.all_data = np.empty([self.n_channels]) # erase all_data content
+        self.all_data = np.array([]).reshape(0,self.n_channels)
 
     def HWStream(self):
 
@@ -136,17 +137,19 @@ class SampleManager(threading.Thread):
 
     def SaveEvents(self, path):
 
-        self.event_list = np.delete(self.event_list, (0), axis = 0)
+        # self.event_list = np.delete(self.event_list, (0), axis = 0)
 
         saveMatrixAsTxt(self.event_list, path)
 
+        self.event_list = np.array([]).reshape(0,2)
+
         # erase all_data content
-        self.all_data = np.empty([self.n_channels]) 
-        self.event_list = np.array([0,0])
+        # self.all_data = np.empty([self.n_channels]) 
+        # self.event_list = np.array([0,0])
 
     def CreateDataProcessing(self, buf_len, f_low, f_high, f_order):
 
-        self.all_data = np.empty([self.n_channels])
+        # self.all_data = np.empty([self.n_channels])
 
         self.energy_history = collections.deque(maxlen = 500)
 
@@ -155,7 +158,9 @@ class SampleManager(threading.Thread):
 
         self.dp = DataProcessing(f_low, f_high, self.sample_rate, f_order)
 
-        self.event_list = np.array([0,0])
+        # self.event_list = np.array([0,0])
+        self.event_list = np.array([]).reshape(0,2)
+        self.all_data = np.array([]).reshape(0,self.n_channels)
 
     def CalcEnergyAverage(self, channel_list, n_samples = 0):
         # print self.energy_history
@@ -163,8 +168,6 @@ class SampleManager(threading.Thread):
         eh = np.array(self.energy_history)[-n_samples:]
 
         energy_ch = eh[:,channel_list]
-
-        print energy_ch.shape
 
         avg_smp = np.mean(energy_ch)
 

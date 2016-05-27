@@ -140,13 +140,13 @@ class CalStart(Screen):
 
     def display_epoch(self, dt):
         self.save_data()
-        print self.epoch_counter
 
         if self.epoch_counter < self.n_trials:
             Clock.schedule_once(self.set_pause, self.pause_offset)
             Clock.schedule_once(self.set_cue, self.cue_offset)
             Clock.schedule_once(self.set_blank, self.cue_offset + 1)
         else:
+            self.save_data()
             self.stream_stop() 
 
         
