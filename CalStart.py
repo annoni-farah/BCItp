@@ -146,7 +146,6 @@ class CalStart(Screen):
             Clock.schedule_once(self.set_cue, self.cue_offset)
             Clock.schedule_once(self.set_blank, self.cue_offset + 1)
         else:
-            self.save_data()
             self.stream_stop() 
 
         
