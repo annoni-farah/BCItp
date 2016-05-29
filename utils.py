@@ -94,7 +94,7 @@ def nanCleaner(data_in):
     
     return data_in
 
-def saveMatrixAsTxt(data_in, path, mode = "a"):
+def saveMatrixAsTxt(data_in, path, mode = 'a'):
 
     with open(path, mode) as data_file:    
         np.savetxt(data_file, data_in)

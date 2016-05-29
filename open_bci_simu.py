@@ -83,6 +83,8 @@ class OpenBCIBoard(object):
       if(lapse > 0 and timeit.default_timer() - start_time > lapse):
         self.stop();
 
+      # print self.t
+
       self.t += 1
   
   

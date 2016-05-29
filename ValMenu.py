@@ -33,7 +33,7 @@ class ValMenu(Screen):
         self.add_widget(box1)
 
     def change_to_acquisition(self,*args):
-        self.manager.current = ''
+        self.manager.current = 'ValStart'
         self.manager.transition.direction = 'left'
 
     def change_to_valsettings(self,*args):

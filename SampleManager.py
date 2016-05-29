@@ -78,10 +78,10 @@ class SampleManager(threading.Thread):
         
         # self.all_data = np.delete(self.all_data, (0), axis = 0)
 
-        saveMatrixAsTxt(self.all_data, path)
+        saveMatrixAsTxt(self.all_data, path, mode = 'w')
 
         # self.all_data = np.empty([self.n_channels]) # erase all_data content
-        self.all_data = np.array([]).reshape(0,self.n_channels)
+        # self.all_data = np.array([]).reshape(0,self.n_channels)
 
     def HWStream(self):
 
@@ -139,9 +139,9 @@ class SampleManager(threading.Thread):
 
         # self.event_list = np.delete(self.event_list, (0), axis = 0)
 
-        saveMatrixAsTxt(self.event_list, path)
+        saveMatrixAsTxt(self.event_list, path, mode = 'w')
 
-        self.event_list = np.array([]).reshape(0,2)
+        # self.event_list = np.array([]).reshape(0,2)
 
         # erase all_data content
         # self.all_data = np.empty([self.n_channels]) 

@@ -84,6 +84,7 @@ class CalStart(Screen):
         self.sm.join()
         self.button_stream.text = 'Start Streaming'
         self.clock_unscheduler()
+        self.save_data()
 
     def stream_start(self):
 
@@ -93,7 +94,7 @@ class CalStart(Screen):
         if self.mode == 'playback':
 
             self.sm = SampleManager('', '', self.channels, mode = self.mode,
-                path = self.path_to_file, rec = True)
+                path = self.path_to_file, rec = False)
 
         elif self.mode == 'simu':
         
@@ -139,7 +140,6 @@ class CalStart(Screen):
         # Clock.unschedule(self.save_data)
 
     def display_epoch(self, dt):
-        self.save_data()
 
         if self.epoch_counter < self.n_trials:
             Clock.schedule_once(self.set_pause, self.pause_offset)

@@ -25,6 +25,7 @@ from CalStart import *
 
 from ValMenu import *
 from ValSettings import *
+from ValStart import *
 
 from GameMenu import *
 
@@ -50,6 +51,7 @@ class MyApp(App):
 
             val_screen = ValMenu(name='ValMenu')
             val_settings_screen = ValSettings(name='ValSettings')
+            val_start_screen = ValStart(name='ValStart')
 
             game_screen = GameMenu(name='GameMenu')
 
@@ -71,6 +73,7 @@ class MyApp(App):
 
             sm.add_widget(val_screen)
             sm.add_widget(val_settings_screen)
+            sm.add_widget(val_start_screen)
 
             sm.add_widget(game_screen)
 
