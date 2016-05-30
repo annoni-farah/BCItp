@@ -5,7 +5,7 @@
 
 ## Installation (Linux) ##
 
-** Python Modules (Dependencies) **
+### Python Modules (Dependencies) ###
 
 ```shell
 
@@ -13,7 +13,7 @@ sudo apt-get install python-numpy python-mne python-scipy python-pygame python-k
 
 ```
 
-** Install Kivy Garden (Dependencies) **
+### Install Kivy Garden (Dependencies) ###
 
 ```shell
 
@@ -21,7 +21,7 @@ sudo pip install kivy-garden
 
 ```
 
-** Garden Modules: **
+### Garden Modules: ###
 
 * Graph
 
@@ -40,7 +40,7 @@ garden install bar
 ```
 
 
-** Clone this repository **
+### Clone this repository ###
 
 ```shell 
 
@@ -48,7 +48,7 @@ git clone https://github.com/rafaelmendes/bci_training_platform
 
 ```
 
-** Open the GUI **
+### Open the GUI ###
 
 ```shell 
 
