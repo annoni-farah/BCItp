@@ -119,7 +119,9 @@ class SampleManager(threading.Thread):
 
         # t = t / self.sample_rate
 
-        if d.shape[0] > 125:
+        if d.shape[0] > 499:
+
+            print 'hahaa'
             filt_d = self.dp.ApplyFilter(d.T).T
             return t, filt_d
         else:
@@ -166,11 +168,14 @@ class SampleManager(threading.Thread):
         self.circBuff = collections.deque(maxlen = buf_len) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = buf_len) # create a qeue for time series
 
-        self.dp = DataProcessing(f_low, f_high, self.sample_rate, f_order)
+        self.dp = DataProcessing()
+
+        self.dp.DesignFilter(f_low, f_high, self.sample_rate, f_order)
 
         # self.event_list = np.array([0,0])
         self.event_list = np.array([]).reshape(0,2)
         self.all_data = np.array([]).reshape(0,self.n_channels)
+
 
     def CalcEnergyAverage(self, channel_list, n_samples = 0):
         # print self.energy_history

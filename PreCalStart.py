@@ -322,11 +322,15 @@ class PreCalStart(Screen):
 
         time, data = self.sm.GetBuffData(filt = True)
 
+        window = np.hanning(500)
+
+
         # check if data is an array and therefore not a nan value
         if isinstance(data,np.ndarray):
 
-            data_left = data[:,self.ch_energy_left[0]]
-            data_right = data[:,self.ch_energy_right[0]]
+
+            data_left = data[:,self.ch_energy_left[0]] * window
+            data_right = data[:,self.ch_energy_right[0]] * window
 
             time_data_left = np.vstack((time, data_left)).T
             time_data_right = np.vstack((time, data_right)).T
