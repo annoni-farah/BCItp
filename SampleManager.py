@@ -45,6 +45,8 @@ class SampleManager(threading.Thread):
 
         self.playback_path = path
 
+        self.last_sample = 0
+
         if self.acq_mode == 'openbci':
 
             self.board = bci.OpenBCIBoard(port=p, baud=b)
@@ -94,14 +96,22 @@ class SampleManager(threading.Thread):
         ps: This function is called by the OpenBci start_streaming() function'''
         indata =  [sample.channel_data[x] for x in self.channels]
         self.updateCircBuf(indata);
-        
+
+        # print 'got sample: ', sample.id
+        # if sample.id == self.last_sample + 1:
+
+            # self.last_sample = sample.id
+
         if self.rec_flag:
             self.StoreData(indata)
 
-        self.sample_counter += 1
+        self.sample_counter += 1 
 
         if(self.stop_flag):
             self.Stop()
+
+        # else:
+        #     print 'Sample discarded...'
 
     def GetBuffData(self, filt = False):
         t = np.array(self.tBuff)

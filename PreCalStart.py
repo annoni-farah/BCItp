@@ -174,7 +174,8 @@ class PreCalStart(Screen):
         energy = self.sm.ComputeEnergy(self.ch_energy_right)
         if hasattr(self, 'bar_max_right'):
 
-            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right,5))
+            # norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right))
+            norm_energy = ceil(100 * energy / self.bar_max_right)            
             if norm_energy > 100:
                 norm_energy = 100
             self.s_right.value = norm_energy
@@ -184,7 +185,8 @@ class PreCalStart(Screen):
         energy = self.sm.ComputeEnergy(self.ch_energy_left)
         if hasattr(self, 'bar_max_left'):
             
-            norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left,5))
+            # norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
+            norm_energy = ceil(100 * energy / self.bar_max_left)                       
             if norm_energy > 100:
                 norm_energy = 100
             self.s_left.value = norm_energy
@@ -261,8 +263,8 @@ class PreCalStart(Screen):
         # print 'max bar ', self.bar_max 
 
     def sef_bar_default(self):
-        self.bar_max_left = 1.0
-        self.bar_max_right = 1.0 
+        self.bar_max_left = 0.0
+        self.bar_max_right = 0.0 
         self.s_left.value = 0
         self.s_right.value = 0
 
