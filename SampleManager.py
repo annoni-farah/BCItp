@@ -119,9 +119,8 @@ class SampleManager(threading.Thread):
 
         # t = t / self.sample_rate
 
-        if d.shape[0] > 499:
+        if d.shape[0] > self.buffer_length - 1:
 
-            print 'hahaa'
             filt_d = self.dp.ApplyFilter(d.T).T
             return t, filt_d
         else:
@@ -162,11 +161,12 @@ class SampleManager(threading.Thread):
     def CreateDataProcessing(self, buf_len, f_low, f_high, f_order):
 
         # self.all_data = np.empty([self.n_channels])
+        self.buffer_length = buf_len
 
         self.energy_history = collections.deque(maxlen = 500)
 
-        self.circBuff = collections.deque(maxlen = buf_len) # create a qeue for input data
-        self.tBuff = collections.deque(maxlen = buf_len) # create a qeue for time series
+        self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
+        self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
 
         self.dp = DataProcessing()
 
@@ -175,6 +175,8 @@ class SampleManager(threading.Thread):
         # self.event_list = np.array([0,0])
         self.event_list = np.array([]).reshape(0,2)
         self.all_data = np.array([]).reshape(0,self.n_channels)
+
+        self.dp.GenerateWindow(self.buffer_length, 5)
 
 
     def CalcEnergyAverage(self, channel_list, n_samples = 0):
@@ -193,7 +195,9 @@ class SampleManager(threading.Thread):
     def ComputeEnergy(self, channel_list):
         raw_data = np.array(self.circBuff)
 
-        if raw_data.shape[0] > 125:
+        if raw_data.shape[0] > self.buffer_length - 1:
+
+            raw_data = raw_data * self.dp.window[:,np.newaxis]
 
             filt_data = self.dp.ApplyFilter(raw_data.T).T
 
