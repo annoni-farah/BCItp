@@ -176,7 +176,7 @@ class SampleManager(threading.Thread):
         self.event_list = np.array([]).reshape(0,2)
         self.all_data = np.array([]).reshape(0,self.n_channels)
 
-        self.dp.GenerateWindow(self.buffer_length, 5)
+        self.dp.GenerateWindow(self.buffer_length, 7)
 
 
     def CalcEnergyAverage(self, channel_list, n_samples = 0):

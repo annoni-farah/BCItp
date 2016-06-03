@@ -292,7 +292,7 @@ class PreCalStart(Screen):
 
     def add_graph(self):
         self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=100,
-            x_ticks_major=250, y_ticks_major=50,
+            x_ticks_major=50, y_ticks_major=50,
             y_grid_label=True, x_grid_label=True, padding=5,
             x_grid=True, y_grid=True, ymin=-100, ymax=100)
 
