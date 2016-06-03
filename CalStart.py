@@ -151,17 +151,17 @@ class CalStart(Screen):
         
     def set_pause(self, dt):
         self.carousel.index = 0
-        self.sm.MarkEvents(0)
+        self.sm.MarkEvents('start')
 
     def set_cue(self, dt):
 
         if self.stim_list[self.epoch_counter] is 1:
             self.carousel.index = 1
-            self.sm.MarkEvents(1)
+            self.sm.MarkEvents('left')
 
         elif self.stim_list[self.epoch_counter] is 2:
             self.carousel.index = 2
-            self.sm.MarkEvents(2)                   
+            self.sm.MarkEvents('right')                   
 
     def set_blank(self, dt):
         self.carousel.index = 3

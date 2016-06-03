@@ -3,32 +3,57 @@
 
 ## A brain computer interface training platform ##
 
-## Install ##
+## Installation (Linux) ##
 
-**On Linux**
-
-* Install Dependencies 
+### Python Modules (Dependencies) ###
 
 ```shell
 
-$ sudo apt-get install python-numpy python-mne python-scipy python-pygame python-kivy
+sudo apt-get install python-numpy python-mne python-scipy python-pygame python-kivy
 
 ```
 
-* Clone this repository
+### Install Kivy Garden (Dependencies) ###
 
-```shell 
+```shell
 
-$ git clone https://github.com/rafaelmendes/bci_training_platform
+sudo pip install kivy-garden
 
 ```
 
-* Open the GUI
+### Garden Modules: ###
+
+* Graph
+
+```shell
+
+garden install graph
+
+```
+
+* Bar
+
+```shell
+
+garden install bar
+
+```
+
+
+### Clone this repository ###
 
 ```shell 
 
-$ cd bci_training_platform
-$ python main.py
+git clone https://github.com/rafaelmendes/bci_training_platform
+
+```
+
+### Open the GUI ###
+
+```shell 
+
+cd bci_training_platform
+python main.py
 
 ```
 
