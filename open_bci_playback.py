@@ -64,7 +64,7 @@ class OpenBCIBoard(object):
     
     while self.streaming:
       
-      time.sleep(1. / SAMPLE_RATE)
+      st = time.time()
       # read current sample
       packet_id = 0
 
@@ -85,6 +85,9 @@ class OpenBCIBoard(object):
 
       if sample_counter == counter_max:
         self.stop()
+
+      while 1.0 / SAMPLE_RATE > time.time() - st:
+        pass
   
   
   """

@@ -18,6 +18,8 @@ import random
 
 import json
 
+import os
+
 class CalStart(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -140,6 +142,7 @@ class CalStart(Screen):
         # Clock.unschedule(self.save_data)
 
     def display_epoch(self, dt):
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
 
         if self.epoch_counter < self.n_trials:
             Clock.schedule_once(self.set_pause, self.pause_offset)
@@ -151,17 +154,17 @@ class CalStart(Screen):
         
     def set_pause(self, dt):
         self.carousel.index = 0
-        self.sm.MarkEvents('start')
+        self.sm.MarkEvents(0)
 
     def set_cue(self, dt):
 
         if self.stim_list[self.epoch_counter] is 1:
             self.carousel.index = 1
-            self.sm.MarkEvents('left')
+            self.sm.MarkEvents(1)
 
         elif self.stim_list[self.epoch_counter] is 2:
             self.carousel.index = 2
-            self.sm.MarkEvents('right')                   
+            self.sm.MarkEvents(2)                   
 
     def set_blank(self, dt):
         self.carousel.index = 3

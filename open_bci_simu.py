@@ -58,7 +58,7 @@ class OpenBCIBoard(object):
     
     while self.streaming:
       
-      time.sleep(1. / SAMPLE_RATE)
+      st = time.time()
       # read current sample
       packet_id = 0
       # channel_data = np.random.rand(8,1).tolist()
@@ -86,6 +86,9 @@ class OpenBCIBoard(object):
       # print self.t
 
       self.t += 1
+
+      while 1.0/SAMPLE_RATE > time.time() - st:
+        pass  
   
   
   """
