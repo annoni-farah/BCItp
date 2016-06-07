@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
+from standards import *
 
 class PreCalMenu(Screen):
 # layout
@@ -12,7 +13,7 @@ class PreCalMenu(Screen):
 
         box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
 
-        self.label_msg = Label(text="Pre Calibration Menu", font_size=20)
+        self.label_msg = Label(text="Pre Calibration Menu", font_size=FONT_SIZE)
 
         button_start = Button(text="Start")
         button_start.bind(on_press= self.change_to_acquisition)

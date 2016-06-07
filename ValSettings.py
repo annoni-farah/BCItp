@@ -6,6 +6,8 @@ from kivy.uix.textinput import TextInput
 
 import json
 
+from standards import *
+
 class ValSettings(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -15,7 +17,7 @@ class ValSettings(Screen):
 
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
-        self.label_msg = Label(text="", font_size=20)
+        self.label_msg = Label(text="", font_size=FONT_SIZE)
         
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
@@ -28,16 +30,16 @@ class ValSettings(Screen):
 
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
-        self.n_trials = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.n_trials = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='Number of Trials', multiline=False)
 
-        self.pause_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.pause_offset = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='Pause Offset', multiline=False)
 
-        self.cue_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.cue_offset = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='Cue Offset', multiline=False)
 
-        self.end_trial_offset = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.end_trial_offset = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='End of Trial Offset', multiline=False)
 
 

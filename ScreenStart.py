@@ -9,9 +9,10 @@ import os
 
 import json
 
+from standards import *
+
 BUTTON_SIZE = (100, 300)
 TEXT_SIZE = (1, 0.7)
-FONT_SIZE = 20
 
 class StartScreen(Screen):
 # layout
@@ -23,7 +24,7 @@ class StartScreen(Screen):
         box1 = BoxLayout(size_hint = (0.5, 0.5), padding=10, spacing=10,
                          orientation='vertical')
 
-        self.label_msg = Label(text="", font_size=20)
+        self.label_msg = Label(text="", font_size=FONT_SIZE)
 
         button_ui_settings = Button(text="UIX Settings", font_size = FONT_SIZE ,
             width = 100, height= 50)

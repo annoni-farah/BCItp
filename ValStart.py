@@ -18,6 +18,8 @@ import random
 
 import json
 
+from standards import *
+
 class ValStart(Screen):
 # layout
     def __init__ (self,**kwargs):

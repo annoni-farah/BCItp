@@ -33,6 +33,7 @@ Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
 
 from kivy.garden.bar import Bar
 
+from standards import *
 
 class PreCalStart(Screen):
 # layout

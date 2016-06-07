@@ -7,6 +7,8 @@ from kivy.uix.checkbox import CheckBox
 
 import json
 
+from standards import *
+
 class PreCalSettings(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -17,7 +19,7 @@ class PreCalSettings(Screen):
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3, 
             padding=10, spacing=10, orientation='vertical')
 
-        self.label_msg = Label(text="", font_size=20)
+        self.label_msg = Label(text="", font_size=FONT_SIZE)
         
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
@@ -32,19 +34,19 @@ class PreCalSettings(Screen):
             padding=10, spacing=10, orientation='vertical')
 
 
-        self.total_time = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.total_time = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='Total Time (s)', multiline=False)
 
-        self.relax_time = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.relax_time = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='Time to set Max (s)', multiline=False)
 
-        self.ch_energy_right = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.ch_energy_right = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='Right - Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
 
-        self.ch_energy_left = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.ch_energy_left = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
             hint_text='Left - Channels to use in Energy Computation :1 2 3 ...)', multiline=False)
 
-        self.sign_direction = TextInput(size_hint=(1, 0.8), font_size= 20,
+        self.sign_direction = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
             hint_text='Sign - left or right', multiline=False)
 
         checkbox_plot = CheckBox()
@@ -56,7 +58,7 @@ class PreCalSettings(Screen):
         box_top.add_widget(self.relax_time)
         box_top.add_widget(self.total_time)
 
-        label_plot = Label(text="Plot Data:", font_size=20)
+        label_plot = Label(text="Plot Data:", font_size=FONT_SIZE)
         box_checkbox = BoxLayout(orientation='horizontal')
 
         box_checkbox.add_widget(label_plot)

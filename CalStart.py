@@ -20,6 +20,8 @@ import json
 
 import os
 
+from standards import *
+
 class CalStart(Screen):
 # layout
     def __init__ (self,**kwargs):

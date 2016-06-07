@@ -25,15 +25,11 @@ class AcquisitionSettings(Screen):
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
 
-        button_default = Button(text="Load Default Config", size_hint_x=1, size_hint_y=0.5)
-        button_default.bind(on_press= self.load_default_settings)
-
         button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
         button_back.bind(on_press= self.change_to_cal)
 
         box_bottom.add_widget(self.label_msg)
         box_bottom.add_widget(button_save)
-        box_bottom.add_widget(button_default)
         box_bottom.add_widget(button_back)
 
 
@@ -51,21 +47,21 @@ class AcquisitionSettings(Screen):
         box_com = BoxLayout(orientation = 'horizontal')
         label_com = Label(text = 'COM Port', font_size=FONT_SIZE)
         self.com_port = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
-                        hint_text='/dev/ttyUSB0', multiline=False)
+                        text='/dev/ttyUSB0', multiline=False)
         box_com.add_widget(label_com)
         box_com.add_widget(self.com_port)
 
         box_baud = BoxLayout(orientation = 'horizontal')
         label_baud = Label(text = 'BaudRate', font_size=FONT_SIZE)
         self.baud_rate = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
-                        hint_text='115FONT_SIZE0', multiline=False)
+                        text='115200', multiline=False)
         box_baud.add_widget(label_baud)
         box_baud.add_widget(self.baud_rate)
 
         box_ch = BoxLayout(orientation = 'horizontal')
         label_ch = Label(text = 'Channels Labels', font_size=FONT_SIZE)
         self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
-                hint_text='None', multiline=False)
+                text='', multiline=False)
         box_ch.add_widget(label_ch)
         box_ch.add_widget(self.ch_labels)
 
@@ -79,7 +75,7 @@ class AcquisitionSettings(Screen):
         box_ch2 = BoxLayout(orientation = 'horizontal')
         label_ch2 = Label(text = 'Channels Labels', font_size=FONT_SIZE)
         self.ch_labels = TextInput(font_size= FONT_SIZE,
-                hint_text='None', multiline=False)
+                text='', multiline=False)
         box_ch2.add_widget(label_ch2)
         box_ch2.add_widget(self.ch_labels)
 
@@ -91,7 +87,7 @@ class AcquisitionSettings(Screen):
         box_path = BoxLayout(orientation = 'horizontal')
         label_path = Label(text = 'Path to EEG file', font_size=FONT_SIZE)
         self.path_to_file = TextInput(font_size= FONT_SIZE,
-                hint_text='None', multiline=False)
+                text='', multiline=False)
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
 
@@ -173,23 +169,6 @@ class AcquisitionSettings(Screen):
             data = json.load(data_file)
             session_list = data["session_list"]
             self.session = session_list[-1]
-
-    def load_default_settings(self,*args):
-        PATH_TO_DEFAULT = 'data/default_configs/openbci_config.txt'
-
-        with open(PATH_TO_DEFAULT, "r") as data_file:    
-
-            data = json.load(data_file)
-            if self.mode == 'openbci':
-                self.com_port.text = data["com_port"]
-                self.baud_rate.text = data["baud_rate"]
-                self.ch_labels.text = data["ch_labels"]
-
-            elif self.mode == 'simu':
-                self.ch_labels.text = data["ch_labels"]
-
-            elif self.mode == 'playback':
-                self.path_to_file.text = data["path_to_file"]
 
     def save_config(self,*args):
         
