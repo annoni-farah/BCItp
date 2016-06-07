@@ -14,9 +14,7 @@ class AcquisitionSettings(Screen):
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.6,
-            padding=10, spacing=10, orientation='vertical')
-
+        ## BOTTOM PART
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.4, 
             padding=10, spacing=10, orientation='vertical')
 
@@ -37,42 +35,68 @@ class AcquisitionSettings(Screen):
         box_bottom.add_widget(button_back)
 
 
+        ## TOP PART
+
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.6,
+            padding=10, spacing=10, orientation='vertical')
+
         self.box_text = BoxLayout(size_hint_x=1, size_hint_y=0.7,
             padding=10, spacing=10, )
 
+        ## OPENBCI CONFIG
         self.box_text_openbci = BoxLayout(orientation='vertical')
 
+        box_com = BoxLayout(orientation = 'horizontal')
+        label_com = Label(text = 'COM Port')
         self.com_port = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='COM port', multiline=False)
+                        hint_text='/dev/ttyUSB0', multiline=False)
+        box_com.add_widget(label_com)
+        box_com.add_widget(self.com_port)
 
+        box_baud = BoxLayout(orientation = 'horizontal')
+        label_baud = Label(text = 'BaudRate')
         self.baud_rate = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='Baud Rate', multiline=False)
+                        hint_text='115200', multiline=False)
+        box_baud.add_widget(label_baud)
+        box_baud.add_widget(self.baud_rate)
 
+        box_ch = BoxLayout(orientation = 'horizontal')
+        label_ch = Label(text = 'Channels Labels')
         self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= 20,
-                hint_text='Channels Labels :Cz C4 C3 ...', multiline=False)
+                hint_text='None', multiline=False)
+        box_ch.add_widget(label_ch)
+        box_ch.add_widget(self.ch_labels)
 
-        self.box_text_openbci.add_widget(self.com_port)
-        self.box_text_openbci.add_widget(self.baud_rate)
-        self.box_text_openbci.add_widget(self.ch_labels)
+        self.box_text_openbci.add_widget(box_com)
+        self.box_text_openbci.add_widget(box_baud)
+        self.box_text_openbci.add_widget(box_ch)
 
+        ## PLAYBACK CONFIG
         self.box_text_simu = BoxLayout(orientation='vertical')
 
+        box_ch2 = BoxLayout(orientation = 'horizontal')
+        label_ch2 = Label(text = 'Channels Labels')
         self.ch_labels = TextInput(font_size= 20,
-                hint_text='Channels Labels :Cz C4 C3 ...', multiline=False)
+                hint_text='None', multiline=False)
+        box_ch2.add_widget(label_ch2)
+        box_ch2.add_widget(self.ch_labels)
 
-        self.ch_labels.width = 200
-        self.ch_labels.height = (self.ch_labels.minimum_height)
-        print 'min height:', self.ch_labels.minimum_height
+        self.box_text_simu.add_widget(box_ch2)
 
-        self.box_text_simu.add_widget(self.ch_labels)
-
+        ## SIMULATOR CONFIG
         self.box_text_playback = BoxLayout(orientation='vertical')
 
+        box_path = BoxLayout(orientation = 'horizontal')
+        label_path = Label(text = 'Path to EEG file')
         self.path_to_file = TextInput(font_size= 20,
-                hint_text='Path to EEG file', multiline=False)
+                hint_text='None', multiline=False)
+        box_path.add_widget(label_path)
+        box_path.add_widget(self.path_to_file)
 
-        self.box_text_playback.add_widget(self.path_to_file)
+        self.box_text_playback.add_widget(box_path)
 
+
+        ## CHECK BOXES
         label_simu = Label(text="Simulator", font_size=20)
         label_openbci = Label(text="OpenBCI", font_size=20)
         label_playback = Label(text="Playback", font_size=20)
@@ -95,7 +119,7 @@ class AcquisitionSettings(Screen):
 
         checkbox_playback = CheckBox()
         checkbox_playback.bind(active=self.enable_playback_config)
-        
+
         box_checkbox_bottom.add_widget(checkbox_simu)
         box_checkbox_bottom.add_widget(checkbox_openbci)
         box_checkbox_bottom.add_widget(checkbox_playback)
