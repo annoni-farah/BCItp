@@ -7,6 +7,8 @@ from kivy.uix.checkbox import CheckBox
 
 import json
 
+from standards import *
+
 class AcquisitionSettings(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -18,7 +20,7 @@ class AcquisitionSettings(Screen):
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.4, 
             padding=10, spacing=10, orientation='vertical')
 
-        self.label_msg = Label(text="", font_size=20)
+        self.label_msg = Label(text="", font_size=FONT_SIZE)
         
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
@@ -47,22 +49,22 @@ class AcquisitionSettings(Screen):
         self.box_text_openbci = BoxLayout(orientation='vertical')
 
         box_com = BoxLayout(orientation = 'horizontal')
-        label_com = Label(text = 'COM Port')
-        self.com_port = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_com = Label(text = 'COM Port', font_size=FONT_SIZE)
+        self.com_port = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='/dev/ttyUSB0', multiline=False)
         box_com.add_widget(label_com)
         box_com.add_widget(self.com_port)
 
         box_baud = BoxLayout(orientation = 'horizontal')
-        label_baud = Label(text = 'BaudRate')
-        self.baud_rate = TextInput(size_hint=(1, 0.8), font_size= 20,
-                        hint_text='115200', multiline=False)
+        label_baud = Label(text = 'BaudRate', font_size=FONT_SIZE)
+        self.baud_rate = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
+                        hint_text='115FONT_SIZE0', multiline=False)
         box_baud.add_widget(label_baud)
         box_baud.add_widget(self.baud_rate)
 
         box_ch = BoxLayout(orientation = 'horizontal')
-        label_ch = Label(text = 'Channels Labels')
-        self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_ch = Label(text = 'Channels Labels', font_size=FONT_SIZE)
+        self.ch_labels = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='None', multiline=False)
         box_ch.add_widget(label_ch)
         box_ch.add_widget(self.ch_labels)
@@ -75,8 +77,8 @@ class AcquisitionSettings(Screen):
         self.box_text_simu = BoxLayout(orientation='vertical')
 
         box_ch2 = BoxLayout(orientation = 'horizontal')
-        label_ch2 = Label(text = 'Channels Labels')
-        self.ch_labels = TextInput(font_size= 20,
+        label_ch2 = Label(text = 'Channels Labels', font_size=FONT_SIZE)
+        self.ch_labels = TextInput(font_size= FONT_SIZE,
                 hint_text='None', multiline=False)
         box_ch2.add_widget(label_ch2)
         box_ch2.add_widget(self.ch_labels)
@@ -87,8 +89,8 @@ class AcquisitionSettings(Screen):
         self.box_text_playback = BoxLayout(orientation='vertical')
 
         box_path = BoxLayout(orientation = 'horizontal')
-        label_path = Label(text = 'Path to EEG file')
-        self.path_to_file = TextInput(font_size= 20,
+        label_path = Label(text = 'Path to EEG file', font_size=FONT_SIZE)
+        self.path_to_file = TextInput(font_size= FONT_SIZE,
                 hint_text='None', multiline=False)
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
@@ -97,9 +99,9 @@ class AcquisitionSettings(Screen):
 
 
         ## CHECK BOXES
-        label_simu = Label(text="Simulator", font_size=20)
-        label_openbci = Label(text="OpenBCI", font_size=20)
-        label_playback = Label(text="Playback", font_size=20)
+        label_simu = Label(text="Simulator", font_size=FONT_SIZE)
+        label_openbci = Label(text="OpenBCI", font_size=FONT_SIZE)
+        label_playback = Label(text="Playback", font_size=FONT_SIZE)
 
         box_checkbox = BoxLayout(size_hint_x=1, size_hint_y=0.3,
                         padding=5, spacing=5, orientation='vertical')

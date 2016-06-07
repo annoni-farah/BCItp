@@ -6,6 +6,8 @@ from kivy.uix.textinput import TextInput
 
 import json
 
+from standards import *
+
 class DataProcessingSettings(Screen):
 # layout
     def __init__ (self,**kwargs):
@@ -13,10 +15,10 @@ class DataProcessingSettings(Screen):
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        self.label_msg = Label(text="", font_size=20)
+        self.label_msg = Label(text="", font_size=FONT_SIZE)
         ## BOTTOM PART (BUTTONS)
 
-        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
+        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
         button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
         button_save.bind(on_press= self.save_config)
@@ -32,15 +34,19 @@ class DataProcessingSettings(Screen):
         box_bottom.add_widget(button_default)
         box_bottom.add_widget(button_back)
 
+        boxg.add_widget(box_bottom)
+
         ## TOP PART
+
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, spacing=10, orientation='vertical')
 
         # EPOCHS CONFIG
         box_epochs = BoxLayout(size_hint_x=1, size_hint_y=0.15,padding=10, spacing=10, orientation='horizontal')
-        label_start = Label(text = 'Epoch Start')
-        self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_start = Label(text = 'Epoch Start', font_size=FONT_SIZE)
+        self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='2', multiline=False)
-        label_end = Label(text = 'Epoch End')
-        self.epoch_end = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_end = Label(text = 'Epoch End', font_size=FONT_SIZE)
+        self.epoch_end = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                         hint_text='4', multiline=False)
 
         box_epochs.add_widget(label_start)
@@ -48,21 +54,21 @@ class DataProcessingSettings(Screen):
         box_epochs.add_widget(label_end)
         box_epochs.add_widget(self.epoch_end)
         
-        boxg.add_widget(box_epochs)
+        box_top.add_widget(box_epochs)
 
         # DATA CONFIG
         box_data = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
         box_buf = BoxLayout(orientation = 'horizontal')
-        label_buf = Label(text ='Circular Buffer Length')
-        self.buf_len = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_buf = Label(text ='Circular Buffer Length', font_size=FONT_SIZE)
+        self.buf_len = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='in samples - default 500', multiline=False)
         box_buf.add_widget(label_buf)
         box_buf.add_widget(self.buf_len)
 
         box_ch = BoxLayout(orientation = 'horizontal')
-        label_ch = Label(text = 'Channels idx used')
-        self.channels = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_ch = Label(text = 'Channels idx used', font_size=FONT_SIZE)
+        self.channels = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text=' 0 1 2 3 4 5 6 7 8', multiline=False)
         box_ch.add_widget(label_ch)
         box_ch.add_widget(self.channels)
@@ -70,41 +76,45 @@ class DataProcessingSettings(Screen):
         box_data.add_widget(box_buf)
         box_data.add_widget(box_ch)
 
-        boxg.add_widget(box_data)
+        box_top.add_widget(box_data)
 
 
         # FILTER CONFIG
-        box_filter = BoxLayout(size_hint_x=1, size_hint_y=0.15,padding=10, spacing=10, orientation='horizontal')
+        box_filter = BoxLayout(size_hint_x=1, size_hint_y=0.4,padding=10, spacing=10, orientation='vertical')
+
+        box_f_band = BoxLayout(size_hint_x=1,padding=10, spacing=10, orientation='horizontal')
 
         box_high = BoxLayout(orientation = 'horizontal')
-        label_high = Label(text = 'Upper cutoff freq')
-        self.f_high = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_high = Label(text = 'Upper cutoff freq', font_size=FONT_SIZE)
+        self.f_high = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='30 (Hz)', multiline=False)
         box_high.add_widget(label_high)
         box_high.add_widget(self.f_high)
 
         box_low = BoxLayout(orientation = 'horizontal')
-        label_low = Label(text = 'Lower cutoff freq')
-        self.f_low = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_low = Label(text = 'Lower cutoff freq', font_size=FONT_SIZE)
+        self.f_low = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='8 (Hz)', multiline=False)
         box_low.add_widget(label_low)
         box_low.add_widget(self.f_low)
 
+        box_f_band.add_widget(box_low)
+        box_f_band.add_widget(box_high)
+        box_filter.add_widget(box_f_band)
+
 
         box_order = BoxLayout(orientation = 'horizontal')
-        label_order = Label(text = 'Filter Order')
-        self.f_order = TextInput(size_hint=(1, 0.8), font_size= 20,
+        label_order = Label(text = 'Filter Order', font_size=FONT_SIZE)
+        self.f_order = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
                 hint_text='7', multiline=False)
         box_order.add_widget(label_order)
         box_order.add_widget(self.f_order)
 
-        box_filter.add_widget(box_low)
-        box_filter.add_widget(box_high)
         box_filter.add_widget(box_order)
 
-        boxg.add_widget(box_filter)
+        box_top.add_widget(box_filter)
 
-        boxg.add_widget(box_bottom)
+        boxg.add_widget(box_top, 2)
 
         self.add_widget(boxg)
 
