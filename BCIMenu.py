@@ -30,6 +30,9 @@ class BCIMenu(Screen):
         button_val = Button(text="Validation")
         button_val.bind(on_press= self.change_to_validation)
 
+        button_ml = Button(text="Machine Learning")
+        button_ml.bind(on_press= self.change_to_ml)
+
         button_game = Button(text="Game")
         button_game.bind(on_press= self.change_to_game)
 
@@ -44,6 +47,7 @@ class BCIMenu(Screen):
         box1.add_widget(button_precal)
         box1.add_widget(button_cal)
         box1.add_widget(button_val)
+        box1.add_widget(button_ml)
         box1.add_widget(button_game)
         box1.add_widget(button_back)
 
@@ -59,6 +63,10 @@ class BCIMenu(Screen):
 
     def change_to_validation(self,*args):
         self.manager.current = 'ValMenu'
+        self.manager.transition.direction = 'left'
+
+    def change_to_ml(self,*args):
+        self.manager.current = 'MlMenu'
         self.manager.transition.direction = 'left'
 
     def change_to_game(self,*args):
