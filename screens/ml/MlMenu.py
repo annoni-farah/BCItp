@@ -113,6 +113,8 @@ class MlMenu(Screen):
         popup.open()
         
     def get_ml_model(self,*args):
+
+
         box = BoxLayout()
         l1 = Label(text='Model Results')
         l2 = Label(text='Acc: %') 

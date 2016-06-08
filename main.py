@@ -7,6 +7,17 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+import os, sys, inspect
+
+FOLDERS = ['bci_ml', 'utils', 'settings', 'screens','screens/cal',
+ 'screens/hardware', 'screens/ml', 'screens/precal',
+ 'screens/cal', 'screens/val', 'screens/game', ]
+
+for i in range(len(FOLDERS)):
+      cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],FOLDERS[i])))
+      if cmd_subfolder not in sys.path:
+            sys.path.insert(0, cmd_subfolder)
+
 from ScreenStart import *
 from UISettingsScreen import *
 from BCIMenu import *
