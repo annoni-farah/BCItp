@@ -77,7 +77,7 @@ class DataProcessingSettings(Screen):
         # FILTER CONFIG
         box_filter = BoxLayout(size_hint_x=1, size_hint_y=0.4,padding=10, spacing=10, orientation='vertical')
 
-        box_f_band = BoxLayout(size_hint_x=1,padding=10, spacing=10, orientation='horizontal')
+        # box_f_band = BoxLayout(size_hint_x=1,padding=10, spacing=10, orientation='vertical')
 
         box_high = BoxLayout(orientation = 'horizontal')
         label_high = Label(text = 'Upper cutoff freq (Hz)', font_size=FONT_SIZE)
@@ -91,9 +91,9 @@ class DataProcessingSettings(Screen):
         box_low.add_widget(label_low)
         box_low.add_widget(self.f_low)
 
-        box_f_band.add_widget(box_low)
-        box_f_band.add_widget(box_high)
-        box_filter.add_widget(box_f_band)
+        box_filter.add_widget(box_low)
+        box_filter.add_widget(box_high)
+        # box_filter.add_widget(box_f_band)
 
 
         box_order = BoxLayout(orientation = 'horizontal')
