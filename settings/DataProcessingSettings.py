@@ -18,7 +18,7 @@ class DataProcessingSettings(Screen):
         self.label_msg = Label(text="", font_size=FONT_SIZE)
         ## BOTTOM PART (BUTTONS)
 
-        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
+        box_bottom = BoxLayout(size_hint= BUTTON_BOX_SIZE,padding=10, spacing=10, orientation='vertical')
 
         button_save = Button(text="Save", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
