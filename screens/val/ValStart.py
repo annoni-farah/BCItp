@@ -186,8 +186,6 @@ class ValStart(Screen):
         self.f_low = int(data["f_low"])
         self.f_high = int(data["f_high"])
         self.f_order = int(data["f_order"])
-        self.epoch_start = int(data["epoch_start"])
-        self.epoch_end = int(data["epoch_end"])
         self.channels = map(int, data['channels'].split(" "))
 
     def load_acquisition_settings(self):

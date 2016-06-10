@@ -36,22 +36,6 @@ class DataProcessingSettings(Screen):
 
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, spacing=10, orientation='vertical')
 
-        # EPOCHS CONFIG
-        box_epochs = BoxLayout(size_hint_x=1, size_hint_y=0.15,padding=10, spacing=10, orientation='horizontal')
-        label_start = Label(text = 'Epoch Start', font_size=FONT_SIZE)
-        self.epoch_start = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
-                        text='2', multiline=False)
-        label_end = Label(text = 'Epoch End', font_size=FONT_SIZE)
-        self.epoch_end = TextInput(size_hint=(1, 0.8), font_size= FONT_SIZE,
-                        text='4', multiline=False)
-
-        box_epochs.add_widget(label_start)
-        box_epochs.add_widget(self.epoch_start)
-        box_epochs.add_widget(label_end)
-        box_epochs.add_widget(self.epoch_end)
-        
-        box_top.add_widget(box_epochs)
-
         # DATA CONFIG
         box_data = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
@@ -136,8 +120,6 @@ class DataProcessingSettings(Screen):
                 'f_low': self.f_low.text, 
                 'f_high': self.f_high.text,
                 'f_order': self.f_order.text,
-                'epoch_start': self.epoch_start.text,
-                'epoch_end': self.epoch_end.text,
                 }, file, indent=4))
     
 
