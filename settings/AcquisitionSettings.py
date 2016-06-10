@@ -75,7 +75,7 @@ class AcquisitionSettings(Screen):
         box_ch2 = BoxLayout(orientation = 'horizontal')
         label_ch2 = Label(text = 'Channels Labels', font_size=FONT_SIZE)
         self.ch_labels = TextInput(font_size= FONT_SIZE,
-                text='', multiline=False)
+                text='', multiline=True)
         box_ch2.add_widget(label_ch2)
         box_ch2.add_widget(self.ch_labels)
 
@@ -87,7 +87,7 @@ class AcquisitionSettings(Screen):
         box_path = BoxLayout(orientation = 'horizontal')
         label_path = Label(text = 'Path to EEG file', font_size=FONT_SIZE)
         self.path_to_file = TextInput(font_size= FONT_SIZE,
-                text='', multiline=False)
+                text='', multiline=True)
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
 
