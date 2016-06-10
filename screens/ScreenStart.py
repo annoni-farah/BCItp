@@ -11,7 +11,6 @@ import json
 
 from standards import *
 
-BUTTON_SIZE = (100, 300)
 TEXT_SIZE = (1, 0.7)
 
 class StartScreen(Screen):
@@ -26,8 +25,8 @@ class StartScreen(Screen):
 
         self.label_msg = Label(text="", font_size=FONT_SIZE)
 
-        button_ui_settings = Button(text="UIX Settings", font_size = FONT_SIZE ,
-            width = 100, height= 50)
+        button_ui_settings = Button(text="UIX Settings", font_size = FONT_SIZE,
+            size = BUTTON_SIZE)
         button_ui_settings.bind(on_press= self.change_to_ui_settings)
 
         button_next = Button(text="BCI Menu", size=BUTTON_SIZE, font_size = FONT_SIZE)

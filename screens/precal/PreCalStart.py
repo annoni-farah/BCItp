@@ -65,10 +65,10 @@ class PreCalStart(Screen):
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
             spacing=10, orientation='vertical')
 
-        button_back = Button(text="Back")
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_precal)
 
-        self.button_stream = Button(text="Start Streaming")
+        self.button_stream = Button(text="Start Streaming", size = BUTTON_SIZE)
         self.button_stream.bind(on_press= self.toogle_stream)
 
         self.label_info = Label(text= 'Msg:')

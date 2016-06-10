@@ -21,13 +21,13 @@ class PreCalSettings(Screen):
 
         self.label_msg = Label(text="", font_size=FONT_SIZE)
         
-        button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
+        button_save = Button(text="Save", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
 
-        button_default = Button(text="Load Default Config", size_hint_x=1, size_hint_y=0.5)
+        button_default = Button(text="Load Default Config", size = BUTTON_SIZE)
         button_default.bind(on_press= self.load_default_settings)
 
-        button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.5,

@@ -32,7 +32,7 @@ class CalStart(Screen):
         box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
         box2 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
 
-        button_back = Button(text="Back")
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_precal)
 
         self.button_stream = Button(text="Start Streaming")

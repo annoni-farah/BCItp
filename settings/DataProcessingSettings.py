@@ -20,10 +20,10 @@ class DataProcessingSettings(Screen):
 
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
-        button_save = Button(text="Save", size_hint_x=1, size_hint_y=0.5)
+        button_save = Button(text="Save", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
 
-        button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
         box_bottom.add_widget(self.label_msg)

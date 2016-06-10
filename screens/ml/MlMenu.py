@@ -20,13 +20,13 @@ class MlMenu(Screen):
 
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
 
-        button_back = Button(text="Back", size_hint_x=1, size_hint_y=0.5)
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
-        button_dinfo = Button(text="Data Info", size_hint_x=1, size_hint_y=0.5)
+        button_dinfo = Button(text="Data Info", size = BUTTON_SIZE)
         button_dinfo.bind(on_press= self.show_data_info)
 
-        button_train = Button(text="Train and evaluate Model", size_hint_x=1, size_hint_y=0.5)
+        button_train = Button(text="Train and evaluate Model", size = BUTTON_SIZE)
         button_train.bind(on_press= self.get_ml_model)
 
         box_bottom.add_widget(self.label_msg)

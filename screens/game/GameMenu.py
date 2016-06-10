@@ -15,13 +15,13 @@ class GameMenu(Screen):
 
         self.label_msg = Label(text="Game Menu", font_size=FONT_SIZE)
 
-        button_start = Button(text="Start")
+        button_start = Button(text="Start", size = BUTTON_SIZE)
         button_start.bind(on_press= self.change_to_acquisition)
 
-        button_settings = Button(text="Settings")
+        button_settings = Button(text="Settings", size = BUTTON_SIZE)
         button_settings.bind(on_press= self.change_to_gamesettings)
 
-        button_back = Button(text="Back")
+        button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_bci)
 
 

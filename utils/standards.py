@@ -1,3 +1,5 @@
 
 
 FONT_SIZE = 20
+
+BUTTON_SIZE = (400, 200)
