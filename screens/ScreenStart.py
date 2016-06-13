@@ -57,8 +57,24 @@ class StartScreen(Screen):
         self.manager.transition.direction = 'left'
 
     def change_to_bci(self,*args):
+
+        if self.sh.name is None:
+            
+            self.load_default_name()
+            print 'no name saved, using last name:', self.session_name.text
+
+            self.save_session_name()
+
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'left'
+
+    def load_default_name(self):
+        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
+
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session_name.text = session_list[-1]
 
     def save_session_name(self,*args):
 
