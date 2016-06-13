@@ -204,47 +204,28 @@ class PreCalStart(Screen):
 
     def load_dp_settings(self):
 
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/dp_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.buf_len = int(data["buf_len"])
-        self.f_low = int(data["f_low"])
-        self.f_high = int(data["f_high"])
-        self.f_order = int(data["f_order"])
-        self.channels = map(int, data['channels'].split())
+        self.buf_len = self.sh.buf_len
+        self.f_low = self.sh.f_low
+        self.f_high = self.sh.f_high
+        self.f_order = self.sh.f_order
+        self.channels = self.sh.channels
 
     def load_acquisition_settings(self):
 
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.mode = data["mode"]
-
-        if self.mode == 'openbci':
-            self.com_port = data["com_port"]
-            self.baud_rate = data["baud_rate"]
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'simu':
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'playback':
-            self.path_to_file = data["path_to_file"]
+        self.mode = self.sh.mode
+        self.com_port = self.sh.com_port
+        self.baud_rate = self.sh.baud_rate
+        self.ch_labels = self.sh.ch_labels
+        self.path_to_file = self.sh.path_to_file
 
     def load_precal_settings(self):
 
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/precal_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.ch_energy_right = map(int, data['ch_energy_right'].split(" "))
-        self.ch_energy_left = map(int, data['ch_energy_left'].split(" "))
-        self.total_time = int(data['total_time'])
-        self.relax_time = int(data['relax_time'])
-        self.sign_direction = data['sign_direction']
-        self.plot_flag = data['plot_flag']
+        self.ch_energy_right = self.sh.pc_ch_energy_right
+        self.ch_energy_left = self.sh.pc_ch_energy_left
+        self.total_time = self.sh.pc_total_time
+        self.relax_time = self.sh.pc_relax_time
+        self.sign_direction = self.sh.pc_sign_direction
+        self.plot_flag = self.sh.pc_plot_flag
 
     def load_settings(self):
         self.load_session_config()
