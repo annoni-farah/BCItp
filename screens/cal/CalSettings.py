@@ -24,9 +24,6 @@ class CalSettings(Screen):
         button_save = Button(text="Save", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
 
-        button_default = Button(text="Load Default Config", size = BUTTON_SIZE)
-        button_default.bind(on_press= self.load_default_settings)
-
         button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
@@ -52,7 +49,6 @@ class CalSettings(Screen):
 
         box_bottom.add_widget(self.label_msg)
         box_bottom.add_widget(button_save)
-        box_bottom.add_widget(button_default)
         box_bottom.add_widget(button_back)
 
         boxg.add_widget(box_top)
@@ -65,34 +61,12 @@ class CalSettings(Screen):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'right'
 
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
-    def load_default_settings(self,*args):
-        PATH_TO_DEFAULT = 'data/default_configs/cal_config.txt'
-
-        with open(PATH_TO_DEFAULT, "r") as data_file:    
-            data = json.load(data_file)
-            self.n_trials.text = data["n_trials"]
-            self.cue_offset.text = data["cue_offset"]
-            self.pause_offset.text = data["pause_offset"]
-            self.end_trial_offset.text = data["end_trial_offset"]
-
-
     def save_config(self,*args):
-        self.load_session_config()
 
-        with open("data/session/"+ self.session + "/cal_config.txt", "w") as file:
-
-            file.write(json.dumps({'n_trials': self.n_trials.text, 
-                'cue_offset': self.cue_offset.text, 
-                'pause_offset': self.pause_offset.text, 
-                'end_trial_offset': self.end_trial_offset.text}, file, indent=4))
+        self.sh.c_n_trials = self.n_trials.text
+        self.sh.c_cue_offset =  self.cue_offset.text
+        self.sh.c_pause_offset =  self.pause_offset.text
+        self.sh.c_end_trial_offset =  self.end_trial_offset.text
     
 
         self.label_msg.text = "Settings Saved!"
