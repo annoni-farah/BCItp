@@ -10,8 +10,9 @@ from standards import *
 
 class MlMenu(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (MlMenu, self).__init__(**kwargs)
+        self.sh = session_header
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 

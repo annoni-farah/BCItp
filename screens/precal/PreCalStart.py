@@ -37,8 +37,9 @@ from standards import *
 
 class PreCalStart(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (PreCalStart, self).__init__(**kwargs)
+        self.sh = session_header
 
 
     # Top part

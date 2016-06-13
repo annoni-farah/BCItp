@@ -42,33 +42,40 @@ from MlMenu import *
 
 from GameMenu import *
 
+from kivy.properties import StringProperty
+
+from SessionInfo import SessionHeader
+
 class MyApp(App):
 
-    def build(self):
+
+      def build(self):
+            sh = SessionHeader()
+
             sm = ScreenManager()
-            start_screen = StartScreen(name='start')
-            settings_screen = UISettingsScreen(name='UISettings')
-            bci_screen = BCIMenu(name='BCIMenu')
+            start_screen = StartScreen(sh, name='start')
+            settings_screen = UISettingsScreen(sh, name='UISettings')
+            bci_screen = BCIMenu(sh, name='BCIMenu')
 
-            acquisition_settings_screen = AcquisitionSettings(name='AcquisitionSettings')
+            acquisition_settings_screen = AcquisitionSettings(sh, name='AcquisitionSettings')
 
-            data_processing_settings_screen = DataProcessingSettings(name='DataProcessingSettings')
+            data_processing_settings_screen = DataProcessingSettings(sh, name='DataProcessingSettings')
 
-            precal_screen = PreCalMenu(name='PreCalMenu')
-            precal_start_screen = PreCalStart(name='PreCalStart')
-            precal_settings_screen = PreCalSettings(name='PreCalSettings')
+            precal_screen = PreCalMenu(sh, name='PreCalMenu')
+            precal_start_screen = PreCalStart(sh, name='PreCalStart')
+            precal_settings_screen = PreCalSettings(sh, name='PreCalSettings')
 
-            cal_screen = CalMenu(name='CalMenu')
-            cal_settings_screen = CalSettings(name='CalSettings')
-            cal_start_screen = CalStart(name='CalStart')
+            cal_screen = CalMenu(sh, name='CalMenu')
+            cal_settings_screen = CalSettings(sh, name='CalSettings')
+            cal_start_screen = CalStart(sh, name='CalStart')
 
-            val_screen = ValMenu(name='ValMenu')
-            val_settings_screen = ValSettings(name='ValSettings')
-            val_start_screen = ValStart(name='ValStart')
+            val_screen = ValMenu(sh, name='ValMenu')
+            val_settings_screen = ValSettings(sh, name='ValSettings')
+            val_start_screen = ValStart(sh, name='ValStart')
 
-            ml_screen = MlMenu(name='MlMenu')
+            ml_screen = MlMenu(sh, name='MlMenu')
 
-            game_screen = GameMenu(name='GameMenu')
+            game_screen = GameMenu(sh, name='GameMenu')
 
             sm.add_widget(start_screen)
             sm.add_widget(settings_screen)
@@ -95,6 +102,7 @@ class MyApp(App):
             sm.add_widget(game_screen)
 
             sm.current = 'start'
+
             return sm
 
 

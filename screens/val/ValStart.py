@@ -22,8 +22,9 @@ from standards import *
 
 class ValStart(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (ValStart, self).__init__(**kwargs)
+        self.sh = session_header
 
         box = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
 

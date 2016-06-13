@@ -10,8 +10,9 @@ from standards import *
 
 class ValSettings(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (ValSettings, self).__init__(**kwargs)
+        self.sh = session_header
 
         boxg = BoxLayout(padding=10, spacing=10, orientation='vertical')
 
