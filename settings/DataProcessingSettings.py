@@ -99,29 +99,16 @@ class DataProcessingSettings(Screen):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
 
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
     def save_config(self,*args):
-
-        self.load_session_config()
 
         if self.channels.text == "":
             self.channels.text = "1 2 3 4 5 6 7 8"
 
-        with open("data/session/"+ self.session + "/dp_config.txt", "w") as file:
-
-            file.write(json.dumps({'buf_len': self.buf_len.text, 
-                'channels': self.channels.text, 
-                'f_low': self.f_low.text, 
-                'f_high': self.f_high.text,
-                'f_order': self.f_order.text,
-                }, file, indent=4))
+            self.sh.buf_len = self.buf_len.text
+            self.sh.channels =  self.channels.text
+            self.sh.f_low =  self.f_low.text
+            self.sh.f_high =  self.f_high.text
+            self.sh.f_order =  self.f_order.text
     
 
         self.label_msg.text = "Settings Saved!"
