@@ -9,6 +9,8 @@ import os
 
 import json
 
+from utils import saveObjAsJson
+
 from standards import *
 
 TEXT_SIZE = (1, 0.7)
@@ -78,9 +80,6 @@ class StartScreen(Screen):
 
     def save_session_name(self,*args):
 
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-        PATH_TO_SESSION = 'data/session/'
-
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
@@ -111,6 +110,8 @@ class StartScreen(Screen):
 
             
         self.sh.name = self.session_name.text
+
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         
         with open(PATH_TO_SESSION_LIST, "w") as file:
 

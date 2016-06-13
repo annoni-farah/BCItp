@@ -4,7 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
@@ -68,5 +68,5 @@ class CalSettings(Screen):
         self.sh.c_pause_offset =  self.pause_offset.text
         self.sh.c_end_trial_offset =  self.end_trial_offset.text
     
-
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

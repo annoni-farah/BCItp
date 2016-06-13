@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
@@ -75,10 +75,10 @@ class AcquisitionSettings(Screen):
 
         box_ch2 = BoxLayout(orientation = 'horizontal')
         label_ch2 = Label(text = 'Channels Labels', font_size=FONT_SIZE)
-        self.ch_labels = TextInput(font_size= FONT_SIZE,
+        self.ch_labels2 = TextInput(font_size= FONT_SIZE,
                 text='', multiline=True)
         box_ch2.add_widget(label_ch2)
-        box_ch2.add_widget(self.ch_labels)
+        box_ch2.add_widget(self.ch_labels2)
 
         self.box_text_simu.add_widget(box_ch2)
 
@@ -173,7 +173,7 @@ class AcquisitionSettings(Screen):
             self.sh.mode = self.mode
 
         elif self.mode == 'simu':
-            self.sh.ch_labels =  self.ch_labels.text
+            self.sh.ch_labels2 =  self.ch_labels2.text
             self.sh.mode =  self.mode
 
         elif self.mode == 'playback':
@@ -181,6 +181,6 @@ class AcquisitionSettings(Screen):
             self.sh.mode = self.mode
 
     
-
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
 

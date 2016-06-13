@@ -1,5 +1,7 @@
 import numpy as np
 
+import json
+
 def LoadDataAsMatrix(path, cols=[]):
     """Loads text file content as numpy matrix
     Parameters
@@ -98,3 +100,7 @@ def saveMatrixAsTxt(data_in, path, mode = 'a'):
 
     with open(path, mode) as data_file:    
         np.savetxt(data_file, data_in)
+
+def saveObjAsJson(obj, filename):
+    with open(filename, "w") as file:
+        file.write(json.dumps(obj.__dict__, file, indent=4))

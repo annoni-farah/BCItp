@@ -4,7 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
@@ -104,11 +104,11 @@ class DataProcessingSettings(Screen):
         if self.channels.text == "":
             self.channels.text = "1 2 3 4 5 6 7 8"
 
-            self.sh.buf_len = self.buf_len.text
-            self.sh.channels =  self.channels.text
-            self.sh.f_low =  self.f_low.text
-            self.sh.f_high =  self.f_high.text
-            self.sh.f_order =  self.f_order.text
+        self.sh.buf_len = self.buf_len.text
+        self.sh.channels =  self.channels.text
+        self.sh.f_low =  self.f_low.text
+        self.sh.f_high =  self.f_high.text
+        self.sh.f_order =  self.f_order.text
     
-
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

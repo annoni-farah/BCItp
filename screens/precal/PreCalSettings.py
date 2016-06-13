@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
@@ -96,4 +96,5 @@ class PreCalSettings(Screen):
         self.sh.pc_relax_time =  self.relax_time.text
         self.sh.pc_plot_flag =  self.plot_flag
 
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
