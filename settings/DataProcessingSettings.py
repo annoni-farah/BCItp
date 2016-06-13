@@ -101,9 +101,6 @@ class DataProcessingSettings(Screen):
 
     def save_config(self,*args):
 
-        if self.channels.text == "":
-            self.channels.text = "1 2 3 4 5 6 7 8"
-
         self.sh.buf_len = self.buf_len.text
         self.sh.channels =  self.channels.text
         self.sh.f_low =  self.f_low.text
