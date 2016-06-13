@@ -65,10 +65,6 @@ class StartScreen(Screen):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
         PATH_TO_SESSION = 'data/session/'
 
-        
-
-        print 'nome da sessao:', self.sh.name
-
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
