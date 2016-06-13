@@ -25,9 +25,6 @@ class PreCalSettings(Screen):
         button_save = Button(text="Save", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
 
-        button_default = Button(text="Load Default Config", size = BUTTON_SIZE)
-        button_default.bind(on_press= self.load_default_settings)
-
         button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
@@ -70,7 +67,6 @@ class PreCalSettings(Screen):
 
         box_bottom.add_widget(self.label_msg)
         box_bottom.add_widget(button_save)
-        box_bottom.add_widget(button_default)
         box_bottom.add_widget(button_back)
 
         boxg.add_widget(box_top)
@@ -91,38 +87,13 @@ class PreCalSettings(Screen):
         else:
             self.plot_flag = False
 
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
-    def load_default_settings(self,*args):
-        PATH_TO_DEFAULT = 'data/default_configs/precal_config.txt'
-
-        with open(PATH_TO_DEFAULT, "r") as data_file:    
-            data = json.load(data_file)
-            self.ch_energy_left.text = data["ch_energy_left"]
-            self.ch_energy_right.text = data["ch_energy_right"]
-            self.total_time.text = data["total_time"]
-            self.relax_time.text = data["relax_time"]
-            self.sign_direction.text = data["sign_direction"]
 
     def save_config(self,*args):
-        self.load_session_config()
 
-        with open("data/session/"+ self.session + "/precal_config.txt", "w") as file:
-
-            file.write(json.dumps({'ch_energy_left': self.ch_energy_left.text,
-                 'ch_energy_right': self.ch_energy_right.text,
-                 'total_time': self.total_time.text,
-                 'relax_time': self.relax_time.text, 
-                 'sign_direction': self.sign_direction.text, 
-                 'plot_flag': self.plot_flag, 
-                 }, file, indent=4))
-                                
-    
+        self.sh.pc_ch_energy_left =  self.ch_energy_left.text
+        self.sh.pc_ch_energy_right = self.ch_energy_right.text
+        self.sh.pc_total_time =  self.total_time.text
+        self.sh.pc_relax_time =  self.relax_time.text
+        self.sh.pc_plot_flag =  self.plot_flag
 
         self.label_msg.text = "Settings Saved!"

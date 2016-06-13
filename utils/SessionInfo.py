@@ -34,6 +34,7 @@ class SessionHeader:
         self.pc_total_time = None
         self.pc_relax_time = None
         self.pc_sign_direction = None
+        self.pc_plot_flag = None
 
 
         # CAL SETTINGS
