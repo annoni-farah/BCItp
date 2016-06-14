@@ -106,6 +106,6 @@ class DataProcessingSettings(Screen):
         self.sh.f_low =  self.f_low.text
         self.sh.f_high =  self.f_high.text
         self.sh.f_order =  self.f_order.text
-    
+
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

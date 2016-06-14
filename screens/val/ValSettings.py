@@ -66,6 +66,9 @@ class ValSettings(Screen):
         self.sh.v_cue_offset =  self.cue_offset.text
         self.sh.v_pause_offset =  self.pause_offset.text
         self.sh.v_end_trial_offset =  self.end_trial_offset.text
+
+        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt'
+        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'
     
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

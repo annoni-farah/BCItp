@@ -193,40 +193,6 @@ class PreCalStart(Screen):
                 norm_energy = 100
             self.s_left.value = norm_energy
 
-
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
-    def load_dp_settings(self):
-
-        self.buf_len = self.sh.buf_len
-        self.f_low = self.sh.f_low
-        self.f_high = self.sh.f_high
-        self.f_order = self.sh.f_order
-        self.channels = self.sh.channels
-
-    def load_acquisition_settings(self):
-
-        self.mode = self.sh.mode
-        self.com_port = self.sh.com_port
-        self.baud_rate = self.sh.baud_rate
-        self.ch_labels = self.sh.ch_labels
-        self.path_to_file = self.sh.path_to_file
-
-    def load_precal_settings(self):
-
-        self.ch_energy_right = self.sh.pc_ch_energy_right
-        self.ch_energy_left = self.sh.pc_ch_energy_left
-        self.total_time = self.sh.pc_total_time
-        self.relax_time = self.sh.pc_relax_time
-        self.sign_direction = self.sh.pc_sign_direction
-        self.plot_flag = self.sh.pc_plot_flag
-
     def load_settings(self):
         self.load_session_config()
         self.load_dp_settings()
@@ -325,6 +291,25 @@ class PreCalStart(Screen):
 
             self.plot_left.points = data_to_plot_left
             self.plot_right.points = data_to_plot_right
+
+    def load_session_config(self):
+        
+        self.session = self.sh.name
+
+    def load_dp_settings(self):
+
+        self.buf_len, self.f_low, self.f_high, \
+            self.f_order, self.channels = self.sh.getDataProcessingConfig()
+
+    def load_acquisition_settings(self):
+
+        self.mode, self.com_port, self.baud_rate, \
+            self.ch_labels, self.path_to_file = self.sh.getAcquisitionConfig()
+
+    def load_precal_settings(self):
+
+        self.ch_energy_left, self.ch_energy_right, self.total_time, \
+            self.relax_time, self.sign_direction, self.plot_flag = self.sh.getPreCalibrationConfig()
 
 
 

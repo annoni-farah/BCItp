@@ -67,6 +67,9 @@ class CalSettings(Screen):
         self.sh.c_cue_offset =  self.cue_offset.text
         self.sh.c_pause_offset =  self.pause_offset.text
         self.sh.c_end_trial_offset =  self.end_trial_offset.text
+
+        self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
+        self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
     
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
