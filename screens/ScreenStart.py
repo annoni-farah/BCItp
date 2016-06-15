@@ -80,6 +80,8 @@ class StartScreen(Screen):
 
     def save_session_name(self,*args):
 
+        self.sh.name = self.session_name.text
+
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
@@ -101,20 +103,15 @@ class StartScreen(Screen):
            old_idx = session_list.index(self.session_name.text)
            session_list.append(session_list.pop(old_idx)) # move session name to the end of list
 
-           print session_list
+           self.sh.loadFromJson(PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
 
         else:
             self.label_msg.text = "Session Saved as: " + self.session_name.text
             os.makedirs(PATH_TO_SESSION + self.session_name.text)
             session_list.append(self.session_name.text)
-
-            
-        self.sh.name = self.session_name.text
-
+  
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         
         with open(PATH_TO_SESSION_LIST, "w") as file:
-
-            print session_list
 
             file.write(json.dumps({'session_list': session_list, }, file, indent=4))
