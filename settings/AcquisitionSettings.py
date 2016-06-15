@@ -167,18 +167,16 @@ class AcquisitionSettings(Screen):
     def save_config(self,*args):
         
         if self.mode == 'openbci':
-            self.sh.com_port = self.com_port.text
-            self.sh.ch_labels = self.ch_labels.text
-            self.sh.baud_rate = self.baud_rate.text
-            self.sh.mode = self.mode
+            self.sh.setAcquisitionConfig(self.mode, self.com_port.text,
+                self.ch_labels.text, self.baud_rate.text, None, 250)
 
         elif self.mode == 'simu':
-            self.sh.ch_labels2 =  self.ch_labels2.text
-            self.sh.mode =  self.mode
+            self.sh.setAcquisitionConfig(self.mode, None,
+                self.ch_labels2.text, None, None, 250)
 
         elif self.mode == 'playback':
-            self.sh.path_to_file =  self.path_to_file.text
-            self.sh.mode = self.mode
+            self.sh.setAcquisitionConfig(self.mode, None,
+                None, None, self.path_to_file.text, 250)
 
     
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')

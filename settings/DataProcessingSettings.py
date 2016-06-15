@@ -101,11 +101,8 @@ class DataProcessingSettings(Screen):
 
     def save_config(self,*args):
 
-        self.sh.buf_len = self.buf_len.text
-        self.sh.channels =  self.channels.text
-        self.sh.f_low =  self.f_low.text
-        self.sh.f_high =  self.f_high.text
-        self.sh.f_order =  self.f_order.text
+        self.sh.setDataProcessingConfig(self.buf_len.text, self.channels.text,
+            self.f_low.text, self.f_high.text, self.f_order.text)
 
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

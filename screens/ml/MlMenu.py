@@ -133,7 +133,7 @@ class MlMenu(Screen):
         pup = popupMl(self.sh)
 
         popup = Popup(title='Machine Learning Results', content=pup,
-            size_hint=(None, None), size=(400, 400))
+            size_hint=(None, None), size=(400, 200))
 
         popup.open()
         
@@ -171,13 +171,13 @@ class popupMl(BoxLayout):
             sh.events_val_path, 250,  f_low, f_high, f_order,
             ids, epoch_start, epoch_end)
 
-        self.orientation = 'vertical'
+        self.orientation = 'horizontal'
 
         print 'teste'
         print results
 
-        l1 = Label(text='Acc: %')
-        l2 = Label(text=str(results)) 
+        l1 = Label(text='Acc: %', font_size = FONT_SIZE)
+        l2 = Label(text=str(results), font_size = FONT_SIZE) 
 
         self.add_widget(l1)
         self.add_widget(l2)

@@ -80,7 +80,8 @@ class StartScreen(Screen):
 
     def save_session_name(self,*args):
 
-        self.sh.name = self.session_name.text
+        self.sh.setSessionConfig(self.session_name.text, None, None)
+        sname, date, desc = self.sh.getSessionConfig()
 
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
@@ -99,18 +100,18 @@ class StartScreen(Screen):
             print session_list
 
         if self.session_name.text in session_list:
-           self.label_msg.text = "Session " + self.session_name.text + " already exists. Data will be overwritten"
-           old_idx = session_list.index(self.session_name.text)
+           self.label_msg.text = "Session " + sname + " already exists. Data will be overwritten"
+           old_idx = session_list.index(sname)
            session_list.append(session_list.pop(old_idx)) # move session name to the end of list
 
-           self.sh.loadFromJson(PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+           self.sh.loadFromJson(PATH_TO_SESSION + sname + '/' + 'session_info.txt')
 
         else:
-            self.label_msg.text = "Session Saved as: " + self.session_name.text
-            os.makedirs(PATH_TO_SESSION + self.session_name.text)
-            session_list.append(self.session_name.text)
+            self.label_msg.text = "Session Saved as: " + sname
+            os.makedirs(PATH_TO_SESSION + sname)
+            session_list.append(sname)
   
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        saveObjAsJson(self.sh, PATH_TO_SESSION + sname + '/' + 'session_info.txt')
         
         with open(PATH_TO_SESSION_LIST, "w") as file:
 

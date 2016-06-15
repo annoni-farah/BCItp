@@ -294,7 +294,7 @@ class PreCalStart(Screen):
 
     def load_session_config(self):
         
-        self.session = self.sh.name
+        self.session, date, desc = self.sh.getSessionConfig()
 
     def load_dp_settings(self):
 
@@ -304,7 +304,7 @@ class PreCalStart(Screen):
     def load_acquisition_settings(self):
 
         self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file = self.sh.getAcquisitionConfig()
+            self.ch_labels, self.path_to_file, fs = self.sh.getAcquisitionConfig()
 
     def load_precal_settings(self):
 

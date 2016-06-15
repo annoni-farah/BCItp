@@ -83,28 +83,15 @@ class ValSettings(Screen):
 
         if self.n_trials.text == '':
             print 'using the same as in cal'
-            self.sh.v_n_trials = self.sh.c_n_trials
+            self.n_trials.text = self.sh.c_n_trials
         else:
             self.sh.v_n_trials = self.n_trials.text
 
-        if self.cue_offset.text == '':
-            self.sh.v_cue_offset = self.sh.c_cue_offset
-        else:
-            self.sh.v_cue_offset =  self.cue_offset.text  
+        dataval_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt',
+        eventsval_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'
 
-        if self.pause_offset.text == '':
-            self.sh.v_pause_offset = self.sh.c_pause_offset
-        else:
-            self.sh.v_pause_offset =  self.pause_offset.text
+        self.sh.setValidationConfig(self.n_trials.text, self.cue_offset.text, self.pause_offset.text,
+            self.end_trial_offset.text, dataval_path, eventsval_path)
 
-        if self.end_trial_offset.text == '':
-            self.sh.v_end_trial_offset = self.sh.c_end_trial_offset
-        else:
-            self.sh.v_end_trial_offset =  self.end_trial_offset.text
-
-
-        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt'
-        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'
-    
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"

@@ -182,7 +182,7 @@ class ValStart(Screen):
     def load_acquisition_settings(self):
 
         self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file = self.sh.getAcquisitionConfig()
+            self.ch_labels, self.path_to_file, fs = self.sh.getAcquisitionConfig()
 
     def load_val_settings(self):
 
