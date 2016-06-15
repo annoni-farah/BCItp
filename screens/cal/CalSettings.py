@@ -82,7 +82,7 @@ class CalSettings(Screen):
 
     def save_config(self,*args):
 
-        datacal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt',
+        datacal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
         eventscal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
 
         self.sh.setCalibrationConfig(self.n_trials.text, self.cue_offset.text, self.pause_offset.text,

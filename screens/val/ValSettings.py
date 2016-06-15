@@ -87,7 +87,7 @@ class ValSettings(Screen):
         else:
             self.sh.v_n_trials = self.n_trials.text
 
-        dataval_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt',
+        dataval_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt'
         eventsval_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'
 
         self.sh.setValidationConfig(self.n_trials.text, self.cue_offset.text, self.pause_offset.text,
