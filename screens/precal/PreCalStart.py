@@ -37,8 +37,9 @@ from standards import *
 
 class PreCalStart(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (PreCalStart, self).__init__(**kwargs)
+        self.sh = session_header
 
 
     # Top part
@@ -192,59 +193,6 @@ class PreCalStart(Screen):
                 norm_energy = 100
             self.s_left.value = norm_energy
 
-
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
-    def load_dp_settings(self):
-
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/dp_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.buf_len = int(data["buf_len"])
-        self.f_low = int(data["f_low"])
-        self.f_high = int(data["f_high"])
-        self.f_order = int(data["f_order"])
-        self.channels = map(int, data['channels'].split())
-
-    def load_acquisition_settings(self):
-
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.mode = data["mode"]
-
-        if self.mode == 'openbci':
-            self.com_port = data["com_port"]
-            self.baud_rate = data["baud_rate"]
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'simu':
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'playback':
-            self.path_to_file = data["path_to_file"]
-
-    def load_precal_settings(self):
-
-        # if os.path.exists("data/rafael/precal_config"):
-        with open("data/session/"+ self.session + "/precal_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.ch_energy_right = map(int, data['ch_energy_right'].split(" "))
-        self.ch_energy_left = map(int, data['ch_energy_left'].split(" "))
-        self.total_time = int(data['total_time'])
-        self.relax_time = int(data['relax_time'])
-        self.sign_direction = data['sign_direction']
-        self.plot_flag = data['plot_flag']
-
     def load_settings(self):
         self.load_session_config()
         self.load_dp_settings()
@@ -292,7 +240,7 @@ class PreCalStart(Screen):
         self.box_vmiddle.add_widget(self.image)
 
     def add_graph(self):
-        self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=100,
+        self.graph = Graph(xlabel='Samples', ylabel='Amplitude', x_ticks_minor=100,
             x_ticks_major=50, y_ticks_major=50,
             y_grid_label=True, x_grid_label=True, padding=5,
             x_grid=True, y_grid=True, ymin=-100, ymax=100)
@@ -343,6 +291,25 @@ class PreCalStart(Screen):
 
             self.plot_left.points = data_to_plot_left
             self.plot_right.points = data_to_plot_right
+
+    def load_session_config(self):
+        
+        self.session = self.sh.name
+
+    def load_dp_settings(self):
+
+        self.buf_len, self.f_low, self.f_high, \
+            self.f_order, self.channels = self.sh.getDataProcessingConfig()
+
+    def load_acquisition_settings(self):
+
+        self.mode, self.com_port, self.baud_rate, \
+            self.ch_labels, self.path_to_file = self.sh.getAcquisitionConfig()
+
+    def load_precal_settings(self):
+
+        self.ch_energy_left, self.ch_energy_right, self.total_time, \
+            self.relax_time, self.sign_direction, self.plot_flag = self.sh.getPreCalibrationConfig()
 
 
 

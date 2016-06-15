@@ -5,14 +5,15 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
 class AcquisitionSettings(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (AcquisitionSettings, self).__init__(**kwargs)
+        self.sh = session_header
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
@@ -74,10 +75,10 @@ class AcquisitionSettings(Screen):
 
         box_ch2 = BoxLayout(orientation = 'horizontal')
         label_ch2 = Label(text = 'Channels Labels', font_size=FONT_SIZE)
-        self.ch_labels = TextInput(font_size= FONT_SIZE,
+        self.ch_labels2 = TextInput(font_size= FONT_SIZE,
                 text='', multiline=True)
         box_ch2.add_widget(label_ch2)
-        box_ch2.add_widget(self.ch_labels)
+        box_ch2.add_widget(self.ch_labels2)
 
         self.box_text_simu.add_widget(box_ch2)
 
@@ -162,36 +163,24 @@ class AcquisitionSettings(Screen):
         else:
             self.box_text.remove_widget(self.box_text_playback)
 
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
 
     def save_config(self,*args):
         
-        self.load_session_config()
+        if self.mode == 'openbci':
+            self.sh.com_port = self.com_port.text
+            self.sh.ch_labels = self.ch_labels.text
+            self.sh.baud_rate = self.baud_rate.text
+            self.sh.mode = self.mode
 
-        with open("data/session/"+ self.session + "/openbci_config.txt", "w") as file:
-            if self.mode == 'openbci':
-                file.write(json.dumps({'com_port': self.com_port.text,
-                                      'ch_labels': self.ch_labels.text,
-                                      'baud_rate': self.baud_rate.text,
-                                      'mode': self.mode,
-                                    }, file, indent=4))
+        elif self.mode == 'simu':
+            self.sh.ch_labels2 =  self.ch_labels2.text
+            self.sh.mode =  self.mode
 
-            elif self.mode == 'simu':
-                file.write(json.dumps({'ch_labels': self.ch_labels.text,
-                                      'mode': self.mode,
-                                    }, file, indent=4))
+        elif self.mode == 'playback':
+            self.sh.path_to_file =  self.path_to_file.text
+            self.sh.mode = self.mode
 
-            elif self.mode == 'playback':
-                file.write(json.dumps({'path_to_file': self.path_to_file.text,
-                                      'mode': self.mode,
-                                    }, file, indent=4))
     
-
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
 

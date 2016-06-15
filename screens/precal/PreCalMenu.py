@@ -8,8 +8,9 @@ from standards import *
 
 class PreCalMenu(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (PreCalMenu, self).__init__(**kwargs)
+        self.sh = session_header
 
         box1 = BoxLayout(size_hint_x=1, size_hint_y=0.5,padding=10, spacing=10, orientation='vertical')
 

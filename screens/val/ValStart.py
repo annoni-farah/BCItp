@@ -22,8 +22,9 @@ from standards import *
 
 class ValStart(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (ValStart, self).__init__(**kwargs)
+        self.sh = session_header
 
         box = BoxLayout(size_hint_x=1, size_hint_y=1,padding=10, spacing=10, orientation='vertical')
 
@@ -170,51 +171,23 @@ class ValStart(Screen):
         self.epoch_counter += 1
 
     def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
 
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
+        self.session = self.sh.name
 
     def load_dp_settings(self):
 
-        with open("data/session/"+ self.session + "/dp_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.buf_len = int(data["buf_len"])
-        self.f_low = int(data["f_low"])
-        self.f_high = int(data["f_high"])
-        self.f_order = int(data["f_order"])
-        self.channels = map(int, data['channels'].split(" "))
+        self.buf_len, self.f_low, self.f_high, \
+            self.f_order, self.channels = self.sh.getDataProcessingConfig()
 
     def load_acquisition_settings(self):
 
-        with open("data/session/"+ self.session + "/openbci_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.mode = data["mode"]
-
-        if self.mode == 'openbci':
-            self.com_port = data["com_port"]
-            self.baud_rate = data["baud_rate"]
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'simu':
-            self.ch_labels = data["ch_labels"]
-
-        elif self.mode == 'playback':
-            self.path_to_file = data["path_to_file"]
+        self.mode, self.com_port, self.baud_rate, \
+            self.ch_labels, self.path_to_file = self.sh.getAcquisitionConfig()
 
     def load_val_settings(self):
 
-        with open("data/session/"+ self.session + "/val_config.txt", "r") as data_file:    
-            data = json.load(data_file)
-
-        self.n_trials = int(data["n_trials"])
-        self.cue_offset = int(data["cue_offset"])
-        self.pause_offset = int(data["pause_offset"])
-        self.end_trial_offset = int(data["end_trial_offset"])
+        self.n_trials, self.cue_offset, self.pause_offset, \
+            self.end_trial_offset = self.sh.getCalibrationConfig()
 
     def save_data(self):
         PATH_TO_DATA = "data/session/"+ self.session + "/data_val.txt"

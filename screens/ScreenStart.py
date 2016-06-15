@@ -9,14 +9,18 @@ import os
 
 import json
 
+from utils import saveObjAsJson
+
 from standards import *
 
 TEXT_SIZE = (1, 0.7)
 
 class StartScreen(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header, **kwargs):
         super (StartScreen, self).__init__(**kwargs)
+
+        self.sh = session_header
 
         boxg = AnchorLayout(anchor_x='center', anchor_y='center')
 
@@ -55,13 +59,26 @@ class StartScreen(Screen):
         self.manager.transition.direction = 'left'
 
     def change_to_bci(self,*args):
+
+        if self.sh.name is None:
+            
+            self.load_default_name()
+            print 'no name saved, using last name:', self.session_name.text
+
+            self.save_session_name()
+
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'left'
 
-    def save_session_name(self,*args):
-
+    def load_default_name(self):
         PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-        PATH_TO_SESSION = 'data/session/'
+
+        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
+            data = json.load(data_file)
+            session_list = data["session_list"]
+            self.session_name.text = session_list[-1]
+
+    def save_session_name(self,*args):
 
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
@@ -91,8 +108,11 @@ class StartScreen(Screen):
             os.makedirs(PATH_TO_SESSION + self.session_name.text)
             session_list.append(self.session_name.text)
 
-            print session_list
+            
+        self.sh.name = self.session_name.text
 
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        
         with open(PATH_TO_SESSION_LIST, "w") as file:
 
             print session_list

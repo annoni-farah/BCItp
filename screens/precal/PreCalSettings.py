@@ -5,19 +5,19 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 
-import json
+from utils import saveObjAsJson
 
 from standards import *
 
 class PreCalSettings(Screen):
 # layout
-    def __init__ (self,**kwargs):
+    def __init__ (self, session_header,**kwargs):
         super (PreCalSettings, self).__init__(**kwargs)
+        self.sh = session_header
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        ## TOP PART
-        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.5,
             padding=10, spacing=10, orientation='vertical')
 
         box_tt = BoxLayout(orientation = 'horizontal')
@@ -107,27 +107,13 @@ class PreCalSettings(Screen):
         else:
             self.plot_flag = False
 
-    def load_session_config(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session = session_list[-1]
-
     def save_config(self,*args):
-        self.load_session_config()
 
-        with open("data/session/"+ self.session + "/precal_config.txt", "w") as file:
+        self.sh.pc_ch_energy_left =  self.ch_energy_left.text
+        self.sh.pc_ch_energy_right = self.ch_energy_right.text
+        self.sh.pc_total_time =  self.total_time.text
+        self.sh.pc_relax_time =  self.relax_time.text
+        self.sh.pc_plot_flag =  self.plot_flag
 
-            file.write(json.dumps({'ch_energy_left': self.ch_energy_left.text,
-                 'ch_energy_right': self.ch_energy_right.text,
-                 'total_time': self.total_time.text,
-                 'relax_time': self.relax_time.text, 
-                 'sign_direction': self.sign_direction.text, 
-                 'plot_flag': self.plot_flag, 
-                 }, file, indent=4))
-                                
-    
-
+        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
