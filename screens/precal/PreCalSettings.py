@@ -17,6 +17,8 @@ class PreCalSettings(Screen):
 
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
+        ## TOP PART
+
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.5,
             padding=10, spacing=10, orientation='vertical')
 
