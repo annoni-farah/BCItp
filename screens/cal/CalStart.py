@@ -104,13 +104,13 @@ class CalStart(Screen):
 
         elif self.mode == 'simu':
         
-            self.sm = SampleManager('', '', self.channels,
+            self.sm = SampleManager('', '', self.channels, daisy=self.daisy,
                 mode = self.mode, rec = True)
 
         elif self.mode == 'openbci':
         
             self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
-                mode = self.mode, rec = True)
+                daisy=self.daisy, mode = self.mode, rec = True)
 
         self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
         self.sm.daemon = True  
@@ -185,7 +185,7 @@ class CalStart(Screen):
     def load_acquisition_settings(self):
 
         self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file, fs = self.sh.getAcquisitionConfig()
+            self.ch_labels, self.path_to_file, self.fs, self.daisy = self.sh.getAcquisitionConfig()
 
     def load_cal_settings(self):
 

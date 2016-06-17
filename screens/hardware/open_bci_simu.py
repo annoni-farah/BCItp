@@ -34,8 +34,12 @@ class OpenBCIBoard(object):
     self.scaling_output = scaled_output
 
     self.t = 0
+    self.daisy = daisy
 
   def getSampleRate(self):
+    if self.daisy:
+      return SAMPLE_RATE/2
+    else:
       return SAMPLE_RATE
 
   def start_streaming(self, callback, lapse=-1):
@@ -73,7 +77,10 @@ class OpenBCIBoard(object):
       #         A[4]*np.sin(2 * np.pi * f[4] * self.t / SAMPLE_RATE) 
 
       # channel_data = [signal, 2*signal, signal, signal, signal, signal, signal, signal]
-      channel_data = [self.t,1,1,1,1,1,1,1]
+      if self.daisy:
+        channel_data = [self.t,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1]
+      else:
+        channel_data = [self.t,1,1,1,1,1,1,1]
 
       sample = OpenBCISample(packet_id, channel_data, [])
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback

@@ -7,7 +7,7 @@ class SessionHeader:
         # SESSION SETTINGS
         self.setSessionConfig(None, None, None)
         # ACQUISITION SETTINGS
-        self.setAcquisitionConfig(None, None, None, None, None, None)
+        self.setAcquisitionConfig(None, None, None, None, None, None, None)
 
         # DATA PROCESSING SETTINGS
         self.setDataProcessingConfig(None, None, None, None, None)
@@ -53,7 +53,7 @@ class SessionHeader:
 
         return buf_len, f_low, f_high, f_order, channels
 
-    def setAcquisitionConfig(self, m, cp, chl, br, ptf, sf):
+    def setAcquisitionConfig(self, m, cp, chl, br, ptf, sf, daisy):
 
         self.mode = m
         self.com_port = cp
@@ -61,6 +61,7 @@ class SessionHeader:
         self.baud_rate = br
         self.path_to_file = ptf
         self.sampling_freq = sf
+        self.daisy = daisy
 
     def getAcquisitionConfig(self):
 
@@ -70,9 +71,10 @@ class SessionHeader:
         ch_labels = self.ch_labels
         path_to_file = self.path_to_file
         fs = int(self.sampling_freq)
+        daisy = bool(self.daisy)
 
 
-        return mode, com_port, baud_rate, ch_labels, path_to_file, fs
+        return mode, com_port, baud_rate, ch_labels, path_to_file, fs, daisy
 
     def setPreCalibrationConfig(self, cel, cer, tt, rt, sd, pf):
 
@@ -158,7 +160,7 @@ class SessionHeader:
 
             # ACQUISITION SETTINGS
             self.setAcquisitionConfig(data["mode"], data["com_port"], data["ch_labels"], 
-                data["baud_rate"], data["path_to_file"],data["sampling_freq"])
+                data["baud_rate"], data["path_to_file"],data["sampling_freq"], data["daisy"])
 
             # DATA PROCESSING SETTINGS
             self.setDataProcessingConfig(data["buf_len"],data["channels"],data["f_low"],

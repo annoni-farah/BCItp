@@ -120,13 +120,13 @@ class PreCalStart(Screen):
 
         elif self.mode == 'simu':
         
-            self.sm = SampleManager('', '', self.channels,
+            self.sm = SampleManager('', '', self.channels, daisy=self.daisy,
                 mode = self.mode)
 
         elif self.mode == 'openbci':
         
             self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
-                mode = self.mode)
+                daisy=self.daisy, mode = self.mode)
 
         self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
 
@@ -260,8 +260,8 @@ class PreCalStart(Screen):
         if self.plot_flag:
             self.add_graph()
 
-        if self.mode != 'playback':
-            self.add_arrow()
+        # if self.mode != 'playback':
+        #     self.add_arrow()
 
     def remove_from_middle(self):
 
@@ -297,14 +297,13 @@ class PreCalStart(Screen):
         self.session, date, desc = self.sh.getSessionConfig()
 
     def load_dp_settings(self):
-
         self.buf_len, self.f_low, self.f_high, \
             self.f_order, self.channels = self.sh.getDataProcessingConfig()
 
     def load_acquisition_settings(self):
 
         self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file, fs = self.sh.getAcquisitionConfig()
+            self.ch_labels, self.path_to_file, self.fs, self.daisy = self.sh.getAcquisitionConfig()
 
     def load_precal_settings(self):
 

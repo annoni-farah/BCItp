@@ -66,11 +66,19 @@ class AcquisitionSettings(Screen):
         box_ch.add_widget(label_ch)
         box_ch.add_widget(self.ch_labels)
 
+        box_daisy = BoxLayout(orientation = 'horizontal')
+        checkbox_daisy = CheckBox()
+        checkbox_daisy.bind(active=self.enable_daisy)
+        label_daisy = Label(text="Use Daisy:", font_size=FONT_SIZE)
+        box_daisy.add_widget(label_daisy)
+        box_daisy.add_widget(checkbox_daisy)
+        self.box_text_openbci.add_widget(box_daisy)
+
         self.box_text_openbci.add_widget(box_com)
         self.box_text_openbci.add_widget(box_baud)
         self.box_text_openbci.add_widget(box_ch)
 
-        ## PLAYBACK CONFIG
+        ## SIMULATOR CONFIG
         self.box_text_simu = BoxLayout(orientation='vertical')
 
         box_ch2 = BoxLayout(orientation = 'horizontal')
@@ -79,10 +87,17 @@ class AcquisitionSettings(Screen):
                 text='', multiline=True)
         box_ch2.add_widget(label_ch2)
         box_ch2.add_widget(self.ch_labels2)
-
         self.box_text_simu.add_widget(box_ch2)
 
-        ## SIMULATOR CONFIG
+        box_daisy = BoxLayout(orientation = 'horizontal')
+        checkbox_daisy = CheckBox()
+        checkbox_daisy.bind(active=self.enable_daisy)
+        label_daisy = Label(text="Use Daisy:", font_size=FONT_SIZE)
+        box_daisy.add_widget(label_daisy)
+        box_daisy.add_widget(checkbox_daisy)
+        self.box_text_simu.add_widget(box_daisy)
+
+        ## PLAYBACK CONFIG
         self.box_text_playback = BoxLayout(orientation='vertical')
 
         box_path = BoxLayout(orientation = 'horizontal')
@@ -91,7 +106,6 @@ class AcquisitionSettings(Screen):
                 text='', multiline=True)
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
-
         self.box_text_playback.add_widget(box_path)
 
 
@@ -165,20 +179,30 @@ class AcquisitionSettings(Screen):
 
 
     def save_config(self,*args):
+        if self.daisy:
+            self.sample_rate = 125.0
+        else:
+            self.sample_rate = 250.0
         
         if self.mode == 'openbci':
             self.sh.setAcquisitionConfig(self.mode, self.com_port.text,
-                self.ch_labels.text, self.baud_rate.text, None, 250)
+                self.ch_labels.text, self.baud_rate.text, None, self.sample_rate, self.daisy)
 
         elif self.mode == 'simu':
             self.sh.setAcquisitionConfig(self.mode, None,
-                self.ch_labels2.text, None, None, 250)
+                self.ch_labels2.text, None, None, self.sample_rate, self.daisy)
 
         elif self.mode == 'playback':
             self.sh.setAcquisitionConfig(self.mode, None,
-                None, None, self.path_to_file.text, 250)
+                None, None, self.path_to_file.text, self.sample_rate, self.daisy)
 
     
         saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
         self.label_msg.text = "Settings Saved!"
+
+    def enable_daisy(self, checkbox, value):
+        if value:
+            self.daisy = True
+        else:
+            self.daisy = False
 

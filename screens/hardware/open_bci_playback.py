@@ -28,7 +28,6 @@ class OpenBCIBoard(object):
 
     print("Connecting to V3 simulator")
     #wait for device to be ready
-    time.sleep(1)
 
     self.streaming = False
     self.scaling_output = scaled_output
