@@ -139,15 +139,9 @@ class MlMenu(Screen):
         
     def show_data_info(self,*args):
 
+        pup = popupDataInfo(self.sh)
 
-        box = BoxLayout()
-        l1 = Label(text='Model Results')
-        l2 = Label(text='Acc: %') 
-
-        box.add_widget(l1)
-        box.add_widget(l2)
-
-        popup = Popup(title='Test popup', content=box,
+        popup = Popup(title='Data Info', content=pup,
             size_hint=(None, None), size=(400, 400))
 
         popup.open()
@@ -167,17 +161,52 @@ class popupMl(BoxLayout):
         buf_len, f_low, f_high, \
             f_order, channels = sh.getDataProcessingConfig()
 
+        mode, com_port, baud_rate, \
+            ch_labels, path_to_file, fs = sh.getAcquisitionConfig()
+
         results = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
-            sh.events_val_path, 250,  f_low, f_high, f_order,
+            sh.events_val_path, fs,  f_low, f_high, f_order, neibourghs,
             ids, epoch_start, epoch_end)
 
         self.orientation = 'horizontal'
-
-        print 'teste'
-        print results
 
         l1 = Label(text='Acc: %', font_size = FONT_SIZE)
         l2 = Label(text=str(results), font_size = FONT_SIZE) 
 
         self.add_widget(l1)
         self.add_widget(l2)
+
+class popupDataInfo(BoxLayout):
+
+    def __init__(self, session_header, **kwargs):
+        super(popupDataInfo, self).__init__(**kwargs)
+
+        sh = session_header
+
+        session_name, date, desc = sh.getSessionConfig()
+
+        epoch_start, epoch_end, \
+            method, neibourghs, ids = sh.getMachineLearningConfig()
+
+        buf_len, f_low, f_high, \
+            f_order, channels = sh.getDataProcessingConfig()
+
+        mode, com_port, baud_rate, \
+            ch_labels, path_to_file, fs = sh.getAcquisitionConfig()
+
+        self.orientation = 'vertical'
+
+        b_name = BoxLayout() 
+        l1 = Label(text='Session Name', font_size = FONT_SIZE)
+        l2 = Label(text=session_name, font_size = FONT_SIZE)
+        b_name.add_widget(l1)
+        b_name.add_widget(l2)
+
+        b_chlabels = BoxLayout() 
+        l1 = Label(text='Channel Labels', font_size = FONT_SIZE)
+        l2 = Label(text=ch_labels, font_size = FONT_SIZE)
+        b_chlabels.add_widget(l1)
+        b_chlabels.add_widget(l2)
+
+        self.add_widget(b_name)
+        self.add_widget(b_chlabels)
