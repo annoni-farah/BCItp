@@ -179,32 +179,28 @@ class AcquisitionSettings(Screen):
         else:
             self.box_text.remove_widget(self.box_text_playback)
 
+    def enable_daisy(self, checkbox, value):
+        if value:
+            self.daisy = True
+        else:
+            self.daisy = False
 
     def save_config(self,*args):
         if self.daisy:
             self.sample_rate = 125.0
         else:
             self.sample_rate = 250.0
-        
-        if self.mode == 'openbci':
-            self.sh.setAcquisitionConfig(self.mode, self.com_port.text,
-                self.ch_labels.text, self.baud_rate.text, None, self.sample_rate, self.daisy)
 
-        elif self.mode == 'simu':
-            self.sh.setAcquisitionConfig(self.mode, None,
-                self.ch_labels2.text, None, None, self.sample_rate, self.daisy)
+        self.sh.mode = self.mode
+        self.sh.com_port = self.com_port
+        self.sh.ch_labels = self.ch_labels
+        self.sh.baud_rate = self.baud_rate
+        self.sh.path_to_file = self.path_to_file
+        self.sh.sample_rate = self.sample_rate
+        self.sh.daisy = self.daisy
 
-        elif self.mode == 'playback':
-            self.sh.setAcquisitionConfig(self.mode, None,
-                None, None, self.path_to_file.text, self.sample_rate, self.daisy)
-
-    
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
 
-    def enable_daisy(self, checkbox, value):
-        if value:
-            self.daisy = True
-        else:
-            self.daisy = False
+
 
