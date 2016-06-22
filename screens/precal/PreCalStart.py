@@ -297,8 +297,9 @@ class PreCalStart(Screen):
         self.session, date, desc = self.sh.getSessionConfig()
 
     def load_dp_settings(self):
+
         self.buf_len, self.f_low, self.f_high, \
-            self.f_order, self.channels = self.sh.getDataProcessingConfig()
+            self.f_order, self.channels, self.notch = self.sh.getDataProcessingConfig()
 
     def load_acquisition_settings(self):
 

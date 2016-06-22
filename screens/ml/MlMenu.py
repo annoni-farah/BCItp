@@ -159,7 +159,7 @@ class popupMl(BoxLayout):
             method, neibourghs, ids = sh.getMachineLearningConfig()
 
         buf_len, f_low, f_high, \
-            f_order, channels = sh.getDataProcessingConfig()
+            f_order, channels, notch = sh.getDataProcessingConfig()
 
         mode, com_port, baud_rate, \
             ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()
@@ -189,7 +189,7 @@ class popupDataInfo(BoxLayout):
             method, neibourghs, ids = sh.getMachineLearningConfig()
 
         buf_len, f_low, f_high, \
-            f_order, channels = sh.getDataProcessingConfig()
+            f_order, channels, notch = sh.getDataProcessingConfig()
 
         mode, com_port, baud_rate, \
             ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()

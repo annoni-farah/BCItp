@@ -10,7 +10,7 @@ class SessionHeader:
         self.setAcquisitionConfig(None, None, None, None, None, None, None)
 
         # DATA PROCESSING SETTINGS
-        self.setDataProcessingConfig(None, None, None, None, None)
+        self.setDataProcessingConfig(None, None, None, None, None, None)
 
         # PRECAL SETTINGS
         self.setPreCalibrationConfig(None, None, None, None, None, None)
@@ -35,13 +35,14 @@ class SessionHeader:
 
         return self.name, self.date, self.description
 
-    def setDataProcessingConfig(self, bl, ch, fl, fh, fo):
+    def setDataProcessingConfig(self, bl, ch, fl, fh, fo, no):
 
         self.buf_len = bl
         self.channels = ch
         self.f_low = fl
         self.f_high = fh
         self.f_order = fo
+        self.notch = no
 
     def getDataProcessingConfig(self):
         
@@ -50,8 +51,9 @@ class SessionHeader:
         f_high = int(self.f_high)
         f_order = int(self.f_order)
         channels = map(int, self.channels.split(" "))
+        notch = bool(self.notch)
 
-        return buf_len, f_low, f_high, f_order, channels
+        return buf_len, f_low, f_high, f_order, channels, notch
 
     def setAcquisitionConfig(self, m, cp, chl, br, ptf, sf, daisy):
 
@@ -164,7 +166,7 @@ class SessionHeader:
 
             # DATA PROCESSING SETTINGS
             self.setDataProcessingConfig(data["buf_len"],data["channels"],data["f_low"],
-                data["f_high"],data["f_order"])
+                data["f_high"],data["f_order"],data["notch"])
 
             # PRECAL SETTINGS            
             self.setPreCalibrationConfig(data["pc_ch_energy_left"],data["pc_ch_energy_right"],
