@@ -162,7 +162,7 @@ class popupMl(BoxLayout):
             f_order, channels = sh.getDataProcessingConfig()
 
         mode, com_port, baud_rate, \
-            ch_labels, path_to_file, fs = sh.getAcquisitionConfig()
+            ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()
 
         results = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
             sh.events_val_path, fs,  f_low, f_high, f_order, neibourghs,
@@ -192,7 +192,7 @@ class popupDataInfo(BoxLayout):
             f_order, channels = sh.getDataProcessingConfig()
 
         mode, com_port, baud_rate, \
-            ch_labels, path_to_file, fs = sh.getAcquisitionConfig()
+            ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()
 
         self.orientation = 'vertical'
 

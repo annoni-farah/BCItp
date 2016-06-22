@@ -152,6 +152,8 @@ class AcquisitionSettings(Screen):
 
         self.add_widget(boxg)
 
+        self.daisy = False
+
     def change_to_cal(self,*args):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'

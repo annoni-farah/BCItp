@@ -37,7 +37,12 @@ class OpenBCIBoard(object):
     self.playback_data = data
     self.playback_data_shape = data.shape
 
+    self.daisy = daisy
+
   def getSampleRate(self):
+    if self.daisy:
+      return SAMPLE_RATE/2
+    else:
       return SAMPLE_RATE
 
   def start_streaming(self, callback, lapse=-1):
