@@ -9,9 +9,8 @@ import os
 
 import json
 
-from utils import saveObjAsJson
-
 from standards import *
+from kivy_utils import ErrorPopup
 
 TEXT_SIZE = (1, 0.7)
 
@@ -60,59 +59,24 @@ class StartScreen(Screen):
 
     def change_to_bci(self,*args):
 
-        if self.sh.name is None:
-            
-            self.load_default_name()
-            print 'no name saved, using last name:', self.session_name.text
-
-            self.save_session_name()
-
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'left'
 
-    def load_default_name(self):
-        PATH_TO_SESSION_LIST = 'data/session/session_list.txt'
-
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-            self.session_name.text = session_list[-1]
-
     def save_session_name(self,*args):
 
-        self.sh.setSessionConfig(self.session_name.text, None, None)
-        sname, date, desc = self.sh.getSessionConfig()
+        sname = self.session_name.text
+        self.sh.name = sname
+
 
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
-        if os.path.isfile(PATH_TO_SESSION_LIST):
-            pass
-        else:
-            # Creates session_list json file
-            with open(PATH_TO_SESSION_LIST, "w") as file:
-                file.write(json.dumps({'session_list': [''], }, file, indent=4))
+        if os.path.isdir(PATH_TO_SESSION + sname):
 
-        with open(PATH_TO_SESSION_LIST, "r") as data_file:    
-            data = json.load(data_file)
-            session_list = data["session_list"]
-
-            print session_list
-
-        if self.session_name.text in session_list:
-           self.label_msg.text = "Session " + sname + " already exists. Data will be overwritten"
-           old_idx = session_list.index(sname)
-           session_list.append(session_list.pop(old_idx)) # move session name to the end of list
-
-           self.sh.loadFromJson(PATH_TO_SESSION + sname + '/' + 'session_info.txt')
+            self.label_msg.text = "Session " + sname + " already exists. Data will be overwritten"
+            self.sh.loadFromPkl()
 
         else:
-            self.label_msg.text = "Session Saved as: " + sname
             os.makedirs(PATH_TO_SESSION + sname)
-            session_list.append(sname)
-  
-        saveObjAsJson(self.sh, PATH_TO_SESSION + sname + '/' + 'session_info.txt')
-        
-        with open(PATH_TO_SESSION_LIST, "w") as file:
-
-            file.write(json.dumps({'session_list': session_list, }, file, indent=4))
+            self.sh.saveToPkl()
+            self.label_msg.text = "Session Saved as: " + sname
