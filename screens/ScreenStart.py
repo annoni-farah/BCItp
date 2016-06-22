@@ -28,9 +28,9 @@ class StartScreen(Screen):
 
         self.label_msg = Label(text="", font_size=FONT_SIZE)
 
-        button_ui_settings = Button(text="UIX Settings", font_size = FONT_SIZE,
+        button_ui_settings = Button(text="General Settings", font_size = FONT_SIZE,
             size = BUTTON_SIZE)
-        button_ui_settings.bind(on_press= self.change_to_ui_settings)
+        button_ui_settings.bind(on_press= self.change_to_gen_settings)
 
         button_next = Button(text="BCI Menu", size=BUTTON_SIZE, font_size = FONT_SIZE)
         button_next.bind(on_press= self.change_to_bci)
@@ -53,8 +53,8 @@ class StartScreen(Screen):
 
         self.add_widget(boxg)
 
-    def change_to_ui_settings(self,*args):
-        self.manager.current = 'UISettings'
+    def change_to_gen_settings(self,*args):
+        self.manager.current = 'GeneralSettings'
         self.manager.transition.direction = 'left'
 
     def change_to_bci(self,*args):

@@ -19,7 +19,7 @@ for i in range(len(FOLDERS)):
             sys.path.insert(0, cmd_subfolder)
 
 from ScreenStart import *
-from UISettingsScreen import *
+from GeneralSettings import *
 from BCIMenu import *
 
 from AcquisitionSettings import *
@@ -53,7 +53,7 @@ class MyApp(App):
 
             sm = ScreenManager()
             start_screen = StartScreen(sh, name='start')
-            settings_screen = UISettingsScreen(sh, name='UISettings')
+            settings_screen = GeneralSettings(sh, name='GeneralSettings')
             bci_screen = BCIMenu(sh, name='BCIMenu')
 
             acquisition_settings_screen = AcquisitionSettings(sh, name='AcquisitionSettings')
