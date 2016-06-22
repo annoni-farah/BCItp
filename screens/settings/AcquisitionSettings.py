@@ -192,10 +192,10 @@ class AcquisitionSettings(Screen):
             self.sample_rate = 250.0
 
         self.sh.mode = self.mode
-        self.sh.com_port = self.com_port
-        self.sh.ch_labels = self.ch_labels
-        self.sh.baud_rate = self.baud_rate
-        self.sh.path_to_file = self.path_to_file
+        self.sh.com_port = self.com_port.text
+        self.sh.ch_labels = self.ch_labels.text
+        self.sh.baud_rate = self.baud_rate.text
+        self.sh.path_to_file = self.path_to_file.text
         self.sh.sample_rate = self.sample_rate
         self.sh.daisy = self.daisy
 

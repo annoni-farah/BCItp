@@ -82,11 +82,15 @@ class CalSettings(Screen):
 
     def save_config(self,*args):
 
-        datacal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
-        eventscal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
+        data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
+        events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
 
-        self.sh.setCalibrationConfig(self.n_trials.text, self.cue_offset.text, self.pause_offset.text,
-            self.end_trial_offset.text, datacal_path, eventscal_path)
+        self.sh.n_trials = int(self.n_trials.text)
+        self.sh.cue_offset = int(self.cue_offset.text)
+        self.sh.pause_offset = int(self.pause_offset.text)
+        self.sh.end_trial_offset = int(self.end_trial_offset.text)
+        self.data_cal_path = data_cal_path
+        self.events_cal_path = events_cal_path
 
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"

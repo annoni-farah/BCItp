@@ -28,35 +28,27 @@ class SessionHeader:
         self.notch = None
 
         # PRECAL SETTINGS
-        self.pc_ch_energy_left = None
-        self.pc_ch_energy_right = None
-        self.pc_total_time = None
-        self.pc_relax_time = None
-        self.pc_sign_direction = None
-        self.pc_plot_flag = None
+        self.ch_energy_left = None
+        self.ch_energy_right = None
+        self.total_time = None
+        self.relax_time = None
+        self.sign_direction = None
+        self.plot_flag = None
 
         # CAL SETTINGS
-        self.c_n_trials = None
-        self.c_cue_offset = None
-        self.c_pause_offset = None
-        self.c_end_trial_offset = None
+        self.n_trials = None
+        self.cue_offset = None
+        self.pause_offset = None
+        self.end_trial_offset = None
         self.data_cal_path = None
         self.events_cal_path = None
 
-        # VAL SETTINGS
-        self.v_n_trials = None
-        self.v_cue_offset = None
-        self.v_pause_offset = None
-        self.v_end_trial_offset = None
-        self.data_val_path = None
-        self.events_val_path = None
-
         # ML SETTINGS
-        self.ml_epoch_start = None
-        self.ml_epoch_end = None
-        self.ml_pp_method = None
-        self.ml_pp_nei = None
-        self.ml_class_ids = None
+        self.epoch_start = None
+        self.epoch_end = None
+        self.method = None
+        self.nei = None
+        self.class_ids = None
 
     def saveToPkl(self):
         path = PATH_TO_SESSION + self.name + '/' + 'session_info.pkl'

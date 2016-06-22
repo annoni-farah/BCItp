@@ -90,9 +90,6 @@ class MlMenu(Screen):
         button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
-        button_dinfo = Button(text="Data Info", size = BUTTON_SIZE)
-        button_dinfo.bind(on_press= self.show_data_info)
-
         button_save = Button(text="Save Config", size = BUTTON_SIZE)
         button_save.bind(on_press= self.save_config)
 
@@ -101,7 +98,6 @@ class MlMenu(Screen):
 
         box_bottom.add_widget(self.label_msg)
         box_bottom.add_widget(button_save)
-        box_bottom.add_widget(button_dinfo)
         box_bottom.add_widget(button_train)
         box_bottom.add_widget(button_back)
 
@@ -119,13 +115,13 @@ class MlMenu(Screen):
 
     def save_config(self,*args):
 
-        self.sh.ml_epoch_start = self.epoch_start.text
-        self.sh.ml_epoch_end = self.epoch_end.text
-        self.sh.ml_pp_method = self.pp_method.text
-        self.sh.ml_pp_nei = self.pp_nei.text
-        self.sh.ml_class_ids = self.class_ids.text
+        self.sh.epoch_start = float(self.epoch_start.text)
+        self.sh.epoch_end = float(self.epoch_end.text)
+        self.sh.pp_method = self.pp_method.text
+        self.sh.pp_nei = int(self.pp_nei.text)
+        self.sh.class_ids = map(int,self.class_ids.text.split(' '))
 
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
 
     def get_ml_model(self,*args):
@@ -136,16 +132,6 @@ class MlMenu(Screen):
             size_hint=(None, None), size=(400, 200))
 
         popup.open()
-        
-    def show_data_info(self,*args):
-
-        pup = popupDataInfo(self.sh)
-
-        popup = Popup(title='Data Info', content=pup,
-            size_hint=(None, None), size=(400, 400))
-
-        popup.open()
-
 
 
 class popupMl(BoxLayout):
@@ -155,18 +141,9 @@ class popupMl(BoxLayout):
 
         sh = session_header
 
-        epoch_start, epoch_end, \
-            method, neibourghs, ids = sh.getMachineLearningConfig()
-
-        buf_len, f_low, f_high, \
-            f_order, channels, notch = sh.getDataProcessingConfig()
-
-        mode, com_port, baud_rate, \
-            ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()
-
         results = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
-            sh.events_val_path, fs,  f_low, f_high, f_order, neibourghs,
-            ids, epoch_start, epoch_end)
+            sh.events_val_path, sh.sample_rate,  sh.f_low, sh.f_high, sh.f_order, sh.nei,
+            sh.class_ids, sh.epoch_start, sh.epoch_end)
 
         self.orientation = 'horizontal'
 
@@ -175,38 +152,3 @@ class popupMl(BoxLayout):
 
         self.add_widget(l1)
         self.add_widget(l2)
-
-class popupDataInfo(BoxLayout):
-
-    def __init__(self, session_header, **kwargs):
-        super(popupDataInfo, self).__init__(**kwargs)
-
-        sh = session_header
-
-        session_name, date, desc = sh.getSessionConfig()
-
-        epoch_start, epoch_end, \
-            method, neibourghs, ids = sh.getMachineLearningConfig()
-
-        buf_len, f_low, f_high, \
-            f_order, channels, notch = sh.getDataProcessingConfig()
-
-        mode, com_port, baud_rate, \
-            ch_labels, path_to_file, fs, daisy = sh.getAcquisitionConfig()
-
-        self.orientation = 'vertical'
-
-        b_name = BoxLayout() 
-        l1 = Label(text='Session Name', font_size = FONT_SIZE)
-        l2 = Label(text=session_name, font_size = FONT_SIZE)
-        b_name.add_widget(l1)
-        b_name.add_widget(l2)
-
-        b_chlabels = BoxLayout() 
-        l1 = Label(text='Channel Labels', font_size = FONT_SIZE)
-        l2 = Label(text=ch_labels, font_size = FONT_SIZE)
-        b_chlabels.add_widget(l1)
-        b_chlabels.add_widget(l2)
-
-        self.add_widget(b_name)
-        self.add_widget(b_chlabels)

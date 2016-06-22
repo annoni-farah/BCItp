@@ -35,7 +35,6 @@ from CalSettings import *
 from CalStart import *
 
 from ValMenu import *
-from ValSettings import *
 from ValStart import *
 
 from MlMenu import *
@@ -70,7 +69,6 @@ class MyApp(App):
             cal_start_screen = CalStart(sh, name='CalStart')
 
             val_screen = ValMenu(sh, name='ValMenu')
-            val_settings_screen = ValSettings(sh, name='ValSettings')
             val_start_screen = ValStart(sh, name='ValStart')
 
             ml_screen = MlMenu(sh, name='MlMenu')
@@ -94,7 +92,6 @@ class MyApp(App):
             sm.add_widget(cal_start_screen)
 
             sm.add_widget(val_screen)
-            sm.add_widget(val_settings_screen)
             sm.add_widget(val_start_screen)
 
             sm.add_widget(ml_screen)

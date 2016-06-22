@@ -114,16 +114,18 @@ class DataProcessingSettings(Screen):
     def enable_notch_filt(self, checkbox, value):
         if value:
             self.notch = True
-            print 'enabled'
         else:
             self.notch = False
-            print 'disabled'
 
 
     def save_config(self,*args):
 
-        self.sh.setDataProcessingConfig(self.buf_len.text, self.channels.text,
-            self.f_low.text, self.f_high.text, self.f_order.text, self.notch)
+        self.sh.buf_len = int(self.buf_len.text)
+        self.sh.f_low = int(self.f_low.text)
+        self.sh.f_high = int(self.f_high.text)
+        self.sh.f_order = int(self.f_order.text)
+        self.sh.channels = map(int, self.channels.text.split(" "))
+        self.sh.notch = self.notch
 
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"

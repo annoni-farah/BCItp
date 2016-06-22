@@ -91,38 +91,18 @@ class ValStart(Screen):
 
     def stream_start(self):
 
-        self.load_settings()
         self.generate_stim_list()
 
-        if self.mode == 'playback':
+        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+            daisy=self.sh.daisy, mode = self.sh.mode)
 
-            self.sm = SampleManager('', '', self.channels, mode = self.mode,
-                path = self.path_to_file, rec = False)
-
-        elif self.mode == 'simu':
-        
-            self.sm = SampleManager('', '', self.channels, daisy=self.daisy,
-                mode = self.mode, rec = True)
-
-        elif self.mode == 'openbci':
-        
-            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
-                daisy=self.daisy, mode = self.mode, rec = True)
-
-        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
+        self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
         self.button_stream.text = 'Stop Streaming'
         self.stream_flag = True
         self.clock_scheduler()
-
-    def load_settings(self):
-
-        self.load_session_config()
-        self.load_dp_settings()
-        self.load_acquisition_settings()
-        self.load_val_settings()
 
 
     def get_energy(self, dt):
@@ -132,22 +112,20 @@ class ValStart(Screen):
                 self.label_energy.text = "Energy level : {}".format(energy)
 
     def clock_scheduler(self):
-        # Clock.schedule_interval(self.get_energy, 1/6)
-        # Clock.schedule_interval(self.save_data, 10)
-        Clock.schedule_interval(self.display_epoch, self.end_trial_offset)
+        Clock.schedule_interval(self.display_epoch, self.sh.end_trial_offset)
 
 
     def clock_unscheduler(self):
         Clock.unschedule(self.display_epoch)
         Clock.unschedule(self.get_energy)
-        # Clock.unschedule(self.save_data)
 
     def display_epoch(self, dt):
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
 
-        if self.epoch_counter < self.n_trials:
-            Clock.schedule_once(self.set_pause, self.pause_offset)
-            Clock.schedule_once(self.set_cue, self.cue_offset)
-            Clock.schedule_once(self.set_blank, self.cue_offset + 1)
+        if self.epoch_counter < self.sh.n_trials:
+            Clock.schedule_once(self.set_pause, self.sh.pause_offset)
+            Clock.schedule_once(self.set_cue, self.sh.cue_offset)
+            Clock.schedule_once(self.set_blank, self.sh.cue_offset + 1)
         else:
             self.stream_stop() 
 
@@ -170,34 +148,14 @@ class ValStart(Screen):
         self.carousel.index = 3
         self.epoch_counter += 1
 
-    def load_session_config(self):
-
-        self.session = self.sh.name
-
-    def load_dp_settings(self):
-
-        self.buf_len, self.f_low, self.f_high, \
-            self.f_order, self.channels, self.notch = self.sh.getDataProcessingConfig()
-
-    def load_acquisition_settings(self):
-
-        self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file, self.fs, self.daisy = self.sh.getAcquisitionConfig()
-
-    def load_val_settings(self):
-
-        self.n_trials, self.cue_offset, self.pause_offset, \
-            self.end_trial_offset = self.sh.getCalibrationConfig()
-
     def save_data(self):
-        PATH_TO_DATA = "data/session/"+ self.session + "/data_val.txt"
-        PATH_TO_EVENTS = "data/session/"+ self.session + "/events_val.txt"
 
         print "Saving data"
-        self.sm.SaveData(PATH_TO_DATA)
-        self.sm.SaveEvents(PATH_TO_EVENTS)
+        self.sm.SaveData(self.sh.data_val_path)
+        self.sm.SaveEvents(self.sh.events_val_path)
 
     def generate_stim_list(self):
-        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.n_trials)]
+        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.sh.n_trials)]
         self.epoch_counter = 0
+
 

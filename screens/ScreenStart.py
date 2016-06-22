@@ -80,3 +80,8 @@ class StartScreen(Screen):
             os.makedirs(PATH_TO_SESSION + sname)
             self.sh.saveToPkl()
             self.label_msg.text = "Session Saved as: " + sname
+
+        self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
+        self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
+        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt'
+        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'

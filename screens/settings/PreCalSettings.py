@@ -111,8 +111,13 @@ class PreCalSettings(Screen):
 
     def save_config(self,*args):
 
-        self.sh.setPreCalibrationConfig(self.ch_energy_left.text, self.ch_energy_right.text,
-            self.total_time.text, self.relax_time.text, self.sign_direction.text, self.plot_flag)
+        self.sh.ch_energy_left = map(int, self.ch_energy_left.text.split(' '))
+        self.sh.ch_energy_right = map(int, self.ch_energy_right.text.split(' '))
+        self.sh.total_time = int(self.total_time.text)
+        self.sh.relax_time = int(self.relax_time.text)
+        self.sh.sign_direction = self.sign_direction.text
+        self.sh.plot_flag = self.plot_flag
 
-        saveObjAsJson(self.sh, PATH_TO_SESSION + self.sh.name + '/' + 'session_info.txt')
+        self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
+

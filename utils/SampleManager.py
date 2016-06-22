@@ -26,7 +26,7 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, ch, daisy = False, mode = 'openbci' , path = None, rec = False):
+    def __init__(self, p, b, ch, daisy = False, mode = 'openbci' , path = None):
         super(SampleManager, self).__init__()
 
         self.channels = ch
@@ -41,8 +41,6 @@ class SampleManager(threading.Thread):
 
         self.acq_mode = mode
 
-        self.rec_flag = rec
-
         self.playback_path = path
 
         self.last_sample = 0
@@ -50,15 +48,18 @@ class SampleManager(threading.Thread):
         if self.acq_mode == 'openbci':
 
             self.board = bci.OpenBCIBoard(port=p, baud=b, daisy=daisy)
+            self.rec_flag = True
+
 
         elif self.acq_mode == 'simu':
 
             self.board = simulator.OpenBCIBoard(port=p, baud=b, daisy=daisy)
+            self.rec_flag = True
 
         elif self.acq_mode == 'playback':
-
+            
+            self.rec_flag = False
             loadedData = LoadDataAsMatrix(self.playback_path)
-
             self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
 
         self.sample_rate = self.board.getSampleRate()

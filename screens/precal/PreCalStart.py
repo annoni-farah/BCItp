@@ -18,13 +18,6 @@ from kivy.clock import Clock
 from SampleManager import *
 
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty, ReferenceListProperty
-
-from time import sleep
-
-import json
-
-import os
 
 from math import ceil, sin, isnan
 
@@ -108,27 +101,13 @@ class PreCalStart(Screen):
     # ----------------------
 
     def stream_start(self):
-        self.load_settings()
         self.add_to_middle()
         self.label_info.text = "Managing Samples..."
 
+        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+            daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
 
-        if self.mode == 'playback':
-
-            self.sm = SampleManager('', '', self.channels, mode = self.mode,
-                path = self.path_to_file)
-
-        elif self.mode == 'simu':
-        
-            self.sm = SampleManager('', '', self.channels, daisy=self.daisy,
-                mode = self.mode)
-
-        elif self.mode == 'openbci':
-        
-            self.sm = SampleManager(self.com_port, self.baud_rate, self.channels,
-                daisy=self.daisy, mode = self.mode)
-
-        self.sm.CreateDataProcessing(self.buf_len, self.f_low, self.f_high, self.f_order)
+        self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
 
         self.label_info.text = "Computing filters and creating buffers..."
 
@@ -156,10 +135,10 @@ class PreCalStart(Screen):
         Clock.schedule_interval(self.get_energy_left, 1/8)
         Clock.schedule_interval(self.get_energy_right, 1/8)
 
-        Clock.schedule_once(self.toogle_stream, self.total_time)
-        Clock.schedule_once(self.calc_bar_max, self.relax_time)
+        Clock.schedule_once(self.toogle_stream, self.sh.total_time)
+        Clock.schedule_once(self.calc_bar_max, self.sh.relax_time)
 
-        if self.plot_flag:
+        if self.sh.plot_flag:
             Clock.schedule_interval(self.update_graph, 1/2)
 
 
@@ -173,7 +152,7 @@ class PreCalStart(Screen):
 
     def get_energy_right(self, dt):
 
-        energy = self.sm.ComputeEnergy(self.ch_energy_right)
+        energy = self.sm.ComputeEnergy(self.sh.ch_energy_right)
         if hasattr(self, 'bar_max_right'):
 
             # norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_right))
@@ -184,7 +163,7 @@ class PreCalStart(Screen):
 
     def get_energy_left(self, dt):
 
-        energy = self.sm.ComputeEnergy(self.ch_energy_left)
+        energy = self.sm.ComputeEnergy(self.sh.ch_energy_left)
         if hasattr(self, 'bar_max_left'):
             
             # norm_energy = ceil(self.sm.CalcEnergyAverage(self.ch_energy_left))
@@ -200,8 +179,8 @@ class PreCalStart(Screen):
         self.load_precal_settings()
 
     def calc_bar_max(self, dt):
-        max_right = self.sm.CalcEnergyAverage(self.ch_energy_right)
-        max_left = self.sm.CalcEnergyAverage(self.ch_energy_left)
+        max_right = self.sm.CalcEnergyAverage(self.sh.ch_energy_right)
+        max_left = self.sm.CalcEnergyAverage(self.sh.ch_energy_left)
 
         print 'max right ', max_right 
         print 'max left ', max_left 
@@ -230,9 +209,9 @@ class PreCalStart(Screen):
 
     def add_arrow(self):
 
-        if self.sign_direction == 'left':
+        if self.sh.sign_direction == 'left':
             src = "data/resources/left.png"
-        elif self.sign_direction == 'right':
+        elif self.sh.sign_direction == 'right':
             src = "data/resources/right.png"
 
         self.image = AsyncImage(source=src, allow_stretch=False)
@@ -257,7 +236,7 @@ class PreCalStart(Screen):
 
     def add_to_middle(self):
 
-        if self.plot_flag:
+        if self.sh.plot_flag:
             self.add_graph()
 
         # if self.mode != 'playback':
@@ -275,8 +254,8 @@ class PreCalStart(Screen):
         if isinstance(data,np.ndarray):
 
 
-            data_left = data[:,self.ch_energy_left[0]]
-            data_right = data[:,self.ch_energy_right[0]]
+            data_left = data[:,self.sh.ch_energy_left[0]]
+            data_right = data[:,self.sh.ch_energy_right[0]]
 
             time_data_left = np.vstack((time, data_left)).T
             time_data_right = np.vstack((time, data_right)).T
@@ -291,26 +270,6 @@ class PreCalStart(Screen):
 
             self.plot_left.points = data_to_plot_left
             self.plot_right.points = data_to_plot_right
-
-    def load_session_config(self):
-        
-        self.session, date, desc = self.sh.getSessionConfig()
-
-    def load_dp_settings(self):
-
-        self.buf_len, self.f_low, self.f_high, \
-            self.f_order, self.channels, self.notch = self.sh.getDataProcessingConfig()
-
-    def load_acquisition_settings(self):
-
-        self.mode, self.com_port, self.baud_rate, \
-            self.ch_labels, self.path_to_file, self.fs, self.daisy = self.sh.getAcquisitionConfig()
-
-    def load_precal_settings(self):
-
-        self.ch_energy_left, self.ch_energy_right, self.total_time, \
-            self.relax_time, self.sign_direction, self.plot_flag = self.sh.getPreCalibrationConfig()
-
 
 
 

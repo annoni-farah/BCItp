@@ -19,9 +19,6 @@ class ValMenu(Screen):
         button_start = Button(text="Start", size = BUTTON_SIZE)
         button_start.bind(on_press= self.change_to_acquisition)
 
-        button_settings = Button(text="Settings", size = BUTTON_SIZE)
-        button_settings.bind(on_press= self.change_to_valsettings)
-
         button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_bci)
 
@@ -29,17 +26,12 @@ class ValMenu(Screen):
         box1.add_widget(self.label_msg)
 
         box1.add_widget(button_start)
-        box1.add_widget(button_settings)
         box1.add_widget(button_back)
 
         self.add_widget(box1)
 
     def change_to_acquisition(self,*args):
         self.manager.current = 'ValStart'
-        self.manager.transition.direction = 'left'
-
-    def change_to_valsettings(self,*args):
-        self.manager.current = 'ValSettings'
         self.manager.transition.direction = 'left'
 
     def change_to_bci(self,*args):
