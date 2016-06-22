@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.checkbox import CheckBox
 
 from utils import saveObjAsJson
 
@@ -38,7 +39,7 @@ class DataProcessingSettings(Screen):
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, spacing=10, orientation='vertical')
 
         # DATA CONFIG
-        box_data = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, spacing=10, orientation='vertical')
+        box_data = BoxLayout(size_hint_x=1, size_hint_y=0.35,padding=10, spacing=10, orientation='vertical')
 
         box_buf = BoxLayout(orientation = 'horizontal')
         label_buf = Label(text ='Circular Buffer Length', font_size=FONT_SIZE)
@@ -60,7 +61,7 @@ class DataProcessingSettings(Screen):
 
 
         # FILTER CONFIG
-        box_filter = BoxLayout(size_hint_x=1, size_hint_y=0.4,padding=10, spacing=10, orientation='vertical')
+        box_filter = BoxLayout(size_hint_x=1, size_hint_y=0.65,padding=10, spacing=10, orientation='vertical')
 
         # box_f_band = BoxLayout(size_hint_x=1,padding=10, spacing=10, orientation='vertical')
 
@@ -89,6 +90,17 @@ class DataProcessingSettings(Screen):
 
         box_filter.add_widget(box_order)
 
+        box_notch_checkbox = BoxLayout(orientation='horizontal')
+        label_notch = Label(text="Use Notch Filter", font_size=FONT_SIZE)
+        checkbox_notch = CheckBox(active = True)
+        checkbox_notch.bind(active=self.enable_notch_filt)
+        self.notch = True
+
+        box_notch_checkbox.add_widget(label_notch)
+        box_notch_checkbox.add_widget(checkbox_notch)
+
+        box_filter.add_widget(box_notch_checkbox)
+
         box_top.add_widget(box_filter)
 
         boxg.add_widget(box_top, 2)
@@ -98,6 +110,15 @@ class DataProcessingSettings(Screen):
     def change_to_cal(self,*args):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
+
+    def enable_notch_filt(self, checkbox, value):
+        if value:
+            self.notch = True
+            print 'enabled'
+        else:
+            self.notch = False
+            print 'disabled'
+
 
     def save_config(self,*args):
 
