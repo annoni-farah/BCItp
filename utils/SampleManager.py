@@ -213,8 +213,6 @@ class SampleManager(threading.Thread):
             return 0
 
         else:
-            print 'computing energy'
-
             e = self.dp.ComputeEnergy(data)
 
             energy = np.mean(e[channel_list])
