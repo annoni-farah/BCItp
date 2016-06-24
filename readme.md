@@ -13,6 +13,14 @@ sudo apt-get install python-numpy python-mne python-scipy python-pygame python-k
 
 ```
 
+### General Linux Dependencies ###
+
+```shell
+
+sudo apt-get install sox
+
+```
+
 ### Install Kivy Garden (Dependencies) ###
 
 ```shell
