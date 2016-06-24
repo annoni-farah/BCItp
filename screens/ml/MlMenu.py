@@ -117,8 +117,8 @@ class MlMenu(Screen):
 
         self.sh.epoch_start = float(self.epoch_start.text)
         self.sh.epoch_end = float(self.epoch_end.text)
-        self.sh.pp_method = self.pp_method.text
-        self.sh.pp_nei = int(self.pp_nei.text)
+        self.sh.method = self.pp_method.text
+        self.sh.nei = int(self.pp_nei.text)
         self.sh.class_ids = map(int,self.class_ids.text.split(' '))
 
         self.sh.saveToPkl()
@@ -140,6 +140,10 @@ class popupMl(BoxLayout):
         super(popupMl, self).__init__(**kwargs)
 
         sh = session_header
+
+        print (sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
+            sh.events_val_path, sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
+            sh.class_ids, sh.epoch_start, sh.epoch_end)
 
         results = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
             sh.events_val_path, sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
