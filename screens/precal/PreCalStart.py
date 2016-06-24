@@ -139,7 +139,7 @@ class PreCalStart(Screen):
         Clock.schedule_once(self.calc_bar_max, self.sh.relax_time)
 
         if self.sh.plot_flag:
-            Clock.schedule_interval(self.update_graph, 1/2)
+            Clock.schedule_interval(self.update_graph, 1/4)
 
 
     def clock_unscheduler(self):
