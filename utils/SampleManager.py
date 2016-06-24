@@ -6,7 +6,7 @@ import numpy as np
 import os
 from time import sleep
 
-from math import ceil
+from math import ceil, isnan
 
 import threading
 
@@ -33,7 +33,7 @@ class SampleManager(threading.Thread):
 
         self.n_channels = len(self.channels)
 
-        self._stop = threading.Event()            
+        self._stop = threading.Event()
         
         self.sample_counter = 0
 
@@ -123,9 +123,11 @@ class SampleManager(threading.Thread):
         if d.shape[0] > self.buffer_length - 1:
 
             filt_d = self.dp.ApplyFilter(d.T).T
-            return t, filt_d
+            wfilt_d = filt_d * self.dp.window[:,np.newaxis]
+
+            return t, wfilt_d
         else:
-            return t, float('NaN')
+            return t, None
 
 
     def Stop(self):
@@ -194,23 +196,21 @@ class SampleManager(threading.Thread):
         return avg_ch
 
     def ComputeEnergy(self, channel_list):
-        raw_data = np.array(self.circBuff)
+        t, data = self.GetBuffData()
 
-        if raw_data.shape[0] > self.buffer_length - 1:
+        if data is None:
+            return 0
 
-            raw_data = raw_data * self.dp.window[:,np.newaxis]
+        else:
+            print 'computing energy'
 
-            filt_data = self.dp.ApplyFilter(raw_data.T).T
-
-            e = self.dp.ComputeEnergy(filt_data)
+            e = self.dp.ComputeEnergy(data)
 
             energy = np.mean(e[channel_list])
 
             self.energy_history.append(e)
 
             return energy
-        else:
-            return 0
         
 
 

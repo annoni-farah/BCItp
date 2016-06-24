@@ -242,8 +242,7 @@ class PreCalStart(Screen):
         time, data = self.sm.GetBuffData(filt = True)
 
         # check if data is an array and therefore not a nan value
-        if isinstance(data,np.ndarray):
-
+        if data is not None:
 
             data_left = data[:,self.sh.ch_energy_left[0]]
             data_right = data[:,self.sh.ch_energy_right[0]]
