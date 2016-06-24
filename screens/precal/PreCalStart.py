@@ -198,14 +198,6 @@ class PreCalStart(Screen):
         del self.bar_max_left
         del self.bar_max_right
 
-    def calc_bar_th(self):
-
-        self.bar_th = 0.3 * self.bar_max
-
-    def set_bar_th(self, dt):
-
-        self.calc_bar_th()
-
     def add_arrow(self):
 
         if self.sh.sign_direction == 'left':
