@@ -142,7 +142,7 @@ class popupMl(BoxLayout):
         sh = session_header
 
         results = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
-            sh.events_val_path, sh.sample_rate,  sh.f_low, sh.f_high, sh.f_order, sh.nei,
+            sh.events_val_path, sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
             sh.class_ids, sh.epoch_start, sh.epoch_end)
 
         self.orientation = 'horizontal'
