@@ -114,18 +114,29 @@ class SampleManager(threading.Thread):
         # else:
         #     print 'Sample discarded...'
 
-    def GetBuffData(self, filt = False):
+    def GetBuffData(self, mode = None):
         t = np.array(self.tBuff)
         d = np.array(self.circBuff)
 
         # t = t / self.sample_rate
-
         if d.shape[0] > self.buffer_length - 1:
 
-            filt_d = self.dp.ApplyFilter(d.T).T
-            wfilt_d = filt_d * self.dp.window[:,np.newaxis]
+            if mode is None:
+                # return raw data
+                pass
 
-            return t, wfilt_d
+            elif mode == 'filt':
+                # return filtered data
+                d = self.dp.ApplyFilter(d.T).T
+
+            elif mode == 'wfilt':
+                # return filtered and windowed data
+                d = self.dp.ApplyFilter(d.T).T
+                d = d * self.dp.window[:,np.newaxis]
+
+
+            return t, d
+
         else:
             return t, None
 
@@ -196,7 +207,7 @@ class SampleManager(threading.Thread):
         return avg_ch
 
     def ComputeEnergy(self, channel_list):
-        t, data = self.GetBuffData()
+        t, data = self.GetBuffData(mode = 'wfilt')
 
         if data is None:
             return 0

@@ -239,7 +239,7 @@ class PreCalStart(Screen):
 
     def update_graph(self, dt):
 
-        time, data = self.sm.GetBuffData(filt = True)
+        time, data = self.sm.GetBuffData(mode = 'filt')
 
         # check if data is an array and therefore not a nan value
         if data is not None:
