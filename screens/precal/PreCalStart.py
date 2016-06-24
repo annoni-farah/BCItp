@@ -147,8 +147,7 @@ class PreCalStart(Screen):
         Clock.unschedule(self.get_energy_right)
         Clock.unschedule(self.toogle_stream)
         Clock.unschedule(self.calc_bar_max)
-        if self.mode == 'playback':
-            Clock.unschedule(self.update_graph)
+        Clock.unschedule(self.update_graph)
 
     def get_energy_right(self, dt):
 
