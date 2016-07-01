@@ -9,7 +9,7 @@
 
 ```shell
 
-sudo apt-get install python-numpy python-mne python-scipy python-pygame python-kivy
+sudo apt-get install python-numpy python-scipy python-kivy python-biosig
 
 ```
 
@@ -24,7 +24,7 @@ sudo apt-get install sox
 ### Install Kivy Garden (Dependencies) ###
 
 ```shell
-
+sudo apt-get install python-pip
 sudo pip install kivy-garden
 
 ```
@@ -53,6 +53,8 @@ garden install bar
 ```shell 
 
 git clone https://github.com/rafaelmendes/bci_training_platform
+cd bci_training_platform
+git submodule update --init
 
 ```
 
