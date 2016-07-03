@@ -149,20 +149,26 @@ class popupMl(BoxLayout):
         ap.loadValData( sh.data_val_path,sh.events_val_path)
 
         autoscore = ap.trainModel()
+        autoscore = round(autoscore, 3)
 
         valscore = ap.validateModel()
+        valscore = round(valscore, 3)
 
         ap.saveToPkl(PATH_TO_SESSION + sh.name)
 
-        self.orientation = 'horizontal'
+        self.orientation = 'vertical'
 
+        autoBox = BoxLayout()
         l1 = Label(text='Self Val Acc: %', font_size = FONT_SIZE)
         l2 = Label(text=str(autoscore), font_size = FONT_SIZE) 
+        autoBox.add_widget(l1)
+        autoBox.add_widget(l2)
 
+        valBox = BoxLayout()
         l3 = Label(text='Val Acc: %', font_size = FONT_SIZE)
         l4 = Label(text=str(valscore), font_size = FONT_SIZE) 
+        valBox.add_widget(l3)
+        valBox.add_widget(l4)
 
-        self.add_widget(l1)
-        self.add_widget(l2)
-        self.add_widget(l3)
-        self.add_widget(l4)
+        self.add_widget(autoBox)
+        self.add_widget(valBox)
