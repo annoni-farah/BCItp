@@ -10,7 +10,8 @@ from standards import *
 
 from utils import saveObjAsJson
 
-from CSPLDAapproach import apply_ml
+from approach import Approach
+
 
 class MlMenu(Screen):
 # layout
@@ -141,14 +142,27 @@ class popupMl(BoxLayout):
 
         sh = session_header
 
-        results, model = apply_ml(sh.data_cal_path, sh.events_cal_path, sh.data_val_path,
-            sh.events_val_path, sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
+        ap = Approach(sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
             sh.class_ids, sh.epoch_start, sh.epoch_end)
+
+        ap.loadCalData(sh.data_cal_path, sh.events_cal_path)
+        ap.loadValData( sh.data_val_path,sh.events_val_path)
+
+        autoscore = ap.trainModel()
+
+        valscore = ap.validateModel()
+
+        ap.saveToPkl(PATH_TO_SESSION + sh.name)
 
         self.orientation = 'horizontal'
 
-        l1 = Label(text='Acc: %', font_size = FONT_SIZE)
-        l2 = Label(text=str(results), font_size = FONT_SIZE) 
+        l1 = Label(text='Self Val Acc: %', font_size = FONT_SIZE)
+        l2 = Label(text=str(autoscore), font_size = FONT_SIZE) 
+
+        l3 = Label(text='Val Acc: %', font_size = FONT_SIZE)
+        l4 = Label(text=str(valscore), font_size = FONT_SIZE) 
 
         self.add_widget(l1)
         self.add_widget(l2)
+        self.add_widget(l3)
+        self.add_widget(l4)
