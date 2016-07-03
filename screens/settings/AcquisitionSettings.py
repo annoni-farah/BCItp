@@ -15,6 +15,8 @@ class AcquisitionSettings(Screen):
         super (AcquisitionSettings, self).__init__(**kwargs)
         self.sh = session_header
 
+        self.bind(on_pre_enter=self.update_screen)
+
         boxg = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
         ## BOTTOM PART
@@ -201,6 +203,16 @@ class AcquisitionSettings(Screen):
 
         self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
+
+    def update_screen(self,*args):
+        if self.sh.mode is not None:
+            self.com_port.text = self.sh.com_port
+            self.ch_labels.text = self.sh.ch_labels
+            self.baud_rate.text = self.sh.baud_rate
+            self.path_to_file.text = self.sh.path_to_file            
+
+            if self.sh.daisy:
+                self.enable_daisy
 
 
 
