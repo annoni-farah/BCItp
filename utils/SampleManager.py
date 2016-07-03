@@ -12,7 +12,7 @@ import threading
 
 import collections # circular buffer
 
-from DataProcessing import DataFiltering
+from DataProcessing import Filter
 
 from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
@@ -181,10 +181,8 @@ class SampleManager(threading.Thread):
 
         self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
-
-        self.dp = DataFiltering()
-
-        self.dp.DesignFilter(f_low, f_high, self.sample_rate, f_order)
+        
+        self.dp.Filter(f_low, f_high, self.sample_rate, f_order)
 
         # self.event_list = np.array([0,0])
         self.event_list = np.array([]).reshape(0,2)
