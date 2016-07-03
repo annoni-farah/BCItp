@@ -40,6 +40,7 @@ from ValStart import *
 from MlMenu import *
 
 from GameMenu import *
+from GameStart import *
 
 from kivy.properties import StringProperty
 
@@ -74,6 +75,7 @@ class MyApp(App):
             ml_screen = MlMenu(sh, name='MlMenu')
 
             game_screen = GameMenu(sh, name='GameMenu')
+            game_start_screen = GameStart(sh, name='GameStart')
 
             sm.add_widget(start_screen)
             sm.add_widget(settings_screen)
@@ -97,6 +99,7 @@ class MyApp(App):
             sm.add_widget(ml_screen)
 
             sm.add_widget(game_screen)
+            sm.add_widget(game_start_screen)
 
             sm.current = 'start'
 

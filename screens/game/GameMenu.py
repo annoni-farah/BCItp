@@ -17,7 +17,7 @@ class GameMenu(Screen):
         self.label_msg = Label(text="Game Menu", font_size=FONT_SIZE)
 
         button_start = Button(text="Start", size = BUTTON_SIZE)
-        button_start.bind(on_press= self.change_to_acquisition)
+        button_start.bind(on_press= self.change_to_start)
 
         button_settings = Button(text="Settings", size = BUTTON_SIZE)
         button_settings.bind(on_press= self.change_to_gamesettings)
@@ -34,8 +34,8 @@ class GameMenu(Screen):
 
         self.add_widget(box1)
 
-    def change_to_acquisition(self,*args):
-        self.manager.current = ''
+    def change_to_start(self,*args):
+        self.manager.current = 'GameStart'
         self.manager.transition.direction = 'left'
 
     def change_to_gamesettings(self,*args):
