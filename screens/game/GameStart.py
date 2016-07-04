@@ -19,7 +19,7 @@ from SampleManager import *
 
 from kivy.uix.widget import Widget
 
-from math import ceil, sin, isnan
+import math
 
 from kivy.garden.graph import Graph, MeshLinePlot
 Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
@@ -106,14 +106,12 @@ class GameStart(Screen):
         self.sm.join()
         self.button_stream.text = 'Start Streaming'
         self.clock_unscheduler()
-        self.save_data()
+        self.set_bar_default()
 
     def stream_start(self):
         self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-            daisy=self.sh.daisy, mode = self.sh.mode)
-
-        self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
+            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -123,22 +121,27 @@ class GameStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 0.5)
-        Clock.schedule_once(self.toogle_stream, self.sh.total_time)
+        Clock.schedule_interval(self.get_probs, 1/2)
 
     def clock_unscheduler(self):
-        Clock.unschedule(self.get_prob)
-        Clock.unschedule(self.toogle_stream)
+        Clock.unschedule(self.get_probs)
 
 
     def get_probs(self, dt):
 
-        buf = self.sm.GetBuffData()
+        t, buf = self.sm.GetBuffData()
 
-        p = self.ap.applyModelOnEpoch(buf)
+        if buf.shape[0] == self.sh.buf_len:
 
-        self.s_left.value = p[0] * 100
-        self.s_right.value = p[1] * 100
+            p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
+
+            self.s_left.value = int(math.floor(p[0] * 100))
+            self.s_right.value = int(math.floor(p[1] * 100))
+
+    def set_bar_default(self):
+
+        self.s_left.value = 0
+        self.s_right.value = 0
 
     def load_approach(self):
 

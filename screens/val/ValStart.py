@@ -37,9 +37,6 @@ class ValStart(Screen):
         self.button_stream = Button(text="Start Streaming", size = BUTTON_SIZE)
         self.button_stream.bind(on_press= self.start)
 
-        # self.button_save = Button(text="Save Data")
-        # self.button_save.bind(on_press= self.save_data)
-
         self.carousel = Carousel(direction='right')
 
         src = ["data/resources/cross.png",
@@ -92,11 +89,8 @@ class ValStart(Screen):
     def stream_start(self):
 
         self.generate_stim_list()
-
-        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels, self.sh.buf_len,
             daisy=self.sh.daisy, mode = self.sh.mode)
-
-        self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -104,16 +98,8 @@ class ValStart(Screen):
         self.stream_flag = True
         self.clock_scheduler()
 
-
-    def get_energy(self, dt):
-        if self.stream_flag:
-            energy = self.sm.ComputeEnergy()
-            if not energy == None:
-                self.label_energy.text = "Energy level : {}".format(energy)
-
     def clock_scheduler(self):
         Clock.schedule_interval(self.display_epoch, self.sh.end_trial_offset)
-
 
     def clock_unscheduler(self):
         Clock.unschedule(self.display_epoch)

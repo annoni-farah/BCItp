@@ -95,24 +95,14 @@ class CalStart(Screen):
     def stream_start(self):
 
         self.generate_stim_list()
-
-        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels, self.sh.buf_len,
             daisy=self.sh.daisy, mode = self.sh.mode)
-
-        self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
         self.button_stream.text = 'Stop Streaming'
         self.stream_flag = True
         self.clock_scheduler()
-
-
-    def get_energy(self, dt):
-        if self.stream_flag:
-            energy = self.sm.ComputeEnergy()
-            if not energy == None:
-                self.label_energy.text = "Energy level : {}".format(energy)
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.display_epoch, self.sh.end_trial_offset)
