@@ -84,7 +84,6 @@ class GameStart(Screen):
         self.add_widget(boxg) 
 
         self.stream_flag = False
-        self.load_approach()
 
     # BUTTON CALLBACKS    
     # ----------------------
@@ -110,7 +109,7 @@ class GameStart(Screen):
         self.save_data()
 
     def stream_start(self):
-
+        self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             daisy=self.sh.daisy, mode = self.sh.mode)
 
