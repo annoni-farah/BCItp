@@ -134,7 +134,7 @@ class GameStart(Screen):
 
     def get_probs(self, dt):
 
-        buf = self.sm.GetBuffData():
+        buf = self.sm.GetBuffData()
 
         p = self.ap.applyModelOnEpoch(buf)
 
@@ -142,6 +142,7 @@ class GameStart(Screen):
         self.s_right.value = p[1] * 100
 
     def load_approach(self):
+
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
 

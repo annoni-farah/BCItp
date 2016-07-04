@@ -142,7 +142,8 @@ class popupMl(BoxLayout):
 
         sh = session_header
 
-        ap = Approach(sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
+        ap = Approach()
+        ap.defineApproach(sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
             sh.class_ids, sh.epoch_start, sh.epoch_end)
 
         ap.loadCalData(sh.data_cal_path, sh.events_cal_path)
