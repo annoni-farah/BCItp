@@ -28,6 +28,8 @@ from kivy.garden.bar import Bar
 
 from standards import *
 
+from approach import Approach
+
 class GameStart(Screen):
 # layout
     def __init__ (self, session_header,**kwargs):
@@ -82,6 +84,7 @@ class GameStart(Screen):
         self.add_widget(boxg) 
 
         self.stream_flag = False
+        self.load_approach()
 
     # BUTTON CALLBACKS    
     # ----------------------
@@ -98,40 +101,30 @@ class GameStart(Screen):
 
     # ----------------------
 
+    def stream_stop(self):
+        self.sm.stop_flag = True
+        self.stream_flag = False
+        self.sm.join()
+        self.button_stream.text = 'Start Streaming'
+        self.clock_unscheduler()
+        self.save_data()
+
     def stream_start(self):
-        self.add_to_middle()
-        self.label_info.text = "Managing Samples..."
 
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-            daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
+            daisy=self.sh.daisy, mode = self.sh.mode)
 
         self.sm.CreateDataProcessing(self.sh.buf_len, self.sh.f_low, self.sh.f_high, self.sh.f_order)
-
-        self.label_info.text = "Computing filters and creating buffers..."
-
         self.sm.daemon = True  
         self.sm.stop_flag = False
-        self.label_info.text = "Now Streaming..."
         self.sm.start()
-        self.stream_flag = True
         self.button_stream.text = 'Stop Streaming'
+        self.stream_flag = True
         self.clock_scheduler()
 
 
-    def stream_stop(self):
-        self.button_stream.text = 'Start Streaming'
-        self.sm.stop_flag = True
-        self.stream_flag = False
-        self.label_info.text = ""
-        self.sm.join()
-        self.clock_unscheduler()
-        self.remove_from_middle()
-        self.sef_bar_default()
-
-
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/8)
-
+        Clock.schedule_interval(self.get_probs, 0.5)
         Clock.schedule_once(self.toogle_stream, self.sh.total_time)
 
     def clock_unscheduler(self):
@@ -141,14 +134,16 @@ class GameStart(Screen):
 
     def get_probs(self, dt):
 
-        self.s_left.value = norm_energy
-        self.s_right.value = norm_energy
+        buf = self.sm.GetBuffData():
 
-    def load_settings(self):
-        self.load_session_config()
-        self.load_dp_settings()
-        self.load_acquisition_settings()
-        self.load_precal_settings()
+        p = self.ap.applyModelOnEpoch(buf)
+
+        self.s_left.value = p[0] * 100
+        self.s_right.value = p[1] * 100
+
+    def load_approach(self):
+        self.ap = Approach()
+        self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
 
 
 
