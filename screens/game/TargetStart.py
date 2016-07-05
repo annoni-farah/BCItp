@@ -14,6 +14,8 @@ from kivy.graphics import Rectangle, Color
 
 from kivy.clock import Clock
 
+from kivy.properties import NumericProperty
+
 # from threading import Thread
 from SampleManager import *
 
@@ -41,17 +43,16 @@ class TargetStart(Screen):
         box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
             spacing=10, orientation='horizontal')
 
-        box_vleft = BoxLayout(size_hint_x=0.1)
-        box_vright = BoxLayout(size_hint_x=0.1)
+        ball = Ball(source='data/resources/white_ball.png', size=(50,50))
+        m = character()
+        m.add_widget(ball)
 
-        self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1])
-        self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1])
+        goal = Goal(source='data/resources/goal.png', size=(100,100))
+        p = character()
+        p.add_widget(goal)
 
-        box_vleft.add_widget(self.s_left)
-        box_vright.add_widget(self.s_right)
-
-        box_top.add_widget(box_vright, 0)
-        box_top.add_widget(box_vleft, 2)
+        box_top.add_widget(m)
+        box_top.add_widget(p)
         
 
     # Bottom part
@@ -145,9 +146,39 @@ class TargetStart(Screen):
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
 
 
+from kivy.uix.image import Image
+from kivy.core.window import Window
+
+class character(Widget):
+    pass
+
+class Ball(Image):
+    def __init__(self, **kwargs):
+        super(Ball, self).__init__(**kwargs)
+        self._keyboard = Window.request_keyboard(None, self)
+        if not self._keyboard:
+            return
+        self._keyboard.bind(on_key_down=self.on_keyboard_down)
+
+        self.x = 300
+        self.y = 300
+
+    def on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] == 'left':
+            self.x -= 10
+        elif keycode[1] == 'right':
+            self.x += 10
+        else:
+            return False
+        return True
 
 
+class Goal(Image):
+    def __init__(self, **kwargs):
+        super(Goal, self).__init__(**kwargs)
 
+        self.x = 400
+        self.y = 400
 
     
 
