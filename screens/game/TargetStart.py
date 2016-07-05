@@ -65,10 +65,6 @@ class TargetStart(Screen):
         self.button_stream = Button(text="Start Streaming", size = BUTTON_SIZE)
         self.button_stream.bind(on_press= self.toogle_stream)
 
-        self.label_info = Label(text= 'Msg:')
-
-        box_bottom.add_widget(self.label_info)
-
         box_bottom.add_widget(self.button_stream)
         box_bottom.add_widget(button_back)
 
