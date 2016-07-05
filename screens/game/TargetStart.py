@@ -40,21 +40,15 @@ class TargetStart(Screen):
 
 
     # Top part
-        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
-            spacing=10, orientation='horizontal')
+        box_top = FloatLayout(size_hint_x=1, size_hint_y=0.7)
 
-        ball = Ball(source='data/resources/white_ball.png', size=(50,50))
-        m = character()
-        m.add_widget(ball)
+        self.goal = Goal(source='data/resources/goal.png', size_hint=(1,1), pos=(450,450))
+        box_top.add_widget(self.goal)
 
-        goal = Goal(source='data/resources/goal.png', size=(100,100))
-        p = character()
-        p.add_widget(goal)
+        self.ball = Ball(source='data/resources/white_ball.png', size_hint=(0.2,0.2), pos=(300,300))
+        box_top.add_widget(self.ball)
 
-        box_top.add_widget(m)
-        box_top.add_widget(p)
         
-
     # Bottom part
 
         box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
@@ -74,8 +68,8 @@ class TargetStart(Screen):
         boxg = BoxLayout(orientation='vertical', padding=10, 
             spacing=10)
 
-        boxg.add_widget(box_bottom, 0)
-        boxg.add_widget(box_top, 1)
+        boxg.add_widget(box_top)
+        boxg.add_widget(box_bottom)
         
 
         self.add_widget(boxg) 
@@ -103,10 +97,9 @@ class TargetStart(Screen):
         self.sm.join()
         self.button_stream.text = 'Start Streaming'
         self.clock_unscheduler()
-        self.set_bar_default()
 
     def stream_start(self):
-        self.load_approach()
+        # self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
         self.sm.daemon = True  
@@ -118,10 +111,13 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/2)
+        Clock.schedule_interval(self.check_if_won, 1/2)
+        # Clock.schedule_interval(self.get_probs, 1/2)
+
 
     def clock_unscheduler(self):
-        Clock.unschedule(self.get_probs)
+        pass
+        # Clock.unschedule(self.get_probs)
 
 
     def get_probs(self, dt):
@@ -135,15 +131,15 @@ class TargetStart(Screen):
             self.s_left.value = int(math.floor(p[0] * 100))
             self.s_right.value = int(math.floor(p[1] * 100))
 
-    def set_bar_default(self):
-
-        self.s_left.value = 0
-        self.s_right.value = 0
-
     def load_approach(self):
 
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
+
+    def check_if_won(self, dt):
+        if self.ball.collide_widget(self.goal):
+            print 'Won'
+            self.ball.reset_pos()
 
 
 from kivy.uix.image import Image
@@ -160,25 +156,39 @@ class Ball(Image):
             return
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
-        self.x = 300
-        self.y = 300
+        self.velocity = [10, 10]
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
             self.x -= 10
         elif keycode[1] == 'right':
             self.x += 10
+        elif keycode[1] == 'up':
+            self.y += 10
+        elif keycode[1] == 'down':
+            self.y -= 10
         else:
             return False
         return True
+
+    def move(self, direct):
+
+        if direction == 'left':
+            self.x -= self.velocity[0]
+        if direction == 'right':
+            self.x += self.velocity[0]
+        if direction == 'down':
+            self.y -= self.velocity[1]
+        if direction == 'up':
+            self.y += self.velocity[1]
+
+    def reset_pos(self):
+        self.pos = (300,300)
 
 
 class Goal(Image):
     def __init__(self, **kwargs):
         super(Goal, self).__init__(**kwargs)
-
-        self.x = 400
-        self.y = 400
 
     
 
