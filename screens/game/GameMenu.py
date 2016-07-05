@@ -16,8 +16,11 @@ class GameMenu(Screen):
 
         self.label_msg = Label(text="Game Menu", font_size=FONT_SIZE)
 
-        button_start = Button(text="Start", size = BUTTON_SIZE)
-        button_start.bind(on_press= self.change_to_start)
+        button_bars = Button(text="Bars", size = BUTTON_SIZE)
+        button_bars.bind(on_press= self.change_to_bars)
+
+        button_target = Button(text="Target", size = BUTTON_SIZE)
+        button_target.bind(on_press= self.change_to_target)
 
         button_settings = Button(text="Settings", size = BUTTON_SIZE)
         button_settings.bind(on_press= self.change_to_gamesettings)
@@ -28,14 +31,19 @@ class GameMenu(Screen):
 
         box1.add_widget(self.label_msg)
 
-        box1.add_widget(button_start)
+        box1.add_widget(button_bars)
+        box1.add_widget(button_target)
         box1.add_widget(button_settings)
         box1.add_widget(button_back)
 
         self.add_widget(box1)
 
-    def change_to_start(self,*args):
-        self.manager.current = 'GameStart'
+    def change_to_target(self,*args):
+        self.manager.current = 'TargetStart'
+        self.manager.transition.direction = 'left'
+
+    def change_to_bars(self,*args):
+        self.manager.current = 'BarsStart'
         self.manager.transition.direction = 'left'
 
     def change_to_gamesettings(self,*args):
