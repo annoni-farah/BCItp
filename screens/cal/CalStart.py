@@ -107,7 +107,6 @@ class CalStart(Screen):
     def display_epoch(self, dt):
 
         if self.epoch_counter < self.sh.n_trials:
-            os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
             Clock.schedule_once(self.set_pause, self.sh.pause_offset)
             Clock.schedule_once(self.set_cue, self.sh.cue_offset)
             Clock.schedule_once(self.set_blank, self.sh.cue_offset + 1)
@@ -116,6 +115,7 @@ class CalStart(Screen):
 
         
     def set_pause(self, dt):
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 

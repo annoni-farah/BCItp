@@ -98,7 +98,6 @@ class ValStart(Screen):
         Clock.unschedule(self.display_epoch)
 
     def display_epoch(self, dt):
-        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
 
         if self.epoch_counter < self.sh.n_trials:
             Clock.schedule_once(self.set_pause, self.sh.pause_offset)
@@ -109,6 +108,7 @@ class ValStart(Screen):
 
         
     def set_pause(self, dt):
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
