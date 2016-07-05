@@ -48,14 +48,7 @@ class ValStart(Screen):
             image = AsyncImage(source=src[i], allow_stretch=False)
             self.carousel.add_widget(image)
 
-        self.label_energy = Label()
-
-
         box2.add_widget(self.carousel)
-
-        box1.add_widget(self.label_energy)
-
-        # box1.add_widget(self.button_save)
         box1.add_widget(self.button_stream)
         box1.add_widget(button_back)
 
@@ -103,7 +96,6 @@ class ValStart(Screen):
 
     def clock_unscheduler(self):
         Clock.unschedule(self.display_epoch)
-        Clock.unschedule(self.get_energy)
 
     def display_epoch(self, dt):
         os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
