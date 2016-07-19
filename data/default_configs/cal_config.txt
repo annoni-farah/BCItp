@@ -1,6 +1,0 @@
-{
-    "pause_offset": "1", 
-    "end_trial_offset": "6", 
-    "n_trials": "3", 
-    "cue_offset": "2"
-}
