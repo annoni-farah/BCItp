@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
@@ -32,20 +33,22 @@ from standards import *
 
 from approach import Approach
 
+import random
+
 class TargetStart(Screen):
 # layout
     def __init__ (self, session_header,**kwargs):
         super (TargetStart, self).__init__(**kwargs)
         self.sh = session_header
-
+    
 
     # Top part
-        box_top = FloatLayout(size_hint_x=1, size_hint_y=0.7)
+        box_top = RelativeLayout(size_hint = (1, 0.7))
 
-        self.goal = Goal(source='data/resources/goal.png', size_hint=(1,1), pos=(450,450))
+        self.goal = Goal(size_hint=(None, None), size=(50,50), pos = (100,100))
         box_top.add_widget(self.goal)
 
-        self.ball = Ball(source='data/resources/white_ball.png', size_hint=(0.2,0.2), pos=(300,300))
+        self.ball = Ball(size_hint=(None, None), size=(20,20), pos = (300,300))
         box_top.add_widget(self.ball)
 
         
@@ -63,14 +66,15 @@ class TargetStart(Screen):
         box_bottom.add_widget(self.button_stream)
         box_bottom.add_widget(button_back)
 
-    # Whole part
+        Clock.schedule_interval(self.check_if_won, 1/2)
 
+    # Whole part
         boxg = BoxLayout(orientation='vertical', padding=10, 
             spacing=10)
 
         boxg.add_widget(box_top)
+
         boxg.add_widget(box_bottom)
-        
 
         self.add_widget(boxg) 
 
@@ -110,7 +114,7 @@ class TargetStart(Screen):
         self.clock_scheduler()
 
 
-    def clock_scheduler(self):
+    def clock_scheduler(self,dt):
         Clock.schedule_interval(self.check_if_won, 1/2)
         # Clock.schedule_interval(self.get_probs, 1/2)
 
@@ -138,23 +142,32 @@ class TargetStart(Screen):
 
     def check_if_won(self, dt):
         if self.ball.collide_widget(self.goal):
-            print 'Won'
-            self.ball.reset_pos()
+            Clock.unschedule(self.check_if_won)
+            self.goal.r, self.goal.g = 0,1
+            Clock.schedule_once(self.ball.reset, 2)
+            Clock.schedule_once(self.goal.reset, 2)
+            Clock.schedule_once(self.clock_scheduler, 2)
 
 
 from kivy.uix.image import Image
 from kivy.core.window import Window
 
-class character(Widget):
-    pass
-
-class Ball(Image):
+class Ball(Widget):
     def __init__(self, **kwargs):
         super(Ball, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(None, self)
         if not self._keyboard:
             return
+
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
+        self.bind(pos=self.update_rect)
+
+        with self.canvas:
+            Color(0, 0, 1.)
+            # Add a rectangle
+            self.rect = Rectangle(pos=self.pos, size=self.size)
+
+        self.update_rect()
 
         self.velocity = [10, 10]
 
@@ -169,6 +182,7 @@ class Ball(Image):
             self.y -= 10
         else:
             return False
+
         return True
 
     def move(self, direct):
@@ -182,13 +196,47 @@ class Ball(Image):
         if direction == 'up':
             self.y += self.velocity[1]
 
-    def reset_pos(self):
-        self.pos = (300,300)
+    def reset(self, dt):
+        pos_x=random.randint(0,self.parent.width)
+        pos_y=random.randint(0,self.parent.height)
+        self.pos = (pos_x,pos_y)
+
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
 
 
-class Goal(Image):
+class Goal(Widget):
+
+    r = NumericProperty(1)
+    g = NumericProperty(0)
+    b = NumericProperty(0)
+
     def __init__(self, **kwargs):
-        super(Goal, self).__init__(**kwargs)
+        super(Goal, self).__init__(**kwargs)   
+
+        self.bind(r = self.update_rect)
+        self.bind(g = self.update_rect)
+        self.bind(b = self.update_rect)
+        self.bind(pos=self.update_rect)
+        
+        self.update_rect()
+
+    def update_rect(self, *args):
+
+        with self.canvas:
+            self.canvas.clear()
+            # Add a red color
+            Color(self.r, self.g, self.b)
+            # Add a rectangle
+            self.rect = Rectangle(pos=self.pos, size=self.size)
+
+    def reset(self, dt):
+        self.r, self.g, self.b = 1,0,0
+        pos_x=random.randint(0,self.parent.width)
+        pos_y=random.randint(0,self.parent.height)
+        self.pos = (pos_x,pos_y)
+        
+
 
     
 
