@@ -103,7 +103,7 @@ class TargetStart(Screen):
         self.clock_unscheduler()
 
     def stream_start(self):
-        # self.load_approach()
+        self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
         self.sm.daemon = True  
@@ -111,17 +111,16 @@ class TargetStart(Screen):
         self.sm.start()
         self.button_stream.text = 'Stop Streaming'
         self.stream_flag = True
-        self.clock_scheduler()
+        Clock.schedule_once(self.clock_scheduler, 0)
 
 
     def clock_scheduler(self,dt):
         Clock.schedule_interval(self.check_if_won, 1/2)
-        # Clock.schedule_interval(self.get_probs, 1/2)
+        Clock.schedule_interval(self.get_probs, 1/2)
 
 
     def clock_unscheduler(self):
-        pass
-        # Clock.unschedule(self.get_probs)
+        Clock.unschedule(self.get_probs)
 
 
     def get_probs(self, dt):
@@ -132,8 +131,14 @@ class TargetStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            self.s_left.value = int(math.floor(p[0] * 100))
-            self.s_right.value = int(math.floor(p[1] * 100))
+            self.map_prob(p)
+
+    def map_prob(self, prob):
+
+        if prob[1] > prob[0]:
+            self.ball.move('left')
+        else:
+            self.ball.move('right')
 
     def load_approach(self):
 
@@ -167,9 +172,7 @@ class Ball(Widget):
             # Add a rectangle
             self.rect = Rectangle(pos=self.pos, size=self.size)
 
-        self.update_rect()
-
-        self.velocity = [10, 10]
+        self.velocity = [0.5, 0.5]
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
@@ -185,7 +188,7 @@ class Ball(Widget):
 
         return True
 
-    def move(self, direct):
+    def move(self, direction):
 
         if direction == 'left':
             self.x -= self.velocity[0]
@@ -202,6 +205,18 @@ class Ball(Widget):
         self.pos = (pos_x,pos_y)
 
     def update_rect(self, *args):
+        if self.pos[0] < 0:
+            self.pos[0] = 0
+
+        if self.pos[0] > self.parent.width:
+           self.pos[0] = self.parent.width
+
+        if self.pos[1] < 0:
+            self.pos[1] = 0
+
+        if self.pos[1] > self.parent.height:
+           self.pos[1] = self.parent.height
+
         self.rect.pos = self.pos
 
 
