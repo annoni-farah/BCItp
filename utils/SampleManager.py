@@ -74,25 +74,17 @@ class SampleManager(threading.Thread):
 
     def run(self):
 
-        self.HWStream()
+        self.board.start_streaming(self.GetData) # start getting data from amplifier
+
         
     def StoreData(self, new_data):
          
         data = np.array(new_data) # transform list into numpy array
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
-    
-    def PrintData(self, data):
-        
-        print data
         
     def SaveData(self, path):
 
         saveMatrixAsTxt(self.all_data, path, mode = 'w')
-
-    def HWStream(self):
-
-        self.board.start_streaming(self.GetData) # start getting data from amplifier
-
 
     def GetData(self, sample):
         '''Get the data from amplifier and push it into the circular buffer.

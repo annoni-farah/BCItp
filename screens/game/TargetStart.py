@@ -117,11 +117,18 @@ class TargetStart(Screen):
     def clock_scheduler(self,dt):
         Clock.schedule_interval(self.check_if_won, 1/2)
         Clock.schedule_interval(self.get_probs, 1/2)
+        Clock.schedule_interval(self.check_if_streaming, 2)
 
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
+        Clock.unschedule(self.check_if_streaming)
 
+    def check_if_streaming(self, dt):
+        print 'stopped', self.sm.Stopped()
+        print 'flag', self.stream_flag
+        if self.sm.Stopped() and self.stream_flag:
+            self.toogle_stream()
 
     def get_probs(self, dt):
 
