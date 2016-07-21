@@ -43,13 +43,29 @@ class TargetStart(Screen):
     
 
     # Top part
-        box_top = RelativeLayout(size_hint = (1, 0.7))
+        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
+            spacing=30, orientation='horizontal')
+
+        box_middle = RelativeLayout(size_hint = (0.8, 1))
 
         self.goal = Goal(size_hint=(None, None), size=(50,50), pos = (100,100))
-        box_top.add_widget(self.goal)
+        box_middle.add_widget(self.goal)
 
         self.ball = Ball(size_hint=(None, None), size=(20,20), pos = (300,300))
-        box_top.add_widget(self.ball)
+        box_middle.add_widget(self.ball)
+
+        box_vleft = BoxLayout(size_hint_x=0.1)
+        box_vright = BoxLayout(size_hint_x=0.1)
+
+        self.s_right = Bar(orientation = 'bt', color=[1, 0, 1, 0.5], animated = False)
+        self.s_left = Bar(orientation = 'bt', color=[1, 1, 0, 0.5], animated = False)
+
+        box_vleft.add_widget(self.s_left)
+        box_vright.add_widget(self.s_right)
+
+        box_top.add_widget(box_middle)
+        box_top.add_widget(box_vright)
+        box_top.add_widget(box_vleft)
 
         
     # Bottom part
@@ -101,6 +117,7 @@ class TargetStart(Screen):
         self.sm.join()
         self.button_stream.text = 'Start Streaming'
         self.clock_unscheduler()
+        self.set_bar_default()
 
     def stream_start(self):
         self.load_approach()
@@ -116,7 +133,7 @@ class TargetStart(Screen):
 
     def clock_scheduler(self,dt):
         Clock.schedule_interval(self.check_if_won, 1/2)
-        Clock.schedule_interval(self.get_probs, 1/2)
+        Clock.schedule_interval(self.get_probs, 1/10)
         Clock.schedule_interval(self.check_if_streaming, 2)
 
 
@@ -125,8 +142,8 @@ class TargetStart(Screen):
         Clock.unschedule(self.check_if_streaming)
 
     def check_if_streaming(self, dt):
-        print 'stopped', self.sm.Stopped()
-        print 'flag', self.stream_flag
+        # print 'stopped', self.sm.Stopped()
+        # print 'flag', self.stream_flag
         if self.sm.Stopped() and self.stream_flag:
             self.toogle_stream()
 
@@ -138,11 +155,16 @@ class TargetStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
+            p = [int(math.floor(p[0] * 100)), int(math.floor(p[1] * 100))]
+
+            self.s_left.value = p[0]
+            self.s_right.value = p[1]
+
             self.map_prob(p)
 
     def map_prob(self, prob):
 
-        if prob[1] > prob[0]:
+        if prob[0] > prob[1]:
             self.ball.move('left')
         else:
             self.ball.move('right')
@@ -159,6 +181,11 @@ class TargetStart(Screen):
             Clock.schedule_once(self.ball.reset, 2)
             Clock.schedule_once(self.goal.reset, 2)
             Clock.schedule_once(self.clock_scheduler, 2)
+
+    def set_bar_default(self):
+
+        self.s_left.value = 0
+        self.s_right.value = 0
 
 
 from kivy.uix.image import Image

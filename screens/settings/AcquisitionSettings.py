@@ -108,7 +108,16 @@ class AcquisitionSettings(Screen):
                 text='', multiline=True)
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
+
+        box_srate = BoxLayout(orientation = 'horizontal')
+        label_srate = Label(text = 'Sample Rate', font_size=FONT_SIZE)
+        self.srate = TextInput(font_size= FONT_SIZE,
+                text='')
+        box_srate.add_widget(label_srate)
+        box_srate.add_widget(self.srate)
+
         self.box_text_playback.add_widget(box_path)
+        self.box_text_playback.add_widget(box_srate)
 
 
         ## CHECK BOXES
@@ -190,6 +199,8 @@ class AcquisitionSettings(Screen):
     def save_config(self,*args):
         if self.daisy:
             self.sample_rate = 125.0
+        elif self.srate != '':
+            self.sample_rate = float(self.srate.text)
         else:
             self.sample_rate = 250.0
 

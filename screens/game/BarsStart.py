@@ -44,8 +44,8 @@ class BarsStart(Screen):
         box_vleft = BoxLayout(size_hint_x=0.1)
         box_vright = BoxLayout(size_hint_x=0.1)
 
-        self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1])
-        self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1])
+        self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1], animated = False)
+        self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1], animated = False)
 
         box_vleft.add_widget(self.s_left)
         box_vright.add_widget(self.s_right)
