@@ -1,4 +1,7 @@
 <StartScreen>:
+    
+    session_name: session_name
+    label_msg: label_msg
 
     AnchorLayout:
         anchor_x: 'center'
@@ -8,13 +11,42 @@
             orientation: 'vertical'
             spacing: 10
             padding: 20
+            size_hint: None, None
+            size: self.minimum_size
+
+            # canvas:
+            #     Color:
+            #         rgba: 1, 0, 0, 1
+            #     Rectangle:
+            #         pos: self.pos
+            #         size: self.size
+
+            Label:
+                id: label_msg
+                font_size: 20
+
+            TextInput:
+                id: session_name
+                size_hint: None,None
+                hint_text: 'Session Name'
+                font_size: 20
+                size: 200,self.minimum_height
+                multiline: False
 
             Button:
                 text: 'General Settings'
-                on_press: self.change_to_gen_settings
+                on_press: root.change_to_gen_settings()
+                size_hint: None,None
+                size: 200,50
+
             Button:
                 text: 'BCI Menu'
-                on_press: self.change_to_bci
+                on_press: root.change_to_bci()
+                size_hint: None,None
+                size: 200,50
+
             Button:
                 text: 'Save'
-                on_press: self.save_session_name
+                on_press: root.save_session_name()
+                size_hint: None,None
+                size: 200,50

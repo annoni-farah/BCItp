@@ -3,56 +3,18 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.lang import Builder
+
 
 from standards import *
+
+Builder.load_file('screens/bcimenu.kv')
 
 class BCIMenu(Screen):
 # layout
     def __init__ (self, session_header,**kwargs):
         super (BCIMenu, self).__init__(**kwargs)
         self.sh = session_header
-
-        box1 = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, spacing=10, orientation='vertical')
-
-        self.label_msg = Label(text="BCI Menu", font_size=FONT_SIZE)
-
-        button_openbci = Button(text="Acquisition Settings", size = BUTTON_SIZE)
-        button_openbci.bind(on_press= self.change_to_openbci)
-
-        button_dp = Button(text="Data Processing Settings", size = BUTTON_SIZE)
-        button_dp.bind(on_press= self.change_to_dp)
-
-        button_precal = Button(text="Pre Calibration", size = BUTTON_SIZE)
-        button_precal.bind(on_press= self.change_to_precal)
-
-        button_cal = Button(text="Calibration", size = BUTTON_SIZE)
-        button_cal.bind(on_press= self.change_to_calibration)
-
-        button_val = Button(text="Validation", size = BUTTON_SIZE)
-        button_val.bind(on_press= self.change_to_validation)
-
-        button_ml = Button(text="Machine Learning", size = BUTTON_SIZE)
-        button_ml.bind(on_press= self.change_to_ml)
-
-        button_game = Button(text="Game", size = BUTTON_SIZE)
-        button_game.bind(on_press= self.change_to_game)
-
-        button_back = Button(text="Back", size = BUTTON_SIZE)
-        button_back.bind(on_press= self.change_to_start)
-
-
-        box1.add_widget(self.label_msg)
-
-        box1.add_widget(button_openbci)
-        box1.add_widget(button_dp)
-        box1.add_widget(button_precal)
-        box1.add_widget(button_cal)
-        box1.add_widget(button_val)
-        box1.add_widget(button_ml)
-        box1.add_widget(button_game)
-        box1.add_widget(button_back)
-
-        self.add_widget(box1)
 
     def change_to_precal(self,*args):
         self.manager.current = 'PreCalMenu'
