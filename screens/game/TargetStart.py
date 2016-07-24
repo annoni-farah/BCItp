@@ -1,98 +1,38 @@
+############################## DEPENDENCIES ##########################
+# KIVY modules:
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.relativelayout import RelativeLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-
-from kivy.uix.image import AsyncImage
-
-from kivy.uix.slider import Slider
-
-from kivy.graphics import Rectangle, Color
-
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ReferenceListProperty, \
+                            ListProperty
 from kivy.clock import Clock
-
-from kivy.properties import NumericProperty
-
-# from threading import Thread
-from SampleManager import *
-
+from kivy.lang import Builder
 from kivy.uix.widget import Widget
 
+# KV file:
+Builder.load_file('screens/game/targetstart.kv')
+
+# Generic:
 import math
-
-from kivy.garden.graph import Graph, MeshLinePlot
-Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
-
-from kivy.garden.bar import Bar
-
-from standards import *
-
-from approach import Approach
-
 import random
 
+# Project's:
+from SampleManager import *
+from standards import *
+from approach import Approach
+######################################################################
+
 class TargetStart(Screen):
-# layout
+
+    bar_left_level = NumericProperty(0)
+    bar_right_level = NumericProperty(0)
+
+    label_on_toggle_button = StringProperty('Start')
+
+    game = ObjectProperty(None)
+
+
     def __init__ (self, session_header,**kwargs):
         super (TargetStart, self).__init__(**kwargs)
         self.sh = session_header
-    
-
-    # Top part
-        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
-            spacing=30, orientation='horizontal')
-
-        box_middle = RelativeLayout(size_hint = (0.8, 1))
-
-        self.goal = Goal(size_hint=(None, None), size=(50,50), pos = (100,100))
-        box_middle.add_widget(self.goal)
-
-        self.ball = Ball(size_hint=(None, None), size=(20,20), pos = (300,300))
-        box_middle.add_widget(self.ball)
-
-        box_vleft = BoxLayout(size_hint_x=0.1)
-        box_vright = BoxLayout(size_hint_x=0.1)
-
-        self.s_right = Bar(orientation = 'bt', color=[1, 0, 1, 0.5], animated = False)
-        self.s_left = Bar(orientation = 'bt', color=[1, 1, 0, 0.5], animated = False)
-
-        box_vleft.add_widget(self.s_left)
-        box_vright.add_widget(self.s_right)
-
-        box_top.add_widget(box_middle)
-        box_top.add_widget(box_vright)
-        box_top.add_widget(box_vleft)
-
-        
-    # Bottom part
-
-        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
-            spacing=10, orientation='vertical')
-
-        button_back = Button(text="Back", size = BUTTON_SIZE)
-        button_back.bind(on_press= self.change_to_game)
-
-        self.button_stream = Button(text="Start Streaming", size = BUTTON_SIZE)
-        self.button_stream.bind(on_press= self.toogle_stream)
-
-        box_bottom.add_widget(self.button_stream)
-        box_bottom.add_widget(button_back)
-
-        Clock.schedule_interval(self.check_if_won, 1/2)
-
-    # Whole part
-        boxg = BoxLayout(orientation='vertical', padding=10, 
-            spacing=10)
-
-        boxg.add_widget(box_top)
-
-        boxg.add_widget(box_bottom)
-
-        self.add_widget(boxg) 
 
         self.stream_flag = False
 
@@ -112,40 +52,33 @@ class TargetStart(Screen):
     # ----------------------
 
     def stream_stop(self):
-        self.sm.stop_flag = True
+        # self.sm.stop_flag = True
         self.stream_flag = False
-        self.sm.join()
-        self.button_stream.text = 'Start Streaming'
-        self.clock_unscheduler()
-        self.set_bar_default()
+        # self.sm.join()
+        self.label_on_toggle_button = 'Start'
+        # self.clock_unscheduler()
+        # self.set_bar_default()
+        self.game.stop()
 
     def stream_start(self):
-        self.load_approach()
-        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
-        self.sm.daemon = True  
-        self.sm.stop_flag = False
-        self.sm.start()
-        self.button_stream.text = 'Stop Streaming'
+        # self.load_approach()
+        # self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+        #     self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
+        # self.sm.daemon = True  
+        # self.sm.stop_flag = False
+        # self.sm.start()
+        self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
-        Clock.schedule_once(self.clock_scheduler, 0)
+        # self.clock_scheduler()
+        self.game.start(None)
 
 
-    def clock_scheduler(self,dt):
-        Clock.schedule_interval(self.check_if_won, 1/2)
-        Clock.schedule_interval(self.get_probs, 1/10)
-        Clock.schedule_interval(self.check_if_streaming, 2)
-
+    def clock_scheduler(self):
+        Clock.schedule_interval(self.get_probs, 1/2)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
-        Clock.unschedule(self.check_if_streaming)
 
-    def check_if_streaming(self, dt):
-        # print 'stopped', self.sm.Stopped()
-        # print 'flag', self.stream_flag
-        if self.sm.Stopped() and self.stream_flag:
-            self.toogle_stream()
 
     def get_probs(self, dt):
 
@@ -155,135 +88,92 @@ class TargetStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            p = [int(math.floor(p[0] * 100)), int(math.floor(p[1] * 100))]
+            self.bar_left_level = int(math.floor(p[0] * 100))
+            self.bar_right_level = int(math.floor(p[1] * 100))
 
-            self.s_left.value = p[0]
-            self.s_right.value = p[1]
+    def set_bar_default(self):
 
-            self.map_prob(p)
-
-    def map_prob(self, prob):
-
-        if prob[0] > prob[1]:
-            self.ball.move('left')
-        else:
-            self.ball.move('right')
+        self.bar_left_level = 0
+        self.bar_right_level = 0
 
     def load_approach(self):
 
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
 
-    def check_if_won(self, dt):
-        if self.ball.collide_widget(self.goal):
-            Clock.unschedule(self.check_if_won)
-            self.goal.r, self.goal.g = 0,1
-            Clock.schedule_once(self.ball.reset, 2)
-            Clock.schedule_once(self.goal.reset, 2)
-            Clock.schedule_once(self.clock_scheduler, 2)
-
-    def set_bar_default(self):
-
-        self.s_left.value = 0
-        self.s_right.value = 0
 
 
 from kivy.uix.image import Image
 from kivy.core.window import Window
 
-class Ball(Widget):
+
+class Game(Widget):
+
+    player = ObjectProperty(None)
+    target = ObjectProperty(None)
+
     def __init__(self, **kwargs):
-        super(Ball, self).__init__(**kwargs)
+        super(Game, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(None, self)
         if not self._keyboard:
             return
 
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
-        self.bind(pos=self.update_rect)
-
-        with self.canvas:
-            Color(0, 0, 1.)
-            # Add a rectangle
-            self.rect = Rectangle(pos=self.pos, size=self.size)
-
-        self.velocity = [0.5, 0.5]
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
-            self.x -= 10
+            if self.player.center_x > 0:
+                self.player.pos[0] -= 10
         elif keycode[1] == 'right':
-            self.x += 10
+            if self.player.center_x < int(self.parent.width):
+                self.player.pos[0] += 10
         elif keycode[1] == 'up':
-            self.y += 10
+            if self.player.center_y < int(self.parent.height):
+                self.player.pos[1] += 10
         elif keycode[1] == 'down':
-            self.y -= 10
+            if self.player.center_y > 0:
+                self.player.pos[1] -= 10
         else:
             return False
 
-        return True
+    def set_positions(self):
 
-    def move(self, direction):
+        max_width = int(self.parent.width)
+        max_height = int(self.parent.height)
 
-        if direction == 'left':
-            self.x -= self.velocity[0]
-        if direction == 'right':
-            self.x += self.velocity[0]
-        if direction == 'down':
-            self.y -= self.velocity[1]
-        if direction == 'up':
-            self.y += self.velocity[1]
+        self.target.pos = (random.randint(0,max_width), \
+                               random.randint(0,max_height))
 
-    def reset(self, dt):
-        pos_x=random.randint(0,self.parent.width)
-        pos_y=random.randint(0,self.parent.height)
-        self.pos = (pos_x,pos_y)
-
-    def update_rect(self, *args):
-        if self.pos[0] < 0:
-            self.pos[0] = 0
-
-        if self.pos[0] > self.parent.width:
-           self.pos[0] = self.parent.width
-
-        if self.pos[1] < 0:
-            self.pos[1] = 0
-
-        if self.pos[1] > self.parent.height:
-           self.pos[1] = self.parent.height
-
-        self.rect.pos = self.pos
+        self.player.pos = self.center
 
 
-class Goal(Widget):
+    def start(self, dt):
 
-    r = NumericProperty(1)
-    g = NumericProperty(0)
-    b = NumericProperty(0)
+        self.target.t_color = [1,1,0,1]
 
-    def __init__(self, **kwargs):
-        super(Goal, self).__init__(**kwargs)   
+        self.set_positions()
 
-        self.bind(r = self.update_rect)
-        self.bind(g = self.update_rect)
-        self.bind(b = self.update_rect)
-        self.bind(pos=self.update_rect)
-        
-        self.update_rect()
+        Clock.schedule_interval(self.check_if_won, 1/2)
 
-    def update_rect(self, *args):
+    def stop(self):
+        Clock.unschedule(self.check_if_won)
 
-        with self.canvas:
-            self.canvas.clear()
-            # Add a red color
-            Color(self.r, self.g, self.b)
-            # Add a rectangle
-            self.rect = Rectangle(pos=self.pos, size=self.size)
+    def check_if_won(self, dt):
+        if self.player.collide_widget(self.target):
+            print 'won'
+            self.stop()
+            self.target.t_color = [0,1,0,1]
+            Clock.schedule_once(self.start, 1)
 
-    def reset(self, dt):
-        self.r, self.g, self.b = 1,0,0
-        pos_x=random.randint(0,self.parent.width)
-        pos_y=random.randint(0,self.parent.height)
-        self.pos = (pos_x,pos_y)
+
+
+class GamePlayer(Widget):
+    pass
+
+
+class GameTarget(Widget):
+
+    t_color = ListProperty([1,1,0,1])
         
 
 

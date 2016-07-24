@@ -1,0 +1,109 @@
+<TargetStart>:
+
+    game: game 
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 20    
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 30
+            padding: 20
+
+            BoxLayout:
+                size_hint_x: 0.1
+
+                Bar:
+                    orientation: 'bt'
+                    color: [1,0,0,1]
+                    animated: False
+                    value: root.bar_left_level
+
+            RelativeLayout:
+                size_hint_x: 0.8
+
+                Game:
+                    id: game
+
+            BoxLayout:
+                size_hint_x: 0.1
+
+                Bar:
+                    orientation: 'bt'
+                    color: [0,0,1,1]
+                    animated: False
+                    value: root.bar_right_level
+
+        GridLayout:
+            size_hint: (1, 0.2)
+            rows: 2
+            cols: 1
+            spacing: 10
+
+            Button:
+                text: root.label_on_toggle_button
+                on_press: root.toogle_stream()
+                size_hint: None,None
+                size: 200,50
+
+            Button:
+                text: 'Back'
+                on_press: root.change_to_game()
+                size_hint: None,None
+                size: 200,50
+
+
+<Game>:
+
+    player: game_player
+    target: game_target
+
+    canvas:
+        Color:
+            rgba: (.1, .1, .1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+
+    GamePlayer:
+        id: game_player
+        size_hint: (None, None)
+
+    GameTarget:
+        id: game_target
+        size_hint: (None, None)
+
+
+
+
+<GamePlayer>:
+    
+    size_hint: (None, None)
+    size: (30,30)
+
+    canvas:
+        Color:
+            rgba: (1, 1, 1, 1)
+
+        Rectangle:
+            pos: root.pos
+            size: self.size
+
+
+<GameTarget>:
+    
+    size_hint: (None, None)
+    size: (50,50)
+
+    canvas:
+        Color:
+            rgba: root.t_color
+
+        Rectangle:
+            pos: root.pos
+            size: self.size
+
