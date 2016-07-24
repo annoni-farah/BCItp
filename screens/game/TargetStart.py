@@ -52,24 +52,24 @@ class TargetStart(Screen):
     # ----------------------
 
     def stream_stop(self):
-        # self.sm.stop_flag = True
+        self.sm.stop_flag = True
         self.stream_flag = False
-        # self.sm.join()
+        self.sm.join()
         self.label_on_toggle_button = 'Start'
-        # self.clock_unscheduler()
-        # self.set_bar_default()
+        self.clock_unscheduler()
+        self.set_bar_default()
         self.game.stop()
 
     def stream_start(self):
-        # self.load_approach()
-        # self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-        #     self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
-        # self.sm.daemon = True  
-        # self.sm.stop_flag = False
-        # self.sm.start()
+        self.load_approach()
+        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
+        self.sm.daemon = True  
+        self.sm.stop_flag = False
+        self.sm.start()
         self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
-        # self.clock_scheduler()
+        self.clock_scheduler()
         self.game.start(None)
 
 
@@ -90,6 +90,15 @@ class TargetStart(Screen):
 
             self.bar_left_level = int(math.floor(p[0] * 100))
             self.bar_right_level = int(math.floor(p[1] * 100))
+
+            self.map_prob(p)
+
+    def map_prob(self, prob):
+
+        if prob[0] > prob[1]:
+            self.game.move_player('left')
+        else:
+            self.game.move_player('right')
 
     def set_bar_default(self):
 
@@ -112,6 +121,8 @@ class Game(Widget):
     player = ObjectProperty(None)
     target = ObjectProperty(None)
 
+    vel = NumericProperty(10)
+
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(None, self)
@@ -122,17 +133,13 @@ class Game(Widget):
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
-            if self.player.center_x > 0:
-                self.player.pos[0] -= 10
+            self.move_player('left')
         elif keycode[1] == 'right':
-            if self.player.center_x < int(self.parent.width):
-                self.player.pos[0] += 10
+            self.move_player('right')
         elif keycode[1] == 'up':
-            if self.player.center_y < int(self.parent.height):
-                self.player.pos[1] += 10
+            self.move_player('up')
         elif keycode[1] == 'down':
-            if self.player.center_y > 0:
-                self.player.pos[1] -= 10
+            self.move_player('down')
         else:
             return False
 
@@ -145,7 +152,6 @@ class Game(Widget):
                                random.randint(0,max_height))
 
         self.player.pos = self.center
-
 
     def start(self, dt):
 
@@ -165,15 +171,78 @@ class Game(Widget):
             self.target.t_color = [0,1,0,1]
             Clock.schedule_once(self.start, 1)
 
+    def move_player(self, direction):
+
+        l = self.player.width
+        p0 = self.player.pos[0]
+        p1 = self.player.pos[1]
+
+        if direction == "right":
+            if self.player.center_x < int(self.parent.width):
+                x0 = p0
+                y0 = p1 + l
+                x1 = p0 + l
+                y1 = p1 + l/2
+                x2 = p0
+                y2 = p1
+
+                self.player.pos[0] += self.vel
+            else:
+                return False
+
+        elif direction == "left":
+            if self.player.center_x > 0:
+                x0 = p0 + l
+                y0 = p1
+                x1 = p0
+                y1 = p1 + l/2
+                x2 = p0 + l
+                y2 = p1 + l
+
+                self.player.pos[0] -= self.vel
+            else:
+                return False
+
+        elif direction == "up":
+            if self.player.center_y < int(self.parent.height):
+
+                x0 = p0
+                y0 = p1
+                x1 = p0 + l/2
+                y1 = p1 + l
+                x2 = p0 + l
+                y2 = p1
+
+                self.player.pos[1] += self.vel
+            else:
+                return False
+
+        elif direction == "down":
+            if self.player.center_y > 0:
+
+                x0 = p0 + l
+                y0 = p1 + l
+                x1 = p0 + l/2
+                y1 = p1
+                x2 = p0
+                y2 = p1 + l
+
+                self.player.pos[1] -= self.vel
+            else:
+                return False
+
+
+        self.player.points = [x0, y0, x1, y1, x2, y2]
 
 
 class GamePlayer(Widget):
-    pass
+    points = ListProperty([0] * 6)
 
 
 class GameTarget(Widget):
 
     t_color = ListProperty([1,1,0,1])
+
         
 
 
