@@ -17,7 +17,9 @@ sudo apt-get install sox
 ### Python Modules (Dependencies) ###
 
 ```shell
-
+# add daily updated kivy repository
+sudo add-apt-repository ppa:kivy-team/kivy-daily
+sudo apt-get update
 sudo apt-get install python-numpy python-scipy python-kivy python-biosig
 
 ```
