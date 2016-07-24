@@ -1,9 +1,9 @@
 <Barsstart>:
-    
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
-        padding: 20
+        padding: 20    
 
         BoxLayout:
             orientation: 'horizontal'
@@ -38,7 +38,7 @@
             spacing: 10
 
             Button:
-                text: 'Start'
+                text: root.label_on_toggle_button
                 on_press: root.toogle_stream()
                 size_hint: None,None
                 size: 200,50

@@ -1,7 +1,7 @@
 ############################## DEPENDENCIES ##########################
 # KIVY modules:
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty, NumericProperty
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
 
@@ -21,6 +21,8 @@ class BarsStart(Screen):
 
     bar_left_level = NumericProperty(0)
     bar_right_level = NumericProperty(0)
+
+    label_on_toggle_button = StringProperty('Start')
 
     def __init__ (self, session_header,**kwargs):
         super (BarsStart, self).__init__(**kwargs)
@@ -47,7 +49,7 @@ class BarsStart(Screen):
         self.sm.stop_flag = True
         self.stream_flag = False
         self.sm.join()
-        self.button_stream.text = 'Start Streaming'
+        self.label_on_toggle_button = 'Start'
         self.clock_unscheduler()
         self.set_bar_default()
 
@@ -58,7 +60,7 @@ class BarsStart(Screen):
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
-        self.button_stream.text = 'Stop Streaming'
+        self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
         self.clock_scheduler()
 
