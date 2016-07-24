@@ -1,0 +1,50 @@
+<Barsstart>:
+    
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 20
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            padding: 20
+
+            BoxLayout:
+                size_hint_x: 0.1
+
+                Bar:
+                    orientation: 'bt'
+                    color: [1,0,0,1]
+                    animated: False
+                    value: root.bar_left_level
+
+            BoxLayout:
+                size_hint_x: 0.8
+
+            BoxLayout:
+                size_hint_x: 0.1
+
+                Bar:
+                    orientation: 'bt'
+                    color: [0,0,1,1]
+                    animated: False
+                    value: root.bar_right_level
+
+        GridLayout:
+            size_hint: (1, 0.2)
+            rows: 2
+            cols: 1
+            spacing: 10
+
+            Button:
+                text: 'Start'
+                on_press: root.toogle_stream()
+                size_hint: None,None
+                size: 200,50
+
+            Button:
+                text: 'Back'
+                on_press: root.change_to_game()
+                size_hint: None,None
+                size: 200,50

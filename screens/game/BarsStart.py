@@ -1,83 +1,30 @@
+############################## DEPENDENCIES ##########################
+# KIVY modules:
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-
-from kivy.uix.image import AsyncImage
-
-from kivy.uix.slider import Slider
-
-from kivy.graphics import Rectangle, Color
-
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.clock import Clock
+from kivy.lang import Builder
 
-# from threading import Thread
-from SampleManager import *
+# KV file:
+Builder.load_file('screens/game/barsstart.kv')
 
-from kivy.uix.widget import Widget
-
+# Generic:
 import math
 
-from kivy.garden.graph import Graph, MeshLinePlot
-Graph._with_stencilbuffer=False # to fix garden.graphs bug when using screens
-
-from kivy.garden.bar import Bar
-
+# Project's:
+from SampleManager import *
 from standards import *
-
 from approach import Approach
+######################################################################
 
 class BarsStart(Screen):
-# layout
+
+    bar_left_level = NumericProperty(0)
+    bar_right_level = NumericProperty(0)
+
     def __init__ (self, session_header,**kwargs):
         super (BarsStart, self).__init__(**kwargs)
         self.sh = session_header
-
-
-    # Top part
-        box_top = BoxLayout(size_hint_x=1, size_hint_y=0.7,padding=10, 
-            spacing=10, orientation='horizontal')
-
-        box_vleft = BoxLayout(size_hint_x=0.1)
-        box_vright = BoxLayout(size_hint_x=0.1)
-
-        self.s_right = Bar(orientation = 'bt', color=[0, 0, 1, 1], animated = False)
-        self.s_left = Bar(orientation = 'bt', color=[1, 0, 0, 1], animated = False)
-
-        box_vleft.add_widget(self.s_left)
-        box_vright.add_widget(self.s_right)
-
-        box_top.add_widget(box_vright, 0)
-        box_top.add_widget(box_vleft, 2)
-        
-
-    # Bottom part
-
-        box_bottom = BoxLayout(size_hint_x=1, size_hint_y=0.3,padding=10, 
-            spacing=10, orientation='vertical')
-
-        button_back = Button(text="Back", size = BUTTON_SIZE)
-        button_back.bind(on_press= self.change_to_game)
-
-        self.button_stream = Button(text="Start Streaming", size = BUTTON_SIZE)
-        self.button_stream.bind(on_press= self.toogle_stream)
-
-        box_bottom.add_widget(self.button_stream)
-        box_bottom.add_widget(button_back)
-
-    # Whole part
-
-        boxg = BoxLayout(orientation='vertical', padding=10, 
-            spacing=10)
-
-        boxg.add_widget(box_bottom, 0)
-        boxg.add_widget(box_top, 1)
-        
-
-        self.add_widget(boxg) 
 
         self.stream_flag = False
 
@@ -131,13 +78,13 @@ class BarsStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            self.s_left.value = int(math.floor(p[0] * 100))
-            self.s_right.value = int(math.floor(p[1] * 100))
+            self.bar_left_level = int(math.floor(p[0] * 100))
+            self.bar_right_level = int(math.floor(p[1] * 100))
 
     def set_bar_default(self):
 
-        self.s_left.value = 0
-        self.s_right.value = 0
+        self.bar_left_level = 0
+        self.bar_right_level = 0
 
     def load_approach(self):
 
