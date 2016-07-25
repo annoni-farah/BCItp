@@ -13,7 +13,6 @@ Builder.load_file('screens/game/targetstart.kv')
 # Generic:
 import math
 import random
-from functools import partial
 
 # Project's:
 from SampleManager import *
@@ -75,7 +74,7 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/8)
+        Clock.schedule_interval(self.get_probs, 1)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
@@ -96,10 +95,18 @@ class TargetStart(Screen):
 
     def map_prob(self, prob):
 
-        if prob[0] > prob[1]:
-            self.game.set_direction('left')
+        # if prob[0] > prob[1]:
+        #     self.game.set_direction(-1)
+        # else:
+        #     self.game.set_direction(1)
+
+        if (prob[0] - prob[1]) > .80:
+            self.game.set_direction(-1)
+        elif (prob[0] - prob[1]) < -.80:
+            self.game.set_direction(1)
         else:
-            self.game.set_direction('right')
+            pass
+            # dont send any cmd
 
     def set_bar_default(self):
 
@@ -124,9 +131,6 @@ class Game(Widget):
 
     vel = NumericProperty(10)
 
-    self.direction_list = ['left', 'up', 'right', 'down']
-    self.direction_idx = 0
-
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(None, self)
@@ -138,12 +142,15 @@ class Game(Widget):
         self.direction = 'up'
         self.forward_interval = 1
 
+        self.direction_list = ['left', 'up', 'right', 'down']
+        self.direction_idx = 0
+
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
-            self.move_player(-1)
+            self.set_direction(-1)
         elif keycode[1] == 'right':
-            self.move_player(1)
+            self.set_direction(1)
         else:
             return False
 
@@ -179,11 +186,18 @@ class Game(Widget):
 
     def set_direction(self, direction):
 
-        self.direction_idx += direction
+        print 'changing by:', direction
+
+        if (self.direction_idx == 0) and (direction == -1):
+            self.direction_idx = 3
+        elif (self.direction_idx == 3) and (direction == 1):
+            self.direction_idx = 0
+        else:
+            self.direction_idx += direction
+        
         self.direction = self.direction_list[self.direction_idx]
 
         Clock.unschedule(self.move_player)
-        self.direction = direction
         self.move_player(None)
         Clock.schedule_interval(self.move_player, self.forward_interval)
 
@@ -192,7 +206,9 @@ class Game(Widget):
         p0 = self.player.pos[0]
         p1 = self.player.pos[1]
 
-        if self.direction == "right":
+        print 'moving to:', self.direction
+
+        if self.direction == 'right':
             if self.player.center_x < int(self.parent.width):
                 x0 = p0
                 y0 = p1 + l
@@ -205,7 +221,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif self.direction == "left":
+        elif self.direction == 'left':
             if self.player.center_x > 0:
                 x0 = p0 + l
                 y0 = p1
@@ -218,7 +234,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif self.direction == "up":
+        elif self.direction == 'up':
             if self.player.center_y < int(self.parent.height):
 
                 x0 = p0
@@ -232,7 +248,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif self.direction == "down":
+        elif self.direction == 'down':
             if self.player.center_y > 0:
 
                 x0 = p0 + l
