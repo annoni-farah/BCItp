@@ -13,6 +13,7 @@ Builder.load_file('screens/game/targetstart.kv')
 # Generic:
 import math
 import random
+from functools import partial
 
 # Project's:
 from SampleManager import *
@@ -74,7 +75,7 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/2)
+        Clock.schedule_interval(self.get_probs, 1/8)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
@@ -96,9 +97,9 @@ class TargetStart(Screen):
     def map_prob(self, prob):
 
         if prob[0] > prob[1]:
-            self.game.move_player('left')
+            self.game.set_direction('left')
         else:
-            self.game.move_player('right')
+            self.game.set_direction('right')
 
     def set_bar_default(self):
 
@@ -123,6 +124,9 @@ class Game(Widget):
 
     vel = NumericProperty(10)
 
+    self.direction_list = ['left', 'up', 'right', 'down']
+    self.direction_idx = 0
+
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(None, self)
@@ -131,15 +135,15 @@ class Game(Widget):
 
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
+        self.direction = 'up'
+        self.forward_interval = 1
+
+
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
-            self.move_player('left')
+            self.move_player(-1)
         elif keycode[1] == 'right':
-            self.move_player('right')
-        elif keycode[1] == 'up':
-            self.move_player('up')
-        elif keycode[1] == 'down':
-            self.move_player('down')
+            self.move_player(1)
         else:
             return False
 
@@ -160,9 +164,11 @@ class Game(Widget):
         self.set_positions()
 
         Clock.schedule_interval(self.check_if_won, 1/2)
+        Clock.schedule_interval(self.move_player, self.forward_interval)
 
     def stop(self):
         Clock.unschedule(self.check_if_won)
+        Clock.unschedule(self.move_player)
 
     def check_if_won(self, dt):
         if self.player.collide_widget(self.target):
@@ -171,13 +177,22 @@ class Game(Widget):
             self.target.t_color = [0,1,0,1]
             Clock.schedule_once(self.start, 1)
 
-    def move_player(self, direction):
+    def set_direction(self, direction):
 
+        self.direction_idx += direction
+        self.direction = self.direction_list[self.direction_idx]
+
+        Clock.unschedule(self.move_player)
+        self.direction = direction
+        self.move_player(None)
+        Clock.schedule_interval(self.move_player, self.forward_interval)
+
+    def move_player(self, dt):
         l = self.player.width
         p0 = self.player.pos[0]
         p1 = self.player.pos[1]
 
-        if direction == "right":
+        if self.direction == "right":
             if self.player.center_x < int(self.parent.width):
                 x0 = p0
                 y0 = p1 + l
@@ -190,7 +205,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif direction == "left":
+        elif self.direction == "left":
             if self.player.center_x > 0:
                 x0 = p0 + l
                 y0 = p1
@@ -203,7 +218,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif direction == "up":
+        elif self.direction == "up":
             if self.player.center_y < int(self.parent.height):
 
                 x0 = p0
@@ -217,7 +232,7 @@ class Game(Widget):
             else:
                 return False
 
-        elif direction == "down":
+        elif self.direction == "down":
             if self.player.center_y > 0:
 
                 x0 = p0 + l
