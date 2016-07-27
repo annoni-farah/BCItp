@@ -15,14 +15,14 @@ import json
 from standards import *
 from kivy_utils import ErrorPopup
 
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, StringProperty
 
 Builder.load_file('screens/screenstart.kv')
 
 class StartScreen(Screen):
 # layout
     session_name = ObjectProperty(None)
-    label_msg = ObjectProperty(None)
+    label_msg = StringProperty('')
 
     def __init__ (self, session_header, **kwargs):
         super (StartScreen, self).__init__(**kwargs)
@@ -54,7 +54,7 @@ class StartScreen(Screen):
         else:
             os.makedirs(PATH_TO_SESSION + sname)
             self.sh.saveToPkl()
-            self.label_msg.text = "Session Saved as: " + sname
+            self.label_msg = "Session Saved as: " + sname
 
         self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
         self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'

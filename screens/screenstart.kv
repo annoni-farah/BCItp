@@ -1,7 +1,5 @@
 <StartScreen>:
-    
     session_name: session_name
-    label_msg: label_msg
 
     AnchorLayout:
         anchor_x: 'center'
@@ -14,15 +12,8 @@
             size_hint: None, None
             size: self.minimum_size
 
-            # canvas:
-            #     Color:
-            #         rgba: 1, 0, 0, 1
-            #     Rectangle:
-            #         pos: self.pos
-            #         size: self.size
-
             Label:
-                id: label_msg
+                text: root.label_msg
                 font_size: 20
 
             TextInput:
@@ -32,6 +23,12 @@
                 font_size: 20
                 size: 200,self.minimum_height
                 multiline: False
+
+            Button:
+                text: 'Save'
+                on_press: root.save_session_name()
+                size_hint: None,None
+                size: 200,50
 
             Button:
                 text: 'General Settings'
@@ -45,8 +42,4 @@
                 size_hint: None,None
                 size: 200,50
 
-            Button:
-                text: 'Save'
-                on_press: root.save_session_name()
-                size_hint: None,None
-                size: 200,50
+
