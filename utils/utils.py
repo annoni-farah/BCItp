@@ -21,10 +21,10 @@ def LoadDataAsMatrix(path, cols=[]):
     """
     
     if cols == []:
-        matrix = np.loadtxt(open(path,"rb"), skiprows=1)
+        matrix = np.loadtxt(open(path,"rb"), skiprows=0)
         
     else:
-        matrix = np.loadtxt(open(path,"rb"), skiprows=1, usecols=cols)
+        matrix = np.loadtxt(open(path,"rb"), skiprows=0, usecols=cols)
 
     # return np.fliplr(matrix.T).T
     return matrix

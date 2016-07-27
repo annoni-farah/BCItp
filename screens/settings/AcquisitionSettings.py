@@ -109,6 +109,13 @@ class AcquisitionSettings(Screen):
         box_path.add_widget(label_path)
         box_path.add_widget(self.path_to_file)
 
+        box_labels = BoxLayout(orientation = 'horizontal')
+        label_labels = Label(text = 'Path to labels of playback file', font_size=FONT_SIZE)
+        self.path_to_labels_file = TextInput(font_size= FONT_SIZE,
+                text='', multiline=True)
+        box_labels.add_widget(label_labels)
+        box_labels.add_widget(self.path_to_labels_file)
+
         box_srate = BoxLayout(orientation = 'horizontal')
         label_srate = Label(text = 'Sample Rate', font_size=FONT_SIZE)
         self.srate = TextInput(font_size= FONT_SIZE,
@@ -117,6 +124,7 @@ class AcquisitionSettings(Screen):
         box_srate.add_widget(self.srate)
 
         self.box_text_playback.add_widget(box_path)
+        self.box_text_playback.add_widget(box_labels)
         self.box_text_playback.add_widget(box_srate)
 
 
@@ -209,6 +217,7 @@ class AcquisitionSettings(Screen):
         self.sh.ch_labels = self.ch_labels.text
         self.sh.baud_rate = self.baud_rate.text
         self.sh.path_to_file = self.path_to_file.text
+        self.sh.path_to_labels_file = self.path_to_labels_file.text
         self.sh.sample_rate = self.sample_rate
         self.sh.daisy = self.daisy
 

@@ -16,6 +16,7 @@ class SessionHeader:
         self.ch_labels = None
         self.baud_rate = None
         self.path_to_file = None
+        self.path_to_labels_file = None
         self.sample_rate = None
         self.daisy = None
 

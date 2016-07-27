@@ -26,7 +26,7 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, ch, buf_len, daisy = False, mode = 'openbci' , path = None):
+    def __init__(self, p, b, ch, buf_len, daisy = False, mode = 'openbci' , path = None, labels_path = None):
         super(SampleManager, self).__init__()
 
         self.channels = ch
@@ -42,6 +42,9 @@ class SampleManager(threading.Thread):
         self.acq_mode = mode
 
         self.playback_path = path
+        self.playback_labels_path = labels_path
+        self.next_playback_label = [None, None]
+        self.current_playback_label = [None, None]
 
         self.buffer_length = buf_len
 
@@ -67,7 +70,10 @@ class SampleManager(threading.Thread):
             
             self.rec_flag = False
             loadedData = LoadDataAsMatrix(self.playback_path)
+            self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
             self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
+            self.current_playback_label = next(self.playback_labels)
+            self.previous_playback_label = self.current_playback_label
 
         self.sample_rate = self.board.getSampleRate()
 
@@ -96,8 +102,13 @@ class SampleManager(threading.Thread):
         if self.rec_flag:
             self.StoreData(indata)
 
-        self.sample_counter += 1 
+        if self.sample_counter == int(self.current_playback_label[1]):
+            print 'changing label'
+            self.previous_playback_label = self.current_playback_label
+            self.current_playback_label = next(self.playback_labels)
 
+        self.sample_counter += 1 
+        
         if(self.stop_flag):
             self.Stop()
 
@@ -129,16 +140,4 @@ class SampleManager(threading.Thread):
     def SaveEvents(self, path):
 
         saveMatrixAsTxt(self.event_list, path, mode = 'w')
-        
-
-
-
-
-
-
-
-
-
-
-
 

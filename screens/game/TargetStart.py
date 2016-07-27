@@ -29,13 +29,11 @@ class TargetStart(Screen):
 
     game = ObjectProperty(None)
 
-
     def __init__ (self, session_header,**kwargs):
         super (TargetStart, self).__init__(**kwargs)
         self.sh = session_header
 
         self.stream_flag = False
-
     # BUTTON CALLBACKS    
     # ----------------------
     def change_to_game(self,*args):
@@ -63,7 +61,8 @@ class TargetStart(Screen):
     def stream_start(self):
         self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file)
+            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
+            labels_path = self.sh.path_to_labels_file)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -95,10 +94,7 @@ class TargetStart(Screen):
 
     def map_prob(self, prob):
 
-        # if prob[0] > prob[1]:
-        #     self.game.set_direction(-1)
-        # else:
-        #     self.game.set_direction(1)
+        del_u = prob[0]
 
         if (prob[0] - prob[1]) > .80:
             self.game.set_direction(-1)
@@ -186,7 +182,7 @@ class Game(Widget):
 
     def set_direction(self, direction):
 
-        print 'changing by:', direction
+        # print 'changing by:', direction
 
         if (self.direction_idx == 0) and (direction == -1):
             self.direction_idx = 3
@@ -206,7 +202,7 @@ class Game(Widget):
         p0 = self.player.pos[0]
         p1 = self.player.pos[1]
 
-        print 'moving to:', self.direction
+        # print 'moving to:', self.direction
 
         if self.direction == 'right':
             if self.player.center_x < int(self.parent.width):
@@ -261,7 +257,6 @@ class Game(Widget):
                 self.player.pos[1] -= self.vel
             else:
                 return False
-
 
         self.player.points = [x0, y0, x1, y1, x2, y2]
 
