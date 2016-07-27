@@ -54,7 +54,6 @@ class SampleManager(threading.Thread):
         self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
         
         self.event_list = np.array([]).reshape(0,2)
-        self.all_data = np.array([]).reshape(0,self.n_channels)
 
         if self.acq_mode == 'openbci':
 
@@ -88,6 +87,10 @@ class SampleManager(threading.Thread):
     def StoreData(self, new_data):
          
         data = np.array(new_data) # transform list into numpy array
+
+        if ~hasattr(self, 'all_data'):
+            self.all_data = np.array([]).reshape(0,data.shape[1])
+
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
         
     def SaveData(self, path):
@@ -98,7 +101,13 @@ class SampleManager(threading.Thread):
         '''Get the data from amplifier and push it into the circular buffer.
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
-        indata =  [sample.channel_data[x] for x in self.channels]
+
+        if self.channels != -1:
+            indata =  [sample.channel_data[x] for x in self.channels]
+        
+        else: 
+            indata =  sample.channel_data
+
         self.updateCircBuf(indata);
 
         if self.rec_flag:
