@@ -83,7 +83,6 @@ class SampleManager(threading.Thread):
 
         self.board.start_streaming(self.GetData) # start getting data from amplifier
 
-        
     def StoreData(self, new_data):
          
         data = np.array(new_data) # transform list into numpy array
@@ -102,7 +101,7 @@ class SampleManager(threading.Thread):
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
 
-        if self.channels != -1:
+        if self.channels == -1:
             indata =  [sample.channel_data[x] for x in self.channels]
         
         else: 
@@ -113,10 +112,11 @@ class SampleManager(threading.Thread):
         if self.rec_flag:
             self.StoreData(indata)
 
-        if self.sample_counter == int(self.current_playback_label[1]):
-            print 'changing label'
-            self.previous_playback_label = self.current_playback_label
-            self.current_playback_label = next(self.playback_labels)
+        if self.acq_mode == 'playback':
+            if self.sample_counter == int(self.current_playback_label[1]):
+                print 'changing label'
+                self.previous_playback_label = self.current_playback_label
+                self.current_playback_label = next(self.playback_labels)
 
         self.sample_counter += 1 
         
