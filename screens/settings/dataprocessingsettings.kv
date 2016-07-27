@@ -1,0 +1,141 @@
+<DataProcessingSettings>:
+
+    buf_len: buf_len
+    channels: channels
+    f_high: f_high
+    f_low: f_low
+    f_order: f_order
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        BoxLayout:
+            orientation: 'vertical' 
+            spacing: 10
+            padding: 10
+            size_hint: None, None
+            size: self.minimum_size
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Circular Buffer Length'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: buf_len
+                    text: '500'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Used Channels'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: channels
+                    text: '-1'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Lower Cutoff Frequency'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: f_high
+                    text: '8'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Upper Cutoff Frequency'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: f_low
+                    text: '30'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Filter Order'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: f_order
+                    text: '5'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            Label:
+                text: root.msg
+                font_size: 20
+
+            Button:
+                font_size: 20
+                text: 'Save'
+                size: 430,50
+                size_hint: (None, None)
+                on_press: root.save_config()
+
+            Button:
+                font_size: 20
+                text: 'Back'
+                size: 430,50
+                size_hint: (None, None)
+                on_press: root.change_to_cal() 
