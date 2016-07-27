@@ -71,9 +71,9 @@ class SampleManager(threading.Thread):
             loadedData = LoadDataAsMatrix(self.playback_path)
             self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
 
-            if playback_labels_path != None:
-                self.current_playback_label = next(self.playback_labels)
+            if self.playback_labels_path != None:
                 self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
+                self.current_playback_label = next(self.playback_labels)
                 self.previous_playback_label = self.current_playback_label
 
         self.sample_rate = self.board.getSampleRate()
@@ -103,7 +103,6 @@ class SampleManager(threading.Thread):
 
         if self.channels == -1:
             indata =  [sample.channel_data[x] for x in self.channels]
-        
         else: 
             indata =  sample.channel_data
 
