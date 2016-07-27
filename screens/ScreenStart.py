@@ -46,7 +46,7 @@ class StartScreen(Screen):
         if not os.path.isdir(PATH_TO_SESSION):
             os.makedirs(PATH_TO_SESSION)
 
-        if os.path.isdir(PATH_TO_SESSION + sname):
+        elif os.path.isdir(PATH_TO_SESSION + sname):
 
             self.label_msg = "Session " + sname + " already exists. Data will be overwritten"
             self.sh.loadFromPkl()
