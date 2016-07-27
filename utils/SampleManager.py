@@ -31,8 +31,6 @@ class SampleManager(threading.Thread):
 
         self.channels = ch
 
-        self.n_channels = len(self.channels)
-
         self._stop = threading.Event()
         
         self.sample_counter = 0
@@ -47,8 +45,6 @@ class SampleManager(threading.Thread):
         self.current_playback_label = [None, None]
 
         self.buffer_length = buf_len
-
-        self.energy_history = collections.deque(maxlen = 500)
 
         self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
@@ -75,9 +71,6 @@ class SampleManager(threading.Thread):
                 self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
                 self.current_playback_label = next(self.playback_labels)
                 self.previous_playback_label = self.current_playback_label
-
-        self.sample_rate = self.board.getSampleRate()
-
 
     def run(self):
 
