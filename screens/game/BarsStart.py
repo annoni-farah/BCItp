@@ -109,6 +109,13 @@ class BarsStart(Screen):
             # self.bar_left_level = int(math.floor(p[0] * 100))
             # self.bar_right_level = int(math.floor(p[1] * 100))
 
+            if x1 > 100:
+                x1 = 100
+                x2 = 0
+            elif x2 > 100:
+                x2 = 100
+                x1 = 0
+
             self.bar_left_level = int(math.floor(x1))
             self.bar_right_level = int(math.floor(x2))
 
