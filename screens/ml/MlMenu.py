@@ -143,11 +143,12 @@ class popupMl(BoxLayout):
         sh = session_header
 
         ap = Approach()
+
         ap.defineApproach(sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
             sh.class_ids, sh.epoch_start, sh.epoch_end)
 
         ap.setPathToCal(sh.data_cal_path, sh.events_cal_path)
-        ap.setPathToVal( sh.data_val_path,sh.events_val_path)
+        ap.setPathToVal(sh.data_val_path,sh.events_val_path)
 
         ap.setValidChannels(sh.channels)
 
