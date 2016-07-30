@@ -86,8 +86,6 @@ class CalSettings(Screen):
         self.sh.cue_offset = int(self.cue_offset.text)
         self.sh.pause_offset = int(self.pause_offset.text)
         self.sh.end_trial_offset = int(self.end_trial_offset.text)
-        self.data_cal_path = data_cal_path
-        self.events_cal_path = events_cal_path
 
         self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
