@@ -20,8 +20,11 @@ from approach import Approach
 
 class BarsStart(Screen):
 
-    bar_left_level = NumericProperty(0)
-    bar_right_level = NumericProperty(0)
+    inst_prob_left = NumericProperty(0)
+    accum_prob_left = NumericProperty(0)
+
+    inst_prob_right = NumericProperty(0)
+    accum_prob_right = NumericProperty(0)
 
     label_on_toggle_button = StringProperty('Start')
 
@@ -67,7 +70,6 @@ class BarsStart(Screen):
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
             labels_path = self.sh.path_to_labels_file)
-        self.current_label = int(self.sm.current_playback_label[0])
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -93,65 +95,61 @@ class BarsStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            u = p[1] - .5
+            u = p[0] - .5
 
             self.U += u
+ 
+            U1 = 100 * (self.U + 1000.) / (2000.)
 
-            print 'SELFU:', self.U
+            U2 = 100 - U1
 
-            x1 = 100 * (self.U + 1000.) / (2000.)
+            # print U2
+            self.inst_prob_left = int(math.floor(p[0] * 100))
+            self.inst_prob_right = int(math.floor(p[1] * 100))
 
-            print 'x1:', x1
+            if U1 > 100:
+                U1 = 100
+                U2 = 0
+            elif U2 > 100:
+                U2 = 100
+                U1 = 0
 
-            x2 = 100 - x1
-
-            print x2
-            # self.bar_left_level = int(math.floor(p[0] * 100))
-            # self.bar_right_level = int(math.floor(p[1] * 100))
-
-            if x1 > 100:
-                x1 = 100
-                x2 = 0
-            elif x2 > 100:
-                x2 = 100
-                x1 = 0
-
-            self.bar_left_level = int(math.floor(x1))
-            self.bar_right_level = int(math.floor(x2))
+            self.accum_prob_left = int(math.floor(U1))
+            self.accum_prob_right = int(math.floor(U2))
 
     def update_current_label(self, dt):
 
-        label_pos = int(self.sm.current_playback_label[1]) - self.sh.buf_len/2
+        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.buf_len/2
+        current_label = int(self.sm.current_playback_label[0])
+        
+        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.buf_len/2
+        next_label = int(self.sm.next_playback_label[0])
 
-        previous_label_pos = int(self.sm.previous_playback_label[1]) - self.sh.buf_len/2
-
-        label = int(self.sm.current_playback_label[0])
-        previous_label = int(self.sm.previous_playback_label[0])
-
+        self.current_label = current_label
 
         tbuff, d = self.sm.GetBuffData()
 
         # print label_pos, min(tbuff), max(tbuff)
-        if (label_pos in tbuff):
-            idx = np.where(label_pos == tbuff)[0][0]
+        if (next_label_pos in tbuff):
+            idx = np.where(next_label_pos == tbuff)[0][0]
             ratio = float(idx) / float(self.sh.buf_len)
             self.label_position = ratio
 
-            if label == 1:
+            if next_label == 1:
                 self.label_color = [1,0,0,1]
-            elif label == 2:
+            elif next_label == 2:
                 self.label_color = [0,0,1,1]
             else:
                 self.label_color = [0,1,1,1]
 
-        elif  previous_label_pos in tbuff:
-            idx = np.where(previous_label_pos == tbuff)[0][0]
+        elif  current_label_pos in tbuff:
+            idx = np.where(current_label_pos == tbuff)[0][0]
             ratio = float(idx) / float(self.sh.buf_len)
             self.label_position = ratio
 
-            if previous_label == 1:
+            if current_label == 1:
                 self.label_color = [1,0,0,1]
-            elif previous_label == 2:
+            elif current_label == 2:
                 self.label_color = [0,0,1,1]
             else:
                 self.label_color = [0,1,1,1]
@@ -161,8 +159,13 @@ class BarsStart(Screen):
 
     def set_bar_default(self):
 
-        self.bar_left_level = 0
-        self.bar_right_level = 0
+        self.accum_prob_left = 0
+        self.accum_prob_right = 0
+
+        self.inst_prob_left = 0
+        self.inst_prob_right = 0
+
+        self.U = 0.0
 
     def load_approach(self):
 

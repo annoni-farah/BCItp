@@ -17,13 +17,17 @@
                     orientation: 'bt'
                     color: [1,0,0,1]
                     animated: False
-                    value: root.bar_left_level
+                    value: root.
+                    value: root.accum_prob_left
+
+                Bar:
+                    orientation: 'bt'
+                    color: [1,0,0,0.7]
+                    animated: False
+                    value: root.inst_prob_left
 
             BoxLayout:
                 size_hint_x: 0.8
-
-                Label: 
-                    text: 'Epoch: ' + str(root.current_label)
 
             BoxLayout:
                 size_hint_x: 0.1
@@ -32,7 +36,13 @@
                     orientation: 'bt'
                     color: [0,0,1,1]
                     animated: False
-                    value: root.bar_right_level
+                    value: root.accum_prob_right
+
+                Bar:
+                    orientation: 'bt'
+                    color: [0,0,1,.7]
+                    animated: False
+                    value: root.inst_prob_right
 
         BoxLayout:
             orientation: 'horizontal'
@@ -71,3 +81,6 @@
                     Rectangle:
                         size: (20, self.height)
                         pos: (self.pos[0] + root.label_position*self.width, self.pos[1])
+
+                Label: 
+                    text: 'Current Label: ' + str(root.current_label)

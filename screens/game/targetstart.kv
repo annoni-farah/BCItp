@@ -19,7 +19,14 @@
                     orientation: 'bt'
                     color: [1,0,0,1]
                     animated: False
-                    value: root.bar_left_level
+                    value: root.
+                    value: root.accum_prob_left
+
+                Bar:
+                    orientation: 'bt'
+                    color: [1,0,0,0.7]
+                    animated: False
+                    value: root.inst_prob_left
 
             RelativeLayout:
                 size_hint_x: 0.8
@@ -34,7 +41,13 @@
                     orientation: 'bt'
                     color: [0,0,1,1]
                     animated: False
-                    value: root.bar_right_level
+                    value: root.accum_prob_right
+
+                Bar:
+                    orientation: 'bt'
+                    color: [0,0,1,.7]
+                    animated: False
+                    value: root.inst_prob_right
 
         GridLayout:
             size_hint: (1, 0.2)

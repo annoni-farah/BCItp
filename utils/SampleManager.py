@@ -41,8 +41,10 @@ class SampleManager(threading.Thread):
 
         self.playback_path = path
         self.playback_labels_path = labels_path
-        self.next_playback_label = [None, None]
+        self.last_playback_label = [None, None]
         self.current_playback_label = [None, None]
+        self.next_playback_label = [None, None]
+
 
         self.buffer_length = buf_len
 
@@ -70,7 +72,7 @@ class SampleManager(threading.Thread):
             if self.playback_labels_path != None:
                 self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
                 self.current_playback_label = next(self.playback_labels)
-                self.previous_playback_label = self.current_playback_label
+                self.next_playback_label = next(self.playback_labels)
 
     def run(self):
 
@@ -105,10 +107,9 @@ class SampleManager(threading.Thread):
             self.StoreData(indata)
 
         if self.acq_mode == 'playback':
-            if self.sample_counter == int(self.current_playback_label[1]):
-                print 'changing label'
-                self.previous_playback_label = self.current_playback_label
-                self.current_playback_label = next(self.playback_labels)
+            if self.sample_counter == int(self.next_playback_label[1]):
+                self.current_playback_label = self.next_playback_label
+                self.next_playback_label = next(self.playback_labels)
 
         self.sample_counter += 1 
         

@@ -22,8 +22,11 @@ from approach import Approach
 
 class TargetStart(Screen):
 
-    bar_left_level = NumericProperty(0)
-    bar_right_level = NumericProperty(0)
+    inst_prob_left = NumericProperty(0)
+    accum_prob_left = NumericProperty(0)
+
+    inst_prob_right = NumericProperty(0)
+    accum_prob_right = NumericProperty(0)
 
     label_on_toggle_button = StringProperty('Start')
 
@@ -32,6 +35,8 @@ class TargetStart(Screen):
     def __init__ (self, session_header,**kwargs):
         super (TargetStart, self).__init__(**kwargs)
         self.sh = session_header
+
+        self.U = 0.0
 
         self.stream_flag = False
     # BUTTON CALLBACKS    
@@ -73,7 +78,7 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1)
+        Clock.schedule_interval(self.get_probs, 1/8)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
@@ -87,18 +92,37 @@ class TargetStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            self.bar_left_level = int(math.floor(p[0] * 100))
-            self.bar_right_level = int(math.floor(p[1] * 100))
+            u = p[0] - .5
 
-            self.map_prob(p)
+            self.U += u
+ 
+            U1 = 100 * (self.U + 1000.) / (2000.)
+
+            U2 = 100 - U1
+
+            # print U2
+            self.inst_prob_left = int(math.floor(p[0] * 100))
+            self.inst_prob_right = int(math.floor(p[1] * 100))
+
+            if U1 > 100:
+                U1 = 100
+                U2 = 0
+            elif U2 > 100:
+                U2 = 100
+                U1 = 0
+
+            self.accum_prob_left = int(math.floor(U1))
+            self.accum_prob_right = int(math.floor(U2))
+
+            self.map_prob([U1, U2])
 
     def map_prob(self, prob):
 
-        del_u = prob[0]
+        U1 = prob[0]
 
-        if (prob[0] - prob[1]) > .80:
+        if (U1) > 90:
             self.game.set_direction(-1)
-        elif (prob[0] - prob[1]) < -.80:
+        elif  U1 < 20:
             self.game.set_direction(1)
         else:
             pass
@@ -106,8 +130,13 @@ class TargetStart(Screen):
 
     def set_bar_default(self):
 
-        self.bar_left_level = 0
-        self.bar_right_level = 0
+        self.accum_prob_left = 0
+        self.accum_prob_right = 0
+
+        self.inst_prob_left = 0
+        self.inst_prob_right = 0
+
+        self.U = 0.0
 
     def load_approach(self):
 
