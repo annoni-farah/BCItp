@@ -2,7 +2,7 @@ import numpy as np
 
 import json
 
-def LoadDataAsMatrix(path, cols=[]):
+def LoadDataAsMatrix(path):
     """Loads text file content as numpy matrix
     Parameters
     ----------
@@ -21,10 +21,10 @@ def LoadDataAsMatrix(path, cols=[]):
     """
     
     if cols == []:
-        matrix = np.load(open(path,"rb"), skiprows=0)
+        matrix = np.load(open(path,"rb"))
         
     else:
-        matrix = np.load(open(path,"rb"), skiprows=0, usecols=cols)
+        matrix = np.load(open(path,"rb"))
 
     # return np.fliplr(matrix.T).T
     return matrix
