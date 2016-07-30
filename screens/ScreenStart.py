@@ -65,7 +65,7 @@ class StartScreen(Screen):
             self.sh.saveToPkl()
             self.label_msg = "Session Saved as: " + sname
 
-        self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
-        self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
-        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.txt'
-        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.txt'
+        self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.npy'
+        self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.npy'
+        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.npy'
+        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.npy'
