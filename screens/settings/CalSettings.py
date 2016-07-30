@@ -82,9 +82,6 @@ class CalSettings(Screen):
 
     def save_config(self,*args):
 
-        data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.txt'
-        events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.txt'
-
         self.sh.n_trials = int(self.n_trials.text)
         self.sh.cue_offset = int(self.cue_offset.text)
         self.sh.pause_offset = int(self.pause_offset.text)
