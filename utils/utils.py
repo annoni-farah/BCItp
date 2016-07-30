@@ -21,10 +21,10 @@ def LoadDataAsMatrix(path, cols=[]):
     """
     
     if cols == []:
-        matrix = np.loadtxt(open(path,"rb"), skiprows=0)
+        matrix = np.load(open(path,"rb"), skiprows=0)
         
     else:
-        matrix = np.loadtxt(open(path,"rb"), skiprows=0, usecols=cols)
+        matrix = np.load(open(path,"rb"), skiprows=0, usecols=cols)
 
     # return np.fliplr(matrix.T).T
     return matrix
@@ -99,7 +99,7 @@ def nanCleaner(data_in):
 def saveMatrixAsTxt(data_in, path, mode = 'a'):
 
     with open(path, mode) as data_file:    
-        np.savetxt(data_file, data_in)
+        np.save(data_file, data_in)
 
 def saveObjAsJson(obj, filename):
     with open(filename, "w") as file:
