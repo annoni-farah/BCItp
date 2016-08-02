@@ -117,6 +117,20 @@ class BarsStart(Screen):
             self.accum_prob_left = int(math.floor(U1))
             self.accum_prob_right = int(math.floor(U2))
 
+            self.map_prob([U1, U2])
+
+    def map_prob(self, prob):
+
+        U1 = prob[0]
+
+        if (U1) > 70:
+            self.set_bar_default()
+        elif  U1 < 30:
+            self.set_bar_default()
+        else:
+            pass
+            # dont send any cmd
+
     def update_current_label(self, dt):
 
         current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.buf_len/2

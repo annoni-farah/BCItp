@@ -120,10 +120,12 @@ class TargetStart(Screen):
 
         U1 = prob[0]
 
-        if (U1) > 90:
+        if (U1) > 60:
             self.game.set_direction(-1)
-        elif  U1 < 20:
+            self.set_bar_default()
+        elif  U1 < 40:
             self.game.set_direction(1)
+            self.set_bar_default()
         else:
             pass
             # dont send any cmd
