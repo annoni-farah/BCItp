@@ -11,9 +11,7 @@ Builder.load_file('screens/game/gamesettings.kv')
 # Generic:
 
 # Project's:
-from SampleManager import *
 from standards import *
-from approach import Approach
 ######################################################################
 
 
@@ -33,15 +31,6 @@ class GameSettings(Screen):
 
         self.manager.current = 'GameMenu'
         self.manager.transition.direction = 'right'
-
-    def enable_notch_filt(self, checkbox, value):
-        
-        print 'val:', value
-        if value:
-            self.notch = True
-        else:
-            self.notch = False
-
 
     def save_config(self,*args):
 
