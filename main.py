@@ -40,6 +40,7 @@ from ValStart import *
 from MlMenu import *
 
 from GameMenu import *
+from GameSettings import *
 from BarsStart import *
 from TargetStart import *
 
@@ -48,7 +49,6 @@ from kivy.properties import StringProperty
 from SessionInfo import SessionHeader
 
 class MyApp(App):
-
 
       def build(self):
             sh = SessionHeader()
@@ -76,6 +76,7 @@ class MyApp(App):
             ml_screen = MlMenu(sh, name='MlMenu')
 
             game_screen = GameMenu(sh, name='GameMenu')
+            game_settings_screen = GameSettings(sh, name='GameSettings')
             bars_start_screen = BarsStart(sh, name='BarsStart')
             target_start_screen = TargetStart(sh, name='TargetStart')
 
@@ -101,6 +102,7 @@ class MyApp(App):
             sm.add_widget(ml_screen)
 
             sm.add_widget(game_screen)
+            sm.add_widget(game_settings_screen)
             sm.add_widget(bars_start_screen)
             sm.add_widget(target_start_screen)
 

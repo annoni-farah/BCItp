@@ -51,6 +51,11 @@ class SessionHeader:
         self.nei = None
         self.class_ids = None
 
+        # GAME SETTINGS
+        self.game_threshold = None
+        self.window_overlap = None
+
+
     def saveToPkl(self):
         path = PATH_TO_SESSION + self.name + '/' + 'session_info.pkl'
         

@@ -1,0 +1,75 @@
+<GameSettings>:
+
+    game_threshold: game_threshold
+    window_overlap: window_overlap
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        BoxLayout:
+            orientation: 'vertical' 
+            spacing: 10
+            padding: 10
+            size_hint: None, None
+            size: self.minimum_size
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Threshold to action'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: game_threshold
+                    text: '2'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Window Overlap in sec'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: window_overlap
+                    text: '.125'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            Label:
+                text: root.msg
+                font_size: 20
+
+            Button:
+                font_size: 20
+                text: 'Save'
+                size: 430,50
+                size_hint: (None, None)
+                on_press: root.save_config()
+
+            Button:
+                font_size: 20
+                text: 'Back'
+                size: 430,50
+                size_hint: (None, None)
+                on_press: root.change_to_game() 
