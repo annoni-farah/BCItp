@@ -88,7 +88,7 @@ class TargetStart(Screen):
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_probs, self.sh.window_overlap)
-        Clock.schedule_interval(self.update_current_label, 0)
+        Clock.schedule_interval(self.update_current_label, 1./20.)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
