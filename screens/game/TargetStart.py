@@ -24,9 +24,11 @@ class TargetStart(Screen):
 
     inst_prob_left = NumericProperty(0)
     accum_prob_left = NumericProperty(0)
+    accum_color_left = ListProperty([0,0,1,1])
 
     inst_prob_right = NumericProperty(0)
     accum_prob_right = NumericProperty(0)
+    accum_color_right = ListProperty([0,0,1,1])
 
     label_on_toggle_button = StringProperty('Start')
 
@@ -78,11 +80,10 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/8)
+        Clock.schedule_interval(self.get_probs, self.sh.window_overlap)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
-
 
     def get_probs(self, dt):
 
@@ -92,42 +93,63 @@ class TargetStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            u = p[0] - .5
+            u = p[0] - p[1]
 
             self.U += u
  
-            U1 = 100 * (self.U + 1000.) / (2000.)
+            U1 = 100 * (self.U + self.sh.game_threshold) / (2. * self.sh.game_threshold)
 
             U2 = 100 - U1
 
-            # print U2
-            self.inst_prob_left = int(math.floor(p[0] * 100))
-            self.inst_prob_right = int(math.floor(p[1] * 100))
+            U1, U2 = self.map_probs(U1, U2)
 
-            if U1 > 100:
-                U1 = 100
-                U2 = 0
-            elif U2 > 100:
-                U2 = 100
-                U1 = 0
+            self.update_accum_bars(U1, U2)
 
-            self.accum_prob_left = int(math.floor(U1))
-            self.accum_prob_right = int(math.floor(U2))
+            self.update_inst_bars(u)
 
-            self.map_prob([U1, U2])
+            # print 'U: ', self.U
+            # print 'U1: ', U1
+            # print 'U2: ', U2
+            # print 'u: ', u
 
-    def map_prob(self, prob):
+    def update_inst_bars(self, u):
+        if u > 0:
+            self.inst_prob_left = int(math.floor(u * 100))
+            self.inst_prob_right = 0
+        else:
+            self.inst_prob_right = int(math.floor(abs(u) * 100))
+            self.inst_prob_left = 0
 
-        U1 = prob[0]
+    def update_accum_bars(self,U1, U2):
 
-        if (U1) > 60:
+        U1_n = int(math.floor(U1))
+        U2_n = int(math.floor(U2))
+
+        if U1_n > self.sh.warning_threshold:
+            self.accum_color_left = [1,1,0,1]
+        elif U2_n > self.sh.warning_threshold:
+            self.accum_color_right = [1,1,0,1]
+        else:
+            self.accum_color_left = [1,0,0,1]
+            self.accum_color_right = [0,0,1,1]
+
+        self.accum_prob_left = U1_n
+        self.accum_prob_right = U2_n
+
+    def map_probs(self, U1, U2):
+
+        if U1 > 100:
             self.game.set_direction(-1)
             self.set_bar_default()
-        elif  U1 < 40:
+            return 0,0
+
+        elif  U2 > 100:
             self.game.set_direction(1)
             self.set_bar_default()
+            return 0,0
+
         else:
-            pass
+            return U1, U2
             # dont send any cmd
 
     def set_bar_default(self):
