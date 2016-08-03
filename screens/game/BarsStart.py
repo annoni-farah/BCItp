@@ -105,7 +105,7 @@ class BarsStart(Screen):
 
             U2 = 100 - U1
 
-            U1, U2 = self.map_probs([U1, U2])
+            U1, U2 = self.map_probs(U1, U2)
 
             self.update_accum_bars(U1, U2)
 
@@ -124,7 +124,7 @@ class BarsStart(Screen):
             self.inst_prob_right = int(math.floor(abs(u) * 100))
             self.inst_prob_left = 0
 
-    def update_accum_bars(self,U1, U2):
+    def update_accum_bars(self, U1, U2):
 
         U1_n = int(math.floor(U1))
         U2_n = int(math.floor(U2))
@@ -140,20 +140,20 @@ class BarsStart(Screen):
         self.accum_prob_left = U1_n
         self.accum_prob_right = U2_n
 
-    def map_probs(self, prob):
+    def map_probs(self, U1, U2):
 
-        U1 = prob[0]
+        if U1 > 100:
+            self.set_bar_default()
+            return 0,0
 
-        if (U1) > 100:
+        elif U2 > 100:
             self.set_bar_default()
-            prob = [0,0]
-        elif  U1 < 0:
-            self.set_bar_default()
-            prob = [0,0]
+            return 0,0
+            
         else:
-            pass
+            return U1, U2
+
             # dont send any cmd
-        return prob[0], prob[1]
 
     def set_bar_default(self):
 
