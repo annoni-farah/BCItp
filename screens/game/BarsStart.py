@@ -22,9 +22,11 @@ class BarsStart(Screen):
 
     inst_prob_left = NumericProperty(0)
     accum_prob_left = NumericProperty(0)
+    accum_color_left = ListProperty([1,0,0,1])
 
     inst_prob_right = NumericProperty(0)
     accum_prob_right = NumericProperty(0)
+    accum_color_right = ListProperty([0,0,1,1])
 
     label_on_toggle_button = StringProperty('Start')
 
@@ -99,27 +101,44 @@ class BarsStart(Screen):
 
             self.U += u
  
-            U1 = 100 * (self.U + self.sh.game_threshold) / (2 * self.sh.game_threshold)
+            U1 = 100 * (self.U + self.sh.game_threshold) / (2. * self.sh.game_threshold)
 
             U2 = 100 - U1
 
-            self.map_probs([U1, U2])
+            U1, U2 = self.map_probs([U1, U2])
+
+            self.update_accum_bars(U1, U2)
+
+            self.update_inst_bars(u)
 
             # print 'U: ', self.U
-            # print 'u: ', u
             # print 'U1: ', U1
             # print 'U2: ', U2
+            # print 'u: ', u
 
-            if u > 0:
-                self.inst_prob_left = int(math.floor(u * 100))
-                self.inst_prob_right = 0
-            else:
-                self.inst_prob_right = int(math.floor(abs(u) * 100))
-                self.inst_prob_left = 0
+    def update_inst_bars(self, u):
+        if u > 0:
+            self.inst_prob_left = int(math.floor(u * 100))
+            self.inst_prob_right = 0
+        else:
+            self.inst_prob_right = int(math.floor(abs(u) * 100))
+            self.inst_prob_left = 0
 
-            self.accum_prob_left = int(math.floor(U1))
-            self.accum_prob_right = int(math.floor(U2))
+    def update_accum_bars(self,U1, U2):
 
+        U1_n = int(math.floor(U1))
+        U2_n = int(math.floor(U2))
+
+        if U1_n > self.sh.warning_threshold:
+            self.accum_color_left = [1,1,0,1]
+        elif U2_n > self.sh.warning_threshold:
+            self.accum_color_right = [1,1,0,1]
+        else:
+            self.accum_color_left = [1,0,0,1]
+            self.accum_color_right = [0,0,1,1]
+
+        self.accum_prob_left = U1_n
+        self.accum_prob_right = U2_n
 
     def map_probs(self, prob):
 
@@ -127,11 +146,14 @@ class BarsStart(Screen):
 
         if (U1) > 100:
             self.set_bar_default()
+            prob = [0,0]
         elif  U1 < 0:
             self.set_bar_default()
+            prob = [0,0]
         else:
             pass
             # dont send any cmd
+        return prob[0], prob[1]
 
     def set_bar_default(self):
 

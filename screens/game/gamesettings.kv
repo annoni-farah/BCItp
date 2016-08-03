@@ -2,6 +2,7 @@
 
     game_threshold: game_threshold
     window_overlap: window_overlap
+    warning_threshold: warning_threshold
 
     AnchorLayout:
         anchor_x: 'center'
@@ -29,7 +30,7 @@
 
                 TextInput:
                     id: game_threshold
-                    text: '2'
+                    text: '200'
                     font_size: 20
                     size_hint: (None, None)
                     size: 200,self.minimum_height
@@ -51,6 +52,27 @@
                 TextInput:
                     id: window_overlap
                     text: '.125'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Warning Threshold (per TTA)'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: warning_threshold
+                    text: '80'
                     font_size: 20
                     size_hint: (None, None)
                     size: 200,self.minimum_height
