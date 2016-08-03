@@ -3,6 +3,7 @@
     game_threshold: game_threshold
     window_overlap: window_overlap
     warning_threshold: warning_threshold
+    forward_speed: forward_speed
 
     AnchorLayout:
         anchor_x: 'center'
@@ -73,6 +74,27 @@
                 TextInput:
                     id: warning_threshold
                     text: '80'
+                    font_size: 20
+                    size_hint: (None, None)
+                    size: 200,self.minimum_height
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size: self.minimum_size
+                spacing: 10
+                padding: 10
+                size_hint: (None, None)
+
+                Label:
+                    font_size: 20
+                    text: 'Time (s) to move 1px'
+                    size_hint: (None, None)
+                    size: (200,40)
+
+                TextInput:
+                    id: forward_speed
+                    text: '0.001'
                     font_size: 20
                     size_hint: (None, None)
                     size: 200,self.minimum_height

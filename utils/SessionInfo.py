@@ -55,6 +55,7 @@ class SessionHeader:
         self.game_threshold = None
         self.window_overlap = None
         self.warning_threshold = None
+        self.forward_speed = None
 
 
     def saveToPkl(self):

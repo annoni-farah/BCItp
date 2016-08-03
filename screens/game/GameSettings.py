@@ -20,6 +20,7 @@ class GameSettings(Screen):
     game_threshold = ObjectProperty(None)
     window_overlap = ObjectProperty(None)
     warning_threshold = ObjectProperty(None)
+    forward_speed = ObjectProperty(None)
 
     msg = StringProperty('')
 
@@ -38,6 +39,7 @@ class GameSettings(Screen):
         self.sh.game_threshold = float(self.game_threshold.text)
         self.sh.window_overlap = float(self.window_overlap.text)
         self.sh.warning_threshold = float(self.warning_threshold.text)
+        self.sh.forward_speed = float(self.forward_speed.text)
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"

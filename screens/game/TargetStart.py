@@ -76,6 +76,7 @@ class TargetStart(Screen):
         self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
         self.clock_scheduler()
+        self.game.set_player_speed(self.sh.forward_speed)
         self.game.start(None)
 
 
@@ -189,11 +190,9 @@ class Game(Widget):
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
         self.direction = 'up'
-        self.forward_interval = 1.0/30.0
 
         self.direction_list = ['left', 'up', 'right', 'down']
         self.direction_idx = 1
-
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'left':
@@ -202,6 +201,10 @@ class Game(Widget):
             self.set_direction(1)
         else:
             return False
+
+    def set_player_speed(self, speed):
+
+        self.forward_speed = speed
 
     def set_positions(self):
 
@@ -220,7 +223,7 @@ class Game(Widget):
         self.set_positions()
 
         Clock.schedule_interval(self.check_if_won, 1./5.)
-        Clock.schedule_interval(self.move_player, self.forward_interval)
+        Clock.schedule_interval(self.move_player, self.forward_speed)
 
     def stop(self):
         Clock.unschedule(self.check_if_won)
@@ -228,11 +231,10 @@ class Game(Widget):
 
     def check_if_won(self, dt):
         if self.player.collide_widget(self.target):
-            print 'won'
             self.target.t_color = [0,1,0,1]
             Clock.schedule_once(self.start, 2)
             self.stop()
-            
+
 
     def set_direction(self, direction):
 
@@ -249,7 +251,7 @@ class Game(Widget):
 
         Clock.unschedule(self.move_player)
         self.move_player(None)
-        Clock.schedule_interval(self.move_player, self.forward_interval)
+        Clock.schedule_interval(self.move_player, self.forward_speed)
 
     def move_player(self, dt):
         l = self.player.width
