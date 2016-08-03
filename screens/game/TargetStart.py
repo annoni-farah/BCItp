@@ -194,7 +194,12 @@ class Game(Widget):
         self.direction_list = ['left', 'up', 'right', 'down']
         self.direction_idx = 1
 
+        self.on_flag = False
+
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        
+        if ~self.on_flag:
+            return
         if keycode[1] == 'left':
             self.set_direction(-1)
         elif keycode[1] == 'right':
@@ -222,10 +227,13 @@ class Game(Widget):
 
         self.set_positions()
 
+        self.on_flag = True
+
         Clock.schedule_interval(self.check_if_won, 1./5.)
         Clock.schedule_interval(self.move_player, self.forward_speed)
 
     def stop(self):
+        self.on_flag = False
         Clock.unschedule(self.check_if_won)
         Clock.unschedule(self.move_player)
 
