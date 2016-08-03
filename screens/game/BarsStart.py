@@ -79,8 +79,8 @@ class BarsStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, 1/2)
-        Clock.schedule_interval(self.update_current_label, 1/8)
+        Clock.schedule_interval(self.get_probs, self.sh.window_overlap)
+        Clock.schedule_interval(self.update_current_label, 0)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
@@ -95,41 +95,53 @@ class BarsStart(Screen):
 
             p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            u = p[0] - .5
+            u = p[0] - p[1]
 
             self.U += u
  
-            U1 = 100 * (self.U + 1000.) / (2000.)
+            U1 = 100 * (self.U + self.sh.game_threshold) / (2 * self.sh.game_threshold)
 
             U2 = 100 - U1
 
-            # print U2
-            self.inst_prob_left = int(math.floor(p[0] * 100))
-            self.inst_prob_right = int(math.floor(p[1] * 100))
+            self.map_probs([U1, U2])
 
-            if U1 > 100:
-                U1 = 100
-                U2 = 0
-            elif U2 > 100:
-                U2 = 100
-                U1 = 0
+            # print 'U: ', self.U
+            # print 'u: ', u
+            # print 'U1: ', U1
+            # print 'U2: ', U2
+
+            if u > 0:
+                self.inst_prob_left = int(math.floor(u * 100))
+                self.inst_prob_right = 0
+            else:
+                self.inst_prob_right = int(math.floor(abs(u) * 100))
+                self.inst_prob_left = 0
 
             self.accum_prob_left = int(math.floor(U1))
             self.accum_prob_right = int(math.floor(U2))
 
-            self.map_prob([U1, U2])
 
-    def map_prob(self, prob):
+    def map_probs(self, prob):
 
         U1 = prob[0]
 
-        if (U1) > 70:
+        if (U1) > 100:
             self.set_bar_default()
-        elif  U1 < 30:
+        elif  U1 < 0:
             self.set_bar_default()
         else:
             pass
             # dont send any cmd
+
+    def set_bar_default(self):
+
+        self.accum_prob_left = 0
+        self.accum_prob_right = 0
+
+        self.inst_prob_left = 0
+        self.inst_prob_right = 0
+
+        self.U = 0.0
 
     def update_current_label(self, dt):
 
@@ -170,16 +182,6 @@ class BarsStart(Screen):
 
         else:
             self.label_position = -1
-
-    def set_bar_default(self):
-
-        self.accum_prob_left = 0
-        self.accum_prob_right = 0
-
-        self.inst_prob_left = 0
-        self.inst_prob_right = 0
-
-        self.U = 0.0
 
     def load_approach(self):
 
