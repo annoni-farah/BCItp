@@ -178,7 +178,7 @@ class Game(Widget):
     player = ObjectProperty(None)
     target = ObjectProperty(None)
 
-    vel = NumericProperty(10)
+    vel = NumericProperty(1)
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
@@ -189,10 +189,10 @@ class Game(Widget):
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
         self.direction = 'up'
-        self.forward_interval = 1
+        self.forward_interval = 1.0/30.0
 
         self.direction_list = ['left', 'up', 'right', 'down']
-        self.direction_idx = 0
+        self.direction_idx = 1
 
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
@@ -219,7 +219,7 @@ class Game(Widget):
 
         self.set_positions()
 
-        Clock.schedule_interval(self.check_if_won, 1/2)
+        Clock.schedule_interval(self.check_if_won, 1./5.)
         Clock.schedule_interval(self.move_player, self.forward_interval)
 
     def stop(self):
@@ -229,9 +229,10 @@ class Game(Widget):
     def check_if_won(self, dt):
         if self.player.collide_widget(self.target):
             print 'won'
-            self.stop()
             self.target.t_color = [0,1,0,1]
-            Clock.schedule_once(self.start, 1)
+            Clock.schedule_once(self.start, 2)
+            self.stop()
+            
 
     def set_direction(self, direction):
 
