@@ -49,23 +49,46 @@
                     animated: False
                     value: root.inst_prob_right
 
-        GridLayout:
+        BoxLayout:
+            orientation: 'horizontal'
             size_hint: (1, 0.2)
-            rows: 2
-            cols: 1
             spacing: 10
 
-            Button:
-                text: root.label_on_toggle_button
-                on_press: root.toogle_stream()
-                size_hint: None,None
-                size: 200,50
 
-            Button:
-                text: 'Back'
-                on_press: root.change_to_game()
-                size_hint: None,None
-                size: 200,50
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (0.3, 1)
+
+                Button:
+                    text: root.label_on_toggle_button
+                    on_press: root.toogle_stream()
+                    size_hint: None,None
+                    size: 200,50
+
+                Button:
+                    text: 'Back'
+                    on_press: root.change_to_game()
+                    size_hint: None,None
+                    size: 200,50
+
+            BoxLayout:
+                size_hint: (0.7, 1)
+
+                canvas:
+                    Color:
+                        rgba: (.2,.2,.2,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                    Color:
+                        rgba: root.label_color
+                    Rectangle:
+                        size: (20, self.height)
+                        pos: (self.pos[0] + root.label_position*self.width, self.pos[1])
+
+                Label: 
+                    text: 'Current Label: ' + str(root.current_label)
 
 
 <Game>:
