@@ -1,0 +1,43 @@
+<AcquisitionSettings>:
+    
+    GridLayout:
+        rows: 1
+        size_hint: (1, None)
+        height: 50
+        spacing: 5
+        padding: 5
+        ToggleButton:
+            state: 'down'
+            text: 'Simulator'
+            group: 'mainmenu'
+            on_press:
+                root.m.current = 'simu'
+                if self.state == 'normal': self.state = 'down'
+        ToggleButton:
+            text: 'OpenBCI'
+            group: 'mainmenu'
+            on_press:
+                root.m.current = 'openbci'
+                if self.state == 'normal': self.state = 'down'
+        # ToggleButton:
+        #     group: 'mainmenu'
+        #     text: 'Database'
+        #     on_press:
+        #         app.goto_database_screen()
+        #         if self.state == 'normal': self.state = 'down'
+        # ToggleButton:
+        #     group: 'mainmenu'
+        #     text: 'Settings'
+        #     on_press:
+        #         app.manager.current = 'settings'
+        #         if self.state == 'normal': self.state = 'down'
+
+<Simulator>:
+    BoxLayout:
+        Label:
+            text: 'Simulator tab'
+
+<OpenBCI>:
+    BoxLayout:
+        Label:
+            text: 'OpenBCI tab'
