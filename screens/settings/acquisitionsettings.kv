@@ -99,34 +99,35 @@
 <OpenBCI>:
     StdSettingsContainer:
         pos_hint: {'top': 1}
-        Label:
-            text: 'openbci'
 
-        # StdSettingTitle:
-        #     title: 'Drawing'
-        #     desc: 'Affects how gestures are visualized on the GestureSurface'
+        StdSettingTitle:
+            title: 'OpenBCI configuration'
+            desc: 'Configure the connection with OpenBCI board'
 
-        # StdSettingSlider:
-        #     id: timeout
-        #     title: 'Draw Timeout'
-        #     type: 'float'
-        #     desc: 
-        #         ('How long to display the gesture (and result label) on the ' +
-        #         'gesture surface once analysis has completed')
-        #     value: 2.
-        #     min: 0
-        #     max: 60.
+        StdSettingString:
+            id: com_port
+            title: 'COM port'
+            desc: 'Serial port which USB dongle is connected to (in linux use lsusb to find out)'
+            value: ''
 
-        # StdSettingBoolean:
-        #     id: draw_bbox
-        #     title: 'Draw gesture bounding box?'
-        #     desc: 'Enable to draw a bounding box around the gesture'
-        #     button_text: 'Draw bbox?'
-        #     value: True
+        StdSettingSlider:
+            id: baud_rate
+            title: 'BaudRate'
+            type: 'int'
+            desc: 'Speed of serial communication'
+            value: 115200
+            min: 9600
+            max: 1000000
 
-        # StdSettingString:
-        #     id: eeg_path
-        #     title: 'Draw gesture bounding box?'
-        #     desc: 'Enable to draw a bounding box around the gesture'
-        #     button_text: 'Draw bbox?'
-        #     value: ''
+        StdSettingString:
+            id: ch_labels
+            title: 'Channel Labels'
+            desc: 'Give labels to used channels. ex: Cz C3 P3 P4'
+            value: ''
+
+        StdSettingBoolean:
+            id: daisy
+            title: 'Enable Daisy'
+            desc: 'Check if you want to use the additional daisy channels. (daisy must be plugged in)'
+            button_text: 'Daisy'
+            value: False

@@ -79,24 +79,23 @@ class AcquisitionSettings(Screen):
         simulator_ids = self.sman.simulator.ids
         openbci_ids = self.sman.openbci.ids
 
-        # if self.daisy:
-        #     self.sample_rate = 125.0
-        # elif self.srate != '':
-        #     self.sample_rate = float(self.srate.text)
-        # else:
-        #     self.sample_rate = 250.0
-
         self.sh.mode = self.sman.current
-        # self.sh.com_port = self.com_port.text
-        # self.sh.ch_labels = self.ch_labels.text
-        # self.sh.baud_rate = self.baud_rate.text
-        # self.sh.path_to_file = self.path_to_file.text
-        # self.sh.path_to_labels_file = self.path_to_labels_file.text
-        # self.sh.sample_rate = self.sample_rate
-        # self.sh.daisy = self.daisy
+        self.sh.com_port = openbci_ids.com_port
+        self.sh.ch_labels = openbci_ids.ch_labels
+        self.sh.baud_rate = openbci_ids.baud_rate
+        self.sh.path_to_file = simulator_ids.eeg_path
+        self.sh.path_to_labels_file = simulator_ids.labels_path
+        self.sh.sample_rate = simulator_ids.srate
+        self.sh.daisy = openbci_ids.daisy
 
-        # self.sh.saveToPkl()
-        # self.label_msg.text = "Settings Saved!"
+        if (self.sh.mode == 'openbci'):
+            if (self.sh.daisy):
+                self.sh.sample_rate = 125
+            else:
+                self.sh.sample_rate = 250
+
+        self.sh.saveToPkl()
+        self.label_msg.text = "Settings Saved!"
 
 class Menu(GridLayout):
     pass
