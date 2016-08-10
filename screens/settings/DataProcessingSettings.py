@@ -14,20 +14,11 @@ Builder.load_file('screens/settings/dataprocessingsettings.kv')
 from SampleManager import *
 from standards import *
 from approach import Approach
+from settings import *
 ######################################################################
 
 
 class DataProcessingSettings(Screen):
-
-    buf_len = ObjectProperty(None)
-    channels = ObjectProperty(None)
-    f_high = ObjectProperty(None)
-    f_low = ObjectProperty(None)
-    f_order = ObjectProperty(None)
-
-    msg = StringProperty('')
-
-    notch = BooleanProperty(False)
 
 # layout
     def __init__ (self, session_header,**kwargs):
@@ -49,11 +40,13 @@ class DataProcessingSettings(Screen):
 
     def save_config(self,*args):
 
-        self.sh.buf_len = int(self.buf_len.text)
-        self.sh.f_low = int(self.f_low.text)
-        self.sh.f_high = int(self.f_high.text)
-        self.sh.f_order = int(self.f_order.text)
-        self.sh.channels = map(int, self.channels.text.split(" "))
+        ids = self.ids
+
+        self.sh.buf_len = ids.buf_len.value
+        self.sh.f_low = ids.f_low.value
+        self.sh.f_high = ids.f_high.value
+        self.sh.f_order = ids.f_order.value
+        self.sh.channels = ids.channels.value.split(" ")
         self.sh.notch = self.notch
 
         self.sh.saveToPkl()
