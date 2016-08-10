@@ -14,21 +14,8 @@ Builder.load_file('screens/settings/acquisitionsettings.kv')
 from SampleManager import *
 from standards import *
 from approach import Approach
-######################################################################
-
-
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.checkbox import CheckBox
-
-from utils import saveObjAsJson
-
-from standards import *
-
 from settings import *
+######################################################################
 
 class AcquisitionSettings(Screen):
 
