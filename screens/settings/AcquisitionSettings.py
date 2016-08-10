@@ -32,7 +32,7 @@ from settings import *
 
 class AcquisitionSettings(Screen):
 
-    # m = ObjectProperty(None)
+    m = ObjectProperty(None)
 
 # layout
     def __init__ (self, session_header,**kwargs):
@@ -109,9 +109,9 @@ class SettingsScreens(ScreenManager):
     pass
 
 
-class Simulator(Screen, StdSettingsContainer):
+class Simulator(Screen):
     pass
 
 
-class OpenBCI(Screen, StdSettingsContainer):
+class OpenBCI(Screen):
     pass
