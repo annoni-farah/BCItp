@@ -32,7 +32,9 @@ from settings import *
 
 class AcquisitionSettings(Screen):
 
-    m = ObjectProperty(None)
+    sman = ObjectProperty(None)
+    mode_menu = ObjectProperty(None)
+
 
 # layout
     def __init__ (self, session_header,**kwargs):
@@ -74,8 +76,8 @@ class AcquisitionSettings(Screen):
 
     def save_config(self,*args):
 
-        simulator_ids = self.m.simulator.ids
-        openbci_ids = self.m.openbci.ids
+        simulator_ids = self.sman.simulator.ids
+        openbci_ids = self.sman.openbci.ids
 
         # if self.daisy:
         #     self.sample_rate = 125.0
@@ -84,7 +86,7 @@ class AcquisitionSettings(Screen):
         # else:
         #     self.sample_rate = 250.0
 
-        # self.sh.mode = self.mode
+        self.sh.mode = self.sman.current
         # self.sh.com_port = self.com_port.text
         # self.sh.ch_labels = self.ch_labels.text
         # self.sh.baud_rate = self.baud_rate.text

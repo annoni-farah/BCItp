@@ -1,13 +1,15 @@
 <AcquisitionSettings>:
-    m: m
+    sman: sman
+    mode_menu: mode_menu
 
     BoxLayout:
         orientation: 'vertical'
 
         Menu:
+            id: mode_menu
 
         SettingsScreens:
-            id: m
+            id: sman
 
         GridLayout:
             rows: 1
@@ -34,18 +36,21 @@
     height: 50
     spacing: 5
     padding: 5
+
     ToggleButton:
-        state: 'down'
+        id: simulator_button
         text: 'Simulator'
         group: 'mainmenu'
+        state: 'down'
         on_press:
-            root.parent.parent.m.current = 'simu'
+            root.parent.parent.sman.current = 'simu'
             if self.state == 'normal': self.state = 'down'
+
     ToggleButton:
         text: 'OpenBCI'
         group: 'mainmenu'
         on_press:
-            root.parent.parent.m.current = 'openbci'
+            root.parent.parent.sman.current = 'openbci'
             if self.state == 'normal': self.state = 'down'
 
 <SettingsScreens>:
