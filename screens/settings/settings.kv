@@ -1,11 +1,11 @@
-<MultistrokeSettingsContainer>:
+<StdSettingsContainer>:
     cols: 1
     spacing: 5
     padding: 5
     size_hint_y: None
     height: self.minimum_height
 
-<MultistrokeSettingItem>:
+<StdSettingItem>:
     size_hint_y: None
     height: 70
     rows: 1
@@ -29,7 +29,7 @@
         text_size: self.size
         valign: 'top'
 
-<MultistrokeSettingTitle>:
+<StdSettingTitle>:
     size_hint_y: None
     height: 40
     markup: True
@@ -50,7 +50,7 @@
             pos: self.x, self.y - 2
             size: self.width, 1
 
-<MultistrokeSettingBoolean>:
+<StdSettingBoolean>:
     value: button.state == 'down' and True or False
     ToggleButton:
         id: button
@@ -60,7 +60,7 @@
         pos: root.pos
         state: root.value and 'down' or 'normal'
 
-<MultistrokeSettingString>:
+<StdSettingString>:
     value: input.text
     AnchorLayout:
         size_hint_x: None
@@ -73,7 +73,7 @@
             multiline: True
             text: root.value
 
-<MultistrokeSettingSlider>:
+<StdSettingSlider>:
     value: slider.value
     Label:
         id: sliderlabel

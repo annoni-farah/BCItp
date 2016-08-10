@@ -109,9 +109,9 @@ class SettingsScreens(ScreenManager):
     pass
 
 
-class Simulator(Screen, MultistrokeSettingsContainer):
+class Simulator(Screen, StdSettingsContainer):
     pass
 
 
-class OpenBCI(Screen, MultistrokeSettingsContainer):
+class OpenBCI(Screen, StdSettingsContainer):
     pass

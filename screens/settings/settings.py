@@ -12,26 +12,26 @@ from kivy.uix.popup import Popup
 
 Builder.load_file('screens/settings/settings.kv')
 
-class MultistrokeSettingsContainer(GridLayout):
+class StdSettingsContainer(GridLayout):
     pass
 
 
-class MultistrokeSettingItem(GridLayout):
+class StdSettingItem(GridLayout):
     title = StringProperty('<No title set>')
     desc = StringProperty('')
 
 
-class MultistrokeSettingTitle(Label):
+class StdSettingTitle(Label):
     title = StringProperty('<No title set>')
     desc = StringProperty('')
 
 
-class MultistrokeSettingBoolean(MultistrokeSettingItem):
+class StdSettingBoolean(StdSettingItem):
     button_text = StringProperty('')
     value = BooleanProperty(False)
 
 
-class MultistrokeSettingString(MultistrokeSettingItem):
+class StdSettingString(StdSettingItem):
     value = StringProperty('')
 
 
@@ -44,14 +44,14 @@ class EditSettingPopup(Popup):
         pass
 
 
-class MultistrokeSettingSlider(MultistrokeSettingItem):
+class StdSettingSlider(StdSettingItem):
     min = NumericProperty(0)
     max = NumericProperty(100)
     type = OptionProperty('int', options=['float', 'int'])
     value = NumericProperty(0)
 
     def __init__(self, **kwargs):
-        super(MultistrokeSettingSlider, self).__init__(**kwargs)
+        super(StdSettingSlider, self).__init__(**kwargs)
         self._popup = EditSettingPopup()
         self._popup.bind(on_validate=self._validate)
         self._popup.bind(on_dismiss=self._dismiss)
@@ -79,7 +79,7 @@ class MultistrokeSettingSlider(MultistrokeSettingItem):
 
     def on_touch_down(self, touch):
         if not self.ids.sliderlabel.collide_point(*touch.pos):
-            return super(MultistrokeSettingSlider, self).on_touch_down(touch)
+            return super(StdSettingSlider, self).on_touch_down(touch)
         ids = self._popup.ids
         ids.value = str(self.value)
         ids.input.text = str(self._to_numtype(self.value))
@@ -88,10 +88,10 @@ class MultistrokeSettingSlider(MultistrokeSettingItem):
         ids.input.select_all()
 
 
-# Factory.register('MultistrokeSettingsContainer',
-#                  cls=MultistrokeSettingsContainer)
-# Factory.register('MultistrokeSettingTitle', cls=MultistrokeSettingTitle)
-# Factory.register('MultistrokeSettingBoolean', cls=MultistrokeSettingBoolean)
-# Factory.register('MultistrokeSettingSlider', cls=MultistrokeSettingSlider)
-# Factory.register('MultistrokeSettingString', cls=MultistrokeSettingString)
+# Factory.register('StdSettingsContainer',
+#                  cls=StdSettingsContainer)
+# Factory.register('StdSettingTitle', cls=StdSettingTitle)
+# Factory.register('StdSettingBoolean', cls=StdSettingBoolean)
+# Factory.register('StdSettingSlider', cls=StdSettingSlider)
+# Factory.register('StdSettingString', cls=StdSettingString)
 
