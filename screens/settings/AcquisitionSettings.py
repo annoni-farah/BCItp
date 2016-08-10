@@ -41,7 +41,7 @@ class AcquisitionSettings(Screen):
 
         self.daisy = False
 
-    def change_to_cal(self,*args):
+    def change_to_bci(self,*args):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
 
@@ -73,44 +73,41 @@ class AcquisitionSettings(Screen):
             self.daisy = False
 
     def save_config(self,*args):
-        if self.daisy:
-            self.sample_rate = 125.0
-        elif self.srate != '':
-            self.sample_rate = float(self.srate.text)
-        else:
-            self.sample_rate = 250.0
 
-        self.sh.mode = self.mode
-        self.sh.com_port = self.com_port.text
-        self.sh.ch_labels = self.ch_labels.text
-        self.sh.baud_rate = self.baud_rate.text
-        self.sh.path_to_file = self.path_to_file.text
-        self.sh.path_to_labels_file = self.path_to_labels_file.text
-        self.sh.sample_rate = self.sample_rate
-        self.sh.daisy = self.daisy
+        simulator_ids = self.m.simulator.ids
+        openbci_ids = self.m.openbci.ids
 
-        self.sh.saveToPkl()
-        self.label_msg.text = "Settings Saved!"
+        # if self.daisy:
+        #     self.sample_rate = 125.0
+        # elif self.srate != '':
+        #     self.sample_rate = float(self.srate.text)
+        # else:
+        #     self.sample_rate = 250.0
 
-    def update_screen(self,*args):
-        if self.sh.mode is not None:
-            self.com_port.text = self.sh.com_port
-            self.ch_labels.text = self.sh.ch_labels
-            self.baud_rate.text = self.sh.baud_rate
-            self.path_to_file.text = self.sh.path_to_file            
+        # self.sh.mode = self.mode
+        # self.sh.com_port = self.com_port.text
+        # self.sh.ch_labels = self.ch_labels.text
+        # self.sh.baud_rate = self.baud_rate.text
+        # self.sh.path_to_file = self.path_to_file.text
+        # self.sh.path_to_labels_file = self.path_to_labels_file.text
+        # self.sh.sample_rate = self.sample_rate
+        # self.sh.daisy = self.daisy
 
-            if self.sh.daisy:
-                self.enable_daisy
+        # self.sh.saveToPkl()
+        # self.label_msg.text = "Settings Saved!"
 
 class Menu(GridLayout):
     pass
 
 class SettingsScreens(ScreenManager):
-    pass
+    simulator = ObjectProperty(None)
+    openbci = ObjectProperty(None)
 
 
 class Simulator(Screen):
-    pass
+    eeg_path = StringProperty('')
+    labels_path = StringProperty('')
+    srate = NumericProperty(0)    
 
 
 class OpenBCI(Screen):
