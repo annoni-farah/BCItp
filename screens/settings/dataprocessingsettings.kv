@@ -56,6 +56,13 @@
                 min: 2
                 max: 9
 
+            StdSettingBoolean:
+                id: notch
+                title: 'Use Notch Filter (60 Hz)'
+                desc: 'Check if you want to apply a notch filter to data'
+                button_text: 'Notch'
+                value: False
+
         GridLayout:
             rows: 1
             size_hint: (1, None)
@@ -66,7 +73,7 @@
             Button:
                 font_size: 20
                 text: 'Back'
-                on_press: root.change_to_cal()
+                on_press: root.change_to_bci()
 
             Button:
                 font_size: 20

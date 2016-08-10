@@ -25,18 +25,9 @@ class DataProcessingSettings(Screen):
         super (DataProcessingSettings, self).__init__(**kwargs)
         self.sh = session_header
 
-    def change_to_cal(self,*args):
+    def change_to_bci(self,*args):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
-
-    def enable_notch_filt(self, checkbox, value):
-        
-        print 'val:', value
-        if value:
-            self.notch = True
-        else:
-            self.notch = False
-
 
     def save_config(self,*args):
 
@@ -47,7 +38,6 @@ class DataProcessingSettings(Screen):
         self.sh.f_high = ids.f_high.value
         self.sh.f_order = ids.f_order.value
         self.sh.channels = ids.channels.value.split(" ")
-        self.sh.notch = self.notch
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"
