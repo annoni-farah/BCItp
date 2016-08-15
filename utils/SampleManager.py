@@ -47,7 +47,6 @@ class SampleManager(threading.Thread):
 
         dummy = dummy
 
-
         self.buffer_length = buf_len
 
         self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
@@ -58,11 +57,9 @@ class SampleManager(threading.Thread):
         if self.acq_mode == 'openbci':
 
             self.board = bci.OpenBCIBoard(port=p, baud=b, daisy=daisy)
-            self.rec_flag = True
 
         elif self.acq_mode == 'simu':
             
-            self.rec_flag = False
             if dummy: loadedData=np.zeros([2,16]) 
             else: loadedData = LoadDataAsMatrix(self.playback_path)
             
@@ -102,8 +99,7 @@ class SampleManager(threading.Thread):
 
         self.updateCircBuf(indata);
 
-        if self.rec_flag:
-            self.StoreData(indata)
+        self.StoreData(indata)
 
         if self.playback_labels_path != None:
             if self.sample_counter == int(self.next_playback_label[1]):
