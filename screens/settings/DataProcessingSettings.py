@@ -36,7 +36,7 @@ class DataProcessingSettings(Screen):
         self.sh.f_low = ids.f_low.value
         self.sh.f_high = ids.f_high.value
         self.sh.f_order = ids.f_order.value
-        self.sh.channels = ids.channels.value.split(" ")
+        self.sh.channels = map(int,ids.channels.value.split(" "))
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"
