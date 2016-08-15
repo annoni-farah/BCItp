@@ -1,5 +1,9 @@
 <BarsStart>:
 
+    on_pre_enter: 
+        self.wt = root.sh.warning_threshold / 100.0
+
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
@@ -13,11 +17,20 @@
             BoxLayout:
                 size_hint_x: 0.1
 
+                canvas:
+
+                    Color:
+                        rgba: 1,1,0,1
+
+                    Line:
+                        width: 2
+                        points:
+                            (0, self.pos[1] + self.size[1]*root.wt, \
+                            self.size[0]/2, self.pos[1] + self.size[1]*root.wt)
                 Bar:
                     orientation: 'bt'
                     color: root.accum_color_left
                     animated: False
-                    value: root.
                     value: root.accum_prob_left
 
                 Bar:
@@ -32,17 +45,28 @@
             BoxLayout:
                 size_hint_x: 0.1
 
-                Bar:
-                    orientation: 'bt'
-                    color: root.accum_color_right
-                    animated: False
-                    value: root.accum_prob_right
+                canvas:
+
+                    Color:
+                        rgba: 1,1,0,1
+
+                    Line:
+                        width: 2
+                        points:
+                            (self.size[0]/2 + self.pos[0], self.pos[1] + self.size[1]*root.wt, \
+                            root.size[0], self.pos[1] + self.size[1]*root.wt)
 
                 Bar:
                     orientation: 'bt'
                     color: [0,1,0,.5]
                     animated: False
                     value: root.inst_prob_right
+
+                Bar:
+                    orientation: 'bt'
+                    color: root.accum_color_right
+                    animated: False
+                    value: root.accum_prob_right
 
         BoxLayout:
             orientation: 'horizontal'

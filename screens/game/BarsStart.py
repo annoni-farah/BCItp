@@ -36,6 +36,8 @@ class BarsStart(Screen):
 
     label_color = ListProperty([0,0,0,1])
 
+    wt = NumericProperty(0.0)
+
     def __init__ (self, session_header,**kwargs):
         super (BarsStart, self).__init__(**kwargs)
         self.sh = session_header
@@ -207,7 +209,6 @@ class BarsStart(Screen):
 
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
-
 
 
 
