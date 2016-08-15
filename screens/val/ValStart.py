@@ -83,7 +83,7 @@ class ValStart(Screen):
 
         self.generate_stim_list()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels, self.sh.buf_len,
-            daisy=self.sh.daisy, mode = self.sh.mode)
+            daisy=self.sh.daisy, mode = self.sh.mode, dummy=self.sh.dummy)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()

@@ -74,7 +74,7 @@ class BarsStart(Screen):
         self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
-            labels_path = self.sh.path_to_labels_file)
+            labels_path = self.sh.path_to_labels_file, dummy=self.sh.dummy)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()

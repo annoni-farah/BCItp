@@ -19,6 +19,7 @@ class SessionHeader:
         self.path_to_labels_file = None
         self.sample_rate = None
         self.daisy = None
+        self.dummy = None
 
         # DATA PROCESSING SETTINGS
         self.buf_len = None

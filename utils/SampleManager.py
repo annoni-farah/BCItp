@@ -25,7 +25,8 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, ch, buf_len, daisy = False, mode = 'openbci' , path = None, labels_path = None):
+    def __init__(self, p, b, ch, buf_len, daisy = False, mode = 'openbci' , 
+                    path = None, labels_path = None, dummy=False):
         super(SampleManager, self).__init__()
 
         self.channels = ch
@@ -44,6 +45,8 @@ class SampleManager(threading.Thread):
         self.current_playback_label = [None, None]
         self.next_playback_label = [None, None]
 
+        dummy = dummy
+
 
         self.buffer_length = buf_len
 
@@ -60,7 +63,9 @@ class SampleManager(threading.Thread):
         elif self.acq_mode == 'simu':
             
             self.rec_flag = False
-            loadedData = LoadDataAsMatrix(self.playback_path)
+            if dummy: loadedData=np.zeros([2,16]) 
+            else: loadedData = LoadDataAsMatrix(self.playback_path)
+            
             self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
 
             if self.playback_labels_path != None:
@@ -100,7 +105,7 @@ class SampleManager(threading.Thread):
         if self.rec_flag:
             self.StoreData(indata)
 
-        if self.acq_mode == 'simu':
+        if self.playback_labels_path != None:
             if self.sample_counter == int(self.next_playback_label[1]):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)

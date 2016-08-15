@@ -72,9 +72,6 @@ class OpenBCIBoard(object):
       # read current sample
       packet_id = 0
 
-      f = [5, 20, 30, 60, 80]
-      A = [0, 0, 0, 5, 0]
-
       channel_data = self.playback_data[sample_counter,:].tolist()
 
       sample = OpenBCISample(packet_id, channel_data, [])
@@ -88,7 +85,7 @@ class OpenBCIBoard(object):
       sample_counter += 1
 
       if sample_counter == counter_max:
-        self.stop()
+        sample_counter=0
 
       # while 1.0 / SAMPLE_RATE > time.time() - st:
       #   pass

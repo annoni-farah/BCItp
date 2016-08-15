@@ -43,12 +43,7 @@ class DataProcessingSettings(Screen):
         else:
             ch_idx = map(int,ids.channels.value.split(" "))
 
-        print ch_idx
-
         self.sh.channels = ch_idx
-
-
-
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"

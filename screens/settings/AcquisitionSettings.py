@@ -45,6 +45,7 @@ class AcquisitionSettings(Screen):
         self.sh.path_to_file = simulator_ids.eeg_path.value
         self.sh.path_to_labels_file = simulator_ids.labels_path.value
         self.sh.sample_rate = simulator_ids.srate.value
+        self.sh.dummy = simulator_ids.dummy_data.value
         self.sh.daisy = openbci_ids.daisy.value
 
         if (self.sh.mode == 'openbci'):

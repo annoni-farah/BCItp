@@ -45,6 +45,7 @@ class TargetStart(Screen):
         self.sh = session_header
 
         self.U = 0.0
+        self.p = [0,0]
 
         self.stream_flag = False
     # BUTTON CALLBACKS    
@@ -75,7 +76,7 @@ class TargetStart(Screen):
         self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
             self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
-            labels_path = self.sh.path_to_labels_file)
+            labels_path = self.sh.path_to_labels_file, dummy=self.sh.dummy)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -87,12 +88,14 @@ class TargetStart(Screen):
 
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.get_probs, self.sh.window_overlap)
-        Clock.schedule_interval(self.update_current_label, 1./20.)
+        Clock.schedule_interval(self.get_probs, 1./20.)
+        Clock.schedule_interval(self.update_accum_bars, self.sh.window_overlap)
+        if self.sh.mode == 'simu':Clock.schedule_interval(self.update_current_label, 1./20.)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
         Clock.unschedule(self.update_current_label)
+        Clock.unschedule(self.update_accum_bars)
 
     def get_probs(self, dt):
 
@@ -100,28 +103,17 @@ class TargetStart(Screen):
 
         if buf.shape[0] == self.sh.buf_len:
 
-            p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
+            self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            u = p[0] - p[1]
+            if self.sh.inst_prob: self.update_inst_bars()
 
-            self.U += u
- 
-            U1 = 100 * (self.U + self.sh.game_threshold) / (2. * self.sh.game_threshold)
+    def update_inst_bars(self):
 
-            U2 = 100 - U1
+        p1 = self.p[0]
+        p2 = self.p[1]
 
-            U1, U2 = self.map_probs(U1, U2)
+        u = p1 - p2
 
-            self.update_accum_bars(U1, U2)
-
-            self.update_inst_bars(u)
-
-            # print 'U: ', self.U
-            # print 'U1: ', U1
-            # print 'U2: ', U2
-            # print 'u: ', u
-
-    def update_inst_bars(self, u):
         if u > 0:
             self.inst_prob_left = int(math.floor(u * 100))
             self.inst_prob_right = 0
@@ -129,7 +121,18 @@ class TargetStart(Screen):
             self.inst_prob_right = int(math.floor(abs(u) * 100))
             self.inst_prob_left = 0
 
-    def update_accum_bars(self,U1, U2):
+    def update_accum_bars(self, dt):
+
+        p1 = self.p[0]
+        p2 = self.p[1]
+
+        u = p1 - p2
+
+        self.U += u
+
+        U1 = 100 * (self.U + self.sh.game_threshold) / (2. * self.sh.game_threshold)
+
+        U2 = 100 - U1
 
         U1_n = int(math.floor(U1))
         U2_n = int(math.floor(U2))
@@ -142,8 +145,10 @@ class TargetStart(Screen):
             self.accum_color_left = [1,0,0,1]
             self.accum_color_right = [0,0,1,1]
 
-        self.accum_prob_left = U1_n
-        self.accum_prob_right = U2_n
+        if U1_n in range(101): self.accum_prob_left = U1_n
+        if U2_n in range(101): self.accum_prob_right = U2_n
+
+        self.map_probs(U1, U2)
 
     def map_probs(self, U1, U2):
 
@@ -232,11 +237,6 @@ class Game(Widget):
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
-        self._keyboard = Window.request_keyboard(None, self)
-        if not self._keyboard:
-            return
-
-        self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
         self.direction = 'up'
 
@@ -244,17 +244,6 @@ class Game(Widget):
         self.direction_idx = 1
 
         self.on_flag = False
-
-    def on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        
-        if ~self.on_flag:
-            return
-        if keycode[1] == 'left':
-            self.set_direction(-1)
-        elif keycode[1] == 'right':
-            self.set_direction(1)
-        else:
-            return False
 
     def set_player_speed(self, speed):
 
@@ -379,7 +368,6 @@ class GamePlayer(Widget):
 
 
 class GameTarget(Widget):
-
     t_color = ListProperty([1,1,0,1])
 
         
