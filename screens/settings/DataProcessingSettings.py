@@ -14,7 +14,6 @@ Builder.load_file('screens/settings/dataprocessingsettings.kv')
 from SampleManager import *
 from standards import *
 from approach import Approach
-from settings import *
 ######################################################################
 
 

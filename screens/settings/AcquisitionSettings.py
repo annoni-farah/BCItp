@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ReferenceListProperty, \
                             ListProperty, BooleanProperty
 from kivy.lang import Builder
+from kivy.uix.gridlayout import GridLayout
 
 # KV file:
 Builder.load_file('screens/settings/acquisitionsettings.kv')
@@ -14,7 +15,6 @@ Builder.load_file('screens/settings/acquisitionsettings.kv')
 from SampleManager import *
 from standards import *
 from approach import Approach
-from settings import *
 ######################################################################
 
 class AcquisitionSettings(Screen):

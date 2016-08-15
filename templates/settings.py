@@ -1,6 +1,6 @@
-# __all__ = ('MultistrokeSettingsContainer', 'MultistrokeSettingItem',
-#            'MultistrokeSettingBoolean', 'MultistrokeSettingSlider',
-#            'MultistrokeSettingString', 'MultistrokeSettingTitle')
+__all__ = ('StdSettingsContainer', 'StdSettingItem',
+           'StdSettingBoolean', 'StdSettingSlider',
+           'StdSettingString', 'StdSettingTitle')
 
 from kivy.factory import Factory
 from kivy.lang import Builder
@@ -10,7 +10,7 @@ from kivy.properties import (StringProperty, NumericProperty, OptionProperty,
                              BooleanProperty)
 from kivy.uix.popup import Popup
 
-Builder.load_file('screens/settings/settings.kv')
+Builder.load_file('templates/settings.kv')
 
 class StdSettingsContainer(GridLayout):
     pass
@@ -88,10 +88,9 @@ class StdSettingSlider(StdSettingItem):
         ids.input.select_all()
 
 
-# Factory.register('StdSettingsContainer',
-#                  cls=StdSettingsContainer)
-# Factory.register('StdSettingTitle', cls=StdSettingTitle)
-# Factory.register('StdSettingBoolean', cls=StdSettingBoolean)
-# Factory.register('StdSettingSlider', cls=StdSettingSlider)
-# Factory.register('StdSettingString', cls=StdSettingString)
+Factory.register('StdSettingsContainer',cls=StdSettingsContainer)
+Factory.register('StdSettingTitle', cls=StdSettingTitle)
+Factory.register('StdSettingBoolean', cls=StdSettingBoolean)
+Factory.register('StdSettingSlider', cls=StdSettingSlider)
+Factory.register('StdSettingString', cls=StdSettingString)
 

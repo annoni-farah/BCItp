@@ -11,12 +11,14 @@ import os, sys, inspect
 
 FOLDERS = ['bci_ml', 'bci_ml/approaches', 'utils', 'screens/settings', 'screens','screens/cal',
  'screens/hardware', 'screens/ml', 'screens/precal',
- 'screens/cal', 'screens/val', 'screens/game', ]
+ 'screens/cal', 'screens/val', 'screens/game', 'templates']
 
 for i in range(len(FOLDERS)):
       cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],FOLDERS[i])))
       if cmd_subfolder not in sys.path:
             sys.path.insert(0, cmd_subfolder)
+
+from settings import *
 
 from ScreenStart import *
 from GeneralSettings import *
