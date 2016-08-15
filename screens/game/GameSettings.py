@@ -17,13 +17,6 @@ from standards import *
 
 class GameSettings(Screen):
 
-    game_threshold = ObjectProperty(None)
-    window_overlap = ObjectProperty(None)
-    warning_threshold = ObjectProperty(None)
-    forward_speed = ObjectProperty(None)
-
-    msg = StringProperty('')
-
 # layout
     def __init__ (self, session_header,**kwargs):
         super (GameSettings, self).__init__(**kwargs)
