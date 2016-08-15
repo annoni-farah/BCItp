@@ -31,7 +31,7 @@ class MlMenu(Screen):
         self.manager.current = 'PreCalSettings'
         self.manager.transition.direction = 'left'
 
-    def change_to_cal(self,*args):
+    def change_to_bci(self,*args):
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'right'
 
