@@ -39,7 +39,7 @@ from CalStart import *
 from ValMenu import *
 from ValStart import *
 
-from MlMenu import *
+from mlmenu import *
 
 from GameMenu import *
 from GameSettings import *

@@ -1,0 +1,67 @@
+<MlMenu>:
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        StdSettingsContainer:
+            pos_hint: {'top': 1}
+            size_hint: (1, 1)
+
+            StdSettingTitle:
+                title: 'Epoch Extraction Settings'
+                desc: 'Define the epoch limits'
+
+            StdSettingString:
+                id: class_ids
+                title: 'Event Ids'
+                desc: 'List of event labels for epoch extraction. ex: 1 2'
+                value: '1 2'
+
+            StdSettingSlider:
+                id: epoch_start
+                title: 'Epoch Start'
+                type: 'float'
+                desc: 'Time in sec after the event when the epoch starts'
+                value: 2.5
+                min: -5
+                max: 5
+
+            StdSettingSlider:
+                id: epoch_end
+                title: 'Epoch End'
+                type: 'float'
+                desc: 'Time in sec after the event when the epoch ends'
+                value: 4.5
+                min: epoch_start.value
+                max: 5
+
+            StdSettingTitle:
+                title: 'Machine Learning Settings'
+                desc: 'Set parameters of machine learning algorithms'
+
+            StdSettingSlider:
+                id: csp_nei
+                title: 'Number of CSP eigenvectors'
+                type: 'int'
+                desc: 'Must be an even number'
+                value: 8
+                min: 2
+                max: 16
+
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+
+            Button:
+                font_size: 20
+                text: 'Back'
+                on_press: root.change_to_bci()
+
+            Button:
+                font_size: 20
+                text: 'Train Model'
+                on_press: root.get_ml_model()
+
