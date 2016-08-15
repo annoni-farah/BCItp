@@ -102,7 +102,7 @@ class BarsStart(Screen):
 
             self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            self.update_inst_bars()
+            if self.sh.inst_prob: self.update_inst_bars()
 
     def update_inst_bars(self):
 

@@ -42,5 +42,6 @@ class GameSettings(Screen):
         self.sh.window_overlap = ids.window_overlap.value / 1000.0
         self.sh.warning_threshold = ids.warning_threshold.value 
         self.sh.forward_speed = ids.forward_speed.value / 1000.0
+        self.sh.inst_prob = ids.inst_prob.value / 1000.0
 
         self.sh.saveToPkl()
