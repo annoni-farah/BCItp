@@ -56,6 +56,7 @@ class SessionHeader:
         self.window_overlap = None
         self.warning_threshold = None
         self.forward_speed = None
+        self.inst_prob = None
 
 
     def saveToPkl(self):
