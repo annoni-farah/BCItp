@@ -36,7 +36,19 @@ class DataProcessingSettings(Screen):
         self.sh.f_low = ids.f_low.value
         self.sh.f_high = ids.f_high.value
         self.sh.f_order = ids.f_order.value
-        self.sh.channels = map(int,ids.channels.value.split(" "))
+
+        if ':' in ids.channels.value:
+            limits=map(int,ids.channels.value.split(':'))
+            ch_idx = range(limits[0],limits[1])
+        else:
+            ch_idx = map(int,ids.channels.value.split(" "))
+
+        print ch_idx
+
+        self.sh.channels = ch_idx
+
+
+
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"
