@@ -36,10 +36,11 @@ class GameSettings(Screen):
 
     def save_config(self,*args):
 
-        self.sh.game_threshold = float(self.game_threshold.text)
-        self.sh.window_overlap = float(self.window_overlap.text)
-        self.sh.warning_threshold = float(self.warning_threshold.text)
-        self.sh.forward_speed = float(self.forward_speed.text)
+        ids = self.ids
+
+        self.sh.game_threshold = ids.game_threshold.value
+        self.sh.window_overlap = ids.window_overlap.value / 1000.0
+        self.sh.warning_threshold = ids.warning_threshold.value 
+        self.sh.forward_speed = ids.forward_speed.value / 1000.0
 
         self.sh.saveToPkl()
-        self.msg = "Settings Saved!"

@@ -5,115 +5,72 @@
     warning_threshold: warning_threshold
     forward_speed: forward_speed
 
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    BoxLayout:
+        orientation: 'vertical'
 
-        BoxLayout:
-            orientation: 'vertical' 
-            spacing: 10
-            padding: 10
-            size_hint: None, None
-            size: self.minimum_size
+        StdSettingsContainer:
+            pos_hint: {'top': 1}
+            size_hint: (1, 1)
 
-            BoxLayout:
-                orientation: 'horizontal'
-                size: self.minimum_size
-                spacing: 10
-                padding: 10
-                size_hint: (None, None)
+            StdSettingTitle:
+                title: 'General Game Settings'
+                desc: 'Set general game parameters'
 
-                Label:
-                    font_size: 20
-                    text: 'Threshold to action'
-                    size_hint: (None, None)
-                    size: (200,40)
+            StdSettingSlider:
+                id: game_threshold
+                title: 'Threshold to action'
+                type: 'int'
+                desc: 'Limit to the sum of steps which triggers and action'
+                value: 200
+                min: 0
+                max: 1000
 
-                TextInput:
-                    id: game_threshold
-                    text: '200'
-                    font_size: 20
-                    size_hint: (None, None)
-                    size: 200,self.minimum_height
-                    multiline: False
+            StdSettingSlider:
+                id: window_overlap
+                title: 'Sum Rate in msec'
+                type: 'float'
+                desc: 'The interval at which a new step is added'
+                value: 125
+                min: 10
+                max: 500
 
-            BoxLayout:
-                orientation: 'horizontal'
-                size: self.minimum_size
-                spacing: 10
-                padding: 10
-                size_hint: (None, None)
+            StdSettingSlider:
+                id: warning_threshold
+                title: 'Warning Threshold in \%'
+                type: 'int'
+                desc: 'The percentage of the Threshold to Action at which a Warning is displayed'
+                value: 80
+                min: 0
+                max: 100
 
-                Label:
-                    font_size: 20
-                    text: 'Window Overlap in sec'
-                    size_hint: (None, None)
-                    size: (200,40)
+            StdSettingTitle:
+                title: 'Target Game Settings'
+                desc: 'Set Target game parameters'
 
-                TextInput:
-                    id: window_overlap
-                    text: '.125'
-                    font_size: 20
-                    size_hint: (None, None)
-                    size: 200,self.minimum_height
-                    multiline: False
+            StdSettingSlider:
+                id: forward_speed
+                title: 'Player Speed'
+                type: 'float'
+                desc: 'Time in msec to move 1px'
+                value: 1
+                min: 1
+                max: 300
 
-            BoxLayout:
-                orientation: 'horizontal'
-                size: self.minimum_size
-                spacing: 10
-                padding: 10
-                size_hint: (None, None)
-
-                Label:
-                    font_size: 20
-                    text: 'Warning Threshold (per TTA)'
-                    size_hint: (None, None)
-                    size: (200,40)
-
-                TextInput:
-                    id: warning_threshold
-                    text: '80'
-                    font_size: 20
-                    size_hint: (None, None)
-                    size: 200,self.minimum_height
-                    multiline: False
-
-            BoxLayout:
-                orientation: 'horizontal'
-                size: self.minimum_size
-                spacing: 10
-                padding: 10
-                size_hint: (None, None)
-
-                Label:
-                    font_size: 20
-                    text: 'Time (s) to move 1px'
-                    size_hint: (None, None)
-                    size: (200,40)
-
-                TextInput:
-                    id: forward_speed
-                    text: '0.001'
-                    font_size: 20
-                    size_hint: (None, None)
-                    size: 200,self.minimum_height
-                    multiline: False
-
-            Label:
-                text: root.msg
-                font_size: 20
-
-            Button:
-                font_size: 20
-                text: 'Save'
-                size: 430,50
-                size_hint: (None, None)
-                on_press: root.save_config()
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
 
             Button:
                 font_size: 20
                 text: 'Back'
                 size: 430,50
-                size_hint: (None, None)
                 on_press: root.change_to_game() 
+
+            Button:
+                font_size: 20
+                text: 'Save'
+                size: 430,50
+                on_press: root.save_config()
