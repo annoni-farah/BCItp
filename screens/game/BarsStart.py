@@ -140,23 +140,16 @@ class BarsStart(Screen):
             self.accum_color_left = [1,0,0,1]
             self.accum_color_right = [0,0,1,1]
 
-        self.accum_prob_left = U1_n
-        self.accum_prob_right = U2_n
+        if U1_n in range(101): self.accum_prob_left = U1_n
+        if U2_n in range(101): self.accum_prob_right = U2_n
 
         self.map_probs(U1, U2)
 
     def map_probs(self, U1, U2):
 
-        if U1 > 100:
-            self.set_bar_default()
-            return 0,0
-
-        elif U2 > 100:
-            self.set_bar_default()
-            return 0,0
-            
-        else:
-            return U1, U2
+        if U1 > 100: self.set_bar_default()
+        elif U2 > 100: self.set_bar_default()
+        else: pass
 
             # dont send any cmd
 
