@@ -18,7 +18,6 @@ from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
 
 import open_bci_v3 as bci
-import open_bci_simu as simulator
 import open_bci_playback as playback
 
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
@@ -59,11 +58,6 @@ class SampleManager(threading.Thread):
             self.rec_flag = True
 
         elif self.acq_mode == 'simu':
-
-            self.board = simulator.OpenBCIBoard(port=p, baud=b, daisy=daisy)
-            self.rec_flag = True
-
-        elif self.acq_mode == 'playback':
             
             self.rec_flag = False
             loadedData = LoadDataAsMatrix(self.playback_path)
@@ -106,7 +100,7 @@ class SampleManager(threading.Thread):
         if self.rec_flag:
             self.StoreData(indata)
 
-        if self.acq_mode == 'playback':
+        if self.acq_mode == 'simu':
             if self.sample_counter == int(self.next_playback_label[1]):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)
