@@ -45,7 +45,7 @@ class SampleManager(threading.Thread):
         self.current_playback_label = [None, None]
         self.next_playback_label = [None, None]
 
-        dummy = dummy
+        self.dummy = dummy
 
         self.buffer_length = buf_len
 
@@ -60,15 +60,15 @@ class SampleManager(threading.Thread):
 
         elif self.acq_mode == 'simu':
             
-            if dummy: loadedData=np.zeros([2,16]) 
-            else: loadedData = LoadDataAsMatrix(self.playback_path)
-            
-            self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
-
-            if self.playback_labels_path != None:
+            if self.dummy: 
+                loadedData=np.ones([2,16])
+            else: 
+                loadedData = LoadDataAsMatrix(self.playback_path)
                 self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
                 self.current_playback_label = next(self.playback_labels)
                 self.next_playback_label = next(self.playback_labels)
+
+            self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
 
     def run(self):
 
@@ -101,7 +101,7 @@ class SampleManager(threading.Thread):
 
         self.StoreData(indata)
 
-        if self.playback_labels_path != None:
+        if self.acq_mode == 'simu' and not self.dummy:
             if self.sample_counter == int(self.next_playback_label[1]):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)
