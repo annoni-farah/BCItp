@@ -1,0 +1,68 @@
+<CalSettings>:
+
+    on_pre_enter: root.update_settings()
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        StdSettingsContainer:
+            pos_hint: {'top': 1}
+            size_hint: (1, 1)
+
+            StdSettingTitle:
+                title: 'Calibration and Validation Settings'
+                desc: 'Set config for input data'
+
+            StdSettingSlider:
+                id: n_trials
+                title: 'Number of Trials'
+                type: 'int'
+                desc: 'Number of trials to be displayed'
+                value: 30
+                min: 1
+                max: 200
+
+            StdSettingSlider:
+                id: pause_offset
+                title: 'Pause Offset (s)'
+                type: 'float'
+                desc: 'Time in seconds to wait at the beginning of a new trial'
+                value: 0
+                min: 0
+                max: 10
+
+            StdSettingSlider:
+                id: cue_offset
+                title: 'Cue Offset (s)'
+                type: 'float'
+                desc: 'Time in seconds from the beginning of a trial until the cue display'
+                value: 0
+                min: 0
+                max: 20
+
+            StdSettingSlider:
+                id: end_trial_offset
+                title: 'End Of Trial Offset (s)'
+                type: 'float'
+                desc: 'Time in seconds from the beginning of a trial to the point when the trial ends'
+                value: 8
+                min: cue_offset.value + 1
+                max: 20
+
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+
+            Button:
+                font_size: 20
+                text: 'Back'
+                on_press: root.change_to_cal()
+
+            Button:
+                font_size: 20
+                text: 'Save'
+                on_press: root.save_config()
+
