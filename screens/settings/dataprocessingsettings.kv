@@ -1,5 +1,7 @@
 <DataProcessingSettings>:
 
+    on_pre_enter: root.update_settings()
+
     BoxLayout:
         orientation: 'vertical'
 
@@ -57,12 +59,12 @@
                 min: 2
                 max: 9
 
-            StdSettingBoolean:
-                id: notch
-                title: 'Use Notch Filter (60 Hz)'
-                desc: 'Check if you want to apply a notch filter to data'
-                button_text: 'Notch'
-                value: False
+            # StdSettingBoolean:
+            #     id: notch
+            #     title: 'Use Notch Filter (60 Hz)'
+            #     desc: 'Check if you want to apply a notch filter to data'
+            #     button_text: 'Notch'
+            #     value: False
 
         GridLayout:
             rows: 1
