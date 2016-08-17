@@ -46,7 +46,7 @@ class CalStart(Screen):
         self.sh = session_header
         self.stream_flag = False
 
-    def change_to_precal(self,*args):
+    def change_to_cal(self,*args):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'right'
 
