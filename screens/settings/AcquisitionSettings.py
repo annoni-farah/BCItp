@@ -56,6 +56,23 @@ class AcquisitionSettings(Screen):
 
         self.sh.saveToPkl()
 
+    def update_settings(self):
+
+        simulator_ids = self.sman.simulator.ids
+        openbci_ids = self.sman.openbci.ids
+
+        self.sman.current = self.sh.mode
+        openbci_ids.com_port.value = self.sh.com_port
+        openbci_ids.ch_labels.value = self.sh.ch_labels
+        openbci_ids.baud_rate.value = self.sh.baud_rate
+        simulator_ids.eeg_path.value = self.sh.path_to_file
+        simulator_ids.labels_path.value  = self.sh.path_to_labels_file
+        simulator_ids.srate.value = self.sh.sample_rate
+        simulator_ids.dummy_data.value  = self.sh.dummy
+        openbci_ids.daisy.value = self.sh.daisy
+
+
+
 class Menu(GridLayout):
     pass
 
