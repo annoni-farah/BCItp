@@ -1,0 +1,44 @@
+<CalStart>:
+
+    carousel: carousel
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Carousel:
+            id: carousel
+            direction: 'right'
+
+            Image:
+                id: cross
+                source: root.fig_list[0]
+
+            Image:
+                id: aleft
+                source: root.fig_list[1]
+
+            Image:
+                id: aright
+                source: root.fig_list[2]
+
+            Image:
+                id: blank
+                source: root.fig_list[3]
+
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+
+            Button:
+                font_size: 20
+                text: 'Back'
+                on_press: root.change_to_cal()
+
+            Button:
+                font_size: 20
+                text: root.button_stream
+                on_press: root.toggle_stream()
+
