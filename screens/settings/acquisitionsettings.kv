@@ -103,8 +103,7 @@
             title: 'Use Dummy Data'
             desc: 'Output dummy data by simulating an OpenBCI board with daisy module'
             value: False
-            on_value: 
-                srate.value = 125
+            on_value: if self.value: srate.value = 125
 
 <OpenBCI>:
     StdSettingsContainer:

@@ -67,10 +67,9 @@ class AcquisitionSettings(Screen):
         openbci_ids.baud_rate.value = self.sh.baud_rate
         simulator_ids.eeg_path.value = self.sh.path_to_file
         simulator_ids.labels_path.value  = self.sh.path_to_labels_file
-        simulator_ids.srate.value = self.sh.sample_rate
+        simulator_ids.srate.value = int(self.sh.sample_rate)
         simulator_ids.dummy_data.value  = self.sh.dummy
         openbci_ids.daisy.value = self.sh.daisy
-
 
 
 class Menu(GridLayout):
