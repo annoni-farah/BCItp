@@ -90,7 +90,8 @@ class TargetStart(Screen):
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_probs, 1./20.)
         Clock.schedule_interval(self.update_accum_bars, self.sh.window_overlap)
-        if self.sh.mode == 'simu':Clock.schedule_interval(self.update_current_label, 1./20.)
+        if self.sh.mode == 'simu' and not self.sh.dummy:
+            Clock.schedule_interval(self.update_current_label, 1./20.)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
