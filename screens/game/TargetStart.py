@@ -331,11 +331,10 @@ class Game(Widget):
         if self.player.collide_widget(self.target):
             self.target.t_color = [0,1,0,1]
             Clock.schedule_once(self.start, 2)
-
             self.time_stop = time.time()
             self.res_h.append(self.time_stop - self.time_start)
-
-            self.stop()
+            Clock.unschedule(self.check_if_won)
+            Clock.unschedule(self.move_player)
 
     def set_direction(self, direction):
 
@@ -349,10 +348,7 @@ class Game(Widget):
             self.direction_idx += direction
         
         self.direction = self.direction_list[self.direction_idx]
-
-        Clock.unschedule(self.move_player)
         self.move_player(None)
-        Clock.schedule_interval(self.move_player, self.forward_speed)
 
     def move_player(self, dt):
         l = self.player.width
