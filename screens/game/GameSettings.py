@@ -39,3 +39,14 @@ class GameSettings(Screen):
         self.sh.keyb_enable = ids.keyb_enable.value 
 
         self.sh.saveToPkl()
+
+    def update_settings(self):
+
+        ids = self.ids
+
+        ids.game_threshold.value = self.sh.game_threshold
+        ids.window_overlap.value = self.sh.window_overlap * 1000
+        ids.warning_threshold.value  = self.sh.warning_threshold
+        ids.forward_speed.value = self.sh.forward_speed * 1000.0
+        ids.inst_prob.value = self.sh.inst_prob * 1000.0
+        ids.keyb_enable.value  = self.sh.keyb_enable
