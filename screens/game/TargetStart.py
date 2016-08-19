@@ -2,7 +2,7 @@
 # KIVY modules:
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ReferenceListProperty, \
-                            ListProperty
+                            ListProperty, BooleanProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.widget import Widget
@@ -70,30 +70,41 @@ class TargetStart(Screen):
     # ----------------------
 
     def stream_stop(self):
-        self.sm.stop_flag = True
+        if self.sh.keyb_enable: 
+            self.game.keyb_enable = False
+
+        else:
+            self.sm.stop_flag = True
+            self.sm.join()
+            self.clock_unscheduler()
+            self.set_bar_default()
+
         self.stream_flag = False
-        self.sm.join()
         self.label_on_toggle_button = 'Start'
-        self.clock_unscheduler()
-        self.set_bar_default()
         self.game.stop()
 
         res = GameResultsPopup(self.sh, self.game.res_h)
-
         res.open()
 
     def stream_start(self):
         self.load_approach()
-        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-            self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
-            labels_path = self.sh.path_to_labels_file, dummy=self.sh.dummy)
-        self.sm.daemon = True  
-        self.sm.stop_flag = False
-        self.sm.start()
-        self.label_on_toggle_button = 'Stop'
+
+        if self.sh.keyb_enable: 
+            self.game.keyb_enable = True
+
+        else:   
+            self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
+                self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
+                labels_path = self.sh.path_to_labels_file, dummy=self.sh.dummy)
+            self.sm.daemon = True  
+            self.sm.stop_flag = False
+            self.sm.start()
+            self.clock_scheduler()
+
         self.stream_flag = True
-        self.clock_scheduler()
+        self.label_on_toggle_button = 'Stop'
         self.game.set_player_speed(self.sh.forward_speed)
+        self.game.setup()
         self.game.start(None)
 
     def clock_scheduler(self):
@@ -251,8 +262,14 @@ class Game(Widget):
 
     vel = NumericProperty(1)
 
+    keyb_enable = BooleanProperty(False)
+
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
+
+        self._keyboard = Window.request_keyboard(None, self)
+        if not self._keyboard:
+            return
 
         self.direction = 'up'
 
@@ -261,7 +278,15 @@ class Game(Widget):
 
         self.on_flag = False
 
-        self.res_h = [0]
+    def on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] == 'left':
+            self.set_direction(-1)
+        elif keycode[1] == 'right':
+            self.set_direction(1)
+        else:
+            return False
+
+        return True
 
     def set_player_speed(self, speed):
 
@@ -277,6 +302,11 @@ class Game(Widget):
 
         self.player.pos = self.center
 
+    def setup(self):
+        self.res_h = [0]
+        if self.keyb_enable: self._keyboard.bind(on_key_down=self.on_keyboard_down)
+
+
     def start(self, dt):
 
         self.target.t_color = [1,1,0,1]
@@ -291,6 +321,8 @@ class Game(Widget):
         self.time_start = time.time()
 
     def stop(self):
+        # unbind keyboard even if it wasnt before
+        self._keyboard.unbind(on_key_down=self.on_keyboard_down)
         self.on_flag = False
         Clock.unschedule(self.check_if_won)
         Clock.unschedule(self.move_player)
@@ -304,7 +336,6 @@ class Game(Widget):
             self.res_h.append(self.time_stop - self.time_start)
 
             self.stop()
-
 
     def set_direction(self, direction):
 
@@ -398,10 +429,8 @@ class GameResultsPopup(Popup):
             self.res = results[1:]
             self.hits = len(self.res)
 
-    def save_results(self):
-        path = PATH_TO_SESSION + self.sh.name + '/' + 'game_results.npy'
-        
-        print path        
+    def save_results(self, game_name):
+        path = PATH_TO_SESSION + self.sh.name + '/' + 'game_results_'+game_name+'.npy'   
 
         r = np.array(self.res)
         saveMatrixAsTxt(r, path, mode = 'a')

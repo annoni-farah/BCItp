@@ -36,5 +36,6 @@ class GameSettings(Screen):
         self.sh.warning_threshold = ids.warning_threshold.value 
         self.sh.forward_speed = ids.forward_speed.value / 1000.0
         self.sh.inst_prob = ids.inst_prob.value / 1000.0
+        self.sh.keyb_enable = ids.keyb_enable.value 
 
         self.sh.saveToPkl()

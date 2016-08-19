@@ -58,6 +58,7 @@ class SessionHeader:
         self.warning_threshold = None
         self.forward_speed = None
         self.inst_prob = None
+        self.keyb_enable = None
 
 
     def saveToPkl(self):

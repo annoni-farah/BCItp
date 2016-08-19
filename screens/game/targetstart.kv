@@ -171,7 +171,7 @@
 
 <GameResultsPopup>:
     size_hint: None, None
-    size: 300, 200
+    size: 300, 250
     title: 'Game Results'
     BoxLayout:
         orientation: 'vertical'
@@ -205,8 +205,15 @@
                 text: str(round(min(root.res),3))
 
         BoxLayout:
+            TextInput:
+                id: save_name
+                hint_text: 'save as'
+
+
+
+        BoxLayout:
             orientation: 'horizontal'
             Button:
                 text: 'Save Results'
-                on_press: root.save_results()
+                on_press: root.save_results(save_name.text)
 
