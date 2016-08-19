@@ -153,14 +153,20 @@ class TargetStart(Screen):
 
     def map_probs(self, U1, U2):
 
+        # print self.game.direction
+
         if U1 > 100:
             self.game.set_direction(-1)
             self.set_bar_default()
+            # print self.game.direction
+
             return 0,0
 
         elif  U2 > 100:
             self.game.set_direction(1)
             self.set_bar_default()
+            # print self.game.direction
+
             return 0,0
 
         else:
@@ -308,58 +314,47 @@ class Game(Widget):
         # print 'moving to:', self.direction
 
         if self.direction == 'right':
-            if self.player.center_x < int(self.parent.width):
-                x0 = p0
-                y0 = p1 + l
-                x1 = p0 + l
-                y1 = p1 + l/2
-                x2 = p0
-                y2 = p1
-
+            x0 = p0
+            y0 = p1 + l
+            x1 = p0 + l
+            y1 = p1 + l/2
+            x2 = p0
+            y2 = p1
+            if self.player.center_x <= int(self.parent.width) - 15:
                 self.player.pos[0] += self.vel
-            else:
-                return False
 
         elif self.direction == 'left':
-            if self.player.center_x > 0:
-                x0 = p0 + l
-                y0 = p1
-                x1 = p0
-                y1 = p1 + l/2
-                x2 = p0 + l
-                y2 = p1 + l
+            x0 = p0 + l
+            y0 = p1
+            x1 = p0
+            y1 = p1 + l/2
+            x2 = p0 + l
+            y2 = p1 + l
 
+            if self.player.center_x >= 15:
                 self.player.pos[0] -= self.vel
-            else:
-                return False
 
         elif self.direction == 'up':
-            if self.player.center_y < int(self.parent.height):
+            x0 = p0
+            y0 = p1
+            x1 = p0 + l/2
+            y1 = p1 + l
+            x2 = p0 + l
+            y2 = p1
 
-                x0 = p0
-                y0 = p1
-                x1 = p0 + l/2
-                y1 = p1 + l
-                x2 = p0 + l
-                y2 = p1
-
+            if self.player.center_y <= int(self.parent.height) - 15:
                 self.player.pos[1] += self.vel
-            else:
-                return False
 
         elif self.direction == 'down':
-            if self.player.center_y > 0:
+            x0 = p0 + l
+            y0 = p1 + l
+            x1 = p0 + l/2
+            y1 = p1
+            x2 = p0
+            y2 = p1 + l
 
-                x0 = p0 + l
-                y0 = p1 + l
-                x1 = p0 + l/2
-                y1 = p1
-                x2 = p0
-                y2 = p1 + l
-
+            if self.player.center_y >= 15:
                 self.player.pos[1] -= self.vel
-            else:
-                return False
 
         self.player.points = [x0, y0, x1, y1, x2, y2]
 
