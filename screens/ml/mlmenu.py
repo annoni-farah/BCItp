@@ -57,6 +57,14 @@ class MlMenu(Screen):
 
         popup.open()
 
+    def update_settings(self):
+        ids = self.ids
+
+        ids.epoch_start.value = self.sh.epoch_start
+        ids.epoch_end.value = self.sh.epoch_end
+        ids.csp_nei.value = self.sh.nei
+        ids.class_ids.value = str(self.sh.class_ids).replace(',','').replace('[', '').replace(']', '')
+
 
 class popupMl(BoxLayout):
 
