@@ -6,6 +6,8 @@ from kivy.properties import ObjectProperty, NumericProperty, StringProperty, Ref
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.widget import Widget
+from kivy.uix.popup import Popup
+
 
 # KV file:
 Builder.load_file('screens/game/targetstart.kv')
@@ -13,11 +15,13 @@ Builder.load_file('screens/game/targetstart.kv')
 # Generic:
 import math
 import random
+import time
 
 # Project's:
 from SampleManager import *
 from standards import *
 from approach import Approach
+from utils import saveMatrixAsTxt
 ######################################################################
 
 class TargetStart(Screen):
@@ -74,6 +78,10 @@ class TargetStart(Screen):
         self.set_bar_default()
         self.game.stop()
 
+        res = GameResultsPopup(self.sh, self.game.res_h)
+
+        res.open()
+
     def stream_start(self):
         self.load_approach()
         self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
@@ -87,7 +95,6 @@ class TargetStart(Screen):
         self.clock_scheduler()
         self.game.set_player_speed(self.sh.forward_speed)
         self.game.start(None)
-
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_probs, 1./20.)
@@ -254,6 +261,8 @@ class Game(Widget):
 
         self.on_flag = False
 
+        self.res_h = [0]
+
     def set_player_speed(self, speed):
 
         self.forward_speed = speed
@@ -279,6 +288,8 @@ class Game(Widget):
         Clock.schedule_interval(self.check_if_won, 1./5.)
         Clock.schedule_interval(self.move_player, self.forward_speed)
 
+        self.time_start = time.time()
+
     def stop(self):
         self.on_flag = False
         Clock.unschedule(self.check_if_won)
@@ -288,6 +299,10 @@ class Game(Widget):
         if self.player.collide_widget(self.target):
             self.target.t_color = [0,1,0,1]
             Clock.schedule_once(self.start, 2)
+
+            self.time_stop = time.time()
+            self.res_h.append(self.time_stop - self.time_start)
+
             self.stop()
 
 
@@ -367,6 +382,33 @@ class GamePlayer(Widget):
 
 class GameTarget(Widget):
     t_color = ListProperty([1,1,0,1])
+
+class GameResultsPopup(Popup):
+
+    res = ListProperty([0])
+
+    hits = NumericProperty(0)
+
+    def __init__(self, sh, results, **kwargs):
+        super(GameResultsPopup, self).__init__(**kwargs)
+
+        self.sh = sh
+
+        if len(results)>1: 
+            self.res = results[1:]
+            self.hits = len(self.res)
+
+    def save_results(self):
+        path = PATH_TO_SESSION + self.sh.name + '/' + 'game_results.npy'
+        
+        print path        
+
+        r = np.array(self.res)
+        saveMatrixAsTxt(r, path, mode = 'a')
+
+
+
+
 
         
 

@@ -168,3 +168,45 @@
             pos: root.pos
             size: self.size
 
+
+<GameResultsPopup>:
+    size_hint: None, None
+    size: 300, 200
+    title: 'Game Results'
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout: 
+            Label:
+                text: 'Hits:'
+
+            Label:
+                text: str(root.hits)
+
+        BoxLayout: 
+            Label:
+                text: 'Average Time (s):'
+
+            Label:
+                text: str(round(sum(root.res) / float(len(root.res)),3))
+
+        BoxLayout: 
+            Label:
+                text: 'Max Time to target:'
+
+            Label:
+                text: str(round(max(root.res),3))
+
+        BoxLayout: 
+            Label:
+                text: 'Min Time to target:'
+
+            Label:
+                text: str(round(min(root.res),3))
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'Save Results'
+                on_press: root.save_results()
+
