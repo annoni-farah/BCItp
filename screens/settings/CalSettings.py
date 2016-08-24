@@ -36,15 +36,19 @@ class CalSettings(Screen):
         self.sh.cal.pause_offset = ids.pause_offset.value
         self.sh.cal.end_trial_offset = ids.end_trial_offset.value
 
+        self.sh.cal.data_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_cal.npy'
+        self.sh.cal.events_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_cal.npy'
+        self.sh.cal.data_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_val.npy'
+        self.sh.cal.events_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_val.npy'
+
         self.sh.cal.flag = True
-        self.sh.cal.saveToPkl()
+        self.sh.saveToPkl()
 
     def update_settings(self):
 
         ids = self.ids
 
-        if self.sh.n_trials != None:
-            ids.n_trials.value = self.sh.cal.n_trials
-            ids.cue_offset.value = self.sh.cal.cue_offset
-            ids.pause_offset.value = self.sh.cal.pause_offset
-            ids.end_trial_offset.value = self.sh.cal.end_trial_offset
+        ids.n_trials.value = self.sh.cal.n_trials
+        ids.cue_offset.value = self.sh.cal.cue_offset
+        ids.pause_offset.value = self.sh.cal.pause_offset
+        ids.end_trial_offset.value = self.sh.cal.end_trial_offset

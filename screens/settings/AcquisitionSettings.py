@@ -54,12 +54,7 @@ class AcquisitionSettings(Screen):
             else:
                 self.sh.acq.sample_rate = 250
 
-        self.sh.cal.data_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_cal.npy'
-        self.sh.cal.events_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_cal.npy'
-        self.sh.cal.data_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_val.npy'
-        self.sh.cal.events_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_val.npy'
-
-        self.sh.cal.flag = True
+        self.sh.acq.flag = True
         self.sh.saveToPkl()
 
     def update_settings(self):

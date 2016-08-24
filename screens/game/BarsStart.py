@@ -75,8 +75,8 @@ class BarsStart(Screen):
 
         self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, 
             self.sh.dp.channels, self.sh.dp.buf_len, daisy=self.sh.acq.daisy, 
-            mode = self.sh.acq.mode, path = self.sh.path_to_file, 
-            dummy=self.sh.acq.dummy)
+            mode = self.sh.acq.mode, path = self.sh.acq.path_to_file, 
+            labels_path = self.sh.acq.path_to_labels_file, dummy=self.sh.acq.dummy)
         
         self.sm.daemon = True  
         self.sm.stop_flag = False
@@ -90,7 +90,7 @@ class BarsStart(Screen):
         Clock.schedule_interval(self.get_probs, 1./20.)
         Clock.schedule_interval(self.update_accum_bars, self.sh.game.window_overlap)
 
-        if self.sh.acq.mode == 'simu' and not self.sh.dummy:
+        if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
             Clock.schedule_interval(self.update_current_label, 1./20.)
 
     def clock_unscheduler(self):

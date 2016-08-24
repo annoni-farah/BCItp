@@ -39,10 +39,10 @@ class MlMenu(Screen):
 
         ids = self.ids
 
-        self.sh.epoch_start = ids.epoch_start.value
-        self.sh.epoch_end = ids.epoch_end.value
-        self.sh.nei = ids.csp_nei.value
-        self.sh.class_ids = map(int,ids.class_ids.value.split(' '))
+        self.sh.ml.epoch_start = ids.epoch_start.value
+        self.sh.ml.epoch_end = ids.epoch_end.value
+        self.sh.ml.nei = ids.csp_nei.value
+        self.sh.ml.class_ids = map(int,ids.class_ids.value.split(' '))
 
         self.sh.ml.flag = True
         self.sh.saveToPkl()
@@ -61,10 +61,10 @@ class MlMenu(Screen):
     def update_settings(self):
         ids = self.ids
 
-        ids.epoch_start.value = self.sh.epoch_start
-        ids.epoch_end.value = self.sh.epoch_end
-        ids.csp_nei.value = self.sh.nei
-        ids.class_ids.value = str(self.sh.class_ids).replace(',','').replace('[', '').replace(']', '')
+        ids.epoch_start.value = self.sh.ml.epoch_start
+        ids.epoch_end.value = self.sh.ml.epoch_end
+        ids.csp_nei.value = self.sh.ml.nei
+        ids.class_ids.value = str(self.sh.ml.class_ids).replace(',','').replace('[', '').replace(']', '')
 
 
 class popupMl(BoxLayout):
@@ -76,13 +76,13 @@ class popupMl(BoxLayout):
 
         ap = Approach()
 
-        ap.defineApproach(sh.sample_rate, sh.f_low, sh.f_high, sh.f_order, sh.nei,
-            sh.class_ids, sh.epoch_start, sh.epoch_end)
+        ap.defineApproach(sh.acq.sample_rate, sh.dp.f_low, sh.dp.f_high, 
+                sh.dp.f_order, sh.ml.nei, sh.ml.class_ids, sh.ml.epoch_start, sh.ml.epoch_end)
 
-        ap.setPathToCal(sh.data_cal_path, sh.events_cal_path)
-        ap.setPathToVal(sh.data_val_path,sh.events_val_path)
+        ap.setPathToCal(sh.cal.data_cal_path, sh.cal.events_cal_path)
+        ap.setPathToVal(sh.cal.data_val_path,sh.cal.events_val_path)
 
-        ap.setValidChannels(sh.channels)
+        ap.setValidChannels(sh.dp.channels)
 
         autoscore = ap.trainModel()
         autoscore = round(autoscore, 3)

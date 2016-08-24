@@ -95,8 +95,8 @@ class TargetStart(Screen):
         else:   
             self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, 
                 self.sh.dp.channels, self.sh.dp.buf_len, daisy=self.sh.acq.daisy, 
-                mode = self.sh.acq.mode, path = self.sh.path_to_file, 
-                dummy=self.sh.acq.dummy)
+                mode = self.sh.acq.mode, path = self.sh.acq.path_to_file, 
+                labels_path = self.sh.acq.path_to_labels_file, dummy=self.sh.acq.dummy)
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.sm.start()
@@ -123,11 +123,11 @@ class TargetStart(Screen):
 
         t, buf = self.sm.GetBuffData()
 
-        if buf.shape[0] == self.sh.acq.buf_len:
+        if buf.shape[0] == self.sh.dp.buf_len:
 
             self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            if self.sh.acq.inst_prob: self.update_inst_bars()
+            if self.sh.game.inst_prob: self.update_inst_bars()
 
     def update_inst_bars(self):
 
@@ -206,10 +206,10 @@ class TargetStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.acq.buf_len/2
+        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.dp.buf_len/2
         current_label = int(self.sm.current_playback_label[0])
         
-        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.acq.buf_len/2
+        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.dp.buf_len/2
         next_label = int(self.sm.next_playback_label[0])
 
         self.current_label = current_label
@@ -219,7 +219,7 @@ class TargetStart(Screen):
         # print label_pos, min(tbuff), max(tbuff)
         if (next_label_pos in tbuff):
             idx = np.where(next_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.acq.buf_len)
+            ratio = float(idx) / float(self.sh.dp.buf_len)
             self.label_position = ratio
 
             if next_label == 1:
@@ -231,7 +231,7 @@ class TargetStart(Screen):
 
         elif  current_label_pos in tbuff:
             idx = np.where(current_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.acq.buf_len)
+            ratio = float(idx) / float(self.sh.dp.buf_len)
             self.label_position = ratio
 
             if current_label == 1:
@@ -430,7 +430,7 @@ class GameResultsPopup(Popup):
         path = PATH_TO_SESSION + self.sh.info.name + '/' + 'game_results_'+game_name+'.npy'   
 
         r = np.array(self.res)
-        saveMatrixAsTxt(r, path, mode = 'a')
+        saveMatrixAsTxt(r, path, mode = 'w')
 
 
 
