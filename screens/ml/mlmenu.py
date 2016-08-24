@@ -44,6 +44,7 @@ class MlMenu(Screen):
         self.sh.nei = ids.csp_nei.value
         self.sh.class_ids = map(int,ids.class_ids.value.split(' '))
 
+        self.sh.ml.flag = True
         self.sh.saveToPkl()
 
     def get_ml_model(self,*args):

@@ -70,7 +70,7 @@ class TargetStart(Screen):
     # ----------------------
 
     def stream_stop(self):
-        if self.sh.keyb_enable: 
+        if self.sh.game.keyb_enable: 
             self.game.keyb_enable = False
 
         else:
@@ -89,13 +89,14 @@ class TargetStart(Screen):
     def stream_start(self):
         self.load_approach()
 
-        if self.sh.keyb_enable: 
+        if self.sh.game.keyb_enable: 
             self.game.keyb_enable = True
 
         else:   
-            self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels,
-                self.sh.buf_len, daisy=self.sh.daisy, mode = self.sh.mode, path = self.sh.path_to_file,
-                labels_path = self.sh.path_to_labels_file, dummy=self.sh.dummy)
+            self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, 
+                self.sh.dp.channels, self.sh.dp.buf_len, daisy=self.sh.acq.daisy, 
+                mode = self.sh.acq.mode, path = self.sh.path_to_file, 
+                dummy=self.sh.acq.dummy)
             self.sm.daemon = True  
             self.sm.stop_flag = False
             self.sm.start()
@@ -103,14 +104,14 @@ class TargetStart(Screen):
 
         self.stream_flag = True
         self.label_on_toggle_button = 'Stop'
-        self.game.set_player_speed(self.sh.forward_speed)
+        self.game.set_player_speed(self.sh.game.forward_speed)
         self.game.setup()
         self.game.start(None)
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_probs, 1./20.)
-        Clock.schedule_interval(self.update_accum_bars, self.sh.window_overlap)
-        if self.sh.mode == 'simu' and not self.sh.dummy:
+        Clock.schedule_interval(self.update_accum_bars, self.sh.game.window_overlap)
+        if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
             Clock.schedule_interval(self.update_current_label, 1./20.)
 
     def clock_unscheduler(self):
@@ -122,11 +123,11 @@ class TargetStart(Screen):
 
         t, buf = self.sm.GetBuffData()
 
-        if buf.shape[0] == self.sh.buf_len:
+        if buf.shape[0] == self.sh.acq.buf_len:
 
             self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
 
-            if self.sh.inst_prob: self.update_inst_bars()
+            if self.sh.acq.inst_prob: self.update_inst_bars()
 
     def update_inst_bars(self):
 
@@ -151,16 +152,16 @@ class TargetStart(Screen):
 
         self.U += u
 
-        U1 = 100 * (self.U + self.sh.game_threshold) / (2. * self.sh.game_threshold)
+        U1 = 100 * (self.U + self.sh.game.game_threshold) / (2. * self.sh.game.game_threshold)
 
         U2 = 100 - U1
 
         U1_n = int(math.floor(U1))
         U2_n = int(math.floor(U2))
 
-        if U1_n > self.sh.warning_threshold:
+        if U1_n > self.sh.game.warning_threshold:
             self.accum_color_left = [1,1,0,1]
-        elif U2_n > self.sh.warning_threshold:
+        elif U2_n > self.sh.game.warning_threshold:
             self.accum_color_right = [1,1,0,1]
         else:
             self.accum_color_left = [1,0,0,1]
@@ -205,10 +206,10 @@ class TargetStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.buf_len/2
+        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.acq.buf_len/2
         current_label = int(self.sm.current_playback_label[0])
         
-        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.buf_len/2
+        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.acq.buf_len/2
         next_label = int(self.sm.next_playback_label[0])
 
         self.current_label = current_label
@@ -218,7 +219,7 @@ class TargetStart(Screen):
         # print label_pos, min(tbuff), max(tbuff)
         if (next_label_pos in tbuff):
             idx = np.where(next_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.buf_len)
+            ratio = float(idx) / float(self.sh.acq.buf_len)
             self.label_position = ratio
 
             if next_label == 1:
@@ -230,7 +231,7 @@ class TargetStart(Screen):
 
         elif  current_label_pos in tbuff:
             idx = np.where(current_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.buf_len)
+            ratio = float(idx) / float(self.sh.acq.buf_len)
             self.label_position = ratio
 
             if current_label == 1:
@@ -247,7 +248,7 @@ class TargetStart(Screen):
     def load_approach(self):
 
         self.ap = Approach()
-        self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.name)
+        self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.info.name)
 
 
 
@@ -426,7 +427,7 @@ class GameResultsPopup(Popup):
             self.hits = len(self.res)
 
     def save_results(self, game_name):
-        path = PATH_TO_SESSION + self.sh.name + '/' + 'game_results_'+game_name+'.npy'   
+        path = PATH_TO_SESSION + self.sh.info.name + '/' + 'game_results_'+game_name+'.npy'   
 
         r = np.array(self.res)
         saveMatrixAsTxt(r, path, mode = 'a')

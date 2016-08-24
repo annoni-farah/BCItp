@@ -53,7 +53,7 @@ class StartScreen(Screen):
                 if os.path.isdir(bd): all_subdirs.append(bd)
             sname = max(all_subdirs, key=os.path.getmtime).split('/')[2]
 
-        self.sh.name = sname
+        self.sh.info.name = sname
 
         if os.path.isdir(PATH_TO_SESSION + sname):
 
@@ -64,8 +64,4 @@ class StartScreen(Screen):
             os.makedirs(PATH_TO_SESSION + sname)
             self.sh.saveToPkl()
             self.label_msg = "Session Saved as: " + sname
-
-        self.sh.data_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_cal.npy'
-        self.sh.events_cal_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_cal.npy'
-        self.sh.data_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'data_val.npy'
-        self.sh.events_val_path = PATH_TO_SESSION + self.sh.name + '/' + 'events_val.npy'
+            self.sh.info.flag = True

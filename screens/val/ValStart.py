@@ -68,8 +68,9 @@ class ValStart(Screen):
     def stream_start(self):
 
         self.generate_stim_list()
-        self.sm = SampleManager(self.sh.com_port, self.sh.baud_rate, self.sh.channels, self.sh.buf_len,
-            daisy=self.sh.daisy, mode = self.sh.mode, dummy=self.sh.dummy)
+        self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, 
+            self.sh.dp.channels, self.sh.dp.buf_len, daisy=self.sh.acq.daisy, 
+            mode = self.sh.acq.mode, dummy=self.sh.acq.dummy)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -78,7 +79,7 @@ class ValStart(Screen):
         self.clock_scheduler()
 
     def clock_scheduler(self):
-        Clock.schedule_interval(self.display_epoch, self.sh.end_trial_offset)
+        Clock.schedule_interval(self.display_epoch, self.sh.cal.end_trial_offset)
 
 
     def clock_unscheduler(self):
@@ -86,10 +87,10 @@ class ValStart(Screen):
 
     def display_epoch(self, dt):
 
-        if self.epoch_counter < self.sh.n_trials:
-            Clock.schedule_once(self.set_pause, self.sh.pause_offset)
-            Clock.schedule_once(self.set_cue, self.sh.cue_offset)
-            Clock.schedule_once(self.set_blank, self.sh.cue_offset + 1)
+        if self.epoch_counter < self.sh.cal.n_trials:
+            Clock.schedule_once(self.set_pause, self.sh.cal.pause_offset)
+            Clock.schedule_once(self.set_cue, self.sh.cal.cue_offset)
+            Clock.schedule_once(self.set_blank, self.sh.cal.cue_offset + 1)
         else:
             self.stream_stop() 
 
@@ -116,10 +117,10 @@ class ValStart(Screen):
     def save_data(self):
 
         print "Saving data"
-        self.sm.SaveData(self.sh.data_val_path)
-        self.sm.SaveEvents(self.sh.events_val_path)
+        self.sm.SaveData(self.sh.cal.data_val_path)
+        self.sm.SaveEvents(self.sh.cal.events_val_path)
 
     def generate_stim_list(self):
-        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.sh.n_trials)]
+        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.sh.cal.n_trials)]
         self.epoch_counter = 0
 

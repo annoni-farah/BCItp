@@ -32,10 +32,10 @@ class DataProcessingSettings(Screen):
 
         ids = self.ids
 
-        self.sh.buf_len = ids.buf_len.value
-        self.sh.f_low = ids.f_low.value
-        self.sh.f_high = ids.f_high.value
-        self.sh.f_order = ids.f_order.value
+        self.sh.dp.buf_len = ids.buf_len.value
+        self.sh.dp.f_low = ids.f_low.value
+        self.sh.dp.f_high = ids.f_high.value
+        self.sh.dp.f_order = ids.f_order.value
 
         if ':' in ids.channels.value:
             limits=map(int,ids.channels.value.split(':'))
@@ -43,7 +43,9 @@ class DataProcessingSettings(Screen):
         else:
             ch_idx = map(int,ids.channels.value.split(' '))
 
-        self.sh.channels = ch_idx
+        self.sh.dp.channels = ch_idx
+
+        self.sh.dp.flag = True
 
         self.sh.saveToPkl()
         self.msg = "Settings Saved!"
@@ -52,10 +54,10 @@ class DataProcessingSettings(Screen):
 
         ids = self.ids
 
-        ids.buf_len.value= self.sh.buf_len
-        ids.f_low.value = self.sh.f_low
-        ids.f_high.value = self.sh.f_high
-        ids.f_order.value = self.sh.f_order
+        ids.buf_len.value= self.sh.dp.buf_len
+        ids.f_low.value = self.sh.dp.f_low
+        ids.f_high.value = self.sh.dp.f_high
+        ids.f_order.value = self.sh.dp.f_order
 
         # not the best option but it works
-        ids.channels.value = str(self.sh.channels).replace(',','').replace('[', '').replace(']', '')
+        ids.channels.value = str(self.sh.dp.channels).replace(',','').replace('[', '').replace(']', '')

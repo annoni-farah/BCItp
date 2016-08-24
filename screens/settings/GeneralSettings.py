@@ -75,17 +75,17 @@ class GeneralSettings(Screen):
 
     def save_config(self,*args):
 
-        self.sh.data_cal_path = self.cal_path.text
-        self.sh.events_cal_path = self.cal_path_ev.text
-        self.sh.data_val_path = self.val_path.text 
-        self.sh.events_val_path = self.val_path_ev.text
+        self.sh.cal.data_cal_path = self.cal_path.text
+        self.sh.cal.events_cal_path = self.cal_path_ev.text
+        self.sh.cal.data_val_path = self.val_path.text 
+        self.sh.cal.events_val_path = self.val_path_ev.text
 
         self.sh.saveToPkl()
         self.label_msg.text = "Settings Saved!"
 
     def update_screen(self,*args):
-        self.cal_path.text = self.sh.data_cal_path
-        self.cal_path_ev.text = self.sh.events_cal_path
-        self.val_path.text = self.sh.data_val_path
-        self.val_path_ev.text = self.sh.events_val_path
+        self.cal_path.text = self.sh.cal.data_cal_path
+        self.cal_path_ev.text = self.sh.cal.events_cal_path
+        self.val_path.text = self.sh.cal.data_val_path
+        self.val_path_ev.text = self.sh.cal.events_val_path
 

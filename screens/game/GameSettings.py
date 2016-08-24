@@ -31,22 +31,23 @@ class GameSettings(Screen):
 
         ids = self.ids
 
-        self.sh.game_threshold = ids.game_threshold.value
-        self.sh.window_overlap = ids.window_overlap.value / 1000.0
-        self.sh.warning_threshold = ids.warning_threshold.value 
-        self.sh.forward_speed = ids.forward_speed.value / 1000.0
-        self.sh.inst_prob = ids.inst_prob.value / 1000.0
-        self.sh.keyb_enable = ids.keyb_enable.value 
+        self.sh.game.game_threshold = ids.game_threshold.value
+        self.sh.game.window_overlap = ids.window_overlap.value / 1000.0
+        self.sh.game.warning_threshold = ids.warning_threshold.value 
+        self.sh.game.forward_speed = ids.forward_speed.value / 1000.0
+        self.sh.game.inst_prob = ids.inst_prob.value / 1000.0
+        self.sh.game.keyb_enable = ids.keyb_enable.value 
 
+        self.sh.game.flag = True
         self.sh.saveToPkl()
 
     def update_settings(self):
 
         ids = self.ids
 
-        ids.game_threshold.value = self.sh.game_threshold
-        ids.window_overlap.value = self.sh.window_overlap * 1000
-        ids.warning_threshold.value  = self.sh.warning_threshold
-        ids.forward_speed.value = self.sh.forward_speed * 1000.0
-        ids.inst_prob.value = self.sh.inst_prob * 1000.0
-        ids.keyb_enable.value  = self.sh.keyb_enable
+        ids.game_threshold.value = self.sh.game.game_threshold
+        ids.window_overlap.value = self.sh.game.window_overlap * 1000
+        ids.warning_threshold.value  = self.sh.game.warning_threshold
+        ids.forward_speed.value = self.sh.game.forward_speed * 1000.0
+        ids.inst_prob.value = self.sh.game.inst_prob * 1000.0
+        ids.keyb_enable.value  = self.sh.game.keyb_enable

@@ -1,6 +1,6 @@
 <MlMenu>:
 
-    on_pre_enter: root.update_settings()
+    on_pre_enter: if root.ml.acq.flag: root.update_settings()
 
     BoxLayout:
         orientation: 'vertical'

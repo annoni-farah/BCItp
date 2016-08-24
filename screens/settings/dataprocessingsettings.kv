@@ -1,6 +1,6 @@
 <DataProcessingSettings>:
 
-    on_pre_enter: root.update_settings()
+    on_pre_enter: if root.sh.dp.flag: root.update_settings()
 
     BoxLayout:
         orientation: 'vertical'

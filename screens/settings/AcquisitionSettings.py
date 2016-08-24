@@ -38,22 +38,28 @@ class AcquisitionSettings(Screen):
         simulator_ids = self.sman.simulator.ids
         openbci_ids = self.sman.openbci.ids
 
-        self.sh.mode = self.sman.current
-        self.sh.com_port = openbci_ids.com_port.value
-        self.sh.ch_labels = openbci_ids.ch_labels.value
-        self.sh.baud_rate = openbci_ids.baud_rate.value
-        self.sh.path_to_file = simulator_ids.eeg_path.value
-        self.sh.path_to_labels_file = simulator_ids.labels_path.value
-        self.sh.sample_rate = simulator_ids.srate.value
-        self.sh.dummy = simulator_ids.dummy_data.value
-        self.sh.daisy = openbci_ids.daisy.value
+        self.sh.acq.mode = self.sman.current
+        self.sh.acq.com_port = openbci_ids.com_port.value
+        self.sh.acq.ch_labels = openbci_ids.ch_labels.value
+        self.sh.acq.baud_rate = openbci_ids.baud_rate.value
+        self.sh.acq.path_to_file = simulator_ids.eeg_path.value
+        self.sh.acq.path_to_labels_file = simulator_ids.labels_path.value
+        self.sh.acq.sample_rate = simulator_ids.srate.value
+        self.sh.acq.dummy = simulator_ids.dummy_data.value
+        self.sh.acq.daisy = openbci_ids.daisy.value
 
-        if (self.sh.mode == 'openbci'):
-            if (self.sh.daisy):
-                self.sh.sample_rate = 125
+        if (self.sh.acq.mode == 'openbci'):
+            if (self.sh.acq.daisy):
+                self.sh.acq.sample_rate = 125
             else:
-                self.sh.sample_rate = 250
+                self.sh.acq.sample_rate = 250
 
+        self.sh.cal.data_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_cal.npy'
+        self.sh.cal.events_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_cal.npy'
+        self.sh.cal.data_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_val.npy'
+        self.sh.cal.events_val_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_val.npy'
+
+        self.sh.cal.flag = True
         self.sh.saveToPkl()
 
     def update_settings(self):
@@ -61,15 +67,15 @@ class AcquisitionSettings(Screen):
         simulator_ids = self.sman.simulator.ids
         openbci_ids = self.sman.openbci.ids
 
-        self.sman.current = self.sh.mode
-        openbci_ids.com_port.value = self.sh.com_port
-        openbci_ids.ch_labels.value = self.sh.ch_labels
-        openbci_ids.baud_rate.value = self.sh.baud_rate
-        simulator_ids.eeg_path.value = self.sh.path_to_file
-        simulator_ids.labels_path.value  = self.sh.path_to_labels_file
-        simulator_ids.srate.value = int(self.sh.sample_rate)
-        simulator_ids.dummy_data.value  = self.sh.dummy
-        openbci_ids.daisy.value = self.sh.daisy
+        self.sman.current = self.sh.acq.mode
+        openbci_ids.com_port.value = self.sh.acq.com_port
+        openbci_ids.ch_labels.value = self.sh.acq.ch_labels
+        openbci_ids.baud_rate.value = self.sh.acq.baud_rate
+        simulator_ids.eeg_path.value = self.sh.acq.path_to_file
+        simulator_ids.labels_path.value  = self.sh.acq.path_to_labels_file
+        simulator_ids.srate.value = int(self.sh.acq.sample_rate)
+        simulator_ids.dummy_data.value  = self.sh.acq.dummy
+        openbci_ids.daisy.value = self.sh.acq.daisy
 
 
 class Menu(GridLayout):
