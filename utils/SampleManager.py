@@ -82,8 +82,6 @@ class SampleManager(threading.Thread):
             self.all_data = np.array([]).reshape(0,len(data))
 
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
-
-        print self.all_data.shape
         
     def SaveData(self, path):
 
