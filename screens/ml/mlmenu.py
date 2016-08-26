@@ -90,7 +90,7 @@ class popupMl(BoxLayout):
         valscore = ap.validateModel()
         valscore = round(valscore, 3)
 
-        ap.saveToPkl(PATH_TO_SESSION + sh.name)
+        ap.saveToPkl(PATH_TO_SESSION + sh.info.name)
 
         self.orientation = 'vertical'
 
