@@ -78,10 +78,12 @@ class SampleManager(threading.Thread):
          
         data = np.array(new_data) # transform list into numpy array
 
-        if ~hasattr(self, 'all_data'):
+        if not hasattr(self, 'all_data'):
             self.all_data = np.array([]).reshape(0,len(data))
 
         self.all_data = np.vstack((self.all_data, data)) # append to data stack
+
+        print self.all_data.shape
         
     def SaveData(self, path):
 
