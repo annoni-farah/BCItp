@@ -93,9 +93,10 @@ class SampleManager(threading.Thread):
         ps: This function is called by the OpenBci start_streaming() function'''
 
         if self.channels == -1:
-            indata =  [sample.channel_data[x] for x in self.channels]
-        else: 
             indata =  sample.channel_data
+        else:
+            indata =  [sample.channel_data[x] for x in self.channels]
+
 
         self.updateCircBuf(indata);
 
