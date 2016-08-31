@@ -68,7 +68,7 @@ class SampleManager(threading.Thread):
                 self.current_playback_label = next(self.playback_labels)
                 self.next_playback_label = next(self.playback_labels)
 
-            self.board = playback.OpenBCIBoard(port=p, baud=b, data=loadedData)
+            self.board = playback.OpenBCIBoard(port=p, baud=b, daisy=daisy, data=loadedData)
 
     def run(self):
 
