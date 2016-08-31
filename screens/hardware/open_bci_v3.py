@@ -160,6 +160,12 @@ class OpenBCIBoard(object):
           whole_sample = OpenBCISample(sample.id, sample.channel_data + self.last_odd_sample.channel_data, avg_aux_data)
           for call in callback:
             call(whole_sample)
+        else:
+          # channel_data = [0]*16
+          # channel_data[:] = np.NAN
+          # whole_sample = OpenBCISample(sample.id, channel_data, avg_aux_data)
+          print 'invalid package'
+
       else:
         for call in callback:
           call(sample)
