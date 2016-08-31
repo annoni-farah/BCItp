@@ -74,7 +74,7 @@
             text: root.value
 
 <StdSettingSlider>:
-    value: slider.value
+    value: root._to_numtype(slider.value)
     Label:
         id: sliderlabel
         size_hint_x: None
