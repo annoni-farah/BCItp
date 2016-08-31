@@ -22,6 +22,11 @@ import numpy as np
 import time
 import timeit
 import atexit
+import logging
+import threading
+import sys
+import pdb
+import glob
 
 SAMPLE_RATE = 250.0  # Hz
 START_BYTE = 0xA0  # start of data packet
@@ -62,18 +67,23 @@ class OpenBCIBoard(object):
   """
 
   def __init__(self, port=None, baud=115200, filter_data=True,
-    scaled_output=True, daisy=False):
+    scaled_output=True, daisy=False, log=True, timeout=None):
+    self.log = log # print_incoming_text needs log
+    self.streaming = False
+    self.baudrate = baud
+    self.timeout = timeout
     if not port:
-      port = find_port()
-      if not port:
-        raise OSError('Cannot find OpenBCI port')
+      port = self.find_port()
+    self.port = port
+    print("Connecting to V3 at port %s" %(port))
+    self.ser = serial.Serial(port= port, baudrate = baud, timeout=timeout)
 
-    print("Connecting to %s" %(port))
-    self.ser = serial.Serial(port, baud)
     print("Serial established...")
 
+    time.sleep(2)
     #Initialize 32-bit board, doesn't affect 8bit board
-    self.ser.write('v');
+    self.ser.write(b'v');
+
 
     #wait for device to be ready
     time.sleep(1)
@@ -84,10 +94,15 @@ class OpenBCIBoard(object):
     self.scaling_output = scaled_output
     self.eeg_channels_per_sample = 8 # number of EEG channels per sample *from the board*
     self.aux_channels_per_sample = 3 # number of AUX channels per sample *from the board*
-    self.read_state = 0;
+    self.read_state = 0
     self.daisy = daisy
     self.last_odd_sample = OpenBCISample(-1, [], []) # used for daisy
-    
+    self.log_packet_count = 0
+    self.attempt_reconnect = False
+    self.last_reconnect = 0
+    self.reconnect_freq = 5
+    self.packets_dropped = 0
+
     #Disconnects from board when terminated
     atexit.register(self.disconnect)
   
@@ -116,7 +131,7 @@ class OpenBCIBoard(object):
           OpenBCISample object captured.
     """
     if not self.streaming:
-      self.ser.write('b')
+      self.ser.write(b'b')
       self.streaming = True
 
     start_time = timeit.default_timer()
@@ -125,7 +140,12 @@ class OpenBCIBoard(object):
     if not isinstance(callback, list):
       callback = [callback]
     
+
+    #Initialize check connection
+    self.check_connection()
+
     while self.streaming:
+
       # read current sample
       sample = self._read_serial_binary()
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback
@@ -143,29 +163,11 @@ class OpenBCIBoard(object):
       else:
         for call in callback:
           call(sample)
+      
       if(lapse > 0 and timeit.default_timer() - start_time > lapse):
         self.stop();
-
-
-  """
-
-  Used by exit clean up function (atexit)
-
-  """
-  def warn(self, text):
-    print("Warning: %s" % text)
-
-  def stop(self):
-    self.warn("Stopping streaming...\nWait for buffer to flush...")
-    self.streaming = False
-    self.ser.write('s')
-
-  def disconnect(self):
-    if(self.streaming == True):
-      self.stop()
-    if (self.ser.isOpen()):
-      self.warn("Closing Serial...")
-      self.ser.close()
+      if self.log:
+        self.log_packet_count = self.log_packet_count + 1;
   
   
   """
@@ -179,42 +181,47 @@ class OpenBCIBoard(object):
   def _read_serial_binary(self, max_bytes_to_skip=3000):
     def read(n):
       b = self.ser.read(n)
-      # print b
-      return b
+      if not b:
+        self.warn('Device appears to be stalled. Quitting...')
+        sys.exit()
+        raise Exception('Device Stalled')
+        sys.exit()
+        return '\xFF'
+      else:
+        return b
 
-    for rep in xrange(max_bytes_to_skip):
+    for rep in range(max_bytes_to_skip):
 
       #---------Start Byte & ID---------
       if self.read_state == 0:
+        
         b = read(1)
-        if not b:
-          if not self.ser.inWaiting():
-              self.warn('Device appears to be stalled. Restarting...')
-              self.ser.write('b\n')  # restart if it's stopped...
-              time.sleep(.100)
-              continue
+        
         if struct.unpack('B', b)[0] == START_BYTE:
           if(rep != 0):
             self.warn('Skipped %d bytes before start found' %(rep))
+            rep = 0;
           packet_id = struct.unpack('B', read(1))[0] #packet id goes from 0-255
+          log_bytes_in = str(packet_id);
 
           self.read_state = 1
 
       #---------Channel Data---------
       elif self.read_state == 1:
         channel_data = []
-        for c in xrange(self.eeg_channels_per_sample):
+        for c in range(self.eeg_channels_per_sample):
 
           #3 byte ints
           literal_read = read(3)
 
           unpacked = struct.unpack('3B', literal_read)
+          log_bytes_in = log_bytes_in + '|' + str(literal_read);
 
           #3byte int in 2s compliment
           if (unpacked[0] >= 127):
-            pre_fix = '\xFF'
+            pre_fix = bytes(bytearray.fromhex('FF')) 
           else:
-            pre_fix = '\x00'
+            pre_fix = bytes(bytearray.fromhex('00'))
 
 
           literal_read = pre_fix + literal_read;
@@ -232,10 +239,12 @@ class OpenBCIBoard(object):
       #---------Accelerometer Data---------
       elif self.read_state == 2:
         aux_data = []
-        for a in xrange(self.aux_channels_per_sample):
+        for a in range(self.aux_channels_per_sample):
 
           #short = h
           acc = struct.unpack('>h', read(2))[0]
+          log_bytes_in = log_bytes_in + '|' + str(acc);
+
           if self.scaling_output:
             aux_data.append(acc*scale_fac_accel_G_per_count)
           else:
@@ -245,20 +254,53 @@ class OpenBCIBoard(object):
       #---------End Byte---------
       elif self.read_state == 3:
         val = struct.unpack('B', read(1))[0]
+        log_bytes_in = log_bytes_in + '|' + str(val);
+        self.read_state = 0 #read next packet
         if (val == END_BYTE):
           sample = OpenBCISample(packet_id, channel_data, aux_data)
-          self.read_state = 0 #read next packet
+          self.packets_dropped = 0
           return sample
         else:
-          self.warn("Warning: Unexpected END_BYTE found <%s> instead of <%s>,\
-            discarted packet with id <%d>"
-            %(val, END_BYTE, packet_id))
+          self.warn("ID:<%d> <Unexpected END_BYTE found <%s> instead of <%s>"      
+            %(packet_id, val, END_BYTE))
+          logging.debug(log_bytes_in);
+          self.packets_dropped = self.packets_dropped + 1
+  
+  """
+
+  Clean Up (atexit)
+
+  """
+  def stop(self):
+    print("Stopping streaming...\nWait for buffer to flush...")
+    self.streaming = False
+    self.ser.write(b's')
+    if self.log:
+      logging.warning('sent <s>: stopped streaming')
+
+  def disconnect(self):
+    if(self.streaming == True):
+      self.stop()
+    if (self.ser.isOpen()):
+      print("Closing Serial...")
+      self.ser.close()
+      logging.warning('serial closed')
+       
 
   """
 
       SETTINGS AND HELPERS
 
   """
+  def warn(self, text):
+    if self.log:
+      #log how many packets where sent succesfully in between warnings
+      if self.log_packet_count:
+        logging.info('Data packets received:'+str(self.log_packet_count))
+        self.log_packet_count = 0;
+      logging.warning(text)
+    print("Warning: %s" % text)
+
 
   def print_incoming_text(self):
     """
@@ -269,56 +311,164 @@ class OpenBCIBoard(object):
     """
     line = ''
     #Wait for device to send data
-    time.sleep(0.5)
+    time.sleep(1)
+    
     if self.ser.inWaiting():
       line = ''
       c = ''
      #Look for end sequence $$$
       while '$$$' not in line:
-        c = self.ser.read()
+        c = self.ser.read().decode('utf-8')
         line += c
       print(line);
+    else:
+      self.warn("No Message")
+
+  def openbci_id(self, serial):
+    """
+
+    When automatically detecting port, parse the serial return for the "OpenBCI" ID.
+
+    """
+    line = ''
+    #Wait for device to send data
+    time.sleep(2)
+    
+    if serial.inWaiting():
+      line = ''
+      c = ''
+     #Look for end sequence $$$
+      while '$$$' not in line:
+        c = serial.read().decode('utf-8')
+        line += c
+      if "OpenBCI" in line:
+        return True
+    return False
 
   def print_register_settings(self):
-    self.ser.write('?')
+    self.ser.write(b'?')
     time.sleep(0.5)
-    print_incoming_text();
-
+    self.print_incoming_text();
   #DEBBUGING: Prints individual incoming bytes
   def print_bytes_in(self):
     if not self.streaming:
-      self.ser.write('b')
+      self.ser.write(b'b')
       self.streaming = True
     while self.streaming:
       print(struct.unpack('B',self.ser.read())[0]);
 
+      '''Incoming Packet Structure:
+    Start Byte(1)|Sample ID(1)|Channel Data(24)|Aux Data(6)|End Byte(1)
+    0xA0|0-255|8, 3-byte signed ints|3 2-byte signed ints|0xC0'''
+
+  def print_packets_in(self):
+    while self.streaming:
+      b = struct.unpack('B', self.ser.read())[0];
+      
+      if b == START_BYTE:
+        self.attempt_reconnect = False
+        if skipped_str:
+          logging.debug('SKIPPED\n' + skipped_str + '\nSKIPPED')
+          skipped_str = ''
+
+        packet_str = "%03d"%(b) + '|';
+        b = struct.unpack('B', self.ser.read())[0];
+        packet_str = packet_str + "%03d"%(b) + '|';
+        
+        #data channels
+        for i in range(24-1):
+          b = struct.unpack('B', self.ser.read())[0];
+          packet_str = packet_str + '.' + "%03d"%(b);
+
+        b = struct.unpack('B', self.ser.read())[0];
+        packet_str = packet_str + '.' + "%03d"%(b) + '|';
+
+        #aux channels
+        for i in range(6-1):
+          b = struct.unpack('B', self.ser.read())[0];
+          packet_str = packet_str + '.' + "%03d"%(b);
+        
+        b = struct.unpack('B', self.ser.read())[0];
+        packet_str = packet_str + '.' + "%03d"%(b) + '|';
+
+        #end byte
+        b = struct.unpack('B', self.ser.read())[0];
+        
+        #Valid Packet
+        if b == END_BYTE:
+          packet_str = packet_str + '.' + "%03d"%(b) + '|VAL';
+          print(packet_str)
+          #logging.debug(packet_str)
+        
+        #Invalid Packet
+        else:
+          packet_str = packet_str + '.' + "%03d"%(b) + '|INV';
+          #Reset
+          self.attempt_reconnect = True
+          
+      
+      else:
+        print(b)
+        if b == END_BYTE:
+          skipped_str = skipped_str + '|END|'
+        else:
+          skipped_str = skipped_str + "%03d"%(b) + '.'
+
+      if self.attempt_reconnect and (timeit.default_timer()-self.last_reconnect) > self.reconnect_freq:
+        self.last_reconnect = timeit.default_timer()
+        self.warn('Reconnecting')
+        self.reconnect()
+ 
+
+
+  def check_connection(self, interval = 2, max_packets_to_skip=10):
+    #check number of dropped packages and establish connection problem if too large
+    if self.packets_dropped > max_packets_to_skip:
+      #if error, attempt to reconect
+      self.reconnect()
+    # check again again in 2 seconds
+    threading.Timer(interval, self.check_connection).start()
+
+  def reconnect(self):
+    self.packets_dropped = 0
+    self.warn('Reconnecting')
+    self.stop()
+    time.sleep(0.5)
+    self.ser.write(b'v')
+    time.sleep(0.5)
+    self.ser.write(b'b')
+    time.sleep(0.5)
+    self.streaming = True
+    #self.attempt_reconnect = False
+
+
   #Adds a filter at 60hz to cancel out ambient electrical noise
   def enable_filters(self):
-    self.ser.write('f')
+    self.ser.write(b'f')
     self.filtering_data = True;
 
   def disable_filters(self):
-    self.ser.write('g')
+    self.ser.write(b'g')
     self.filtering_data = False;
 
   def test_signal(self, signal):
     if signal == 0:
-      self.ser.write('0')
+      self.ser.write(b'0')
       self.warn("Connecting all pins to ground")
     elif signal == 1:
-      self.ser.write('p')
+      self.ser.write(b'p')
       self.warn("Connecting all pins to Vcc")
     elif signal == 2:
-      self.ser.write('-')
+      self.ser.write(b'-')
       self.warn("Connecting pins to low frequency 1x amp signal")
     elif signal == 3:
-      self.ser.write('=')
+      self.ser.write(b'=')
       self.warn("Connecting pins to high frequency 1x amp signal")
     elif signal == 4:
-      self.ser.write('[')
+      self.ser.write(b'[')
       self.warn("Connecting pins to low frequency 2x amp signal")
     elif signal == 5:
-      self.ser.write(']')
+      self.ser.write(b']')
       self.warn("Connecting pins to high frequency 2x amp signal")
     else:
       self.warn("%s is not a known test signal. Valid signals go from 0-5" %(signal))
@@ -327,71 +477,97 @@ class OpenBCIBoard(object):
     #Commands to set toggle to on position
     if toggle_position == 1:
       if channel is 1:
-        self.ser.write('!')
+        self.ser.write(b'!')
       if channel is 2:
-        self.ser.write('@')
+        self.ser.write(b'@')
       if channel is 3:
-        self.ser.write('#')
+        self.ser.write(b'#')
       if channel is 4:
-        self.ser.write('$')
+        self.ser.write(b'$')
       if channel is 5:
-        self.ser.write('%')
+        self.ser.write(b'%')
       if channel is 6:
-        self.ser.write('^')
+        self.ser.write(b'^')
       if channel is 7:
-        self.ser.write('&')
+        self.ser.write(b'&')
       if channel is 8:
-        self.ser.write('*')
+        self.ser.write(b'*')
       if channel is 9 and self.daisy:
-        self.ser.write('Q')
+        self.ser.write(b'Q')
       if channel is 10 and self.daisy:
-        self.ser.write('W')
+        self.ser.write(b'W')
       if channel is 11 and self.daisy:
-        self.ser.write('E')
+        self.ser.write(b'E')
       if channel is 12 and self.daisy:
-        self.ser.write('R')
+        self.ser.write(b'R')
       if channel is 13 and self.daisy:
-        self.ser.write('T')
+        self.ser.write(b'T')
       if channel is 14 and self.daisy:
-        self.ser.write('Y')
+        self.ser.write(b'Y')
       if channel is 15 and self.daisy:
-        self.ser.write('U')
+        self.ser.write(b'U')
       if channel is 16 and self.daisy:
-        self.ser.write('I')
+        self.ser.write(b'I')
     #Commands to set toggle to off position
     elif toggle_position == 0:
       if channel is 1:
-        self.ser.write('1')
+        self.ser.write(b'1')
       if channel is 2:
-        self.ser.write('2')
+        self.ser.write(b'2')
       if channel is 3:
-        self.ser.write('3')
+        self.ser.write(b'3')
       if channel is 4:
-        self.ser.write('4')
+        self.ser.write(b'4')
       if channel is 5:
-        self.ser.write('5')
+        self.ser.write(b'5')
       if channel is 6:
-        self.ser.write('6')
+        self.ser.write(b'6')
       if channel is 7:
-        self.ser.write('7')
+        self.ser.write(b'7')
       if channel is 8:
-        self.ser.write('8')
+        self.ser.write(b'8')
       if channel is 9 and self.daisy:
-        self.ser.write('q')
+        self.ser.write(b'q')
       if channel is 10 and self.daisy:
-        self.ser.write('w')
+        self.ser.write(b'w')
       if channel is 11 and self.daisy:
-        self.ser.write('e')
+        self.ser.write(b'e')
       if channel is 12 and self.daisy:
-        self.ser.write('r')
+        self.ser.write(b'r')
       if channel is 13 and self.daisy:
-        self.ser.write('t')
+        self.ser.write(b't')
       if channel is 14 and self.daisy:
-        self.ser.write('y')
+        self.ser.write(b'y')
       if channel is 15 and self.daisy:
-        self.ser.write('u')
+        self.ser.write(b'u')
       if channel is 16 and self.daisy:
-        self.ser.write('i')
+        self.ser.write(b'i')
+
+  def find_port(self):
+    # Finds the serial port names
+    if sys.platform.startswith('win'):
+      ports = ['COM%s' % (i+1) for i in range(256)]
+    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+      ports = glob.glob('/dev/ttyUSB*')
+    elif sys.platform.startswith('darwin'):
+      ports = glob.glob('/dev/tty.usbserial*')
+    else:
+      raise EnvironmentError('Error finding ports on your operating system')
+    openbci_port = ''
+    for port in ports:
+      try:
+        s = serial.Serial(port= port, baudrate = self.baudrate, timeout=self.timeout)
+        s.write(b'v')
+        openbci_serial = self.openbci_id(s)
+        s.close()
+        if openbci_serial:
+          openbci_port = port;
+      except (OSError, serial.SerialException):
+        pass
+    if openbci_port == '':
+      raise OSError('Cannot find OpenBCI port')
+    else:
+      return openbci_port
 
 class OpenBCISample(object):
   """Object encapulsating a single sample from the OpenBCI board."""
@@ -399,6 +575,4 @@ class OpenBCISample(object):
     self.id = packet_id;
     self.channel_data = channel_data;
     self.aux_data = aux_data;
-
-
 
