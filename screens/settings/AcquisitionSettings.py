@@ -46,13 +46,11 @@ class AcquisitionSettings(Screen):
         self.sh.acq.path_to_labels_file = simulator_ids.labels_path.value
         self.sh.acq.sample_rate = simulator_ids.srate.value
         self.sh.acq.dummy = simulator_ids.dummy_data.value
-        self.sh.acq.daisy = openbci_ids.daisy.value
 
-        if (self.sh.acq.mode == 'openbci'):
-            if (self.sh.acq.daisy):
-                self.sh.acq.sample_rate = 125
-            else:
-                self.sh.acq.sample_rate = 250
+        if self.sh.acq.dummy:
+            self.sh.acq.daisy = True
+        else:
+            self.sh.acq.daisy = openbci_ids.daisy.value
 
         self.sh.acq.flag = True
         self.sh.saveToPkl()
@@ -68,7 +66,7 @@ class AcquisitionSettings(Screen):
         openbci_ids.baud_rate.value = self.sh.acq.baud_rate
         simulator_ids.eeg_path.value = self.sh.acq.path_to_file
         simulator_ids.labels_path.value  = self.sh.acq.path_to_labels_file
-        simulator_ids.srate.value = int(self.sh.acq.sample_rate)
+        simulator_ids.srate.value = self.sh.acq.sample_rate
         simulator_ids.dummy_data.value  = self.sh.acq.dummy
         openbci_ids.daisy.value = self.sh.acq.daisy
 
