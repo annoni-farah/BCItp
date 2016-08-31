@@ -41,6 +41,8 @@ class OpenBCIBoard(object):
 
     self.sample_rate = self.getSampleRate()
 
+    self.packet_id = 0
+
   def getSampleRate(self):
     if self.daisy:
       return SAMPLE_RATE/2.0
@@ -72,11 +74,14 @@ class OpenBCIBoard(object):
       
       st = time.time()
       # read current sample
-      packet_id = 0
+      if self.daisy:
+        self.packet_id = (self.packet_id + 2) % 256
+      else:
+        self.packet_id = (self.packet_id + 1) % 256
 
       channel_data = self.playback_data[sample_counter,:].tolist()
 
-      sample = OpenBCISample(packet_id, channel_data, [])
+      sample = OpenBCISample(self.packet_id, channel_data, [])
       # if a daisy module is attached, wait to concatenate two samples (main board + daisy) before passing it to callback
       for call in callback:
         call(sample)
@@ -91,7 +96,7 @@ class OpenBCIBoard(object):
 
       while 1.0 / self.sample_rate > time.time() - st:
         pass
-      # time.sleep(1.0 / SAMPLE_RATE)
+      # time.sleep(1.0)
   
   
   """
