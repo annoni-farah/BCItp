@@ -70,7 +70,8 @@ class CalStart(Screen):
         self.generate_stim_list()
         self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, 
             self.sh.dp.channels, self.sh.dp.buf_len, daisy=self.sh.acq.daisy, 
-            mode = self.sh.acq.mode, dummy=self.sh.acq.dummy)
+            mode = self.sh.acq.mode, path = self.sh.acq.path_to_file, 
+            labels_path = self.sh.acq.path_to_labels_file, dummy=self.sh.acq.dummy)
         self.sm.daemon = True  
         self.sm.stop_flag = False
         self.sm.start()
@@ -96,17 +97,17 @@ class CalStart(Screen):
 
         
     def set_pause(self, dt):
-        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
+        # os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
     def set_cue(self, dt):
 
-        if self.stim_list[self.epoch_counter] is 1:
+        if self.stim_list[self.epoch_counter] == 1:
             self.carousel.index = 1
             self.sm.MarkEvents(1)
 
-        elif self.stim_list[self.epoch_counter] is 2:
+        elif self.stim_list[self.epoch_counter] == 2:
             self.carousel.index = 2
             self.sm.MarkEvents(2)                   
 
@@ -121,6 +122,16 @@ class CalStart(Screen):
         self.sm.SaveEvents(self.sh.cal.events_cal_path)
 
     def generate_stim_list(self):
-        self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.sh.cal.n_trials)]
+        # self.stim_list =  [random.randrange(1, 3) for _ in range(0, self.sh.cal.n_trials)]
+        nt = self.sh.cal.n_trials
+        ones = np.ones(nt/2)
+        twos = 2*np.ones(nt/2)
+
+        slist = np.concatenate([ones,twos])
+
+        random.shuffle(slist)
+
+        self.stim_list = slist.astype(int)
+
         self.epoch_counter = 0
 
