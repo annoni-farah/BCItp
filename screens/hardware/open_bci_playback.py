@@ -39,9 +39,12 @@ class OpenBCIBoard(object):
 
     self.daisy = daisy
 
+    self.sample_rate = self.getSampleRate()
+    print self.sample_rate
+
   def getSampleRate(self):
     if self.daisy:
-      return SAMPLE_RATE/2
+      return SAMPLE_RATE/2.0
     else:
       return SAMPLE_RATE
 
@@ -68,7 +71,7 @@ class OpenBCIBoard(object):
     
     while self.streaming:
       
-      # st = time.time()
+      st = time.time()
       # read current sample
       packet_id = 0
 
@@ -87,9 +90,9 @@ class OpenBCIBoard(object):
       if sample_counter == counter_max:
         sample_counter=0
 
-      # while 1.0 / SAMPLE_RATE > time.time() - st:
-      #   pass
-      time.sleep(1.0 / SAMPLE_RATE)
+      while 1.0 / self.sample_rate > time.time() - st:
+        pass
+      # time.sleep(1.0 / SAMPLE_RATE)
   
   
   """
