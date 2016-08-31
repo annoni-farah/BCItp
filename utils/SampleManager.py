@@ -39,6 +39,8 @@ class SampleManager(threading.Thread):
 
         self.acq_mode = mode
 
+        self.first_sample = True
+
         self.playback_path = path
         self.playback_labels_path = labels_path
         self.last_playback_label = [None, None]
@@ -49,6 +51,8 @@ class SampleManager(threading.Thread):
 
         self.buffer_length = buf_len
 
+        self.daisy = daisy
+
         self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
         self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
         
@@ -56,7 +60,7 @@ class SampleManager(threading.Thread):
 
         if self.acq_mode == 'openbci':
 
-            self.board = bci.OpenBCIBoard(port=p, baud=b, daisy=daisy)
+            self.board = bci.OpenBCIBoard(port=p, baud=b, daisy=self.daisy)
 
         elif self.acq_mode == 'simu':
             
@@ -68,7 +72,7 @@ class SampleManager(threading.Thread):
                 self.current_playback_label = next(self.playback_labels)
                 self.next_playback_label = next(self.playback_labels)
 
-            self.board = playback.OpenBCIBoard(port=p, baud=b, daisy=daisy, data=loadedData)
+            self.board = playback.OpenBCIBoard(port=p, baud=b, daisy=self.daisy, data=loadedData)
 
     def run(self):
 
@@ -98,8 +102,10 @@ class SampleManager(threading.Thread):
             indata =  [sample.channel_data[x] for x in self.channels]
 
 
-        self.updateCircBuf(indata);
+        if not self.check_if_expected_package(sample.id):
+            print 'wrong sequence' 
 
+        self.updateCircBuf(indata);
         self.StoreData(indata)
 
         if self.acq_mode == 'simu' and not self.dummy:
@@ -111,6 +117,32 @@ class SampleManager(threading.Thread):
         
         if(self.stop_flag):
             self.Stop()
+
+    def check_if_expected_package(self, sid):
+
+        if self.first_sample:
+            self.last_sid = sid
+            self.first_sample = False
+
+        else:
+            if self.daisy:
+                if sid == (self.last_sid + 2) % 256:
+                    self.last_sid = sid
+                    return True
+                else:
+                    self.last_sid = sid
+                    return False
+            else:
+                if sid == (self.last_sid + 1) % 256:
+                    return True
+                    self.last_sid = sid
+                else:
+                    return False
+                    self.last_sid = sid
+
+        # print 'sid: ', sid
+        # print 'last sid: ', self.last_sid
+
 
     def GetBuffData(self, mode = None):
         t = np.array(self.tBuff)
