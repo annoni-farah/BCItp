@@ -40,7 +40,6 @@ class OpenBCIBoard(object):
     self.daisy = daisy
 
     self.sample_rate = self.getSampleRate()
-    print self.sample_rate
 
   def getSampleRate(self):
     if self.daisy:
