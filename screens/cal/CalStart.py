@@ -96,7 +96,7 @@ class CalStart(Screen):
 
         
     def set_pause(self, dt):
-        # os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
