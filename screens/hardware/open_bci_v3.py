@@ -265,6 +265,9 @@ class OpenBCIBoard(object):
             %(packet_id, val, END_BYTE))
           logging.debug(log_bytes_in);
           self.packets_dropped = self.packets_dropped + 1
+          channel_data = [0]*8
+          channel_data[:] = np.NAN
+          sample = OpenBCISample(packet_id, channel_data, aux_data)
   
   """
 
