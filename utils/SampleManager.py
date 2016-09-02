@@ -96,11 +96,12 @@ class SampleManager(threading.Thread):
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
 
-        if self.channels == -1:
+        print self.channels
+
+        if self.channels == [-1]:
             indata =  sample.channel_data
         else:
             indata =  [sample.channel_data[x] for x in self.channels]
-
 
         if not self.check_if_expected_package(sample.id):
             print 'wrong sequence' 
