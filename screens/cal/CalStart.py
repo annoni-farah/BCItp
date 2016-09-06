@@ -44,6 +44,9 @@ class CalStart(Screen):
         super (CalStart, self).__init__(**kwargs)
 
         self.sh = session_header
+
+        self.carousel.index = 3
+
         self.stream_flag = False
 
     def change_to_cal(self,*args):
@@ -82,22 +85,20 @@ class CalStart(Screen):
     def clock_scheduler(self):
         Clock.schedule_interval(self.display_epoch, self.sh.cal.end_trial_offset)
 
-
     def clock_unscheduler(self):
         Clock.unschedule(self.display_epoch)
 
     def display_epoch(self, dt):
 
         if self.epoch_counter < self.sh.cal.n_trials:
+            self.beep()
             Clock.schedule_once(self.set_pause, self.sh.cal.pause_offset)
             Clock.schedule_once(self.set_cue, self.sh.cal.cue_offset)
             Clock.schedule_once(self.set_blank, self.sh.cal.cue_offset + 1)
         else:
             self.stream_stop() 
-
         
     def set_pause(self, dt):
-        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
         self.carousel.index = 0
         self.sm.MarkEvents(0)
 
@@ -114,6 +115,9 @@ class CalStart(Screen):
     def set_blank(self, dt):
         self.carousel.index = 3
         self.epoch_counter += 1
+
+    def beep(self):
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
 
     def save_data(self):
 
