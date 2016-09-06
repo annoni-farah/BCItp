@@ -50,6 +50,24 @@
                 min: 2
                 max: 16
 
+            StdSettingSlider:
+                id: n_iter
+                title: 'Number of Cross Validation Iteractions'
+                type: 'int'
+                desc: 'The model will be trained and applied '
+                value: 10
+                min: 1
+                max: 20
+
+            StdSettingSlider:
+                id: test_perc
+                title: 'Fraction of test epochs for cross validation'
+                type: 'float'
+                desc: 'For each iteraction, the model will be trained using (1-perc) and tested on perc of the dataset'
+                value: 0.2
+                min: 0.1
+                max: 0.8
+
         GridLayout:
             rows: 1
             size_hint: (1, None)

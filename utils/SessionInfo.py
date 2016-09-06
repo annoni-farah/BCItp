@@ -104,6 +104,9 @@ class MLHeader():
         self.nei = None
         self.class_ids = None
 
+        self.n_iter = None
+        self.test_perc = None
+
 class GameHeader():
     def __init__(self):
         # GAME SETTINGS

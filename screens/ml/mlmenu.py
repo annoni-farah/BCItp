@@ -44,6 +44,9 @@ class MlMenu(Screen):
         self.sh.ml.nei = ids.csp_nei.value
         self.sh.ml.class_ids = map(int,ids.class_ids.value.split(' '))
 
+        self.sh.ml.n_iter = ids.n_iter.value
+        self.sh.ml.test_perc = ids.test_perc.value
+
         self.sh.ml.flag = True
         self.sh.saveToPkl()
 
@@ -66,6 +69,8 @@ class MlMenu(Screen):
         ids.csp_nei.value = self.sh.ml.nei
         ids.class_ids.value = str(self.sh.ml.class_ids).replace(',','').replace('[', '').replace(']', '')
 
+        ids.n_iter.value = self.sh.ml.n_iter
+        ids.test_perc.value = self.sh.ml.test_perc
 
 class popupMl(BoxLayout):
 
@@ -80,15 +85,15 @@ class popupMl(BoxLayout):
                 sh.dp.f_order, sh.ml.nei, sh.ml.class_ids, sh.ml.epoch_start, sh.ml.epoch_end)
 
         ap.setPathToCal(sh.cal.data_cal_path, sh.cal.events_cal_path)
-        ap.setPathToVal(sh.cal.data_val_path,sh.cal.events_val_path)
+        # ap.setPathToVal(sh.cal.data_val_path,sh.cal.events_val_path)
 
         ap.setValidChannels(sh.dp.channels)
 
         autoscore = ap.trainModel()
         autoscore = round(autoscore, 3)
 
-        valscore = ap.validateModel()
-        valscore = round(valscore, 3)
+        crossvalscore = ap.cross_validate_model(sh.ml.n_iter, sh.ml.test_perc)
+        crossvalscore = round(crossvalscore, 3)
 
         ap.saveToPkl(PATH_TO_SESSION + sh.info.name)
 
@@ -101,8 +106,8 @@ class popupMl(BoxLayout):
         autoBox.add_widget(l2)
 
         valBox = BoxLayout()
-        l3 = Label(text='Val Acc: %', font_size = FONT_SIZE)
-        l4 = Label(text=str(valscore), font_size = FONT_SIZE) 
+        l3 = Label(text='Cross Val Acc: %', font_size = FONT_SIZE)
+        l4 = Label(text=str(crossvalscore), font_size = FONT_SIZE) 
         valBox.add_widget(l3)
         valBox.add_widget(l4)
 
