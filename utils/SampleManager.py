@@ -101,8 +101,11 @@ class SampleManager(threading.Thread):
         else:
             indata =  [sample.channel_data[x] for x in self.channels]
 
-        if not self.check_if_expected_package(sample.id):
-            print 'wrong sequence' 
+        if not self.expected_package(sample.id):
+            print 'wrong sequence'
+            # nan_arr = np.empty(len(indata))
+            # nan_arr[:] = np.nan
+            # nan_arr = nan_arr.tolist()
 
         self.updateCircBuf(indata);
         self.StoreData(indata)
@@ -117,7 +120,7 @@ class SampleManager(threading.Thread):
         if(self.stop_flag):
             self.Stop()
 
-    def check_if_expected_package(self, sid):
+    def expected_package(self, sid):
 
         if self.first_sample:
             self.last_sid = sid
