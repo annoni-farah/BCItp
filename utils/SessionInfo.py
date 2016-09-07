@@ -92,6 +92,9 @@ class CalHeader():
         self.data_val_path = None
         self.events_val_path = None
 
+        self.n_runs = None
+        self.runs_interval = None
+
 
 class MLHeader():
     def __init__(self):

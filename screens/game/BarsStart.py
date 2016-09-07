@@ -172,11 +172,11 @@ class BarsStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label_pos = int(self.sm.current_playback_label[1]) - self.sh.dp.buf_len/2
-        current_label = int(self.sm.current_playback_label[0])
+        current_label_pos = int(self.sm.current_playback_label[0]) - self.sh.dp.buf_len/2
+        current_label = int(self.sm.current_playback_label[1])
         
-        next_label_pos = int(self.sm.next_playback_label[1]) - self.sh.dp.buf_len/2
-        next_label = int(self.sm.next_playback_label[0])
+        next_label_pos = int(self.sm.next_playback_label[0]) - self.sh.dp.buf_len/2
+        next_label = int(self.sm.next_playback_label[1])
 
         self.current_label = current_label
 

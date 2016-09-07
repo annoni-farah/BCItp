@@ -33,8 +33,12 @@ class CalSettings(Screen):
 
         self.sh.cal.n_trials = ids.n_trials.value
         self.sh.cal.cue_offset = ids.cue_offset.value
+        self.sh.cal.cue_time = ids.cue_time.value
         self.sh.cal.pause_offset = ids.pause_offset.value
         self.sh.cal.end_trial_offset = ids.end_trial_offset.value
+
+        self.sh.cal.n_runs = ids.n_runs.value
+        self.sh.cal.runs_interval = ids.runs_interval.value
 
         self.sh.cal.data_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'data_cal.npy'
         self.sh.cal.events_cal_path = PATH_TO_SESSION + self.sh.info.name + '/' + 'events_cal.npy'

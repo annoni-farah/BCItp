@@ -111,7 +111,7 @@ class SampleManager(threading.Thread):
         self.StoreData(indata)
 
         if self.acq_mode == 'simu' and not self.dummy:
-            if self.sample_counter == int(self.next_playback_label[1]):
+            if self.sample_counter == int(self.next_playback_label[0]):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)
 
