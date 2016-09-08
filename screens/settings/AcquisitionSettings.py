@@ -41,7 +41,6 @@ class AcquisitionSettings(Screen):
         self.sh.acq.mode = self.sman.current
         self.sh.acq.com_port = openbci_ids.com_port.value
         self.sh.acq.ch_labels = openbci_ids.ch_labels.value
-        self.sh.acq.baud_rate = openbci_ids.baud_rate.value
         self.sh.acq.path_to_file = simulator_ids.eeg_path.value
         self.sh.acq.path_to_labels_file = simulator_ids.labels_path.value
         self.sh.acq.sample_rate = simulator_ids.srate.value
@@ -63,7 +62,6 @@ class AcquisitionSettings(Screen):
         self.sman.current = self.sh.acq.mode
         openbci_ids.com_port.value = self.sh.acq.com_port
         openbci_ids.ch_labels.value = self.sh.acq.ch_labels
-        openbci_ids.baud_rate.value = self.sh.acq.baud_rate
         simulator_ids.eeg_path.value = self.sh.acq.path_to_file
         simulator_ids.labels_path.value  = self.sh.acq.path_to_labels_file
         simulator_ids.srate.value = self.sh.acq.sample_rate

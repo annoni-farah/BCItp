@@ -47,7 +47,6 @@ class AcquisitionHeader():
         self.mode = None
         self.com_port = None
         self.ch_labels = None
-        self.baud_rate = None
         self.path_to_file = None
         self.path_to_labels_file = None
         self.sample_rate = None

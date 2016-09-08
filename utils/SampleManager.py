@@ -23,9 +23,11 @@ import open_bci_playback as playback
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
+BAUD=115200
+
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, buf_len, daisy = False, mode = 'openbci' , 
+    def __init__(self, p, buf_len, daisy = False, mode = 'openbci' , 
                     path = None, labels_path = None, dummy=False):
         super(SampleManager, self).__init__()
 
@@ -60,7 +62,7 @@ class SampleManager(threading.Thread):
 
         if self.acq_mode == 'openbci':
 
-            self.board = bci.OpenBCIBoard(port=p, baud=b, daisy=self.daisy)
+            self.board = bci.OpenBCIBoard(port=p, baud=BAUD, daisy=self.daisy)
 
         elif self.acq_mode == 'simu':
             
@@ -72,7 +74,7 @@ class SampleManager(threading.Thread):
                 self.current_playback_label = next(self.playback_labels)
                 self.next_playback_label = next(self.playback_labels)
 
-            self.board = playback.OpenBCIBoard(port=p, baud=b, daisy=self.daisy, data=loadedData)
+            self.board = playback.OpenBCIBoard(port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
 
     def run(self):
 

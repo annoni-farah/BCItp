@@ -64,7 +64,7 @@ class CalStart(Screen):
 
     def stream_start(self):
 
-        self.sm = SampleManager(self.sh.acq.com_port, self.sh.acq.baud_rate, self.sh.dp.buf_len, 
+        self.sm = SampleManager(self.sh.acq.com_port, self.sh.dp.buf_len, 
             daisy=self.sh.acq.daisy, mode = self.sh.acq.mode, path = self.sh.acq.path_to_file, 
             labels_path = self.sh.acq.path_to_labels_file, dummy=self.sh.acq.dummy)
         self.sm.daemon = True  
