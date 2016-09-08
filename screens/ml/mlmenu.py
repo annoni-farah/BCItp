@@ -47,7 +47,7 @@ class MlMenu(Screen):
         self.sh.ml.test_perc = ids.test_perc.value
 
         self.sh.ml.max_amp = ids.max_amp.value
-        self.sh.ml.max_mse = ids.max_mse.value
+        # self.sh.ml.max_mse = ids.max_mse.value
 
         # Dataprocessing settings
 
@@ -90,7 +90,7 @@ class MlMenu(Screen):
         ids.test_perc.value = self.sh.ml.test_perc
 
         ids.max_amp.value = self.sh.ml.max_amp
-        ids.max_mse.value = self.sh.ml.max_mse
+        # ids.max_mse.value = self.sh.ml.max_mse
 
         # Data processing Settings
 
