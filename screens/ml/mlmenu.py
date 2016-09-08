@@ -46,6 +46,9 @@ class MlMenu(Screen):
         self.sh.ml.n_iter = ids.n_iter.value
         self.sh.ml.test_perc = ids.test_perc.value
 
+        self.sh.ml.max_amp = ids.max_amp.value
+        self.sh.ml.max_mse = ids.max_mse.value
+
         # Dataprocessing settings
 
         self.sh.dp.buf_len = ids.buf_len.value
@@ -58,6 +61,8 @@ class MlMenu(Screen):
             ch_idx = range(limits[0],limits[1])
         else:
             ch_idx = map(int,ids.channels.value.split(' '))
+
+        self.sh.dp.channels = ch_idx
 
         self.sh.ml.flag = True
         self.sh.saveToPkl()
@@ -112,6 +117,8 @@ class popupMl(BoxLayout):
         ap.setPathToCal(sh.cal.data_cal_path, sh.cal.events_cal_path)
 
         ap.setValidChannels(sh.dp.channels)
+
+        ap.define_bad_epochs(sh.ml.max_amp, sh.ml.max_mse)
 
         autoscore = ap.trainModel()
         autoscore = round(autoscore, 3)
