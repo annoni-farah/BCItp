@@ -16,10 +16,6 @@ class BCIMenu(Screen):
         super (BCIMenu, self).__init__(**kwargs)
         self.sh = session_header
 
-    def change_to_precal(self,*args):
-        self.manager.current = 'PreCalMenu'
-        self.manager.transition.direction = 'left'
-
     def change_to_calibration(self,*args):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'left'

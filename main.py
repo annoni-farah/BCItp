@@ -26,10 +26,6 @@ from BCIMenu import *
 
 from AcquisitionSettings import *
 
-from PreCalMenu import *
-from PreCalSettings import *
-from PreCalStart import *
-
 from CalMenu import *
 from CalSettings import *
 from CalStart import *
@@ -60,10 +56,6 @@ class MyApp(App):
 
             acquisition_settings_screen = AcquisitionSettings(sh, name='AcquisitionSettings')
 
-            precal_screen = PreCalMenu(sh, name='PreCalMenu')
-            precal_start_screen = PreCalStart(sh, name='PreCalStart')
-            precal_settings_screen = PreCalSettings(sh, name='PreCalSettings')
-
             cal_screen = CalMenu(sh, name='CalMenu')
             cal_settings_screen = CalSettings(sh, name='CalSettings')
             cal_start_screen = CalStart(sh, name='CalStart')
@@ -83,10 +75,6 @@ class MyApp(App):
             sm.add_widget(bci_screen)
 
             sm.add_widget(acquisition_settings_screen)
-
-            sm.add_widget(precal_screen)
-            sm.add_widget(precal_settings_screen)
-            sm.add_widget(precal_start_screen)
 
             sm.add_widget(cal_screen)
             sm.add_widget(cal_settings_screen)
