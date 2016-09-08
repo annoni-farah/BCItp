@@ -9,12 +9,13 @@ from kivy.uix.label import Label
 from kivy.properties import (StringProperty, NumericProperty, OptionProperty,
                              BooleanProperty)
 from kivy.uix.popup import Popup
+from kivy.uix.scrollview import ScrollView
+
 
 Builder.load_file('templates/settings.kv')
 
 class StdSettingsContainer(GridLayout):
     pass
-
 
 class StdSettingItem(GridLayout):
     title = StringProperty('<No title set>')

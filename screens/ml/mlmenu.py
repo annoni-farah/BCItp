@@ -19,7 +19,6 @@ from standards import *
 from approach import Approach
 ######################################################################
 
-
 class MlMenu(Screen):
 
 # layout
@@ -72,6 +71,9 @@ class MlMenu(Screen):
         ids.n_iter.value = self.sh.ml.n_iter
         ids.test_perc.value = self.sh.ml.test_perc
 
+        ids.max_amp.value = self.sh.ml.max_amp
+        ids.max_mse.value = self.sh.ml.max_mse
+
 class popupMl(BoxLayout):
 
     def __init__(self, session_header, **kwargs):
@@ -85,7 +87,6 @@ class popupMl(BoxLayout):
                 sh.dp.f_order, sh.ml.nei, sh.ml.class_ids, sh.ml.epoch_start, sh.ml.epoch_end)
 
         ap.setPathToCal(sh.cal.data_cal_path, sh.cal.events_cal_path)
-        # ap.setPathToVal(sh.cal.data_val_path,sh.cal.events_val_path)
 
         ap.setValidChannels(sh.dp.channels)
 

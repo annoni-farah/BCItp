@@ -5,68 +5,102 @@
     BoxLayout:
         orientation: 'vertical'
 
-        StdSettingsContainer:
-            pos_hint: {'top': 1}
-            size_hint: (1, 1)
+        ScrollView:
+            canvas:
+                Color:
+                    rgba: 0, 0, 0,0
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
-            StdSettingTitle:
-                title: 'Epoch Extraction Settings'
-                desc: 'Define the epoch limits'
+            StdSettingsContainer:
+                # pos_hint: {'top': 1}
+                # size_hint: (1, 1)
 
-            StdSettingString:
-                id: class_ids
-                title: 'Event Ids'
-                desc: 'List of event labels for epoch extraction. ex: 1 2'
-                value: '1 2'
+                StdSettingTitle:
+                    title: 'Epoch Extraction Settings'
+                    desc: 'Define the epoch limits and properties'
 
-            StdSettingSlider:
-                id: epoch_start
-                title: 'Epoch Start'
-                type: 'float'
-                desc: 'Time in sec after the event when the epoch starts'
-                value: 2.5
-                min: -5
-                max: 5
+                StdSettingString:
+                    id: class_ids
+                    title: 'Event Ids'
+                    desc: 'List of event labels for epoch extraction. ex: 1 2'
+                    value: '1 2'
 
-            StdSettingSlider:
-                id: epoch_end
-                title: 'Epoch End'
-                type: 'float'
-                desc: 'Time in sec after the event when the epoch ends'
-                value: 4.5
-                min: epoch_start.value
-                max: 5
+                StdSettingSlider:
+                    id: epoch_start
+                    title: 'Epoch Start'
+                    type: 'float'
+                    desc: 'Time in sec after the event when the epoch starts'
+                    value: 2.5
+                    min: -5
+                    max: 5
 
-            StdSettingTitle:
-                title: 'Machine Learning Settings'
-                desc: 'Set parameters of machine learning algorithms'
+                StdSettingSlider:
+                    id: epoch_end
+                    title: 'Epoch End'
+                    type: 'float'
+                    desc: 'Time in sec after the event when the epoch ends'
+                    value: 4.5
+                    min: epoch_start.value
+                    max: 5
 
-            StdSettingSlider:
-                id: csp_nei
-                title: 'Number of CSP eigenvectors'
-                type: 'int'
-                desc: 'Must be an even number'
-                value: 8
-                min: 2
-                max: 16
+                StdSettingTitle:
+                    title: 'Epoch Rejection Settings'
+                    desc: 'Define properties for valid epochs'
 
-            StdSettingSlider:
-                id: n_iter
-                title: 'Number of Cross Validation Iteractions'
-                type: 'int'
-                desc: 'The model will be trained and applied '
-                value: 10
-                min: 1
-                max: 20
+                StdSettingSlider:
+                    id: max_amp
+                    title: 'Maximum Amplitude'
+                    type: 'float'
+                    desc: 'Maximum amplitude (uV) allowed for filtered epoch'
+                    value: 50
+                    min: 0
+                    max: 500
 
-            StdSettingSlider:
-                id: test_perc
-                title: 'Fraction of test epochs for cross validation'
-                type: 'float'
-                desc: 'For each iteraction, the model will be trained using (1-perc) and tested on perc of the dataset'
-                value: 0.2
-                min: 0.1
-                max: 0.8
+                StdSettingSlider:
+                    id: max_mse
+                    title: 'Maximum MSE from mean fft'
+                    type: 'float'
+                    desc: 'Maximum mean squared error between epoch fft and mean fft from training set'
+                    value: 0.1
+                    min: 0.01
+                    max: 1
+
+                StdSettingTitle:
+                    title: 'Machine Learning Settings'
+                    desc: 'Set parameters of machine learning algorithms'
+
+                StdSettingSlider:
+                    id: csp_nei
+                    title: 'Number of CSP eigenvectors'
+                    type: 'int'
+                    desc: 'Must be an even number'
+                    value: 8
+                    min: 2
+                    max: 16
+
+                StdSettingTitle:
+                    title: 'Performance Analysis'
+                    desc: 'Set parameters for crossvalidation analysis'
+
+                StdSettingSlider:
+                    id: n_iter
+                    title: 'Number of Cross Validation Iteractions'
+                    type: 'int'
+                    desc: 'The model will be trained and applied '
+                    value: 10
+                    min: 1
+                    max: 20
+
+                StdSettingSlider:
+                    id: test_perc
+                    title: 'Fraction of test epochs for cross validation'
+                    type: 'float'
+                    desc: 'For each iteraction, the model will be trained using (1-perc) and tested on perc of the dataset'
+                    value: 0.2
+                    min: 0.1
+                    max: 0.8
 
         GridLayout:
             rows: 1
@@ -84,4 +118,3 @@
                 font_size: 20
                 text: 'Train Model'
                 on_press: root.get_ml_model()
-

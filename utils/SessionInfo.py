@@ -104,6 +104,10 @@ class MLHeader():
         self.epoch_start = None
         self.epoch_end = None
         self.method = None
+
+        self.max_amp = None
+        self.max_mse = None
+
         self.nei = None
         self.class_ids = None
 
