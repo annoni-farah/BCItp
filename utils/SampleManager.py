@@ -99,6 +99,7 @@ class SampleManager(threading.Thread):
         indata =  sample.channel_data
 
         if not self.expected_package(sample.id):
+            # pass
             print 'wrong sequence'
             # nan_arr = np.empty(len(indata))
             # nan_arr[:] = np.nan
