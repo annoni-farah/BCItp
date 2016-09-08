@@ -10,7 +10,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 import os, sys, inspect
 
 FOLDERS = ['bci_ml', 'bci_ml/approaches', 'utils', 'screens/settings', 'screens','screens/cal',
- 'screens/hardware', 'screens/ml', 'screens/precal',
+ 'hardware', 'screens/ml', 'screens/precal',
  'screens/cal', 'screens/val', 'screens/game', 'templates']
 
 for i in range(len(FOLDERS)):
@@ -29,9 +29,6 @@ from AcquisitionSettings import *
 from CalMenu import *
 from CalSettings import *
 from CalStart import *
-
-from ValMenu import *
-from ValStart import *
 
 from mlmenu import *
 
@@ -60,9 +57,6 @@ class MyApp(App):
             cal_settings_screen = CalSettings(sh, name='CalSettings')
             cal_start_screen = CalStart(sh, name='CalStart')
 
-            val_screen = ValMenu(sh, name='ValMenu')
-            val_start_screen = ValStart(sh, name='ValStart')
-
             ml_screen = MlMenu(sh, name='MlMenu')
 
             game_screen = GameMenu(sh, name='GameMenu')
@@ -79,9 +73,6 @@ class MyApp(App):
             sm.add_widget(cal_screen)
             sm.add_widget(cal_settings_screen)
             sm.add_widget(cal_start_screen)
-
-            sm.add_widget(val_screen)
-            sm.add_widget(val_start_screen)
 
             sm.add_widget(ml_screen)
 

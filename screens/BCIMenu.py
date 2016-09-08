@@ -20,10 +20,6 @@ class BCIMenu(Screen):
         self.manager.current = 'CalMenu'
         self.manager.transition.direction = 'left'
 
-    def change_to_validation(self,*args):
-        self.manager.current = 'ValMenu'
-        self.manager.transition.direction = 'left'
-
     def change_to_ml(self,*args):
         self.manager.current = 'MlMenu'
         self.manager.transition.direction = 'left'
