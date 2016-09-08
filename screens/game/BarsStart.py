@@ -112,6 +112,8 @@ class BarsStart(Screen):
 
     def update_inst_bars(self):
 
+        if self.p == None: return
+
         p1 = self.p[0]
         p2 = self.p[1]
 
@@ -125,6 +127,8 @@ class BarsStart(Screen):
             self.inst_prob_left = 0
 
     def update_accum_bars(self, dt):
+
+        if self.p == None: return
 
         p1 = self.p[0]
         p2 = self.p[1]
