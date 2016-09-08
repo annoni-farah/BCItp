@@ -46,6 +46,7 @@
         state: 'down'
         on_press:
             root.parent.parent.sman.current = 'simu'
+            root.parent.parent.sman.transition.direction = 'right'
             if self.state == 'normal': self.state = 'down'
 
     ToggleButton:
@@ -53,6 +54,7 @@
         group: 'mainmenu'
         on_press:
             root.parent.parent.sman.current = 'openbci'
+            root.parent.parent.sman.transition.direction = 'left'
             if self.state == 'normal': self.state = 'down'
 
 <SettingsScreens>:
