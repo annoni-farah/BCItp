@@ -26,8 +26,6 @@ from BCIMenu import *
 
 from AcquisitionSettings import *
 
-from DataProcessingSettings import *
-
 from PreCalMenu import *
 from PreCalSettings import *
 from PreCalStart import *
@@ -62,8 +60,6 @@ class MyApp(App):
 
             acquisition_settings_screen = AcquisitionSettings(sh, name='AcquisitionSettings')
 
-            data_processing_settings_screen = DataProcessingSettings(sh, name='DataProcessingSettings')
-
             precal_screen = PreCalMenu(sh, name='PreCalMenu')
             precal_start_screen = PreCalStart(sh, name='PreCalStart')
             precal_settings_screen = PreCalSettings(sh, name='PreCalSettings')
@@ -87,8 +83,6 @@ class MyApp(App):
             sm.add_widget(bci_screen)
 
             sm.add_widget(acquisition_settings_screen)
-
-            sm.add_widget(data_processing_settings_screen)
 
             sm.add_widget(precal_screen)
             sm.add_widget(precal_settings_screen)

@@ -14,8 +14,56 @@
                     size: self.size
 
             StdSettingsContainer:
-                # pos_hint: {'top': 1}
-                # size_hint: (1, 1)
+
+                StdSettingTitle:
+                    title: 'Incoming Data configuration'
+                    desc: 'Set config for input data'
+
+                StdSettingSlider:
+                    id: buf_len
+                    title: 'Buffer Length'
+                    type: 'int'
+                    desc: 'Length in samples of the circular buffer'
+                    value: 500
+                    min: 0
+                    max: 1000
+
+                StdSettingString:
+                    id: channels
+                    title: 'Channels'
+                    desc: 'List of channels idx used for signal processing. ex: 1 2 3 10 12. (-1 for all)'
+                    value: '-1'
+
+                StdSettingTitle:
+                    title: 'Temporal Filter configuration'
+                    desc: 'Set IIR filter parameters'
+
+                StdSettingSlider:
+                    id: f_low
+                    title: 'Lower Cuttoff Frequency'
+                    type: 'float'
+                    desc: 'The lower frequency limit in Hz of the bandpass filter'
+                    value: 8
+                    min: 0.5
+                    max: 30
+
+                StdSettingSlider:
+                    id: f_high
+                    title: 'Upper Cuttoff Frequency'
+                    type: 'float'
+                    desc: 'The upper frequency limit in Hz of the bandpass filter'
+                    value: 30
+                    min: f_low.value
+                    max: 100
+
+                StdSettingSlider:
+                    id: f_order
+                    title: 'Filter Order'
+                    type: 'float'
+                    desc: 'The IIR filter Order'
+                    value: 5
+                    min: 2
+                    max: 9
 
                 StdSettingTitle:
                     title: 'Epoch Extraction Settings'

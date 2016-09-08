@@ -40,10 +40,6 @@ class BCIMenu(Screen):
         self.manager.current = 'AcquisitionSettings'
         self.manager.transition.direction = 'left'
 
-    def change_to_dp(self,*args):
-        self.manager.current = 'DataProcessingSettings'
-        self.manager.transition.direction = 'left'
-
     def change_to_start(self,*args):
         self.manager.current = 'start'
         self.manager.transition.direction = 'right'

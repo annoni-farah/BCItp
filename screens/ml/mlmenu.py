@@ -46,6 +46,19 @@ class MlMenu(Screen):
         self.sh.ml.n_iter = ids.n_iter.value
         self.sh.ml.test_perc = ids.test_perc.value
 
+        # Dataprocessing settings
+
+        self.sh.dp.buf_len = ids.buf_len.value
+        self.sh.dp.f_low = ids.f_low.value
+        self.sh.dp.f_high = ids.f_high.value
+        self.sh.dp.f_order = ids.f_order.value
+
+        if ':' in ids.channels.value:
+            limits=map(int,ids.channels.value.split(':'))
+            ch_idx = range(limits[0],limits[1])
+        else:
+            ch_idx = map(int,ids.channels.value.split(' '))
+
         self.sh.ml.flag = True
         self.sh.saveToPkl()
 
@@ -73,6 +86,16 @@ class MlMenu(Screen):
 
         ids.max_amp.value = self.sh.ml.max_amp
         ids.max_mse.value = self.sh.ml.max_mse
+
+        # Data processing Settings
+
+        ids.buf_len.value= self.sh.dp.buf_len
+        ids.f_low.value = self.sh.dp.f_low
+        ids.f_high.value = self.sh.dp.f_high
+        ids.f_order.value = self.sh.dp.f_order
+
+        # not the best option but it works
+        ids.channels.value = str(self.sh.dp.channels).replace(',','').replace('[', '').replace(']', '')
 
 class popupMl(BoxLayout):
 
