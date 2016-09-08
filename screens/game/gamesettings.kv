@@ -5,66 +5,72 @@
     BoxLayout:
         orientation: 'vertical'
 
-        StdSettingsContainer:
-            pos_hint: {'top': 1}
-            size_hint: (1, 1)
+        ScrollView:
+            canvas:
+                Color:
+                    rgba: 0, 0, 0,0
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
-            StdSettingTitle:
-                title: 'General Game Settings'
-                desc: 'Set general game parameters'
+            StdSettingsContainer:
 
-            StdSettingSlider:
-                id: game_threshold
-                title: 'Threshold to action'
-                type: 'int'
-                desc: 'Limit to the sum of steps which triggers and action'
-                value: 200
-                min: 0
-                max: 1000
+                StdSettingTitle:
+                    title: 'General Game Settings'
+                    desc: 'Set general game parameters'
 
-            StdSettingSlider:
-                id: window_overlap
-                title: 'Sum Rate in msec'
-                type: 'float'
-                desc: 'The interval at which a new step is added'
-                value: 125
-                min: 10
-                max: 500
+                StdSettingSlider:
+                    id: game_threshold
+                    title: 'Threshold to action'
+                    type: 'int'
+                    desc: 'Limit to the sum of steps which triggers and action'
+                    value: 200
+                    min: 0
+                    max: 1000
 
-            StdSettingSlider:
-                id: warning_threshold
-                title: 'Warning Threshold in \%'
-                type: 'int'
-                desc: 'The percentage of the Threshold to Action at which a Warning is displayed'
-                value: 80
-                min: 0
-                max: 100
+                StdSettingSlider:
+                    id: window_overlap
+                    title: 'Sum Rate in msec'
+                    type: 'float'
+                    desc: 'The interval at which a new step is added'
+                    value: 125
+                    min: 10
+                    max: 500
 
-            StdSettingBoolean:
-                id: inst_prob
-                title: 'Instant Probability Bar'
-                desc: 'Check if you want to display the instant probability bars'
-                button_text: 'Inst prob'
-                value: False
+                StdSettingSlider:
+                    id: warning_threshold
+                    title: 'Warning Threshold in \%'
+                    type: 'int'
+                    desc: 'The percentage of the Threshold to Action at which a Warning is displayed'
+                    value: 80
+                    min: 0
+                    max: 100
 
-            StdSettingTitle:
-                title: 'Target Game Settings'
-                desc: 'Set Target game parameters'
+                StdSettingBoolean:
+                    id: inst_prob
+                    title: 'Instant Probability Bar'
+                    desc: 'Check if you want to display the instant probability bars'
+                    button_text: 'Inst prob'
+                    value: False
 
-            StdSettingSlider:
-                id: forward_speed
-                title: 'Player Speed'
-                type: 'float'
-                desc: 'Time in msec to move 1px'
-                value: 25
-                min: 1
-                max: 300
+                StdSettingTitle:
+                    title: 'Target Game Settings'
+                    desc: 'Set Target game parameters'
 
-            StdSettingBoolean:
-                id: keyb_enable
-                title: 'Keyboard Contro'
-                desc: 'Check if you want to enable control by keyboard (prob calc will be disabled)'
-                value: False
+                StdSettingSlider:
+                    id: forward_speed
+                    title: 'Player Speed'
+                    type: 'float'
+                    desc: 'Time in msec to move 1px'
+                    value: 25
+                    min: 1
+                    max: 300
+
+                StdSettingBoolean:
+                    id: keyb_enable
+                    title: 'Keyboard Contro'
+                    desc: 'Check if you want to enable control by keyboard (prob calc will be disabled)'
+                    value: False
 
         GridLayout:
             rows: 1
