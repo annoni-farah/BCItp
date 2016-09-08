@@ -25,11 +25,9 @@ PATHTOUSERS = GLOBALPATH + '/data/users/'
 
 #define a classe manager
 class SampleManager(threading.Thread):
-    def __init__(self, p, b, ch, buf_len, daisy = False, mode = 'openbci' , 
+    def __init__(self, p, b, buf_len, daisy = False, mode = 'openbci' , 
                     path = None, labels_path = None, dummy=False):
         super(SampleManager, self).__init__()
-
-        self.channels = ch
 
         self._stop = threading.Event()
         
@@ -50,6 +48,8 @@ class SampleManager(threading.Thread):
         self.dummy = dummy
 
         self.buffer_length = buf_len
+
+        print self.buffer_length
 
         self.daisy = daisy
 
@@ -96,10 +96,7 @@ class SampleManager(threading.Thread):
         Also implements a counter to plot against the read value
         ps: This function is called by the OpenBci start_streaming() function'''
 
-        if self.channels == [-1]:
-            indata =  sample.channel_data
-        else:
-            indata =  [sample.channel_data[x] for x in self.channels]
+        indata =  sample.channel_data
 
         if not self.expected_package(sample.id):
             print 'wrong sequence'
