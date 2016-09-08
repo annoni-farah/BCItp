@@ -72,74 +72,91 @@
 
 <Simulator>:
 
-    StdSettingsContainer:
-        pos_hint: {'top': 1}
+    ScrollView:
+        canvas:
+            Color:
+                rgba: 0, 0, 0,0
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        StdSettingTitle:
-            title: 'Simulator configuration'
-            desc: 'Set the paths to local EEG files'
+        StdSettingsContainer:
+            pos_hint: {'top': 1}
 
-        StdSettingString:
-            id: eeg_path
-            title: 'Path to EEG file'
-            desc: 'The path to the EEG dataset for playback'
-            value: ''
+            StdSettingTitle:
+                title: 'Simulator configuration'
+                desc: 'Set the paths to local EEG files'
 
-        StdSettingString:
-            id: labels_path
-            title: 'Path to labels'
-            desc: 'The path to the labels of EEG dataset'
-            value: ''
+            StdSettingString:
+                id: eeg_path
+                title: 'Path to EEG file'
+                desc: 'The path to the EEG dataset for playback'
+                value: ''
 
-        StdSettingSlider:
-            id: srate
-            title: 'Sample Rate'
-            type: 'int'
-            desc: 'Sample Rate in Hz of the input dataset'
-            value: 250
-            min: 0
-            max: 1000
+            StdSettingString:
+                id: labels_path
+                title: 'Path to labels'
+                desc: 'The path to the labels of EEG dataset'
+                value: ''
 
-        StdSettingBoolean:
-            id: dummy_data
-            title: 'Use Dummy Data'
-            desc: 'Output dummy data by simulating an OpenBCI board with daisy module'
-            value: False
-            on_value: 
-                if self.value: srate.value = 125
+            StdSettingSlider:
+                id: srate
+                title: 'Sample Rate'
+                type: 'int'
+                desc: 'Sample Rate in Hz of the input dataset'
+                value: 250
+                min: 0
+                max: 1000
+
+            StdSettingBoolean:
+                id: dummy_data
+                title: 'Use Dummy Data'
+                desc: 'Output dummy data by simulating an OpenBCI board with daisy module'
+                value: False
+                on_value: 
+                    if self.value: srate.value = 125
 
 <OpenBCI>:
-    StdSettingsContainer:
-        pos_hint: {'top': 1}
 
-        StdSettingTitle:
-            title: 'OpenBCI configuration'
-            desc: 'Configure the connection with OpenBCI board'
+    ScrollView:
+        canvas:
+            Color:
+                rgba: 0, 0, 0,0
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        StdSettingString:
-            id: com_port
-            title: 'COM port'
-            desc: 'Serial port which USB dongle is connected to (in linux use lsusb to find out)'
-            value: ''
+        StdSettingsContainer:
+            pos_hint: {'top': 1}
 
-        StdSettingSlider:
-            id: baud_rate
-            title: 'BaudRate'
-            type: 'int'
-            desc: 'Speed of serial communication'
-            value: 115200
-            min: 9600
-            max: 1000000
+            StdSettingTitle:
+                title: 'OpenBCI configuration'
+                desc: 'Configure the connection with OpenBCI board'
 
-        StdSettingString:
-            id: ch_labels
-            title: 'Channel Labels'
-            desc: 'Give labels to used channels. ex: Cz C3 P3 P4'
-            value: ''
+            StdSettingString:
+                id: com_port
+                title: 'COM port'
+                desc: 'Serial port which USB dongle is connected to (in linux use lsusb to find out)'
+                value: ''
 
-        StdSettingBoolean:
-            id: daisy
-            title: 'Enable Daisy'
-            desc: 'Check if you want to use the additional daisy channels. (daisy must be plugged in)'
-            button_text: 'Daisy'
-            value: False
+            StdSettingSlider:
+                id: baud_rate
+                title: 'BaudRate'
+                type: 'int'
+                desc: 'Speed of serial communication'
+                value: 115200
+                min: 9600
+                max: 1000000
+
+            StdSettingString:
+                id: ch_labels
+                title: 'Channel Labels'
+                desc: 'Give labels to used channels. ex: Cz C3 P3 P4'
+                value: ''
+
+            StdSettingBoolean:
+                id: daisy
+                title: 'Enable Daisy'
+                desc: 'Check if you want to use the additional daisy channels. (daisy must be plugged in)'
+                button_text: 'Daisy'
+                value: False
