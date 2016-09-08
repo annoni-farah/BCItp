@@ -43,14 +43,22 @@ class AcquisitionSettings(Screen):
         self.sh.acq.ch_labels = openbci_ids.ch_labels.value
         self.sh.acq.path_to_file = simulator_ids.eeg_path.value
         self.sh.acq.path_to_labels_file = simulator_ids.labels_path.value
-        self.sh.acq.sample_rate = simulator_ids.srate.value
         self.sh.acq.dummy = simulator_ids.dummy_data.value
 
         if self.sh.acq.dummy:
             self.sh.acq.daisy = True
+
         else:
             self.sh.acq.daisy = openbci_ids.daisy.value
 
+        if self.sh.acq.mode == 'openbci':
+            if self.sh.acq.daisy:
+                self.sh.acq.sample_rate = 125
+            else:
+                self.sh.acq.sample_rate = 250
+        else:
+            self.sh.acq.sample_rate = simulator_ids.srate.value
+            
         self.sh.acq.flag = True
         self.sh.saveToPkl()
 
