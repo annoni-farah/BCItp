@@ -33,8 +33,6 @@ class BarsStart(Screen):
 
     current_label = NumericProperty(None)
 
-    label_position = NumericProperty(-1)
-
     label_color = ListProperty([0,0,0,1])
 
     wt = NumericProperty(0.0)
@@ -177,43 +175,8 @@ class BarsStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label_pos = int(self.sm.current_playback_label[0]) - self.sh.dp.buf_len/2
         current_label = int(self.sm.current_playback_label[1])
-        
-        next_label_pos = int(self.sm.next_playback_label[0]) - self.sh.dp.buf_len/2
-        next_label = int(self.sm.next_playback_label[1])
-
         self.current_label = current_label
-
-        tbuff, d = self.sm.GetBuffData()
-
-        # print label_pos, min(tbuff), max(tbuff)
-        if (next_label_pos in tbuff):
-            idx = np.where(next_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.dp.buf_len)
-            self.label_position = ratio
-
-            if next_label == 1:
-                self.label_color = [1,0,0,1]
-            elif next_label == 2:
-                self.label_color = [0,0,1,1]
-            else:
-                self.label_color = [0,1,1,1]
-
-        elif  current_label_pos in tbuff:
-            idx = np.where(current_label_pos == tbuff)[0][0]
-            ratio = float(idx) / float(self.sh.dp.buf_len)
-            self.label_position = ratio
-
-            if current_label == 1:
-                self.label_color = [1,0,0,1]
-            elif current_label == 2:
-                self.label_color = [0,0,1,1]
-            else:
-                self.label_color = [0,1,1,1]
-
-        else:
-            self.label_position = -1
 
     def load_approach(self):
 

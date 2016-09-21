@@ -99,19 +99,6 @@
             BoxLayout:
                 size_hint: (0.7, 1)
 
-                canvas:
-                    Color:
-                        rgba: (.2,.2,.2,1)
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-
-                    Color:
-                        rgba: root.label_color
-                    Rectangle:
-                        size: (10, self.height)
-                        pos: (self.pos[0] + root.label_position*self.width, self.pos[1])
-
                 Label: 
                     text: 'Current Label: ' + str(root.current_label)
 
