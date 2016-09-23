@@ -157,10 +157,13 @@ class BarsStart(Screen):
 
     def map_probs(self, U1, U2):
 
-        if U1 > 100: self.set_bar_default()
-        elif U2 > 100: self.set_bar_default()
+        if U1 > 100:
+            os.system(self.sh.game.action_cmd1)
+            self.set_bar_default()
+        elif U2 > 100:
+            os.system(self.sh.game.action_cmd2)
+            self.set_bar_default()
         else: pass
-
             # dont send any cmd
 
     def set_bar_default(self):
