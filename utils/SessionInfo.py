@@ -125,4 +125,9 @@ class GameHeader():
         self.inst_prob = None
         self.keyb_enable = None
 
+        self.action_cmd1 = None
+        self.action_cmd2 = None
+
+
+
 

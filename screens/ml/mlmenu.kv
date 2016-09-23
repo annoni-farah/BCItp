@@ -63,7 +63,7 @@
                     desc: 'The IIR filter Order'
                     value: 5
                     min: 2
-                    max: 9
+                    max: 10
 
                 StdSettingTitle:
                     title: 'Epoch Extraction Settings'
@@ -82,16 +82,16 @@
                     desc: 'Time in sec after the event when the epoch starts'
                     value: 2.5
                     min: -5
-                    max: 5
+                    max: 15
 
                 StdSettingSlider:
                     id: epoch_end
                     title: 'Epoch End'
                     type: 'float'
                     desc: 'Time in sec after the event when the epoch ends'
-                    value: 4.5
-                    min: epoch_start.value
-                    max: 5
+                    value: epoch_start.value + 2
+                    min: epoch_start.value + 2
+                    max: 17
 
                 StdSettingTitle:
                     title: 'Epoch Rejection Settings'

@@ -38,6 +38,9 @@ class GameSettings(Screen):
         self.sh.game.inst_prob = ids.inst_prob.value / 1000.0
         self.sh.game.keyb_enable = ids.keyb_enable.value 
 
+        self.sh.game.action_cmd1 = ids.action_cmd1.value
+        self.sh.game.action_cmd2 = ids.action_cmd2.value
+
         self.sh.game.flag = True
         self.sh.saveToPkl()
 
