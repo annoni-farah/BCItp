@@ -1,3 +1,0 @@
-[submodule "bci_ml"]
-	path = bci_ml
-	url = git@github.com:rafaelmendes/bci_ml.git
