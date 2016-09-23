@@ -20,14 +20,14 @@ sudo apt-get install sox
 # add daily updated kivy repository
 sudo add-apt-repository ppa:kivy-team/kivy-daily
 sudo apt-get update
-sudo apt-get install python-numpy python-scipy python-kivy python-biosig
+sudo apt-get install python-numpy python-scipy python-kivy python-biosig python-pip
+sudo pip install -U scikit-learn
 
 ```
 
 ### Install Kivy Garden (Dependencies) ###
 
 ```shell
-sudo apt-get install python-pip
 sudo pip install kivy-garden
 garden install graph
 garden install bar
