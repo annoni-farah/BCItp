@@ -118,7 +118,7 @@ class popupMl(BoxLayout):
 
         ap.setValidChannels(sh.dp.channels)
 
-        ap.define_bad_epochs(sh.ml.max_amp, sh.ml.max_mse)
+        ap.define_bad_epochs(sh.ml.max_amp)
 
         autoscore = ap.trainModel()
         autoscore = round(autoscore, 3)
