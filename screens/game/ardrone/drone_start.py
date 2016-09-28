@@ -9,9 +9,6 @@ from kivy.garden.bar import Bar
 # KV file:
 Builder.load_file('screens/game/ardrone/drone_start.kv')
 
-# Hardware:
-from ardrone_ros import ARDrone
-
 # Generic:
 import math
 import numpy as np
@@ -49,8 +46,6 @@ class DroneStart(Screen):
         self.U = 0.0
         self.p = [0,0]
 
-        self.drone = ARDrone()
-
     # BUTTON CALLBACKS    
     # ----------------------
     def change_to_drone(self,*args):
@@ -65,6 +60,11 @@ class DroneStart(Screen):
             self.stream_start()
 
     # ----------------------
+
+    def start_drone(self):
+        # Hardware:
+        from ardrone_ros import ARDrone
+        self.drone = ARDrone()
 
     def stream_stop(self):
         self.sm.stop_flag = True
