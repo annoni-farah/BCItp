@@ -26,7 +26,6 @@ class DroneMenu(Screen):
         button_back = Button(text="Back", size = BUTTON_SIZE)
         button_back.bind(on_press= self.change_to_cal)
 
-
         box1.add_widget(self.label_msg)
 
         box1.add_widget(button_start)

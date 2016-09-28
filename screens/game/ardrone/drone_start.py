@@ -9,6 +9,9 @@ from kivy.garden.bar import Bar
 # KV file:
 Builder.load_file('screens/game/ardrone/drone_start.kv')
 
+# Hardware:
+from ardrone_ros import ARDrone
+
 # Generic:
 import math
 import numpy as np
@@ -45,6 +48,8 @@ class DroneStart(Screen):
 
         self.U = 0.0
         self.p = [0,0]
+
+        self.drone = ARDrone()
 
     # BUTTON CALLBACKS    
     # ----------------------
@@ -158,10 +163,10 @@ class DroneStart(Screen):
     def map_probs(self, U1, U2):
 
         if U1 > 100:
-            os.system(self.sh.game.action_cmd1)
+            self.drone.takeoff()
             self.set_bar_default()
         elif U2 > 100:
-            os.system(self.sh.game.action_cmd2)
+            self.drone.land()
             self.set_bar_default()
         else: pass
             # dont send any cmd
