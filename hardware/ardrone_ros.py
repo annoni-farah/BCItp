@@ -3,7 +3,9 @@ from std_msgs.msg import Empty
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Vector3
 
-COMMAND_PERIOD = 100 #ms
+from std_srvs.srv import Empty as srv_Empty
+
+COMMAND_PERIOD = 10 #ms
 
 class ARDrone():
     def __init__(self):
@@ -12,6 +14,11 @@ class ARDrone():
 
         self.pub_takeoff = rospy.Publisher('/ardrone/takeoff', Empty, queue_size=1)
         self.pub_land = rospy.Publisher('/ardrone/land', Empty, queue_size=1)
+        self.pub_reset = rospy.Publisher('/ardrone/reset', Empty, queue_size=1)
+
+        # Gazebo Reset Simulator
+        self.reset_world = rospy.ServiceProxy('/gazebo/reset_world', srv_Empty)
+
 
         # self.pub_cmd = rospy.Publisher('/cmd_vel',Twist, 1)
         self.pub_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
@@ -24,6 +31,10 @@ class ARDrone():
 
     def land(self):
         self.pub_land.publish()
+
+    def reset(self):
+        self.pub_reset.publish()
+        self.reset_world()
 
     def set_cmd(self,pitch=0, turn=0):
         # Called by the main program to set the current command
