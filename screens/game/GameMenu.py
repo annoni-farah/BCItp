@@ -22,6 +22,9 @@ class GameMenu(Screen):
         button_target = Button(text="Target", size = BUTTON_SIZE)
         button_target.bind(on_press= self.change_to_target)
 
+        button_ardrone = Button(text="Ardrone", size = BUTTON_SIZE)
+        button_ardrone.bind(on_press= self.change_to_ardrone)
+
         button_settings = Button(text="Settings", size = BUTTON_SIZE)
         button_settings.bind(on_press= self.change_to_gamesettings)
 
@@ -33,6 +36,7 @@ class GameMenu(Screen):
 
         box1.add_widget(button_bars)
         box1.add_widget(button_target)
+        box1.add_widget(button_ardrone)
         box1.add_widget(button_settings)
         box1.add_widget(button_back)
 
@@ -44,6 +48,10 @@ class GameMenu(Screen):
 
     def change_to_bars(self,*args):
         self.manager.current = 'BarsStart'
+        self.manager.transition.direction = 'left'
+
+    def change_to_ardrone(self,*args):
+        self.manager.current = 'DroneMenu'
         self.manager.transition.direction = 'left'
 
     def change_to_gamesettings(self,*args):

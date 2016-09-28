@@ -9,9 +9,11 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 import os, sys, inspect
 
-FOLDERS = ['signal_processing', 'signal_processing/approaches', 'utils', 'screens/settings', 'screens','screens/cal',
- 'hardware', 'screens/ml', 'screens/precal',
- 'screens/cal', 'screens/val', 'screens/game', 'templates']
+FOLDERS = ['signal_processing', 'signal_processing/approaches', 'utils', 
+      'screens/settings', 'screens','screens/cal',
+      'hardware', 'screens/ml', 'screens/precal',
+      'screens/cal', 'screens/val', 'screens/game', 
+      'screens/game/ardrone', 'templates']
 
 for i in range(len(FOLDERS)):
       cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],FOLDERS[i])))
@@ -36,6 +38,10 @@ from GameMenu import *
 from GameSettings import *
 from BarsStart import *
 from TargetStart import *
+
+from drone_menu import *
+from drone_settings import *
+from drone_start import *
 
 from kivy.properties import StringProperty
 
@@ -64,6 +70,10 @@ class MyApp(App):
             bars_start_screen = BarsStart(sh, name='BarsStart')
             target_start_screen = TargetStart(sh, name='TargetStart')
 
+            ardrone_menu_screen = DroneMenu(sh, name='DroneMenu')
+            ardrone_settings_screen = DroneSettings(sh, name='DroneSettings')
+            ardrone_start_screen = DroneStart(sh, name='DroneStart')
+
             sm.add_widget(start_screen)
             sm.add_widget(settings_screen)
             sm.add_widget(bci_screen)
@@ -80,6 +90,10 @@ class MyApp(App):
             sm.add_widget(game_settings_screen)
             sm.add_widget(bars_start_screen)
             sm.add_widget(target_start_screen)
+
+            sm.add_widget(ardrone_menu_screen)
+            sm.add_widget(ardrone_settings_screen)
+            sm.add_widget(ardrone_start_screen)
 
             sm.current = 'start'
 
