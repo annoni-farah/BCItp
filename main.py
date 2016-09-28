@@ -9,7 +9,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 import os, sys, inspect
 
-FOLDERS = ['bci_ml', 'bci_ml/approaches', 'utils', 'screens/settings', 'screens','screens/cal',
+FOLDERS = ['signal_processing', 'signal_processing/approaches', 'utils', 'screens/settings', 'screens','screens/cal',
  'hardware', 'screens/ml', 'screens/precal',
  'screens/cal', 'screens/val', 'screens/game', 'templates']
 
