@@ -19,7 +19,6 @@ class ARDrone():
         # Gazebo Reset Simulator
         self.reset_world = rospy.ServiceProxy('/gazebo/reset_world', srv_Empty)
 
-
         # self.pub_cmd = rospy.Publisher('/cmd_vel',Twist, 1)
         self.pub_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 

@@ -73,6 +73,10 @@ class DroneStart(Screen):
         self.label_on_toggle_button = 'Start'
         self.clock_unscheduler()
         self.set_bar_default()
+        self.drone.set_cmd(0,0)
+        self.drone.land()
+        self.drone.reset()
+
 
     def stream_start(self):
         self.load_approach()
@@ -88,6 +92,8 @@ class DroneStart(Screen):
         self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
         self.clock_scheduler()
+        self.drone.takeoff()
+        self.drone.set_cmd(1,0)
 
 
     def clock_scheduler(self):
@@ -163,13 +169,18 @@ class DroneStart(Screen):
     def map_probs(self, U1, U2):
 
         if U1 > 100:
-            self.drone.takeoff()
+            self.drone.set_cmd(0,1)
+            Clock.schedule_once(self.move_drone_forward, 2)
             self.set_bar_default()
         elif U2 > 100:
-            self.drone.land()
+            self.drone.set_cmd(0,-1)
+            Clock.schedule_once(self.move_drone_forward, 2)
             self.set_bar_default()
         else: pass
             # dont send any cmd
+
+    def move_drone_forward(self, dt):
+        self.drone.set_cmd(1,0)
 
     def set_bar_default(self):
 
