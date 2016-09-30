@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
 from standards import FONT_SIZE, BUTTON_SIZE
+import os
 
 
 class DroneMenu(Screen):
@@ -23,6 +24,9 @@ class DroneMenu(Screen):
         button_start = Button(text="Start", size=BUTTON_SIZE)
         button_start.bind(on_press=self.change_to_acquisition)
 
+        button_simulator = Button(text="Start Simulator", size=BUTTON_SIZE)
+        button_simulator.bind(on_press=self.start_simulator)
+
         button_settings = Button(text="Settings", size=BUTTON_SIZE)
         button_settings.bind(on_press=self.change_to_calsettings)
 
@@ -32,6 +36,7 @@ class DroneMenu(Screen):
         box1.add_widget(self.label_msg)
 
         box1.add_widget(button_start)
+        box1.add_widget(button_simulator)
         box1.add_widget(button_settings)
         box1.add_widget(button_back)
 
@@ -48,3 +53,9 @@ class DroneMenu(Screen):
     def change_to_cal(self, *args):
         self.manager.current = 'GameMenu'
         self.manager.transition.direction = 'right'
+
+    def start_simulator(self, *args):
+        PATH_TO_ROS = '/home/rafael/codes/tum_simulator_ws/devel/setup.bash'
+
+        os.system('roslaunch ardrone_tutorials \
+            keyboard_controller_simu_goal.launch &')
