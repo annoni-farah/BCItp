@@ -1,19 +1,23 @@
 
 import threading
-import matplotlib.pyplot as plt # for plot
+import matplotlib.pyplot as plt  # for plot
 
-from time import sleep
 
 class Figure(threading.Thread):
-    '''Plot the data in a different thread to avoid sample discarding. If the plotting is done
-    within the main loop, the amplifier will push samples through serial port and we will not 
-    not have enough time to process it -> sample loss'''
+    '''
+
+    Plot the data in a different thread to avoid sample discarding.
+    If the plotting is done within the main loop, the amplifier will
+    push samples through serial port and we will not not have enough time
+    to process it -> sample loss
+
+    '''
 
     def __init__(self):  # executed on instantiation of the class PlotData
 
         super(Figure, self).__init__()
 
-        self._stop = threading.Event()            
+        self._stop = threading.Event()
 
         self.x_data = []
         self.y_data = []
@@ -24,8 +28,8 @@ class Figure(threading.Thread):
         # if ~self.stop_flag:
         plt.ion()
         plt.show()
-        plt.hold(False) # hold is off
-            
+        plt.hold(False)  # hold is off
+
         while True:
             if len(self.y_data) > 125:
 
@@ -39,8 +43,6 @@ class Figure(threading.Thread):
                 plt.ylabel('Voltage on Channel')
                 plt.grid(True)
                 plt.draw()
-                    
-
 
     def fillBuffer(self, x, y):
 
@@ -56,12 +58,5 @@ class Figure(threading.Thread):
     def join(self, timeout=None):
         """ Stop the thread and wait for it to end. """
         plt.close()
-        self._stop.set( )
+        self._stop.set()
         threading.Thread.join(self, timeout)
-
-
-        
-
-    
-
-

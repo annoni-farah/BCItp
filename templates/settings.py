@@ -1,7 +1,3 @@
-__all__ = ('StdSettingsContainer', 'StdSettingItem',
-           'StdSettingBoolean', 'StdSettingSlider',
-           'StdSettingString', 'StdSettingTitle')
-
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
@@ -9,13 +5,18 @@ from kivy.uix.label import Label
 from kivy.properties import (StringProperty, NumericProperty, OptionProperty,
                              BooleanProperty)
 from kivy.uix.popup import Popup
-from kivy.uix.scrollview import ScrollView
+
+__all__ = ('StdSettingsContainer', 'StdSettingItem',
+           'StdSettingBoolean', 'StdSettingSlider',
+           'StdSettingString', 'StdSettingTitle')
 
 
 Builder.load_file('templates/settings.kv')
 
+
 class StdSettingsContainer(GridLayout):
     pass
+
 
 class StdSettingItem(GridLayout):
     title = StringProperty('<No title set>')
@@ -37,6 +38,7 @@ class StdSettingString(StdSettingItem):
 
 
 class EditSettingPopup(Popup):
+
     def __init__(self, **kwargs):
         super(EditSettingPopup, self).__init__(**kwargs)
         self.register_event_type('on_validate')
@@ -89,9 +91,8 @@ class StdSettingSlider(StdSettingItem):
         ids.input.select_all()
 
 
-Factory.register('StdSettingsContainer',cls=StdSettingsContainer)
+Factory.register('StdSettingsContainer', cls=StdSettingsContainer)
 Factory.register('StdSettingTitle', cls=StdSettingTitle)
 Factory.register('StdSettingBoolean', cls=StdSettingBoolean)
 Factory.register('StdSettingSlider', cls=StdSettingSlider)
 Factory.register('StdSettingString', cls=StdSettingString)
-

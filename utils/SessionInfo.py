@@ -1,8 +1,10 @@
 
 import pickle
-from standards import *
+from standards import PATH_TO_SESSION
+
 
 class SessionHeader:
+
     def __init__(self):
 
         self.info = InfoHeader()
@@ -15,10 +17,9 @@ class SessionHeader:
 
     def saveToPkl(self):
         path = PATH_TO_SESSION + self.info.name + '/' + 'session_info.pkl'
-        
+
         with open(path, 'w') as file_name:
             pickle.dump(self.__dict__, file_name)
-
 
     def loadFromPkl(self):
         path = PATH_TO_SESSION + self.info.name + '/' + 'session_info.pkl'
@@ -26,10 +27,11 @@ class SessionHeader:
         with open(path, 'r') as file_name:
             load_obj = pickle.load(file_name)
 
-        self.__dict__.update(load_obj) 
+        self.__dict__.update(load_obj)
 
 
 class InfoHeader():
+
     def __init__(self):
         # SESSION SETTINGS
         self.flag = False
@@ -40,6 +42,7 @@ class InfoHeader():
 
 
 class AcquisitionHeader():
+
     def __init__(self):
         # ACQUISITION SETTINGS
         self.flag = False
@@ -53,7 +56,9 @@ class AcquisitionHeader():
         self.daisy = None
         self.dummy = None
 
+
 class DataProcessingHeader():
+
     def __init__(self):
         # DATA PROCESSING SETTINGS
         self.flag = False
@@ -65,7 +70,9 @@ class DataProcessingHeader():
         self.f_order = None
         self.notch = None
 
+
 class PreCalHeader():
+
     def __init__(self):
         # PRECAL SETTINGS
         self.flag = False
@@ -77,7 +84,9 @@ class PreCalHeader():
         self.sign_direction = None
         self.plot_flag = None
 
+
 class CalHeader():
+
     def __init__(self):
         # CAL SETTINGS
         self.flag = False
@@ -96,6 +105,7 @@ class CalHeader():
 
 
 class MLHeader():
+
     def __init__(self):
         # ML SETTINGS
         self.flag = False
@@ -113,11 +123,13 @@ class MLHeader():
         self.n_iter = None
         self.test_perc = None
 
+
 class GameHeader():
+
     def __init__(self):
         # GAME SETTINGS
         self.flag = False
-        
+
         self.game_threshold = None
         self.window_overlap = None
         self.warning_threshold = None
@@ -127,7 +139,3 @@ class GameHeader():
 
         self.action_cmd1 = None
         self.action_cmd2 = None
-
-
-
-

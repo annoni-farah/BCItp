@@ -1,44 +1,34 @@
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.lang import Builder
-
-from kivy.graphics import Rectangle, Color
-
 import os
+from standards import PATH_TO_SESSION
 
-import json
-
-from standards import *
-from kivy_utils import ErrorPopup
-
+from kivy.uix.screenmanager import Screen
+from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty
+
 
 Builder.load_file('screens/screenstart.kv')
 
+
 class StartScreen(Screen):
-# layout
+    # layout
     session_name = ObjectProperty(None)
     label_msg = StringProperty('')
 
-    def __init__ (self, session_header, **kwargs):
-        super (StartScreen, self).__init__(**kwargs)
+    def __init__(self, session_header, **kwargs):
+        super(StartScreen, self).__init__(**kwargs)
 
         self.sh = session_header
 
-    def change_to_gen_settings(self,*args):
+    def change_to_gen_settings(self, *args):
         self.manager.current = 'GeneralSettings'
         self.manager.transition.direction = 'left'
 
-    def change_to_bci(self,*args):
+    def change_to_bci(self, *args):
 
         self.manager.current = 'BCIMenu'
         self.manager.transition.direction = 'left'
 
-    def save_session_name(self,*args):
+    def save_session_name(self, *args):
 
         sname = self.session_name.text
 
@@ -46,18 +36,21 @@ class StartScreen(Screen):
             os.makedirs(PATH_TO_SESSION)
 
         if sname == '':
-            # if no session_name is provided, use latest modified folder in data/session
+            # if no session_name is provided, use latest modified folder in
+            # data/session
             all_subdirs = []
             for d in os.listdir(PATH_TO_SESSION + '.'):
                 bd = os.path.join(PATH_TO_SESSION, d)
-                if os.path.isdir(bd): all_subdirs.append(bd)
+                if os.path.isdir(bd):
+                    all_subdirs.append(bd)
             sname = max(all_subdirs, key=os.path.getmtime).split('/')[2]
 
         self.sh.info.name = sname
 
         if os.path.isdir(PATH_TO_SESSION + sname):
 
-            self.label_msg = "Session " + sname + " already exists. Data will be overwritten"
+            self.label_msg = "Session " + sname \
+                + " already exists. Data will be overwritten"
             self.sh.loadFromPkl()
 
         else:

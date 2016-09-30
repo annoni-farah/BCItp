@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#from threading import Thread
+# from threading import Thread
 import numpy as np
 import os
 from time import sleep
@@ -10,7 +10,7 @@ from math import ceil, isnan
 
 import threading
 
-import collections # circular buffer
+import collections  # circular buffer
 
 from DataProcessing import Filter
 
@@ -23,16 +23,19 @@ import open_bci_playback as playback
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
 
-BAUD=115200
+BAUD = 115200
 
-#define a classe manager
+# define a classe manager
+
+
 class SampleManager(threading.Thread):
-    def __init__(self, p, buf_len, daisy = False, mode = 'openbci' , 
-                    path = None, labels_path = None, dummy=False):
+
+    def __init__(self, p, buf_len, daisy=False, mode='openbci',
+                 path=None, labels_path=None, dummy=False):
         super(SampleManager, self).__init__()
 
         self._stop = threading.Event()
-        
+
         self.sample_counter = 0
 
         self.stop_flag = False
@@ -51,54 +54,60 @@ class SampleManager(threading.Thread):
 
         self.buffer_length = buf_len
 
-        print self.buffer_length
-
         self.daisy = daisy
 
-        self.circBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for input data
-        self.tBuff = collections.deque(maxlen = self.buffer_length) # create a qeue for time series
-        
-        self.event_list = np.array([]).reshape(0,2)
+        self.circBuff = collections.deque(
+            maxlen=self.buffer_length)  # create a qeue for input data
+        # create a qeue for time series
+        self.tBuff = collections.deque(maxlen=self.buffer_length)
+
+        self.event_list = np.array([]).reshape(0, 2)
 
         if self.acq_mode == 'openbci':
 
             self.board = bci.OpenBCIBoard(port=p, baud=BAUD, daisy=self.daisy)
 
         elif self.acq_mode == 'simu':
-            
-            if self.dummy: 
-                loadedData=np.ones([2,16])
-            else: 
+
+            if self.dummy:
+                loadedData = np.ones([2, 16])
+            else:
                 loadedData = LoadDataAsMatrix(self.playback_path)
-                self.playback_labels = iter(LoadDataAsMatrix(self.playback_labels_path))
+                self.playback_labels = iter(
+                    LoadDataAsMatrix(self.playback_labels_path))
                 self.current_playback_label = next(self.playback_labels)
                 self.next_playback_label = next(self.playback_labels)
 
-            self.board = playback.OpenBCIBoard(port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
+            self.board = playback.OpenBCIBoard(
+                port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
 
     def run(self):
 
-        self.board.start_streaming(self.GetData) # start getting data from amplifier
+        # start getting data from amplifier
+        self.board.start_streaming(self.GetData)
 
     def StoreData(self, new_data):
-         
-        data = np.array(new_data) # transform list into numpy array
+
+        data = np.array(new_data)  # transform list into numpy array
 
         if not hasattr(self, 'all_data'):
-            self.all_data = np.array([]).reshape(0,len(data))
+            self.all_data = np.array([]).reshape(0, len(data))
 
-        self.all_data = np.vstack((self.all_data, data)) # append to data stack
-        
+        self.all_data = np.vstack(
+            (self.all_data, data))  # append to data stack
+
     def SaveData(self, path):
 
-        saveMatrixAsTxt(self.all_data, path, mode = 'w')
+        saveMatrixAsTxt(self.all_data, path, mode='w')
 
     def GetData(self, sample):
-        '''Get the data from amplifier and push it into the circular buffer.
+        '''
+        Get the data from amplifier and push it into the circular buffer.
         Also implements a counter to plot against the read value
-        ps: This function is called by the OpenBci start_streaming() function'''
+        ps: This function is called by the OpenBci start_streaming() function
+        '''
 
-        indata =  sample.channel_data
+        indata = sample.channel_data
 
         if not self.expected_package(sample.id):
             # pass
@@ -107,7 +116,7 @@ class SampleManager(threading.Thread):
             # nan_arr[:] = np.nan
             # nan_arr = nan_arr.tolist()
 
-        self.updateCircBuf(indata);
+        self.updateCircBuf(indata)
         self.StoreData(indata)
 
         if self.acq_mode == 'simu' and not self.dummy:
@@ -115,8 +124,8 @@ class SampleManager(threading.Thread):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)
 
-        self.sample_counter += 1 
-        
+        self.sample_counter += 1
+
         if(self.stop_flag):
             self.Stop()
 
@@ -145,8 +154,7 @@ class SampleManager(threading.Thread):
         # print 'sid: ', sid
         # print 'last sid: ', self.last_sid
 
-
-    def GetBuffData(self, mode = None):
+    def GetBuffData(self, mode=None):
         t = np.array(self.tBuff)
         d = np.array(self.circBuff)
 
@@ -173,5 +181,4 @@ class SampleManager(threading.Thread):
 
     def SaveEvents(self, path):
 
-        saveMatrixAsTxt(self.event_list, path, mode = 'w')
-
+        saveMatrixAsTxt(self.event_list, path, mode='w')
