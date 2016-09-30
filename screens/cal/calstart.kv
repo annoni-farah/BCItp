@@ -4,30 +4,59 @@
 
     BoxLayout:
         orientation: 'vertical'
+        spacing: 10
+        padding: 20 
 
-        Carousel:
-            id: carousel
-            direction: 'right'
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 30
+            padding: 20
 
-            Image:
-                id: cross
-                source: root.fig_list[0]
+            BoxLayout:
+                id: bar_left
+                size_hint_x: 0.1
+                Bar:
+                    orientation: 'bt'
+                    color: [0,1,0,.7]
+                    animated: False
+                    value: root.inst_prob_left
 
-            Image:
-                id: aleft
-                source: root.fig_list[1]
+            RelativeLayout:
+                size_hint_x: 0.8
 
-            Image:
-                id: aright
-                source: root.fig_list[2]
+                Carousel:
+                    id: carousel
+                    direction: 'right'
 
-            Image:
-                id: blank
-                source: root.fig_list[3]
+                    Image:
+                        id: cross
+                        source: root.fig_list[0]
 
-            Image:
-                id: break
-                source: root.fig_list[4]
+                    Image:
+                        id: aleft
+                        source: root.fig_list[1]
+
+                    Image:
+                        id: aright
+                        source: root.fig_list[2]
+
+                    Image:
+                        id: blank
+                        source: root.fig_list[3]
+
+                    Image:
+                        id: break
+                        source: root.fig_list[4]
+
+            BoxLayout:
+                size_hint_x: 0.1
+
+                Bar:
+                    orientation: 'bt'
+                    color: [0,1,0,.7]
+                    animated: False
+                    value: root.inst_prob_right
+
 
         GridLayout:
             rows: 1

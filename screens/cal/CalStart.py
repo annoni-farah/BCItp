@@ -18,6 +18,9 @@ Builder.load_file('screens/cal/calstart.kv')
 import random
 import json
 import os
+import math
+from time import sleep
+import threading
 
 # Project's:
 from standards import *
@@ -39,6 +42,9 @@ class CalStart(Screen):
     button_stream = StringProperty('Start Streaming')
 
     carousel = ObjectProperty(None)
+    inst_prob_left = NumericProperty(0)
+    inst_prob_right = NumericProperty(0)
+
 
 # layout
     def __init__ (self, session_header,**kwargs):
@@ -59,6 +65,7 @@ class CalStart(Screen):
         if self.stream_flag:
             self.stream_stop()
             self.stop_stimulus()
+            threading.cleanup_stop_thread()
         else:
             self.stream_start()
 
@@ -80,6 +87,7 @@ class CalStart(Screen):
         self.sm.join()
         self.button_stream = 'Start Streaming'
         self.save_data()
+        self.set_bar_default()
 
     def start_stimulus(self):
         self.epoch_counter = 0
@@ -130,16 +138,21 @@ class CalStart(Screen):
         if self.stim_list[self.epoch_counter] == 1:
             self.carousel.index = 1
             self.sm.MarkEvents(1)
+            anim_left = threading.Thread(target=self.animate_bar_left)
+            anim_left.start()
 
         elif self.stim_list[self.epoch_counter] == 2:
             self.carousel.index = 2
             self.sm.MarkEvents(2)
+            anim_right = threading.Thread(target=self.animate_bar_right)
+            anim_right.start()
 
         self.epoch_counter += 1
         self.run_epoch_counter += 1             
 
     def set_blank(self, dt):
         self.carousel.index = 3
+        self.set_bar_default()
 
     def beep(self):
         os.system('play --no-show-progress --null --channels 1 synth %s sine %f &' % ( 0.3, 500))
@@ -161,4 +174,20 @@ class CalStart(Screen):
         random.shuffle(slist)
 
         self.stim_list = slist.astype(int)
+
+    def set_bar_default(self):
+
+        self.inst_prob_left = 0
+        self.inst_prob_right = 0
+
+    def animate_bar_left(self):
+        for i in range(100):
+            self.inst_prob_left = i
+            sleep(0.05)
+    
+    def animate_bar_right(self):
+        for i in range(100):
+            self.inst_prob_right = i
+            sleep(0.05)
+
 
