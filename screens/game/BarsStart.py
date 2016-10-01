@@ -94,7 +94,9 @@ class BarsStart(Screen):
         Clock.schedule_interval(self.update_accum_bars,
                                 self.sh.game.window_overlap)
 
-        if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
+        if (self.sh.acq.mode == 'simu' and
+                not self.sh.acq.dummy and
+                not self.sh.acq.path_to_labels_file == ''):
             Clock.schedule_interval(self.update_current_label, 1. / 20.)
 
     def clock_unscheduler(self):
