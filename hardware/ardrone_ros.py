@@ -4,7 +4,7 @@ from geometry_msgs.msg import Twist
 
 from std_srvs.srv import Empty as srv_Empty
 
-COMMAND_PERIOD = 10  # ms
+COMMAND_PERIOD = 100  # ms
 
 
 class ARDrone():
@@ -47,3 +47,9 @@ class ARDrone():
         # The previously set command is then sent out periodically if the drone
         # is flying
         self.pub_vel.publish(self.command)
+
+
+if __name__ == '__main__':
+    drone = ARDrone()
+    drone.land()
+    drone.set_cmd(1, 0)
