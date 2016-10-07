@@ -96,3 +96,23 @@
 
                 Label: 
                     text: 'Current Label: ' + str(root.current_label)
+
+<GameDataPopup>:
+    size_hint: None, None
+    size: 300, 250
+    title: 'Game Results'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            TextInput:
+                id: save_name
+                hint_text: 'save as'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'Save Results'
+                on_press: root.save_data(save_name.text)
+

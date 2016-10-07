@@ -7,12 +7,15 @@ import os
 from SampleManager import SampleManager
 from standards import PATH_TO_SESSION
 from approach import Approach
+from utils import saveMatrixAsTxt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
 from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
+from kivy.uix.popup import Popup
+from kivy.core.window import Window
 
 # KV file:
 Builder.load_file('screens/game/barsstart.kv')
@@ -70,6 +73,9 @@ class BarsStart(Screen):
         self.label_on_toggle_button = 'Start'
         self.clock_unscheduler()
         self.set_bar_default()
+
+        res = GameDataPopup(self.sh, self.sm.all_data)
+        res.open()
 
     def stream_start(self):
         self.load_approach()
@@ -198,3 +204,18 @@ class BarsStart(Screen):
 
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.info.name)
+
+
+class GameDataPopup(Popup):
+
+    def __init__(self, sh, data, **kwargs):
+        super(GameDataPopup, self).__init__(**kwargs)
+
+        self.sh = sh
+        self.data = data
+
+    def save_data(self, game_name):
+        path = PATH_TO_SESSION + self.sh.info.name + \
+            '/' + 'bar_data_' + game_name + '.npy'
+
+        saveMatrixAsTxt(self.data, path, mode='w')
