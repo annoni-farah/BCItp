@@ -4,7 +4,7 @@ import random
 import json
 import os
 import math
-from time import sleep
+import time
 import threading
 import numpy as np
 
@@ -126,7 +126,7 @@ class CalStart(Screen):
 
     def display_epoch(self, dt):
         if self.run_epoch_counter < self.sh.cal.n_trials:
-            self.beep()
+            # self.beep()
             Clock.schedule_once(self.set_pause, self.sh.cal.pause_offset)
             Clock.schedule_once(self.set_cue, self.sh.cal.cue_offset)
             Clock.schedule_once(
@@ -135,19 +135,19 @@ class CalStart(Screen):
             self.stop_run()
 
     def set_pause(self, dt):
-        self.carousel.index = 0
+        # self.carousel.index = 0
         self.sm.MarkEvents(0)
 
     def set_cue(self, dt):
 
         if self.stim_list[self.epoch_counter] == 1:
-            self.carousel.index = 1
+            # self.carousel.index = 1
             self.sm.MarkEvents(1)
             anim_left = threading.Thread(target=self.animate_bar_left)
             anim_left.start()
 
         elif self.stim_list[self.epoch_counter] == 2:
-            self.carousel.index = 2
+            # self.carousel.index = 2
             self.sm.MarkEvents(2)
             anim_right = threading.Thread(target=self.animate_bar_right)
             anim_right.start()
@@ -157,7 +157,6 @@ class CalStart(Screen):
 
     def set_blank(self, dt):
         self.carousel.index = 3
-        self.set_bar_default()
 
     def beep(self):
         os.system(
@@ -187,11 +186,19 @@ class CalStart(Screen):
         self.inst_prob_right = 0
 
     def animate_bar_left(self):
-        for i in range(100):
-            self.inst_prob_left = i
-            sleep(0.05)
+        ts = time.time()
+        tf = 0
+        while tf < self.sh.cal.cue_time:
+            self.inst_prob_left = int(100 * tf / self.sh.cal.cue_time)
+            tf = (time.time() - ts)
+
+        self.set_bar_default()
 
     def animate_bar_right(self):
-        for i in range(100):
-            self.inst_prob_right = i
-            sleep(0.05)
+        ts = time.time()
+        tf = 0
+        while tf < self.sh.cal.cue_time:
+            self.inst_prob_right = int(100 * tf / self.sh.cal.cue_time)
+            tf = (time.time() - ts)
+
+        self.set_bar_default()
