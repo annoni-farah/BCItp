@@ -7,8 +7,8 @@ import inspect
 
 FOLDERS = ['signal_processing', 'signal_processing/approaches', 'utils',
            'screens/settings', 'screens', 'screens/cal',
-           'hardware', 'screens/ml', 'screens/precal',
-           'screens/cal', 'screens/val', 'screens/game',
+           'hardware/openbci', 'hardware/ardrone', 'screens/ml',
+           'screens/precal', 'screens/cal', 'screens/val', 'screens/game',
            'screens/game/ardrone', 'templates']
 
 for i in range(len(FOLDERS)):

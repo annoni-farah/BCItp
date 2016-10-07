@@ -1,6 +1,7 @@
 import rospy
 from std_msgs.msg import Empty
 from geometry_msgs.msg import Twist
+from gazebo_msgs.msg import ModelStates
 
 from std_srvs.srv import Empty as srv_Empty
 
@@ -21,12 +22,20 @@ class ARDrone():
         # Gazebo Reset Simulator
         self.reset_world = rospy.ServiceProxy('/gazebo/reset_world', srv_Empty)
 
+        rospy.Subscriber("/gazebo/model_states", ModelStates,
+                         self.update_position)
+
         # self.pub_cmd = rospy.Publisher('/cmd_vel',Twist, 1)
         self.pub_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
         self.command = Twist()
         self.commandTimer = rospy.Timer(rospy.Duration(
             COMMAND_PERIOD / 1000.0), self.send_cmd)
+
+        self.pos_x = 0
+        self.pos_y = 0
+
+        rospy.on_shutdown(self.land)
 
     def takeoff(self):
         self.pub_takeoff.publish()
@@ -48,8 +57,15 @@ class ARDrone():
         # is flying
         self.pub_vel.publish(self.command)
 
+    def update_position(self, data):
+
+        self.pos_x = data.pose[10].position.x
+        self.pos_y = data.pose[10].position.y
+
 
 if __name__ == '__main__':
     drone = ARDrone()
     drone.land()
     drone.set_cmd(1, 0)
+    while True:
+        print drone.pos_x

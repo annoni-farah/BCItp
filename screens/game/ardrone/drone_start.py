@@ -1,17 +1,22 @@
 # DEPENDENCIES ------------------------
 # Generic:
 import math
+from time import sleep
+import numpy as np
 
 # Project's:
 from SampleManager import SampleManager
 from approach import Approach
 from standards import PATH_TO_SESSION
+from utils import saveMatrixAsTxt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
 from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
+from kivy.uix.popup import Popup
+
 
 # KV file:
 Builder.load_file('screens/game/ardrone/drone_start.kv')
@@ -73,11 +78,16 @@ class DroneStart(Screen):
         self.label_on_toggle_button = 'Start'
         self.clock_unscheduler()
         self.set_bar_default()
+        # self.save_results()
         self.drone.set_cmd(0, 0)
         self.drone.land()
+        sleep(3)
         self.drone.reset()
+        res = DroneResultsPopup(self.sh, self.pos_history)
+        res.open()
 
     def stream_start(self):
+
         self.load_approach()
 
         self.sm = SampleManager(self.sh.acq.com_port,
@@ -92,14 +102,16 @@ class DroneStart(Screen):
         self.sm.start()
         self.label_on_toggle_button = 'Stop'
         self.stream_flag = True
+        self.pos_history = np.array([0, 0])
         self.clock_scheduler()
         self.drone.takeoff()
-        self.drone.set_cmd(1, 0)
+        Clock.schedule_once(self.move_drone_forward, 3)
 
     def clock_scheduler(self):
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
                                 self.sh.game.window_overlap)
+        Clock.schedule_interval(self.store_pos, 1.0)
 
         if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
             Clock.schedule_interval(self.update_current_label, 1. / 20.)
@@ -108,6 +120,7 @@ class DroneStart(Screen):
         Clock.unschedule(self.get_probs)
         Clock.unschedule(self.update_current_label)
         Clock.unschedule(self.update_accum_bars)
+        Clock.unschedule(self.store_pos)
 
     def get_probs(self, dt):
 
@@ -176,11 +189,11 @@ class DroneStart(Screen):
 
         if U1 > 100:
             self.drone.set_cmd(0, 1)
-            Clock.schedule_once(self.move_drone_forward, 2)
+            Clock.schedule_once(self.move_drone_forward, 1.5)
             self.set_bar_default()
         elif U2 > 100:
             self.drone.set_cmd(0, -1)
-            Clock.schedule_once(self.move_drone_forward, 2)
+            Clock.schedule_once(self.move_drone_forward, 1.5)
             self.set_bar_default()
         else:
             pass
@@ -198,6 +211,7 @@ class DroneStart(Screen):
         self.inst_prob_right = 0
 
         self.U = 0.0
+        self.p = [0.0, 0.0]
 
     def update_current_label(self, dt):
 
@@ -208,3 +222,30 @@ class DroneStart(Screen):
 
         self.ap = Approach()
         self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.info.name)
+
+    def store_pos(self, dt):
+        new = [self.drone.pos_x, self.drone.pos_y]
+        self.pos_history = np.vstack([self.pos_history, new])
+
+    def save_results(self):
+        path = PATH_TO_SESSION + self.sh.info.name + \
+            '/' + 'drone_game_results.npy'
+
+        r = self.pos_history
+        saveMatrixAsTxt(r, path, mode='w')
+
+
+class DroneResultsPopup(Popup):
+
+    def __init__(self, sh, results, **kwargs):
+        super(DroneResultsPopup, self).__init__(**kwargs)
+
+        self.sh = sh
+        self.res = results
+
+    def save_results(self, game_name):
+        path = (PATH_TO_SESSION + self.sh.info.name +
+                '/' + 'game_results_' + game_name + '.npy')
+
+        r = np.array(self.res)
+        saveMatrixAsTxt(r, path, mode='w')
