@@ -73,10 +73,11 @@ class SampleManager(threading.Thread):
                 loadedData = np.ones([2, 16])
             else:
                 loadedData = LoadDataAsMatrix(self.playback_path)
-                self.playback_labels = iter(
-                    LoadDataAsMatrix(self.playback_labels_path))
-                self.current_playback_label = next(self.playback_labels)
-                self.next_playback_label = next(self.playback_labels)
+                if not self.playback_labels_path == '':
+                    self.playback_labels = iter(
+                        LoadDataAsMatrix(self.playback_labels_path))
+                    self.current_playback_label = next(self.playback_labels)
+                    self.next_playback_label = next(self.playback_labels)
 
             self.board = playback.OpenBCIBoard(
                 port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
@@ -119,7 +120,7 @@ class SampleManager(threading.Thread):
         self.updateCircBuf(indata)
         self.StoreData(indata)
 
-        if self.acq_mode == 'simu' and not self.dummy:
+        if self.acq_mode == 'simu' and not self.dummy and not self.playback_labels_path == '':
             if self.sample_counter == int(self.next_playback_label[0]):
                 self.current_playback_label = self.next_playback_label
                 self.next_playback_label = next(self.playback_labels)
