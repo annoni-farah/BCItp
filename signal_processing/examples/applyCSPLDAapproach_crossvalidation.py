@@ -4,14 +4,13 @@ sys.path.insert(0, '../')
 from approach import Approach
 
 
-DATA_FOLDER_PATH = "/home/rafael/codes/bci_training_platform/data/session/A1_comp/"
+DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/125hz/standard_data/"
 
-DATA_CAL_PATH = DATA_FOLDER_PATH + "data_cal.npy"
+EVENTS_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/125hz/standard_events/"
 
-# EVENTS INFO PATH
-CAL_EVENTS_PATH = DATA_FOLDER_PATH + "events_cal.npy"
+CHANNEL_LIST = [2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19, 20, 21]
 
-SAMPLING_FREQ = 250.0
+SAMPLING_FREQ = 125.0
 
 # FILTER SPEC
 LOWER_CUTOFF = 8.
@@ -19,24 +18,30 @@ UPPER_CUTOFF = 30.
 FILT_ORDER = 5
 
 # EPOCH EXTRACTION CONFIG:
-EVENT_IDS = [770,769]
+EVENT_IDS = [1, 2]
 
-T_MIN, T_MAX = 2,4 # time before event, time after event
+T_MIN, T_MAX = 2.5, 4.5  # time before event, time after event
 
 CSP_N = 8
 
-ap = Approach()
+for i in range(1, 2):
+    print 'evaluating dataset: ', i
+    dsname = 'A0' + str(i) + 'T_openbci.npy'
+    DATA_CAL_PATH = DATA_FOLDER_PATH + dsname
+    CAL_EVENTS_PATH = EVENTS_FOLDER_PATH + dsname
 
-ap.defineApproach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF, FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
+    ap = Approach()
 
-ap.setPathToCal(DATA_CAL_PATH, CAL_EVENTS_PATH)
+    ap.defineApproach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
+                      FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
 
-ap.setValidChannels([-1])
-ap.define_bad_epochs(100)
+    ap.setPathToCal(DATA_CAL_PATH, CAL_EVENTS_PATH)
 
+    ap.setValidChannels([-1])
+    ap.define_bad_epochs(100)
 
-autoscore = ap.trainModel()
-crossvalscore = ap.cross_validate_model(10, 0.2)
+    autoscore = ap.trainModel()
+    crossvalscore = ap.cross_validate_model(10, 0.2)
 
-print 'SelfValidation result: ', autoscore
-print 'Cross Validation result: ', crossvalscore
+    # print 'SelfValidation result: ', autoscore
+    print 'Cross Validation result: ', crossvalscore
