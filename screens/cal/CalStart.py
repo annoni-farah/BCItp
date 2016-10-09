@@ -45,6 +45,9 @@ class CalStart(Screen):
     inst_prob_left = NumericProperty(0)
     inst_prob_right = NumericProperty(0)
 
+    accum_color_left = ListProperty([1, 0, 0, 1])
+    accum_color_right = ListProperty([0, 0, 1, 1])
+
 
 # layout
     def __init__(self, session_header, **kwargs):
@@ -83,6 +86,7 @@ class CalStart(Screen):
         self.button_stream = 'Stop Streaming'
         self.stream_flag = True
         self.start_stimulus()
+        self.set_bar_default()
 
     def stream_stop(self):
         self.sm.stop_flag = True
@@ -126,7 +130,7 @@ class CalStart(Screen):
 
     def display_epoch(self, dt):
         if self.run_epoch_counter < self.sh.cal.n_trials:
-            # self.beep()
+            self.beep()
             Clock.schedule_once(self.set_pause, self.sh.cal.pause_offset)
             Clock.schedule_once(self.set_cue, self.sh.cal.cue_offset)
             Clock.schedule_once(
@@ -182,14 +186,23 @@ class CalStart(Screen):
 
     def set_bar_default(self):
 
-        self.inst_prob_left = 0
-        self.inst_prob_right = 0
+        self.inst_prob_left = 50
+        self.inst_prob_right = 50
+        self.accum_color_left = [1, 0, 0, 1]
+        self.accum_color_right = [0, 0, 1, 1]
 
     def animate_bar_left(self):
         ts = time.time()
         tf = 0
-        while tf < self.sh.cal.cue_time:
-            self.inst_prob_left = int(100 * tf / self.sh.cal.cue_time)
+        while tf < self.sh.cal.cue_time and self.stream_flag:
+            ratio = tf / self.sh.cal.cue_time
+            self.inst_prob_left = 50 + ratio * 50
+            # if self.inst_prob_left > 80:
+            #     self.accum_color_left = [1, 1, 0, 1]
+            # else:
+            #     self.accum_color_left = [1, 0, 0, 1]
+            self.inst_prob_right = 100 - self.inst_prob_left
+            time.sleep(0.05)
             tf = (time.time() - ts)
 
         self.set_bar_default()
@@ -197,8 +210,15 @@ class CalStart(Screen):
     def animate_bar_right(self):
         ts = time.time()
         tf = 0
-        while tf < self.sh.cal.cue_time:
-            self.inst_prob_right = int(100 * tf / self.sh.cal.cue_time)
+        while tf < self.sh.cal.cue_time and self.stream_flag:
+            ratio = tf / self.sh.cal.cue_time
+            self.inst_prob_right = 50 + ratio * 50
+            # if self.inst_prob_right > 80:
+            #     self.accum_color_right = [1, 1, 0, 1]
+            # else:
+            #     self.accum_color_right = [0, 0, 1, 1]
+            self.inst_prob_left = 100 - self.inst_prob_right
+            time.sleep(0.05)
             tf = (time.time() - ts)
 
         self.set_bar_default()
