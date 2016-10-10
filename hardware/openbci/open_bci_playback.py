@@ -33,11 +33,11 @@ class OpenBCIBoard(object):
         self.t = 0
 
         self.playback_data = data
-        self.playback_data_shape = data.shape
 
         self.daisy = daisy
 
         self.sample_rate = self.getSampleRate()
+        print self.sample_rate
 
         self.packet_id = 0
 
@@ -67,7 +67,7 @@ class OpenBCIBoard(object):
             callback = [callback]
 
         sample_counter = 0
-        counter_max = self.playback_data_shape[0]
+        counter_max = self.playback_data.shape[0]
 
         while self.streaming:
 
@@ -79,6 +79,7 @@ class OpenBCIBoard(object):
                 self.packet_id = (self.packet_id + 1) % 256
 
             channel_data = self.playback_data[sample_counter, :].tolist()
+            # print self.playback_data.shape
 
             sample = OpenBCISample(self.packet_id, channel_data, [])
             # if a daisy module is attached, wait to concatenate two samples
@@ -91,8 +92,8 @@ class OpenBCIBoard(object):
 
             sample_counter += 1
 
-            if sample_counter == counter_max:
-                sample_counter = 0
+            # if sample_counter == counter_max:
+            #     sample_counter = 0
 
             while 1.0 / self.sample_rate > time.time() - st:
                 pass

@@ -6,7 +6,8 @@ import numpy as np
 import os
 from time import sleep
 
-from math import ceil, isnan
+from math import ceil, isnan, floor
+from random import randint
 
 import threading
 
@@ -16,6 +17,8 @@ from DataProcessing import Filter
 
 from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
+
+from DataManipulation import extractEpochs, readEvents
 
 import open_bci_v3 as bci
 import open_bci_playback as playback
@@ -63,6 +66,11 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([]).reshape(0, 2)
 
+        self.cmd_list = iter([769, 770, 769, 770, 769, 770])
+        self.current_cmd = next(self.cmd_list)
+        smin = int(floor(0.4 * 250))
+        smax = int(floor(2.4 * 250))
+
         if self.acq_mode == 'openbci':
 
             self.board = bci.OpenBCIBoard(port=p, baud=BAUD, daisy=self.daisy)
@@ -72,15 +80,30 @@ class SampleManager(threading.Thread):
             if self.dummy:
                 loadedData = np.ones([2, 16])
             else:
-                loadedData = LoadDataAsMatrix(self.playback_path)
+                self.loadedData = LoadDataAsMatrix(self.playback_path).T[:22]
                 if not self.playback_labels_path == '':
                     self.playback_labels = iter(
                         LoadDataAsMatrix(self.playback_labels_path))
                     self.current_playback_label = next(self.playback_labels)
                     self.next_playback_label = next(self.playback_labels)
 
+                ev = readEvents(self.playback_labels_path)
+                self.epochs, self.labels = extractEpochs(
+                    self.loadedData,
+                    ev,
+                    smin,
+                    smax,
+                    [769, 770])
+
+                self.playbackData = np.zeros([1, self.epochs.shape[1]])
+
+                print self.playbackData.shape
+
             self.board = playback.OpenBCIBoard(
-                port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
+                port=p, baud=BAUD, daisy=self.daisy, data=self.playbackData)
+
+            self.append_epoch()
+            self.append_epoch()
 
     def run(self):
 
@@ -120,10 +143,8 @@ class SampleManager(threading.Thread):
         self.updateCircBuf(indata)
         self.StoreData(indata)
 
-        if self.acq_mode == 'simu' and not self.dummy and not self.playback_labels_path == '':
-            if self.sample_counter == int(self.next_playback_label[0]):
-                self.current_playback_label = self.next_playback_label
-                self.next_playback_label = next(self.playback_labels)
+        if self.sample_counter > self.playbackData.shape[0] - 10:
+            self.append_epoch()
 
         self.sample_counter += 1
 
@@ -183,3 +204,15 @@ class SampleManager(threading.Thread):
     def SaveEvents(self, path):
 
         saveMatrixAsTxt(self.event_list, path, mode='w')
+
+    def update_cmd(self):
+        self.current_cmd = next(self.cmd_list)
+
+    def append_epoch(self):
+        print('Appending epoch: ', self.current_cmd)
+        idx = np.where(self.labels == self.current_cmd)[0]
+        k = randint(0, len(idx) - 1)
+        self.playbackData = np.vstack(
+            [self.playbackData, self.epochs[idx[k]].T])
+
+        self.board.playback_data = self.playbackData

@@ -191,10 +191,12 @@ class DroneStart(Screen):
             self.drone.set_cmd(0, 1)
             Clock.schedule_once(self.move_drone_forward, 1.5)
             self.set_bar_default()
+            self.sm.update_cmd()
         elif U2 > 100:
             self.drone.set_cmd(0, -1)
             Clock.schedule_once(self.move_drone_forward, 1.5)
             self.set_bar_default()
+            self.sm.update_cmd()
         else:
             pass
             # dont send any cmd

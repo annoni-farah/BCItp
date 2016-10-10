@@ -178,9 +178,11 @@ class BarsStart(Screen):
         if U1 > 100:
             os.system(self.sh.game.action_cmd1)
             self.set_bar_default()
+            self.sm.update_cmd()
         elif U2 > 100:
             os.system(self.sh.game.action_cmd2)
             self.set_bar_default()
+            self.sm.update_cmd()
         else:
             pass
             # dont send any cmd
@@ -197,8 +199,7 @@ class BarsStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label = int(self.sm.current_playback_label[1])
-        self.current_label = current_label
+        self.current_label = self.sm.current_cmd
 
     def load_approach(self):
 
