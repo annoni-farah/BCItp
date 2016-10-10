@@ -66,10 +66,11 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([]).reshape(0, 2)
 
-        self.cmd_list = iter([769, 770, 769, 770, 769, 770])
+        self.cmd_list = iter([1, 2, 2, 0])
         self.current_cmd = next(self.cmd_list)
-        smin = int(floor(0.4 * 250))
-        smax = int(floor(2.4 * 250))
+        self.last_toggle_cmd = 1
+        smin = int(floor(2.5 * 250))
+        smax = int(floor(4.5 * 250))
 
         if self.acq_mode == 'openbci':
 
@@ -93,7 +94,7 @@ class SampleManager(threading.Thread):
                     ev,
                     smin,
                     smax,
-                    [769, 770])
+                    [1, 2, 4])
 
                 self.playbackData = np.zeros([1, self.epochs.shape[1]])
 
@@ -143,7 +144,7 @@ class SampleManager(threading.Thread):
         self.updateCircBuf(indata)
         self.StoreData(indata)
 
-        if self.sample_counter > self.playbackData.shape[0] - 10:
+        if self.sample_counter > self.playbackData.shape[0] - 20:
             self.append_epoch()
 
         self.sample_counter += 1
@@ -210,8 +211,21 @@ class SampleManager(threading.Thread):
 
     def append_epoch(self):
         print('Appending epoch: ', self.current_cmd)
-        idx = np.where(self.labels == self.current_cmd)[0]
-        k = randint(0, len(idx) - 1)
+
+        if self.current_cmd == 0:
+            idx1 = np.where(self.labels == 1)[0]
+            idx2 = np.where(self.labels == 2)[0]
+
+            if self.last_toggle_cmd == 1:
+                k = randint(0, len(idx2) - 1)
+                self.last_toggle_cmd = 2
+            else:
+                k = randint(0, len(idx1) - 1)
+                self.last_toggle_cmd = 1
+        else:
+            idx = np.where(self.labels == self.current_cmd)[0]
+            k = randint(0, len(idx) - 1)
+
         self.playbackData = np.vstack(
             [self.playbackData, self.epochs[idx[k]].T])
 

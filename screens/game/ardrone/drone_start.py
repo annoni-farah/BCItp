@@ -3,6 +3,7 @@
 import math
 from time import sleep
 import numpy as np
+import time
 
 # Project's:
 from SampleManager import SampleManager
@@ -21,6 +22,8 @@ from kivy.uix.popup import Popup
 # KV file:
 Builder.load_file('screens/game/ardrone/drone_start.kv')
 
+
+DRONE_VEL = 0.7
 ######################################################################
 
 
@@ -83,7 +86,9 @@ class DroneStart(Screen):
         self.drone.land()
         sleep(3)
         self.drone.reset()
-        res = DroneResultsPopup(self.sh, self.pos_history)
+        game_time = time.time() - self.game_start_time
+        results = np.array([(self.pos_history), (game_time)])
+        res = DroneResultsPopup(self.sh, results, self.sm.all_data)
         res.open()
 
     def stream_start(self):
@@ -105,6 +110,7 @@ class DroneStart(Screen):
         self.pos_history = np.array([0, 0])
         self.clock_scheduler()
         self.drone.takeoff()
+        self.game_start_time = time.time()
         Clock.schedule_once(self.move_drone_forward, 3)
 
     def clock_scheduler(self):
@@ -202,7 +208,7 @@ class DroneStart(Screen):
             # dont send any cmd
 
     def move_drone_forward(self, dt):
-        self.drone.set_cmd(1, 0)
+        self.drone.set_cmd(DRONE_VEL, 0)
 
     def set_bar_default(self):
 
@@ -217,8 +223,7 @@ class DroneStart(Screen):
 
     def update_current_label(self, dt):
 
-        current_label = int(self.sm.current_playback_label[1])
-        self.current_label = current_label
+        self.current_label = self.sm.current_cmd
 
     def load_approach(self):
 
@@ -239,15 +244,20 @@ class DroneStart(Screen):
 
 class DroneResultsPopup(Popup):
 
-    def __init__(self, sh, results, **kwargs):
+    def __init__(self, sh, results, data, **kwargs):
         super(DroneResultsPopup, self).__init__(**kwargs)
 
         self.sh = sh
         self.res = results
+        self.data = data
 
     def save_results(self, game_name):
-        path = (PATH_TO_SESSION + self.sh.info.name +
-                '/' + 'game_results_' + game_name + '.npy')
+        path_res = (PATH_TO_SESSION + self.sh.info.name +
+                    '/' + 'game_results_' + game_name + '.npy')
+
+        path_data = (PATH_TO_SESSION + self.sh.info.name +
+                     '/' + 'game_data_' + game_name + '.npy')
 
         r = np.array(self.res)
-        saveMatrixAsTxt(r, path, mode='w')
+        saveMatrixAsTxt(r, path_res, mode='w')
+        saveMatrixAsTxt(r, path_data, mode='w')
