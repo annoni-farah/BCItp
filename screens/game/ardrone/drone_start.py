@@ -82,7 +82,7 @@ class DroneStart(Screen):
         self.clock_unscheduler()
         self.set_bar_default()
         # self.save_results()
-        self.drone.set_cmd(0, 0)
+        self.drone.stop()
         self.drone.land()
         sleep(3)
         self.drone.reset()
@@ -194,13 +194,11 @@ class DroneStart(Screen):
     def map_probs(self, U1, U2):
 
         if U1 > 100:
-            self.drone.set_cmd(0, 1)
-            Clock.schedule_once(self.move_drone_forward, 1.5)
+            self.drone.set_direction(-1)
             self.set_bar_default()
             self.sm.update_cmd()
         elif U2 > 100:
-            self.drone.set_cmd(0, -1)
-            Clock.schedule_once(self.move_drone_forward, 1.5)
+            self.drone.set_direction(1)
             self.set_bar_default()
             self.sm.update_cmd()
         else:
@@ -208,7 +206,7 @@ class DroneStart(Screen):
             # dont send any cmd
 
     def move_drone_forward(self, dt):
-        self.drone.set_cmd(DRONE_VEL, 0)
+        self.drone.set_forward_vel(DRONE_VEL)
 
     def set_bar_default(self):
 
@@ -233,13 +231,6 @@ class DroneStart(Screen):
     def store_pos(self, dt):
         new = [self.drone.pos_x, self.drone.pos_y]
         self.pos_history = np.vstack([self.pos_history, new])
-
-    def save_results(self):
-        path = PATH_TO_SESSION + self.sh.info.name + \
-            '/' + 'drone_game_results.npy'
-
-        r = self.pos_history
-        saveMatrixAsTxt(r, path, mode='w')
 
 
 class DroneResultsPopup(Popup):

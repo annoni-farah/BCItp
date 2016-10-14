@@ -33,13 +33,6 @@ class ARDrone():
         # self.pub_cmd = rospy.Publisher('/cmd_vel',Twist, 1)
         self.pub_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
-        self.command = Twist()
-        self.commandTimer = rospy.Timer(rospy.Duration(
-            COMMAND_PERIOD / 1000.0), self.send_cmd)
-
-        self.commandTimer = rospy.Timer(rospy.Duration(
-            COMMAND_PERIOD / 100.0), self.lock_direction)
-
         self.pos_x = 0
         self.pos_y = 0
 
@@ -47,7 +40,19 @@ class ARDrone():
         self.pitch = 0
         self.yaw = 0
 
-        self.set_direction('forward')
+        self.direction_list = ['left', 'forward', 'right', 'backward']
+        self.direction_idx = 1
+        self.yaw_map = {'left': 360, 'forward': 270,
+                        'right': 180, 'backward': 90}
+
+        self.target_yaw = self.yaw_map[self.direction_list[self.direction_idx]]
+
+        self.command = Twist()
+        self.commandTimer = rospy.Timer(rospy.Duration(
+            COMMAND_PERIOD / 1000.0), self.send_cmd)
+
+        self.commandTimer = rospy.Timer(rospy.Duration(
+            COMMAND_PERIOD / 1000.0), self.lock_direction)
 
         rospy.on_shutdown(self.land)
 
@@ -57,29 +62,47 @@ class ARDrone():
     def land(self):
         self.pub_land.publish()
 
+    def stop(self):
+        self.set_forward_vel(0)
+        self.set_yaw_vel(0)
+
     def reset(self):
         self.pub_reset.publish()
         self.reset_world()
+        self.direction_idx = 0
+        self.set_direction(1)
 
     def set_direction(self, direction):
-        if direction == 'left':
-            self.target_yaw = 180
-        elif direction == 'forward':
-            self.target_yaw = 90
-        elif direction == 'back':
-            self.target_yaw = -90
-        elif direction == 'right':
-            self.target_yaw = 0
+
+        print 'setting new direction. old:', self.direction_list[self.direction_idx]
+
+        idx = self.direction_idx + direction
+
+        if idx > 3:
+            idx = 0
+        elif idx < 0:
+            idx = 3
+
+        self.direction_idx = idx
+
+        direction = self.direction_list[self.direction_idx]
+
+        print 'new:', direction
+
+        self.target_yaw = self.yaw_map[direction]
 
     def lock_direction(self, event):
-        if self.target_yaw - 2 <= self.yaw:
-            self.set_yaw_vel(1)
+        # target =  % 360
+        # while self.yaw <= target - 2:
+        #     self.set_yaw_vel(1)
+        # while self.yaw >= target + 2:
+        #     self.set_yaw_vel(-1)
 
-        if self.yaw >= self.target_yaw + 2:
-            self.set_yaw_vel(-1)
+        error = (self.target_yaw - self.yaw) / (180.0)
+        # print error
+        self.set_yaw_vel(error)
 
-        else:
-            self.set_yaw_vel(0)
+        # self.set_yaw_vel(0)
 
     def set_forward_vel(self, forward=0):
         # Called by the main program to set the current command
@@ -111,16 +134,20 @@ class ARDrone():
         euler = tf.transformations.euler_from_quaternion(quaternion)
         self.roll = euler[0] * 180 / pi
         self.pitch = euler[1] * 180 / pi
-        self.yaw = euler[2] * 180 / pi
+        self.yaw = (euler[2] * 180 / pi) + 180  # offset to avoid - numbers
 
 
 if __name__ == '__main__':
     drone = ARDrone()
-    # drone.land()
+    sleep(2)
+    drone.takeoff()
+
+    # sleep(10)
     # drone.set_cmd(1, 0)
-    # drone.set_direction('left')
+    # drone.set_direction(1)
     while True:
-        print drone.yaw
-        print drone.target_yaw
-        print('--------------')
-        sleep(0.5)
+        # print drone.yaw
+        # print drone.target_yaw
+        drone.lock_direction(None)
+        sleep(1)
+    # drone.land()
