@@ -99,7 +99,12 @@ class ARDrone():
         else:
             ref = self.target_yaw
 
-        error = (ref - self.yaw) / (180.0)
+        if (ref - self.yaw) > 180:
+            ctrl = self.yaw - ref
+        else:
+            ctrl = ref - self.yaw
+
+        error = (ctrl) / (90.0)
         self.set_yaw_vel(error)
 
     def set_forward_vel(self, forward=0):

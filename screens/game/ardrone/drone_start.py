@@ -194,13 +194,17 @@ class DroneStart(Screen):
     def map_probs(self, U1, U2):
 
         if U1 > 100:
+            self.drone.stop()
             self.drone.set_direction(-1)
             self.set_bar_default()
             self.sm.update_cmd()
+            Clock.schedule_once(self.move_drone_forward, 2)
         elif U2 > 100:
+            self.drone.stop()
             self.drone.set_direction(1)
             self.set_bar_default()
             self.sm.update_cmd()
+            Clock.schedule_once(self.move_drone_forward, 2)
         else:
             pass
             # dont send any cmd
