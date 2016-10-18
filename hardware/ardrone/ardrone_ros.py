@@ -74,7 +74,8 @@ class ARDrone():
 
     def set_direction(self, direction):
 
-        print 'setting new direction. old:', self.direction_list[self.direction_idx]
+        print('setting new direction. old:',
+              self.direction_list[self.direction_idx])
 
         idx = self.direction_idx + direction
 
@@ -87,22 +88,19 @@ class ARDrone():
 
         direction = self.direction_list[self.direction_idx]
 
-        print 'new:', direction
+        print('new:', direction)
 
         self.target_yaw = self.yaw_map[direction]
 
     def lock_direction(self, event):
-        # target =  % 360
-        # while self.yaw <= target - 2:
-        #     self.set_yaw_vel(1)
-        # while self.yaw >= target + 2:
-        #     self.set_yaw_vel(-1)
 
-        error = (self.target_yaw - self.yaw) / (180.0)
-        # print error
+        if (self.yaw <= 180) and (self.target_yaw == 360):
+            ref = 0
+        else:
+            ref = self.target_yaw
+
+        error = (ref - self.yaw) / (180.0)
         self.set_yaw_vel(error)
-
-        # self.set_yaw_vel(0)
 
     def set_forward_vel(self, forward=0):
         # Called by the main program to set the current command
