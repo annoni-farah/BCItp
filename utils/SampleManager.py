@@ -66,7 +66,7 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([]).reshape(0, 2)
 
-        self.cmd_list = iter([1, 2, 2, 0])
+        self.cmd_list = iter([1, 2, 2, 0, 0, 0])
         self.current_cmd = next(self.cmd_list)
         self.last_toggle_cmd = 1
         smin = int(floor(2.5 * 250))
@@ -94,7 +94,7 @@ class SampleManager(threading.Thread):
                     ev,
                     smin,
                     smax,
-                    [1, 2, 4])
+                    [1, 2])
 
                 self.playbackData = np.zeros([1, self.epochs.shape[1]])
 
@@ -215,18 +215,21 @@ class SampleManager(threading.Thread):
         if self.current_cmd == 0:
             idx1 = np.where(self.labels == 1)[0]
             idx2 = np.where(self.labels == 2)[0]
-
             if self.last_toggle_cmd == 1:
                 k = randint(0, len(idx2) - 1)
                 self.last_toggle_cmd = 2
+                idx = idx2[k]
             else:
                 k = randint(0, len(idx1) - 1)
                 self.last_toggle_cmd = 1
+                idx = idx1[k]
+
         else:
-            idx = np.where(self.labels == self.current_cmd)[0]
-            k = randint(0, len(idx) - 1)
+            idx12 = np.where(self.labels == self.current_cmd)[0]
+            k = randint(0, len(idx12) - 1)
+            idx = idx12[k]
 
         self.playbackData = np.vstack(
-            [self.playbackData, self.epochs[idx[k]].T])
+            [self.playbackData, self.epochs[idx].T])
 
         self.board.playback_data = self.playbackData
