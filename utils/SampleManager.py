@@ -13,8 +13,6 @@ import threading
 
 import collections  # circular buffer
 
-from DataProcessing import Filter
-
 from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
 
@@ -233,3 +231,11 @@ class SampleManager(threading.Thread):
             [self.playbackData, self.epochs[idx].T])
 
         self.board.playback_data = self.playbackData
+
+    def clear_buffer(self):
+        self.circBuff.clear()
+        self.tBuff.clear()
+        # self.playbackData = np.delete(self.playbackData,
+        #                               range(self.playbackData.shape[0] - 500,
+        #                                     self.playbackData.shape[0]),
+        #                               axis=0)

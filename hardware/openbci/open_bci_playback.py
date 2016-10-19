@@ -67,7 +67,6 @@ class OpenBCIBoard(object):
             callback = [callback]
 
         sample_counter = 0
-        counter_max = self.playback_data.shape[0]
 
         while self.streaming:
 

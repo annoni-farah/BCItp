@@ -23,12 +23,13 @@ from kivy.uix.popup import Popup
 Builder.load_file('screens/game/ardrone/drone_start.kv')
 
 
-DRONE_VEL = 0.7
+DRONE_VEL = 1
+K = 2
+I = 1
 ######################################################################
 
 
 class DroneStart(Screen):
-
     inst_prob_left = NumericProperty(0)
     accum_prob_left = NumericProperty(0)
     accum_color_left = ListProperty([1, 0, 0, 1])
@@ -89,7 +90,12 @@ class DroneStart(Screen):
         game_time = time.time() - self.game_start_time
         results = np.array([(self.pos_history), (game_time)])
         res = DroneResultsPopup(self.sh, results, self.sm.all_data)
-        res.open()
+        # res.open()
+        global I
+        res.save_results('run' + str(I))
+        I += 1
+        if I < 11:
+            self.stream_start()
 
     def stream_start(self):
 
@@ -111,13 +117,14 @@ class DroneStart(Screen):
         self.clock_scheduler()
         self.drone.takeoff()
         self.game_start_time = time.time()
-        Clock.schedule_once(self.move_drone_forward, 3)
 
     def clock_scheduler(self):
+        Clock.schedule_once(self.move_drone_forward, 3)
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
                                 self.sh.game.window_overlap)
-        Clock.schedule_interval(self.store_pos, 1.0)
+        Clock.schedule_interval(self.store_pos, .2)
+        Clock.schedule_interval(self.check_if_won, .2)
 
         if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
             Clock.schedule_interval(self.update_current_label, 1. / 20.)
@@ -127,6 +134,7 @@ class DroneStart(Screen):
         Clock.unschedule(self.update_current_label)
         Clock.unschedule(self.update_accum_bars)
         Clock.unschedule(self.store_pos)
+        Clock.unschedule(self.check_if_won)
 
     def get_probs(self, dt):
 
@@ -164,7 +172,7 @@ class DroneStart(Screen):
         p1 = self.p[0]
         p2 = self.p[1]
 
-        u = p1 - p2
+        u = K * (p1 - p2)
 
         self.U += u
 
@@ -195,16 +203,19 @@ class DroneStart(Screen):
 
         if U1 > 100:
             self.drone.stop()
-            self.drone.set_direction(-1)
+            self.drone.set_direction('left')
             self.set_bar_default()
             self.sm.update_cmd()
-            Clock.schedule_once(self.move_drone_forward, 2)
+            self.sm.clear_buffer()
+            Clock.schedule_once(self.move_drone_forward, 2.5)
+
         elif U2 > 100:
             self.drone.stop()
-            self.drone.set_direction(1)
+            self.drone.set_direction('right')
             self.set_bar_default()
             self.sm.update_cmd()
-            Clock.schedule_once(self.move_drone_forward, 2)
+            self.sm.clear_buffer()
+            Clock.schedule_once(self.move_drone_forward, 2.5)
         else:
             pass
             # dont send any cmd
@@ -235,6 +246,11 @@ class DroneStart(Screen):
     def store_pos(self, dt):
         new = [self.drone.pos_x, self.drone.pos_y]
         self.pos_history = np.vstack([self.pos_history, new])
+
+    def check_if_won(self, dt):
+        pos_x = self.drone.pos_x
+        if pos_x > 20:
+            self.stream_stop()
 
 
 class DroneResultsPopup(Popup):

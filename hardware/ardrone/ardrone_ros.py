@@ -11,6 +11,7 @@ from std_srvs.srv import Empty as srv_Empty
 from math import acos, pi
 
 COMMAND_PERIOD = 10  # ms
+Kp = 0.003
 
 
 class ARDrone():
@@ -40,12 +41,7 @@ class ARDrone():
         self.pitch = 0
         self.yaw = 0
 
-        self.direction_list = ['left', 'forward', 'right', 'backward']
-        self.direction_idx = 1
-        self.yaw_map = {'left': 360, 'forward': 270,
-                        'right': 180, 'backward': 90}
-
-        self.target_yaw = self.yaw_map[self.direction_list[self.direction_idx]]
+        self.target_yaw = 270
 
         self.command = Twist()
         self.commandTimer = rospy.Timer(rospy.Duration(
@@ -69,28 +65,20 @@ class ARDrone():
     def reset(self):
         self.pub_reset.publish()
         self.reset_world()
-        self.direction_idx = 0
-        self.set_direction(1)
+        self.target_yaw = 270
 
     def set_direction(self, direction):
 
         # print('setting new direction. old:',
         #       self.direction_list[self.direction_idx])
+        yaw = self.target_yaw
 
-        idx = self.direction_idx + direction
+        if direction == 'left':
+            yaw = (yaw + 90.0) % 360
+        elif direction == 'right':
+            yaw = (yaw - 90.0) % 360
 
-        if idx > 3:
-            idx = 0
-        elif idx < 0:
-            idx = 3
-
-        self.direction_idx = idx
-
-        direction = self.direction_list[self.direction_idx]
-
-        # print('new:', direction)
-
-        self.target_yaw = self.yaw_map[direction]
+        self.target_yaw = yaw
 
     def lock_direction(self, event):
 
@@ -104,7 +92,13 @@ class ARDrone():
         if abs(error) > 180:
             error = -error
 
-        ctrl = (error) / (90.0)
+        ctrl = Kp * (error)
+
+        if ctrl > 1:
+            ctrl = 1
+        elif ctrl < -1:
+            ctrl = -1
+
         self.set_yaw_vel(ctrl)
 
     def set_forward_vel(self, forward=0):
