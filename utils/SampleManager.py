@@ -231,7 +231,7 @@ class SampleManager(threading.Thread):
     def clear_buffer(self):
         self.circBuff.clear()
         self.tBuff.clear()
-        # self.playbackData = np.delete(self.playbackData,
-        #                               range(self.playbackData.shape[0] - 500,
-        #                                     self.playbackData.shape[0]),
-        #                               axis=0)
+        self.playbackData = np.delete(self.playbackData,
+                                      range(self.playbackData.shape[0] - 500,
+                                            self.playbackData.shape[0]),
+                                      axis=0)
