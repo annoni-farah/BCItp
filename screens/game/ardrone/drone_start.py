@@ -23,12 +23,12 @@ from kivy.uix.popup import Popup
 Builder.load_file('screens/game/ardrone/drone_start.kv')
 
 
-DRONE_VEL = 1
+DRONE_VEL = 1.5
 K = 2
 I = 1
 TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20, 20]]
-CMD_LIST = [1, 0, 2, 0, 2]
-D_TO_TARGET = 15
+CMD_LIST = [1, 2, 2]
+D_TO_TARGET = 10
 ######################################################################
 
 
@@ -125,12 +125,12 @@ class DroneStart(Screen):
         self.game_start_time = time.time()
 
     def clock_scheduler(self):
-        Clock.schedule_once(self.move_drone_forward, 3)
+        Clock.schedule_once(self.move_drone_forward, 2)
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
                                 self.sh.game.window_overlap)
-        # Clock.schedule_interval(self.store_pos, .2)
-        # Clock.schedule_interval(self.check_if_won, .2)
+        Clock.schedule_interval(self.store_pos, .2)
+        Clock.schedule_interval(self.check_if_won, .2)
         Clock.schedule_interval(self.check_pos, 1. / 10.)
 
         if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
@@ -214,15 +214,17 @@ class DroneStart(Screen):
             self.drone.stop()
             self.drone.set_direction('left')
             self.set_bar_default()
-            # self.sm.clear_buffer()
-            Clock.schedule_once(self.move_drone_forward, 2.5)
+            self.sm.clear_buffer()
+            self.sm.current_cmd = 0
+            Clock.schedule_once(self.move_drone_forward, 2)
 
         elif U2 > 100:
             self.drone.stop()
             self.drone.set_direction('right')
             self.set_bar_default()
-            # self.sm.clear_buffer()
-            Clock.schedule_once(self.move_drone_forward, 2.5)
+            self.sm.clear_buffer()
+            self.sm.current_cmd = 0
+            Clock.schedule_once(self.move_drone_forward, 2)
 
         else:
             pass
@@ -262,6 +264,7 @@ class DroneStart(Screen):
         if ((target_area[0] < pos[0] < target_area[2]) and
                 (target_area[1] < pos[1] < target_area[3])):
             self.sm.current_cmd = next(self.cmd_list)
+            self.set_bar_default()
             self.update_target_area()
 
     def check_if_won(self, dt):
