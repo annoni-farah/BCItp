@@ -11,7 +11,7 @@ from std_srvs.srv import Empty as srv_Empty
 from math import pi
 
 COMMAND_PERIOD = 10  # ms
-Kp = 0.005
+Kp = 0.05
 
 
 class ARDrone():
@@ -47,9 +47,6 @@ class ARDrone():
         self.VelCommandTimer = rospy.Timer(rospy.Duration(
             COMMAND_PERIOD / 1000.0), self.send_cmd)
 
-        self.YawCommandTimer = rospy.Timer(rospy.Duration(
-            COMMAND_PERIOD / 1000.0), self.lock_direction)
-
         rospy.on_shutdown(self.land)
 
     def takeoff(self):
@@ -80,9 +77,8 @@ class ARDrone():
 
         self.target_yaw = yaw
 
-    def lock_direction(self, event):
+    def lock_direction(self, pos):
 
-        pos = self.yaw
         ref = self.target_yaw
 
         if (pos <= 90) and (ref >= 270):
@@ -129,9 +125,11 @@ class ARDrone():
             q_z,
             q_w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-        # self.roll = euler[0] * 180 / pi
-        # self.pitch = euler[1] * 180 / pi
+        self.roll = euler[0] * 180 / pi
+        self.pitch = euler[1] * 180 / pi
         self.yaw = (euler[2] * 180 / pi) + 180  # offset to avoid - numbers
+
+        self.lock_direction(self.yaw)
 
 if __name__ == '__main__':
     d = ARDrone()
