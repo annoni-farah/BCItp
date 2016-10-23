@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 COMMAND_PERIOD = 10  # ms
-Kp = 0.03
+Kp = 0.005
 
 yaw_h = []
 error_h = []

@@ -64,8 +64,7 @@ class SampleManager(threading.Thread):
 
         self.event_list = np.array([]).reshape(0, 2)
 
-        self.cmd_list = iter([1, 2, 2, 0, 0, 0])
-        self.current_cmd = next(self.cmd_list)
+        self.current_cmd = 0
         self.last_toggle_cmd = 1
         smin = int(floor(2.5 * 250))
         smax = int(floor(4.5 * 250))
@@ -204,11 +203,8 @@ class SampleManager(threading.Thread):
 
         saveMatrixAsTxt(self.event_list, path, mode='w')
 
-    def update_cmd(self):
-        self.current_cmd = next(self.cmd_list)
-
     def append_epoch(self):
-        print('Appending epoch: ', self.current_cmd)
+        # print('Appending epoch: ', self.current_cmd)
 
         if self.current_cmd == 0:
             idx1 = np.where(self.labels == 1)[0]

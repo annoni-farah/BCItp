@@ -8,10 +8,10 @@ from time import sleep
 
 from std_srvs.srv import Empty as srv_Empty
 
-from math import acos, pi
+from math import pi
 
 COMMAND_PERIOD = 10  # ms
-Kp = 0.003
+Kp = 0.005
 
 
 class ARDrone():
@@ -44,10 +44,10 @@ class ARDrone():
         self.target_yaw = 270
 
         self.command = Twist()
-        self.commandTimer = rospy.Timer(rospy.Duration(
+        self.VelCommandTimer = rospy.Timer(rospy.Duration(
             COMMAND_PERIOD / 1000.0), self.send_cmd)
 
-        self.commandTimer = rospy.Timer(rospy.Duration(
+        self.YawCommandTimer = rospy.Timer(rospy.Duration(
             COMMAND_PERIOD / 1000.0), self.lock_direction)
 
         rospy.on_shutdown(self.land)
@@ -129,22 +129,21 @@ class ARDrone():
             q_z,
             q_w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-        self.roll = euler[0] * 180 / pi
-        self.pitch = euler[1] * 180 / pi
+        # self.roll = euler[0] * 180 / pi
+        # self.pitch = euler[1] * 180 / pi
         self.yaw = (euler[2] * 180 / pi) + 180  # offset to avoid - numbers
 
-
 if __name__ == '__main__':
-    drone = ARDrone()
-    sleep(2)
-    drone.takeoff()
+    d = ARDrone()
+    # sleep(2)
+    # drone.takeoff()
 
-    # sleep(10)
-    # drone.set_cmd(1, 0)
-    # drone.set_direction(1)
-    while True:
-        # print drone.yaw
-        # print drone.target_yaw
-        drone.lock_direction(None)
-        sleep(1)
+    # # sleep(10)
+    # # drone.set_cmd(1, 0)
+    # # drone.set_direction(1)
+    # while True:
+    #     # print drone.yaw
+    #     # print drone.target_yaw
+    #     drone.lock_direction(None)
+    #     sleep(1)
     # drone.land()

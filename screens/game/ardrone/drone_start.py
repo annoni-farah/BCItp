@@ -26,6 +26,9 @@ Builder.load_file('screens/game/ardrone/drone_start.kv')
 DRONE_VEL = 1
 K = 2
 I = 1
+TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20, 20]]
+CMD_LIST = [1, 0, 2, 0, 2]
+D_TO_TARGET = 15
 ######################################################################
 
 
@@ -90,14 +93,17 @@ class DroneStart(Screen):
         game_time = time.time() - self.game_start_time
         results = np.array([(self.pos_history), (game_time)])
         res = DroneResultsPopup(self.sh, results, self.sm.all_data)
-        # res.open()
-        global I
-        res.save_results('run' + str(I))
-        I += 1
-        if I < 11:
-            self.stream_start()
+        res.open()
+        # global I
+        # res.save_results('run' + str(I))
+        # I += 1
+        # if I < 11:
+        #     self.stream_start()
 
     def stream_start(self):
+        self.cmd_list = iter(CMD_LIST)
+        self.target_pos_arr = iter(TARGET_POS_ARR)
+        self.update_target_area()
 
         self.load_approach()
 
@@ -123,11 +129,13 @@ class DroneStart(Screen):
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
                                 self.sh.game.window_overlap)
-        Clock.schedule_interval(self.store_pos, .2)
-        Clock.schedule_interval(self.check_if_won, .2)
+        # Clock.schedule_interval(self.store_pos, .2)
+        # Clock.schedule_interval(self.check_if_won, .2)
+        Clock.schedule_interval(self.check_pos, 1. / 10.)
 
         if self.sh.acq.mode == 'simu' and not self.sh.acq.dummy:
-            Clock.schedule_interval(self.update_current_label, 1. / 20.)
+            pass
+            Clock.schedule_interval(self.update_current_label, 1. / 5.)
 
     def clock_unscheduler(self):
         Clock.unschedule(self.get_probs)
@@ -135,6 +143,7 @@ class DroneStart(Screen):
         Clock.unschedule(self.update_accum_bars)
         Clock.unschedule(self.store_pos)
         Clock.unschedule(self.check_if_won)
+        Clock.unschedule(self.check_pos)
 
     def get_probs(self, dt):
 
@@ -205,17 +214,16 @@ class DroneStart(Screen):
             self.drone.stop()
             self.drone.set_direction('left')
             self.set_bar_default()
-            self.sm.update_cmd()
-            self.sm.clear_buffer()
+            # self.sm.clear_buffer()
             Clock.schedule_once(self.move_drone_forward, 2.5)
 
         elif U2 > 100:
             self.drone.stop()
             self.drone.set_direction('right')
             self.set_bar_default()
-            self.sm.update_cmd()
-            self.sm.clear_buffer()
+            # self.sm.clear_buffer()
             Clock.schedule_once(self.move_drone_forward, 2.5)
+
         else:
             pass
             # dont send any cmd
@@ -247,10 +255,28 @@ class DroneStart(Screen):
         new = [self.drone.pos_x, self.drone.pos_y]
         self.pos_history = np.vstack([self.pos_history, new])
 
+    def check_pos(self, dt):
+
+        pos = [self.drone.pos_x, self.drone.pos_y]
+        target_area = self.target_area
+        if ((target_area[0] < pos[0] < target_area[2]) and
+                (target_area[1] < pos[1] < target_area[3])):
+            self.sm.current_cmd = next(self.cmd_list)
+            self.update_target_area()
+
     def check_if_won(self, dt):
         pos_x = self.drone.pos_x
         if pos_x > 20:
             self.stream_stop()
+
+    def update_target_area(self):
+        target_pos = next(self.target_pos_arr)
+        self.target_area = [
+            target_pos[0] - D_TO_TARGET,
+            target_pos[1] - D_TO_TARGET,
+            target_pos[0] + D_TO_TARGET,
+            target_pos[1] + D_TO_TARGET,
+        ]
 
 
 class DroneResultsPopup(Popup):
