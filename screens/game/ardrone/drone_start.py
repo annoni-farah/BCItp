@@ -266,13 +266,14 @@ class DroneStart(Screen):
                 (target_area[1] < pos[1] < target_area[3])):
             try:
                 self.sm.current_cmd = next(self.cmd_list)
+
+                self.sm.clear_buffer()
+                self.sm.jump_playback_data()
+                self.set_bar_default()
+                self.update_target_area()
+
             except StopIteration:
                 self.stream_stop()
-
-            self.sm.clear_buffer()
-            self.sm.jump_playback_data()
-            self.set_bar_default()
-            self.update_target_area()
 
         else:
             if (abs(pos[0]) > 35 or abs(pos[1]) > 35):
@@ -282,14 +283,16 @@ class DroneStart(Screen):
     def update_target_area(self):
         try:
             target_pos = next(self.target_pos_arr)
+
+            self.target_area = [
+                target_pos[0] - D_TO_TARGET,
+                target_pos[1] - D_TO_TARGET,
+                target_pos[0] + D_TO_TARGET,
+                target_pos[1] + D_TO_TARGET,
+            ]
+
         except StopIteration:
             self.stream_stop()
-        self.target_area = [
-            target_pos[0] - D_TO_TARGET,
-            target_pos[1] - D_TO_TARGET,
-            target_pos[0] + D_TO_TARGET,
-            target_pos[1] + D_TO_TARGET,
-        ]
 
 
 class DroneResultsPopup(Popup):
