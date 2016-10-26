@@ -65,9 +65,9 @@ class SampleManager(threading.Thread):
         self.event_list = np.array([]).reshape(0, 2)
 
         self.current_cmd = 0
-        self.last_toggle_cmd = 1
         smin = int(floor(2.5 * 250))
         smax = int(floor(4.5 * 250))
+        self.winning = 1
 
         if self.acq_mode == 'openbci':
 
@@ -94,8 +94,6 @@ class SampleManager(threading.Thread):
                     [1, 2])
 
                 self.playbackData = np.zeros([1, self.epochs.shape[1]])
-
-                print self.playbackData.shape
 
             self.board = playback.OpenBCIBoard(
                 port=p, baud=BAUD, daisy=self.daisy, data=self.playbackData)
@@ -141,7 +139,7 @@ class SampleManager(threading.Thread):
         self.updateCircBuf(indata)
         self.StoreData(indata)
 
-        if self.sample_counter > self.playbackData.shape[0] - 20:
+        if self.board.sample_counter > self.playbackData.shape[0] - 30:
             self.append_epoch()
 
         self.sample_counter += 1
@@ -181,7 +179,7 @@ class SampleManager(threading.Thread):
         return t, d
 
     def Stop(self):
-        print 'Streaming stopped. Closing connection to hardware'
+        print('Streaming stopped. Closing connection to hardware')
         self.board.stop()
         self.board.disconnect()
         self._stop.set()
@@ -209,13 +207,11 @@ class SampleManager(threading.Thread):
         if self.current_cmd == 0:
             idx1 = np.where(self.labels == 1)[0]
             idx2 = np.where(self.labels == 2)[0]
-            if self.last_toggle_cmd == 1:
+            if self.winning == 1:
                 k = randint(0, len(idx2) - 1)
-                self.last_toggle_cmd = 2
                 idx = idx2[k]
             else:
                 k = randint(0, len(idx1) - 1)
-                self.last_toggle_cmd = 1
                 idx = idx1[k]
 
         else:
@@ -231,7 +227,12 @@ class SampleManager(threading.Thread):
     def clear_buffer(self):
         self.circBuff.clear()
         self.tBuff.clear()
-        self.playbackData = np.delete(self.playbackData,
-                                      range(self.playbackData.shape[0] - 500,
-                                            self.playbackData.shape[0]),
-                                      axis=0)
+        # self.playbackData = np.delete(self.playbackData,
+        #                               range(self.board.sample_counter + 30,
+        #                                     self.playbackData.shape[0]),
+        #                               axis=0)
+        # self.append_epoch()
+
+    def jump_playback_data(self):
+        self.board.sample_counter = self.board.playback_data.shape[0] - 50
+

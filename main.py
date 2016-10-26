@@ -44,7 +44,6 @@ from kivy.properties import StringProperty
 
 from SessionInfo import SessionHeader
 
-
 class MyApp(App):
 
     def build(self):
