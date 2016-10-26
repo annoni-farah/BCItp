@@ -85,7 +85,7 @@ def extractEpochs(data, e, smin, smax, ev_id):
         if epoch.shape[1] == n_samples:
             epochs[i, :, :] = epoch
         else:
-            print 'Incomplete epoch detected...'
+            print('Incomplete epoch detected...')
             bad_epoch_list.append(i)
 
     labels = np.delete(labels, bad_epoch_list)

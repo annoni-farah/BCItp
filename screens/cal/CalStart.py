@@ -169,7 +169,7 @@ class CalStart(Screen):
 
     def save_data(self):
 
-        print 'Saving data'
+        print('Saving data')
         self.sm.SaveData(self.sh.cal.data_cal_path)
         self.sm.SaveEvents(self.sh.cal.events_cal_path)
 

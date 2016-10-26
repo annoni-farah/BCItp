@@ -187,7 +187,7 @@ class OpenBCIBoard(object):
                     # channel_data[:] = np.NAN
                     # whole_sample =
                     # OpenBCISample(sample.id, channel_data, avg_aux_data)
-                    print 'invalid package'
+                    print('invalid package')
 
             else:
                 for call in callback:

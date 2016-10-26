@@ -37,7 +37,7 @@ class OpenBCIBoard(object):
         self.daisy = daisy
 
         self.sample_rate = self.getSampleRate()
-        print self.sample_rate
+        print(self.sample_rate)
 
         self.packet_id = 0
 
@@ -66,7 +66,7 @@ class OpenBCIBoard(object):
         if not isinstance(callback, list):
             callback = [callback]
 
-        sample_counter = 0
+        self.sample_counter = 0
 
         while self.streaming:
 
@@ -77,7 +77,7 @@ class OpenBCIBoard(object):
             else:
                 self.packet_id = (self.packet_id + 1) % 256
 
-            channel_data = self.playback_data[sample_counter, :].tolist()
+            channel_data = self.playback_data[self.sample_counter, :].tolist()
             # print self.playback_data.shape
 
             sample = OpenBCISample(self.packet_id, channel_data, [])
@@ -89,7 +89,7 @@ class OpenBCIBoard(object):
             if(lapse > 0 and timeit.default_timer() - start_time > lapse):
                 self.stop()
 
-            sample_counter += 1
+            self.sample_counter += 1
 
             # if sample_counter == counter_max:
             #     sample_counter = 0

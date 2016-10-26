@@ -122,8 +122,6 @@ class Filter:
 
         seg_len = int(win_len / math.floor((n_seg * ov) + 1))
 
-        print seg_len
-
         if w_type == 'han':
             win_seg = np.hanning(seg_len)
 

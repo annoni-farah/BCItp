@@ -1,4 +1,4 @@
-import biosig # used to import gdf data files
+# import biosig # used to import gdf data files
 import numpy as np # numpy - used for array and matrices operations
 import math as math # used for basic mathematical operations
 
@@ -334,7 +334,7 @@ def find_bad_amplitude_epochs(epochs, threshold):
         if np.sum(data>threshold):
             bad_idx.extend([i])
 
-    print 'Found {} bad epochs'.format(len(bad_idx))
+    print('Found {} bad epochs'.format(len(bad_idx)))
     
     return bad_idx
 
@@ -356,6 +356,6 @@ def find_bad_fft_epochs(epochs, threshold, ch, fs, Aavg = None):
         if err>threshold:
             bad_idx.extend([i])
 
-    print 'Found {} bad fft epochs'.format(len(bad_idx))
+    print('Found {} bad fft epochs'.format(len(bad_idx)))
     
     return bad_idx
