@@ -6,12 +6,12 @@ sys.path.insert(0, '../../')
 from signal_processing.approach import Approach
 
 
-DATA_FOLDER_PATH = "/home/rafael/codes/bci_training_platform/data/session/A1_comp_drone/"
+DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
 
-DATA_CAL_PATH = DATA_FOLDER_PATH + "data_cal.npy"
+DATA_CAL_PATH = DATA_FOLDER_PATH + "A04T.npy"
 
 # EVENTS INFO PATH
-CAL_EVENTS_PATH = DATA_FOLDER_PATH + "events_cal.npy"
+CAL_EVENTS_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/A04T.npy"
 
 SAMPLING_FREQ = 250.0
 
@@ -23,7 +23,7 @@ FILT_ORDER = 5
 # EPOCH EXTRACTION CONFIG:
 EVENT_IDS = [1, 2]
 
-T_MIN, T_MAX = 2.4, 4.4  # time before event, time after event
+T_MIN, T_MAX = 2.5, 4.5  # time before event, time after event
 
 CSP_N = 8
 
@@ -80,7 +80,7 @@ while tend < data.shape[1]:
     u_time = np.append(u_time, u)
     U = U + u
 
-    if U > U_max:
+    if abs(U) > U_max:
         U = 0
     U_time = np.append(U_time, U)
     labelh.extend([g])
@@ -106,7 +106,7 @@ plt.plot()
 plt.subplot(2, 1, 1)
 plt.plot(time, U_time, 'k', linewidth=4.0)
 plt.grid(True)
-plt.axis([0, 14, -130, 130])
+# plt.axis([0, 6, -20, 120])
 # plt.axis('equal')
 plt.ylabel('U')
 # plt.xlabel('Time (s)')
@@ -116,7 +116,7 @@ plt.grid(True)
 plt.subplot(2, 1, 2)
 plt.plot(time, u_time, 'k', linewidth=2.0)
 plt.grid(True)
-plt.axis([0, 14, -1.2, 1.2])
+# plt.axis([0, 6, 0, 1.2])
 # plt.axis('equal')
 plt.ylabel('u')
 plt.xlabel('Time (s)')

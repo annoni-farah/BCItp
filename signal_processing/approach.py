@@ -1,15 +1,17 @@
 
 from DataProcessing import Learner, Filter
 from processing_utils import loadBiosig, nanCleaner, \
-                                find_bad_amplitude_epochs, find_bad_fft_epochs, \
-                                    computeAvgFFT
+    find_bad_amplitude_epochs, find_bad_fft_epochs, \
+    computeAvgFFT
 import math
 from DataManipulation import loadDataAsMatrix, readEvents, extractEpochs
 
 import pickle
 import numpy as np
 
+
 class Approach:
+
     def __init__(self):
         pass
 
@@ -21,7 +23,8 @@ class Approach:
         self.smin = int(math.floor(epoch_start * sample_rate))
         self.smax = int(math.floor(epoch_end * sample_rate))
 
-        self.filter = Filter(f_low, f_high, sample_rate, f_order, filt_type = 'iir', band_type = 'band')
+        self.filter = Filter(f_low, f_high, sample_rate,
+                             f_order, filt_type='iir', band_type='band')
         self.learner = Learner()
 
         self.learner.DesignLDA()
@@ -36,7 +39,6 @@ class Approach:
         data, ev = self.loadData(self.data_cal_path, self.events_cal_path)
         epochs, labels = self.loadEpochs(data, ev)
         epochs = self.preProcess(epochs)
-
 
         # epochs, labels = self.reject_epochs(epochs, labels)
 
@@ -65,8 +67,8 @@ class Approach:
         epochs = self.preProcess(epochs)
         epochs, labels = self.reject_epochs(epochs, labels)
 
-        score = self.learner.cross_evaluate_set(epochs, labels, \
-                                    n_iter, test_perc)
+        score = self.learner.cross_evaluate_set(epochs, labels,
+                                                n_iter, test_perc)
 
         return score
 
@@ -76,12 +78,12 @@ class Approach:
         score = self.learner.GetResults()
         return score
 
-    def applyModelOnEpoch(self, epoch, out_param = 'label'):
+    def applyModelOnEpoch(self, epoch, out_param='label'):
 
         epoch_f = self.preProcess(epoch)
 
-        if not epoch == []: 
-            guess = self.learner.EvaluateEpoch(epoch_f, out_param = out_param)
+        if not epoch == []:
+            guess = self.learner.EvaluateEpoch(epoch_f, out_param=out_param)
         else:
             guess = None
 
@@ -97,25 +99,28 @@ class Approach:
         self.data_val_path = dpath
         self.events_val_path = evpath
 
-    def loadData(self, dpath, evpath):
-        if self.channels == [-1]:
-            data = loadDataAsMatrix(dpath).T
-        else:
-            data = loadDataAsMatrix(dpath).T[self.channels]
+    def loadData(self, dpath, evpath, data_format='path'):
+        if data_format == 'path':
+            if self.channels == [-1]:
+                data = loadDataAsMatrix(dpath).T
+            else:
+                data = loadDataAsMatrix(dpath).T[self.channels]
 
-        events = readEvents(evpath)
+            events = readEvents(evpath)
+
+        elif data_format == 'npy':
+            data, events = dpath, evpath
 
         return data, events
 
     def loadEpochs(self, data, events):
 
-        epochs, labels = extractEpochs(data, events, 
-                                                self.smin, 
-                                                self.smax, 
-                                                self.class_ids)
+        epochs, labels = extractEpochs(data, events,
+                                       self.smin,
+                                       self.smax,
+                                       self.class_ids)
 
         return epochs, labels
-
 
     def preProcess(self, data_in):
 
@@ -141,19 +146,17 @@ class Approach:
 
     def setValidChannels(self, channels):
         self.channels = channels
-        
+
     def saveToPkl(self, path):
         path += '/approach_info.pkl'
-        
+
         with open(path, 'w') as file_name:
             pickle.dump(self.__dict__, file_name)
 
-
     def loadFromPkl(self, path):
         path += '/approach_info.pkl'
-        
+
         with open(path, 'r') as file_name:
             load_obj = pickle.load(file_name)
 
-        self.__dict__.update(load_obj) 
-
+        self.__dict__.update(load_obj)

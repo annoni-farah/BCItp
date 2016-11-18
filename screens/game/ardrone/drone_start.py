@@ -26,7 +26,7 @@ Builder.load_file('screens/game/ardrone/drone_start.kv')
 DRONE_VEL = 1
 K = 1
 I = 1
-TARGET_POS_ARR = [[0, -20], [-20, 20], [-20, 0]]
+TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]]
 CMD_LIST = [1, 1]
 D_TO_TARGET = 10
 ######################################################################
@@ -92,17 +92,17 @@ class DroneStart(Screen):
         game_time = time.time() - self.game_start_time
         results = np.array([(self.pos_history), (game_time)])
         res = DroneResultsPopup(self.sh, results, self.sm.all_data)
-        # res.open()
+        res.open()
 
-        global I
-        if self.bad_run:
-            res.save_results('run' + str(I) + 'bad')
-        else:
-            res.save_results('run' + str(I))
-        I += 1
-        if I < 20:
-            sleep(4)
-            self.stream_start()
+        # global I
+        # if self.bad_run:
+        #     res.save_results('run' + str(I) + 'bad')
+        # else:
+        #     res.save_results('run' + str(I))
+        # I += 1
+        # if I < 20:
+        #     sleep(4)
+        #     self.stream_start()
 
     def stream_start(self):
         self.drone.stop()
