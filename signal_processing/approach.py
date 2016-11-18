@@ -1,8 +1,7 @@
 
 from DataProcessing import Learner, Filter
 from processing_utils import loadBiosig, nanCleaner, \
-    find_bad_amplitude_epochs, find_bad_fft_epochs, \
-    computeAvgFFT
+    find_bad_amplitude_epochs, find_bad_fft_epochs, computeAvgFFT
 import math
 from DataManipulation import loadDataAsMatrix, readEvents, extractEpochs
 

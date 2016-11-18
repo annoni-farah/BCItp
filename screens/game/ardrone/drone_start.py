@@ -27,6 +27,9 @@ DRONE_VEL = 1
 K = 1
 I = 1
 TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]]
+TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]]
+TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]]
+
 CMD_LIST = [1, 1]
 D_TO_TARGET = 10
 ######################################################################
@@ -105,6 +108,7 @@ class DroneStart(Screen):
         #     self.stream_start()
 
     def stream_start(self):
+        self.lock_check_pos = False
         self.drone.stop()
         self.bad_run = False
         self.cmd_list = iter(CMD_LIST)
@@ -224,6 +228,9 @@ class DroneStart(Screen):
                 self.drone.set_direction('left')
             else:
                 self.drone.set_direction('right')
+
+            self.update_target_area()
+            self.lock_check_pos = False
         elif self.sm.current_cmd == 0:
             if U1 > U2:
                 self.sm.winning = 1
@@ -259,17 +266,22 @@ class DroneStart(Screen):
         self.pos_history = np.vstack([self.pos_history, new])
 
     def check_pos(self, dt):
+        if self.lock_check_pos:
+            print('locked')
+            return
+
         pos = [self.drone.pos_x, self.drone.pos_y]
         target_area = self.target_area
         if ((target_area[0] < pos[0] < target_area[2]) and
                 (target_area[1] < pos[1] < target_area[3])):
+            print('entrou na area')
             try:
                 self.sm.current_cmd = next(self.cmd_list)
 
                 self.sm.clear_buffer()
                 self.sm.jump_playback_data()
                 self.set_bar_default()
-                self.update_target_area()
+                self.lock_check_pos = True
 
             except StopIteration:
                 self.stream_stop()
@@ -293,7 +305,7 @@ class DroneStart(Screen):
                     target_pos[1] + 100,
                 ]
 
-            elif targ_yaw == 360 or targ_yaw = 0:
+            elif targ_yaw == 360 or targ_yaw == 0:
                 self.target_area = [
                     target_pos[0] - 100,
                     target_pos[1] - 100,
