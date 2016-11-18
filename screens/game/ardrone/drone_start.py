@@ -283,12 +283,39 @@ class DroneStart(Screen):
         try:
             target_pos = next(self.target_pos_arr)
 
-            self.target_area = [
-                target_pos[0] - D_TO_TARGET,
-                target_pos[1] - D_TO_TARGET,
-                target_pos[0] + D_TO_TARGET,
-                target_pos[1] + D_TO_TARGET,
-            ]
+            targ_yaw = self.drone.target_yaw
+
+            if targ_yaw == 270:
+                self.target_area = [
+                    target_pos[0] - 100,
+                    target_pos[1] - D_TO_TARGET,
+                    target_pos[0] + 100,
+                    target_pos[1] + 100,
+                ]
+
+            elif targ_yaw == 360 or targ_yaw = 0:
+                self.target_area = [
+                    target_pos[0] - 100,
+                    target_pos[1] - 100,
+                    target_pos[0] + D_TO_TARGET,
+                    target_pos[1] + 100,
+                ]
+
+            if targ_yaw == 90:
+                self.target_area = [
+                    target_pos[0] - 100,
+                    target_pos[1] - 100,
+                    target_pos[0] + 100,
+                    target_pos[1] + D_TO_TARGET,
+                ]
+
+            if targ_yaw == 180:
+                self.target_area = [
+                    target_pos[0] - D_TO_TARGET,
+                    target_pos[1] - 100,
+                    target_pos[0] + 100,
+                    target_pos[1] + 100,
+                ]
 
         except StopIteration:
             self.stream_stop()
