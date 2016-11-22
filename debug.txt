@@ -1,0 +1,976 @@
+# installing zipimport hook
+import zipimport # builtin
+# installed zipimport hook
+# /usr/lib/python2.7/site.pyc matches /usr/lib/python2.7/site.py
+import site # precompiled from /usr/lib/python2.7/site.pyc
+# /usr/lib/python2.7/os.pyc matches /usr/lib/python2.7/os.py
+import os # precompiled from /usr/lib/python2.7/os.pyc
+import errno # builtin
+import posix # builtin
+# /usr/lib/python2.7/posixpath.pyc matches /usr/lib/python2.7/posixpath.py
+import posixpath # precompiled from /usr/lib/python2.7/posixpath.pyc
+# /usr/lib/python2.7/stat.pyc matches /usr/lib/python2.7/stat.py
+import stat # precompiled from /usr/lib/python2.7/stat.pyc
+# /usr/lib/python2.7/genericpath.pyc matches /usr/lib/python2.7/genericpath.py
+import genericpath # precompiled from /usr/lib/python2.7/genericpath.pyc
+# /usr/lib/python2.7/warnings.pyc matches /usr/lib/python2.7/warnings.py
+import warnings # precompiled from /usr/lib/python2.7/warnings.pyc
+# /usr/lib/python2.7/linecache.pyc matches /usr/lib/python2.7/linecache.py
+import linecache # precompiled from /usr/lib/python2.7/linecache.pyc
+# /usr/lib/python2.7/types.pyc matches /usr/lib/python2.7/types.py
+import types # precompiled from /usr/lib/python2.7/types.pyc
+# /usr/lib/python2.7/UserDict.pyc matches /usr/lib/python2.7/UserDict.py
+import UserDict # precompiled from /usr/lib/python2.7/UserDict.pyc
+# /usr/lib/python2.7/_abcoll.pyc matches /usr/lib/python2.7/_abcoll.py
+import _abcoll # precompiled from /usr/lib/python2.7/_abcoll.pyc
+# /usr/lib/python2.7/abc.pyc matches /usr/lib/python2.7/abc.py
+import abc # precompiled from /usr/lib/python2.7/abc.pyc
+# /usr/lib/python2.7/_weakrefset.pyc matches /usr/lib/python2.7/_weakrefset.py
+import _weakrefset # precompiled from /usr/lib/python2.7/_weakrefset.pyc
+import _weakref # builtin
+# /usr/lib/python2.7/copy_reg.pyc matches /usr/lib/python2.7/copy_reg.py
+import copy_reg # precompiled from /usr/lib/python2.7/copy_reg.pyc
+# /usr/lib/python2.7/traceback.pyc matches /usr/lib/python2.7/traceback.py
+import traceback # precompiled from /usr/lib/python2.7/traceback.pyc
+# /usr/lib/python2.7/sysconfig.pyc matches /usr/lib/python2.7/sysconfig.py
+import sysconfig # precompiled from /usr/lib/python2.7/sysconfig.pyc
+# /usr/lib/python2.7/re.pyc matches /usr/lib/python2.7/re.py
+import re # precompiled from /usr/lib/python2.7/re.pyc
+# /usr/lib/python2.7/sre_compile.pyc matches /usr/lib/python2.7/sre_compile.py
+import sre_compile # precompiled from /usr/lib/python2.7/sre_compile.pyc
+import _sre # builtin
+# /usr/lib/python2.7/sre_parse.pyc matches /usr/lib/python2.7/sre_parse.py
+import sre_parse # precompiled from /usr/lib/python2.7/sre_parse.pyc
+# /usr/lib/python2.7/sre_constants.pyc matches /usr/lib/python2.7/sre_constants.py
+import sre_constants # precompiled from /usr/lib/python2.7/sre_constants.pyc
+# /usr/lib/python2.7/_sysconfigdata.pyc matches /usr/lib/python2.7/_sysconfigdata.py
+import _sysconfigdata # precompiled from /usr/lib/python2.7/_sysconfigdata.pyc
+# /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata_nd.pyc matches /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata_nd.py
+import _sysconfigdata_nd # precompiled from /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata_nd.pyc
+# /usr/lib/python2.7/sitecustomize.pyc matches /usr/lib/python2.7/sitecustomize.py
+import sitecustomize # precompiled from /usr/lib/python2.7/sitecustomize.pyc
+import encodings # directory /usr/lib/python2.7/encodings
+# /usr/lib/python2.7/encodings/__init__.pyc matches /usr/lib/python2.7/encodings/__init__.py
+import encodings # precompiled from /usr/lib/python2.7/encodings/__init__.pyc
+# /usr/lib/python2.7/codecs.pyc matches /usr/lib/python2.7/codecs.py
+import codecs # precompiled from /usr/lib/python2.7/codecs.pyc
+import _codecs # builtin
+# /usr/lib/python2.7/encodings/aliases.pyc matches /usr/lib/python2.7/encodings/aliases.py
+import encodings.aliases # precompiled from /usr/lib/python2.7/encodings/aliases.pyc
+# /usr/lib/python2.7/encodings/utf_8.pyc matches /usr/lib/python2.7/encodings/utf_8.py
+import encodings.utf_8 # precompiled from /usr/lib/python2.7/encodings/utf_8.pyc
+Python 2.7.6 (default, Jun 22 2015, 17:58:13) 
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+import kivy # directory /usr/lib/python2.7/dist-packages/kivy
+# /usr/lib/python2.7/dist-packages/kivy/__init__.pyc matches /usr/lib/python2.7/dist-packages/kivy/__init__.py
+import kivy # precompiled from /usr/lib/python2.7/dist-packages/kivy/__init__.pyc
+# /usr/lib/python2.7/shutil.pyc matches /usr/lib/python2.7/shutil.py
+import shutil # precompiled from /usr/lib/python2.7/shutil.pyc
+# /usr/lib/python2.7/fnmatch.pyc matches /usr/lib/python2.7/fnmatch.py
+import fnmatch # precompiled from /usr/lib/python2.7/fnmatch.pyc
+# /usr/lib/python2.7/collections.pyc matches /usr/lib/python2.7/collections.py
+import collections # precompiled from /usr/lib/python2.7/collections.pyc
+import _collections # builtin
+import operator # builtin
+# /usr/lib/python2.7/keyword.pyc matches /usr/lib/python2.7/keyword.py
+import keyword # precompiled from /usr/lib/python2.7/keyword.pyc
+# /usr/lib/python2.7/heapq.pyc matches /usr/lib/python2.7/heapq.py
+import heapq # precompiled from /usr/lib/python2.7/heapq.pyc
+import itertools # builtin
+import _heapq # builtin
+import thread # builtin
+import pwd # builtin
+import grp # builtin
+# /usr/lib/python2.7/getopt.pyc matches /usr/lib/python2.7/getopt.py
+import getopt # precompiled from /usr/lib/python2.7/getopt.pyc
+# /usr/lib/python2.7/pkgutil.pyc matches /usr/lib/python2.7/pkgutil.py
+import pkgutil # precompiled from /usr/lib/python2.7/pkgutil.pyc
+import imp # builtin
+# /usr/lib/python2.7/dist-packages/kivy/compat.pyc matches /usr/lib/python2.7/dist-packages/kivy/compat.py
+import kivy.compat # precompiled from /usr/lib/python2.7/dist-packages/kivy/compat.pyc
+import time # builtin
+# /usr/lib/python2.7/Queue.pyc matches /usr/lib/python2.7/Queue.py
+import Queue # precompiled from /usr/lib/python2.7/Queue.pyc
+# /usr/lib/python2.7/threading.pyc matches /usr/lib/python2.7/threading.py
+import threading # precompiled from /usr/lib/python2.7/threading.pyc
+# /usr/lib/python2.7/dist-packages/kivy/logger.pyc matches /usr/lib/python2.7/dist-packages/kivy/logger.py
+import kivy.logger # precompiled from /usr/lib/python2.7/dist-packages/kivy/logger.pyc
+import logging # directory /usr/lib/python2.7/logging
+# /usr/lib/python2.7/logging/__init__.pyc matches /usr/lib/python2.7/logging/__init__.py
+import logging # precompiled from /usr/lib/python2.7/logging/__init__.pyc
+import cStringIO # builtin
+# /usr/lib/python2.7/weakref.pyc matches /usr/lib/python2.7/weakref.py
+import weakref # precompiled from /usr/lib/python2.7/weakref.pyc
+# /usr/lib/python2.7/atexit.pyc matches /usr/lib/python2.7/atexit.py
+import atexit # precompiled from /usr/lib/python2.7/atexit.pyc
+# /usr/lib/python2.7/random.pyc matches /usr/lib/python2.7/random.py
+import random # precompiled from /usr/lib/python2.7/random.pyc
+# /usr/lib/python2.7/__future__.pyc matches /usr/lib/python2.7/__future__.py
+import __future__ # precompiled from /usr/lib/python2.7/__future__.pyc
+import math # builtin
+import binascii # builtin
+# /usr/lib/python2.7/hashlib.pyc matches /usr/lib/python2.7/hashlib.py
+import hashlib # precompiled from /usr/lib/python2.7/hashlib.pyc
+dlopen("/usr/lib/python2.7/lib-dynload/_hashlib.x86_64-linux-gnu.so", 2);
+import _hashlib # dynamically loaded from /usr/lib/python2.7/lib-dynload/_hashlib.x86_64-linux-gnu.so
+import _random # builtin
+# /usr/lib/python2.7/functools.pyc matches /usr/lib/python2.7/functools.py
+import functools # precompiled from /usr/lib/python2.7/functools.pyc
+import _functools # builtin
+ # /usr/lib/python2.7/dist-packages/kivy/utils.pyc matches /usr/lib/python2.7/dist-packages/kivy/utils.py
+ import kivy.utils # precompiled from /usr/lib/python2.7/dist-packages/kivy/utils.pyc
+ # /usr/lib/python2.7/inspect.pyc matches /usr/lib/python2.7/inspect.py
+ import inspect # precompiled from /usr/lib/python2.7/inspect.pyc
+ # /usr/lib/python2.7/string.pyc matches /usr/lib/python2.7/string.py
+ import string # precompiled from /usr/lib/python2.7/string.pyc
+ import strop # builtin
+ # /usr/lib/python2.7/dis.pyc matches /usr/lib/python2.7/dis.py
+ import dis # precompiled from /usr/lib/python2.7/dis.pyc
+ # /usr/lib/python2.7/opcode.pyc matches /usr/lib/python2.7/opcode.py
+ import opcode # precompiled from /usr/lib/python2.7/opcode.pyc
+ # /usr/lib/python2.7/tokenize.pyc matches /usr/lib/python2.7/tokenize.py
+ import tokenize # precompiled from /usr/lib/python2.7/tokenize.pyc
+ # /usr/lib/python2.7/token.pyc matches /usr/lib/python2.7/token.py
+ import token # precompiled from /usr/lib/python2.7/token.pyc
+ import kivy.deps # directory /usr/lib/python2.7/dist-packages/kivy/deps
+ # /usr/lib/python2.7/dist-packages/kivy/deps/__init__.pyc matches /usr/lib/python2.7/dist-packages/kivy/deps/__init__.py
+ import kivy.deps # precompiled from /usr/lib/python2.7/dist-packages/kivy/deps/__init__.pyc
+ # /usr/lib/python2.7/dist-packages/kivy/config.pyc matches /usr/lib/python2.7/dist-packages/kivy/config.py
+ import kivy.config # precompiled from /usr/lib/python2.7/dist-packages/kivy/config.pyc
+ # /usr/lib/python2.7/ConfigParser.pyc matches /usr/lib/python2.7/ConfigParser.py
+ import ConfigParser # precompiled from /usr/lib/python2.7/ConfigParser.pyc
+# cleanup __main__
+# cleanup[1] scipy.misc.pilutil
+# cleanup[1] tri
+# cleanup[1] standards
+# cleanup[1] sklearn.externals.six.moves.urllib.response
+# cleanup[1] _ctypes
+# cleanup[1] StringIO
+# cleanup[1] scipy.sparse.linalg.eigen.arpack
+# cleanup[1] _heapq
+# cleanup[1] Dialog
+# cleanup[1] DataProcessing
+# cleanup[1] GameSettings
+# cleanup[1] _bisect
+# cleanup[1] exceptions
+# cleanup[1] drone_settings
+# cleanup[1] scipy.sparse.linalg.isolve.minres
+# cleanup[1] strop
+# cleanup[1] _cython_0_20_1post0
+# cleanup[1] _weakrefset
+# cleanup[1] sklearn.externals.six.moves.urllib.robotparser
+# cleanup[1] sysconfig
+# cleanup[1] sklearn.externals.six.moves.urllib.error
+# cleanup[1] token
+# cleanup[1] mlmenu
+# cleanup[1] CalMenu
+# cleanup[1] GeneralSettings
+# cleanup[1] scipy.sparse.linalg.eigen.lobpcg.lobpcg
+# cleanup[1] CommonSpatialPatterns
+# cleanup[1] _sysconfigdata_nd
+# cleanup[1] _locale
+# cleanup[1] _collections
+# cleanup[1] scipy.special.lambertw
+# cleanup[1] DataManipulation
+# cleanup[1] _codecs
+# cleanup[1] sklearn.externals.six.moves.urllib.request
+# cleanup[1] posix
+# cleanup[1] numpy.oldnumeric.ufuncs
+# cleanup[1] _cython_0_20_1
+# cleanup[1] urlparse
+# cleanup[1] BarsStart
+# cleanup[1] scipy.sparse.linalg.isolve.lgmres
+# cleanup[1] matplotlib.tri.triplot
+# cleanup[1] _json
+# cleanup[1] repr
+# cleanup[1] AcquisitionSettings
+# cleanup[1] settings
+# cleanup[1] bisect
+# cleanup[1] _csv
+# cleanup[1] scipy.sparse.linalg.eigen.lobpcg
+# cleanup[1] scipy.sparse.linalg.isolve.lsmr
+# cleanup[1] approach
+# cleanup[1] swig_runtime_data4
+# cleanup[1] numpy.lib.info
+# cleanup[1] opcode
+# cleanup[1] sklearn
+# cleanup[1] sklearn.feature_selection
+# cleanup[1] unittest
+# cleanup[1] FixTk
+# cleanup[1] matplotlib.tri.tripcolor
+# cleanup[1] utils
+# cleanup[1] site
+# cleanup[1] BCIMenu
+# cleanup[1] sklearn.multiclass
+# cleanup[1] CalStart
+# cleanup[1] sklearn.metrics
+# cleanup[1] scipy.optimize.nnls
+# cleanup[1] ScreenStart
+# cleanup[1] CalSettings
+# cleanup[1] TargetStart
+# cleanup[1] _weakref
+# cleanup[1] scipy.signal.cont2discrete
+# cleanup[1] numpy.oldnumeric.precision
+# cleanup[1] scipy.integrate.quadrature
+# cleanup[1] PIL
+# cleanup[1] sklearn.utils
+# cleanup[1] mmap
+# cleanup[1] unittest.main
+# cleanup[1] _cython_0_20
+# cleanup[1] numpy.oldnumeric.misc
+# cleanup[1] SampleManager
+# cleanup[1] ConfigParser
+# cleanup[1] scipy.misc.common
+# cleanup[1] sklearn.pipeline
+# cleanup[1] backports
+# cleanup[1] GameMenu
+# cleanup[1] unittest.loader
+# cleanup[1] _functools
+# cleanup[1] sklearn.externals.six.moves.urllib
+# cleanup[1] numpy.core.memmap
+# cleanup[1] scipy.sparse.linalg.isolve.lsqr
+# cleanup[1] sklearn.externals
+# cleanup[1] sklearn.__check_build
+# cleanup[1] __future__
+# cleanup[1] sklearn.externals.joblib
+# cleanup[1] drone_menu
+# cleanup[1] scipy.optimize.anneal
+# cleanup[1] _warnings
+# cleanup[1] sklearn.externals.joblib._multiprocessing_helpers
+# cleanup[1] pwd
+# cleanup[1] future_builtins
+# cleanup[1] sklearn.metrics.cluster
+# cleanup[1] _sysconfigdata
+# cleanup[1] _struct
+# cleanup[1] sklearn.grid_search
+# cleanup[1] Tkconstants
+# cleanup[1] contextlib
+# cleanup[1] scipy.lib.six.moves.urllib
+# cleanup[1] processing_utils
+# cleanup[1] grp
+# cleanup[1] sklearn.utils.class_weight
+# cleanup[1] getopt
+# cleanup[1] unittest.signals
+# cleanup[1] sitecustomize
+# cleanup[1] numpy.oldnumeric.compat
+# cleanup[1] matplotlib.tri.tricontour
+# cleanup[1] sklearn.externals.six.moves.urllib.parse
+# cleanup[1] sklearn.utils.optimize
+# cleanup[1] sklearn.linear_model
+# cleanup[1] sklearn.utils.metaestimators
+# cleanup[1] sklearn.externals.joblib.my_exceptions
+# cleanup[1] sklearn.feature_selection.rfe
+# cleanup[1] sklearn.utils.linear_assignment_
+# cleanup[1] unittest.suite
+# cleanup[1] sklearn.externals.joblib.pool
+# cleanup[1] sklearn.metrics.scorer
+# cleanup[1] sklearn.preprocessing
+# cleanup[1] unittest.runner
+# cleanup[1] sklearn.metrics.cluster.unsupervised
+# cleanup[1] sklearn.discriminant_analysis
+# cleanup[1] sklearn.metrics.regression
+# cleanup[1] sklearn.metrics.base
+# cleanup[1] sklearn.linear_model.bayes
+# cleanup[1] sklearn.svm
+# cleanup[1] sklearn.svm.base
+# cleanup[1] sklearn.base
+# cleanup[1] sklearn.utils.stats
+# cleanup[1] sklearn.metrics.classification
+# cleanup[1] open_bci_playback
+# cleanup[1] sklearn.externals.joblib.parallel
+# cleanup[1] PIL._binary
+# cleanup[1] sklearn.covariance
+# cleanup[1] sklearn.externals.joblib.format_stack
+# cleanup[1] sklearn.preprocessing.imputation
+# cleanup[1] sklearn.externals.joblib._compat
+# cleanup[1] sklearn.utils.random
+# cleanup[1] sklearn.metrics.pairwise
+# cleanup[1] sklearn.covariance.shrunk_covariance_
+# cleanup[1] sklearn.metrics.cluster.supervised
+# cleanup[1] sklearn.feature_selection.from_model
+# cleanup[1] open_bci_v3
+# cleanup[1] sklearn.feature_selection.variance_threshold
+# cleanup[1] sklearn.utils.sparsefuncs
+# cleanup[1] sklearn.preprocessing.label
+# cleanup[1] sklearn.covariance.graph_lasso_
+# cleanup[1] sklearn.externals.joblib.memory
+# cleanup[1] sklearn.cross_validation
+# cleanup[1] numpy.oldnumeric.functions
+# cleanup[1] random
+# cleanup[1] sklearn.svm.bounds
+# cleanup[1] sklearn.feature_selection.base
+# cleanup[1] sklearn.externals.joblib.disk
+# cleanup[1] sklearn.feature_selection.univariate_selection
+# cleanup[1] sklearn.linear_model.ridge
+# cleanup[1] sklearn.utils.extmath
+# cleanup[1] sklearn.utils.validation
+# cleanup[1] timeit
+# cleanup[1] sklearn.linear_model.ransac
+# cleanup[1] unittest.case
+# cleanup[1] sklearn.utils.fixes
+# cleanup[1] sklearn.utils.multiclass
+# cleanup[1] PIL._util
+# cleanup[1] pdb
+# cleanup[1] sklearn.utils._scipy_sparse_lsqr_backport
+# cleanup[1] sklearn.linear_model.base
+# cleanup[1] sklearn.covariance.empirical_covariance_
+# cleanup[1] sklearn.metrics.ranking
+# cleanup[1] PIL.ImageFilter
+# cleanup[1] sklearn.linear_model.logistic
+# cleanup[1] sklearn.linear_model.omp
+# cleanup[1] difflib
+# cleanup[1] sklearn.metrics.cluster.bicluster
+# cleanup[1] sklearn.linear_model.sag
+# cleanup[1] sklearn.covariance.robust_covariance
+# cleanup[1] sklearn.externals.joblib._memory_helpers
+# cleanup[1] sklearn.linear_model.perceptron
+# cleanup[1] sklearn.linear_model.stochastic_gradient
+# cleanup[1] sklearn.externals.funcsigs
+# cleanup[1] sklearn.externals.joblib.func_inspect
+# cleanup[1] sklearn.covariance.outlier_detection
+# cleanup[1] sklearn.preprocessing.data
+# cleanup[1] sklearn.linear_model.theil_sen
+# cleanup[1] sklearn.svm.classes
+# cleanup[1] _random
+# cleanup[1] sklearn.linear_model.least_angle
+# cleanup[1] sklearn.linear_model.coordinate_descent
+# cleanup[1] sklearn.linear_model.passive_aggressive
+# cleanup[1] sklearn.externals.joblib.logger
+# cleanup[1] sklearn.preprocessing._function_transformer
+# cleanup[1] sklearn.linear_model.randomized_l1
+# cleanup[1] cmd
+# cleanup[1] sklearn.externals.joblib.numpy_pickle
+# cleanup[1] serial
+# cleanup[1] serial.serialutil
+# cleanup[1] pydoc
+# cleanup[1] sklearn.externals.joblib.hashing
+# cleanup[1] hashlib
+# cleanup[1] _hashlib
+# cleanup[1] unittest.result
+# cleanup[1] bdb
+# cleanup[1] serial.serialposix
+# cleanup[1] sklearn.externals.six
+# cleanup[1] sklearn.externals.six.moves
+# cleanup[1] unittest.util
+# cleanup[1] termios
+# cleanup[2] matplotlib.ft2font
+# cleanup[2] numpy.core.info
+# cleanup[2] kivy.logger
+# cleanup[2] matplotlib.figure
+# cleanup[2] gc
+# cleanup[2] scipy.linalg
+# cleanup[2] base64
+# cleanup[2] scipy.signal.ltisys
+# cleanup[2] kivy.graphics.opengl
+# cleanup[2] matplotlib.axis
+# cleanup[2] numpy.core.umath
+# cleanup[2] matplotlib.streamplot
+# cleanup[2] scipy.sparse.linalg.isolve.utils
+# cleanup[2] string
+# cleanup[2] kivy.lib.osc
+# cleanup[2] kivy.input.shape
+# cleanup[2] numpy.lib.arraysetops
+# cleanup[2] encodings.utf_8
+# cleanup[2] scipy.sparse.construct
+# cleanup[2] matplotlib._path
+# cleanup[2] matplotlib.texmanager
+# cleanup[2] json.encoder
+# cleanup[2] datetime
+# cleanup[2] numpy.core.machar
+# cleanup[2] kivy.garden.bar
+# cleanup[2] _dia
+# cleanup[2] numpy.ma.extras
+# cleanup[2] kivy.modules
+# cleanup[2] numpy.fft.fftpack_lite
+# cleanup[2] matplotlib.cbook
+# cleanup[2] multiprocessing.pool
+# cleanup[2] matplotlib.afm
+# cleanup[2] kivy.lib.ddsfile
+# cleanup[2] multiprocessing
+# cleanup[2] dis
+# cleanup[2] scipy.sparse.linalg.dsolve.linsolve
+# cleanup[2] numpy.lib
+# cleanup[2] matplotlib.markers
+# cleanup[2] kivy.uix.bubble
+# cleanup[2] kivy.weakproxy
+# cleanup[2] scipy.sparse.lil
+# cleanup[2] pyparsing
+# cleanup[2] kivy.graphics.vertex_instructions
+# cleanup[2] kivy
+# cleanup[2] scipy.signal.wavelets
+# cleanup[2] kivy.cache
+# cleanup[2] abc
+# cleanup[2] kivy.uix.behaviors.emacs
+# cleanup[2] matplotlib.spines
+# cleanup[2] numpy.lib.npyio
+# cleanup[2] scipy.integrate.quadpack
+# cleanup[2] numpy.lib._compiled_base
+# cleanup[2] kivy.input.motionevent
+# cleanup[2] kivy.input.providers.mouse
+# cleanup[2] new
+# cleanup[2] numpy.fft.helper
+# cleanup[2] scipy.linalg._expm_frechet
+# cleanup[2] multiprocessing.dummy
+# cleanup[2] kivy.graphics.opengl_utils
+# cleanup[2] PIL.Image
+# cleanup[2] fnmatch
+# cleanup[2] json.scanner
+# cleanup[2] scipy.sparse.linalg.isolve._iterative
+# cleanup[2] scipy.linalg.decomp
+# cleanup[2] codecs
+# cleanup[2] kivy.uix.widget
+# cleanup[2] matplotlib.backends.backend_tkagg
+# cleanup[2] matplotlib._cm
+# cleanup[2] scipy.linalg.decomp_cholesky
+# cleanup[2] scipy.optimize.tnc
+# cleanup[2] matplotlib.tri.tritools
+# cleanup[2] scipy.spatial.distance
+# cleanup[2] weakref
+# cleanup[2] scipy.sparse.linalg._expm_multiply
+# cleanup[2] numpy.core._internal
+# cleanup[2] kivy.input
+# cleanup[2] numpy.lib.arraypad
+# cleanup[2] kivy.graphics.shader
+# cleanup[2] numpy.oldnumeric.array_printer
+# cleanup[2] scipy.lib.six.moves
+# cleanup[2] kivy.uix.label
+# cleanup[2] pprint
+# cleanup[2] kivy.uix.behaviors
+# cleanup[2] _sre
+# cleanup[2] numpy.dual
+# cleanup[2] scipy.stats._rank
+# cleanup[2] kivy.metrics
+# cleanup[2] numpy.lib.financial
+# cleanup[2] scipy.linalg.decomp_qr
+# cleanup[2] matplotlib.collections
+# cleanup[2] binascii
+# cleanup[2] scipy.fftpack.pseudo_diffs
+# cleanup[2] scipy.stats.kde
+# cleanup[2] tokenize
+# cleanup[2] scipy.signal.sigtools
+# cleanup[2] numpy.polynomial.chebyshev
+# cleanup[2] scipy.optimize.optimize
+# cleanup[2] cPickle
+# cleanup[2] scipy.interpolate.polyint
+# cleanup[2] numpy.polynomial.hermite_e
+# cleanup[2] __umfpack
+# cleanup[2] numpy.testing.utils
+# cleanup[2] scipy.sparse.linalg._onenormest
+# cleanup[2] kivy.uix.button
+# cleanup[2] kivy.graphics.scissor_instructions
+# cleanup[2] socket
+# cleanup[2] numpy.core.fromnumeric
+# cleanup[2] unicodedata
+# cleanup[2] numpy.ctypeslib
+# cleanup[2] scipy.special.specfun
+# cleanup[2] kivy.input.providers.hidinput
+# cleanup[2] scipy.sparse.linalg.matfuncs
+# cleanup[2] dateutil.tz
+# cleanup[2] encodings.aliases
+# cleanup[2] sre_parse
+# cleanup[2] pickle
+# cleanup[2] scipy.signal._peak_finding
+# cleanup[2] kivy.core.window._window_sdl2
+# cleanup[2] sklearn.externals.six.moves.urllib_request
+# cleanup[2] kivy.context
+# cleanup[2] kivy.input.postproc.calibration
+# cleanup[2] scipy.sparse.sparsetools
+# cleanup[2] numpy.lib.polynomial
+# cleanup[2] numpy.compat
+# cleanup[2] numbers
+# cleanup[2] numpy.core.records
+# cleanup[2] kivy.atlas
+# cleanup[2] scipy.spatial.qhull
+# cleanup[2] scipy.sparse.compressed
+# cleanup[2] _csgraph
+# cleanup[2] multiprocessing.forking
+# cleanup[2] numpy.core.numeric
+# cleanup[2] kivy.graphics.context
+# cleanup[2] matplotlib.delaunay.interpolate
+# cleanup[2] scipy.integrate._ode
+# cleanup[2] scipy.sparse.sparsetools.dia
+# cleanup[2] scipy.spatial
+# cleanup[2] matplotlib.dviread
+# cleanup[2] scipy.fftpack._fftpack
+# cleanup[2] matplotlib.pyplot
+# cleanup[2] scipy.linalg.misc
+# cleanup[2] ctypes.util
+# cleanup[2] numpy.lib.utils
+# cleanup[2] matplotlib._mathtext_data
+# cleanup[2] kivy.lang
+# cleanup[2] scipy.interpolate.fitpack
+# cleanup[2] numpy.lib.arrayterator
+# cleanup[2] kivy.lang.builder
+# cleanup[2] os.path
+# cleanup[2] scipy.linalg.calc_lwork
+# cleanup[2] scipy.misc
+# cleanup[2] ssl
+# cleanup[2] scipy.sparse.csgraph._tools
+# cleanup[2] scipy.interpolate.dfitpack
+# cleanup[2] scipy.sparse.csgraph._validation
+# cleanup[2] scipy.interpolate
+# cleanup[2] kivy.graphics.vertex
+# cleanup[2] matplotlib.tight_bbox
+# cleanup[2] scipy.lib.six
+# cleanup[2] scipy.linalg._fblas
+# cleanup[2] scipy.optimize._zeros
+# cleanup[2] scipy.__config__
+# cleanup[2] _io
+# cleanup[2] kivy.animation
+# cleanup[2] functools
+# cleanup[2] scipy.stats.futil
+# cleanup[2] matplotlib.colorbar
+# cleanup[2] kivy.resources
+# cleanup[2] scipy.lib.six.moves.urllib_robotparser
+# cleanup[2] numpy.core.numerictypes
+# cleanup[2] numpy.polynomial.legendre
+# cleanup[2] numpy.core.shape_base
+# cleanup[2] numpy.matrixlib.defmatrix
+# cleanup[2] matplotlib.text
+# cleanup[2] tempfile
+# cleanup[2] scipy.sparse.csgraph
+# cleanup[2] imp
+# cleanup[2] sklearn.__check_build._check_build
+# cleanup[2] scipy.sparse.dia
+# cleanup[2] scipy.linalg._flinalg
+# cleanup[2] numpy.core.scalarmath
+# cleanup[2] numpy.lib.type_check
+# cleanup[2] scipy.optimize.linesearch
+# cleanup[2] scipy.signal.waveforms
+# cleanup[2] scipy
+# cleanup[2] scipy.sparse.sparsetools.csc
+# cleanup[2] scipy.integrate
+# cleanup[2] matplotlib.backends.windowing
+# cleanup[2] scipy.spatial._plotutils
+# cleanup[2] kivy.input.providers.mtdev
+# cleanup[2] decimal
+# cleanup[2] kivy.garden
+# cleanup[2] scipy.linalg.lapack
+# cleanup[2] matplotlib.lines
+# cleanup[2] scipy.stats.mstats
+# cleanup[2] kivy.input.postproc.ignorelist
+# cleanup[2] numpy.linalg._umath_linalg
+# cleanup[2] csv
+# cleanup[2] scipy.fftpack.basic
+# cleanup[2] cStringIO
+# cleanup[2] PIL.ImageMode
+# cleanup[2] numpy.polynomial
+# cleanup[2] numpy.add_newdocs
+# cleanup[2] kivy.input.provider
+# cleanup[2] matplotlib._image
+# cleanup[2] scipy.interpolate.fitpack2
+# cleanup[2] multiprocessing.process
+# cleanup[2] kivy.input.providers.probesysfs
+# cleanup[2] PIL._imaging
+# cleanup[2] encodings
+# cleanup[2] matplotlib.backends.backend_agg
+# cleanup[2] kivy.deps
+# cleanup[2] matplotlib.widgets
+# cleanup[2] _tkinter
+# cleanup[2] re
+# cleanup[2] matplotlib.transforms
+# cleanup[2] scipy.sparse.linalg.eigen
+# cleanup[2] scipy.optimize.nonlin
+# cleanup[2] scipy.sparse.linalg.dsolve.umfpack._umfpack
+# cleanup[2] dateutil.relativedelta
+# cleanup[2] math
+# cleanup[2] kivy.setupconfig
+# cleanup[2] scipy.lib.six.moves.urllib_parse
+# cleanup[2] Tkinter
+# cleanup[2] matplotlib.rcsetup
+# cleanup[2] kivy.uix.screenmanager
+# cleanup[2] scipy.stats.mstats_extras
+# cleanup[2] kivy.uix.behaviors.button
+# cleanup[2] kivy.vector
+# cleanup[2] numpy.lib.ufunclike
+# cleanup[2] kivy.clock
+# cleanup[2] scipy.optimize.zeros
+# cleanup[2] logging
+# cleanup[2] thread
+# cleanup[2] traceback
+# cleanup[2] scipy.integrate.vode
+# cleanup[2] numpy.compat._inspect
+# cleanup[2] errno
+# cleanup[2] multiprocessing.util
+# cleanup[2] scipy.stats
+# cleanup[2] _socket
+# cleanup[2] matplotlib.patches
+# cleanup[2] kivy.core.image.img_sdl2
+# cleanup[2] numpy.random
+# cleanup[2] matplotlib.tri
+# cleanup[2] numpy.lib.twodim_base
+# cleanup[2] FileDialog
+# cleanup[2] kivy.uix.textinput
+# cleanup[2] array
+# cleanup[2] matplotlib.docstring
+# cleanup[2] kivy.lib
+# cleanup[2] scipy.optimize._slsqp
+# cleanup[2] posixpath
+# cleanup[2] multiprocessing.synchronize
+# cleanup[2] scipy.optimize._trustregion
+# cleanup[2] kivy.weakmethod
+# cleanup[2] numpy.core.arrayprint
+# cleanup[2] types
+# cleanup[2] numpy.lib.stride_tricks
+# cleanup[2] numpy.lib.scimath
+# cleanup[2] scipy.sparse.sparsetools.coo
+# cleanup[2] scipy.sparse.csgraph._components
+# cleanup[2] scipy.stats.vonmises_cython
+# cleanup[2] scipy.fftpack.fftpack_version
+# cleanup[2] numpy.__config__
+# cleanup[2] scipy.sparse.sputils
+# cleanup[2] copy
+# cleanup[2] scipy.optimize._minimize
+# cleanup[2] matplotlib._delaunay
+# cleanup[2] keyword
+# cleanup[2] numpy.lib.nanfunctions
+# cleanup[2] _csr
+# cleanup[2] scipy.special.basic
+# cleanup[2] scipy.sparse.data
+# cleanup[2] matplotlib.fontconfig_pattern
+# cleanup[2] scipy.linalg.basic
+# cleanup[2] _csc
+# cleanup[2] kivy.input.postproc
+# cleanup[2] scipy.lib.six.moves.urllib_response
+# cleanup[2] numpy.lib.shape_base
+# cleanup[2] numpy._import_tools
+# cleanup[2] scipy.lib.six.moves.urllib.robotparser
+# cleanup[2] scipy.stats.statlib
+# cleanup[2] distutils.errors
+# cleanup[2] matplotlib.delaunay.triangulate
+# cleanup[2] scipy.sparse.bsr
+# cleanup[2] dateutil.parser
+# cleanup[2] kivy.event
+# cleanup[2] scipy.sparse.csgraph._laplacian
+# cleanup[2] kivy._event
+# cleanup[2] distutils.sysconfig
+# cleanup[2] scipy.optimize._root
+# cleanup[2] sklearn.metrics.pairwise_fast
+# cleanup[2] _ssl
+# cleanup[2] warnings
+# cleanup[2] glob
+# cleanup[2] kivy.uix.scatter
+# cleanup[2] scipy.linalg._decomp_qz
+# cleanup[2] scipy.lib.six.moves.urllib.request
+# cleanup[2] scipy.signal.fir_filter_design
+# cleanup[2] matplotlib.legend
+# cleanup[2] kivy.core.window.window_sdl2
+# cleanup[2] _bsr
+# cleanup[2] scipy.signal._arraytools
+# cleanup[2] kivy.input.providers.leapfinger
+# cleanup[2] scipy.optimize.lbfgsb
+# cleanup[2] matplotlib.blocking_input
+# cleanup[2] scipy.linalg.linalg_version
+# cleanup[2] scipy.sparse.csgraph._min_spanning_tree
+# cleanup[2] scipy.sparse.linalg.interface
+# cleanup[2] kivy.graphics.gl_instructions
+# cleanup[2] linecache
+# cleanup[2] numpy.linalg.linalg
+# cleanup[2] numpy.lib._iotools
+# cleanup[2] scipy.integrate._quadpack
+# cleanup[2] matplotlib.tri.triangulation
+# cleanup[2] kivy.uix.behaviors.focus
+# cleanup[2] scipy.optimize.minpack2
+# cleanup[2] subprocess
+# cleanup[2] scipy.optimize._nnls
+# cleanup[2] scipy.sparse.base
+# cleanup[2] ctypes._endian
+# cleanup[2] matplotlib.backends._tkagg
+# cleanup[2] matplotlib.contour
+# cleanup[2] numpy.random.mtrand
+# cleanup[2] scipy.optimize._minpack
+# cleanup[2] kivy.uix.boxlayout
+# cleanup[2] sklearn.externals.six.moves.urllib_error
+# cleanup[2] matplotlib.legend_handler
+# cleanup[2] scipy.sparse.linalg.isolve
+# cleanup[2] scipy.special._ufuncs_cxx
+# cleanup[2] scipy.sparse.linalg.eigen.arpack.arpack
+# cleanup[2] matplotlib.projections.geo
+# cleanup[2] kivy.lib.osc.oscAPI
+# cleanup[2] kivy.factory_registers
+# cleanup[2] matplotlib.backends
+# cleanup[2] kivy.core.image._img_sdl2
+# cleanup[2] scipy.signal.spectral
+# cleanup[2] matplotlib.projections.polar
+# cleanup[2] sklearn.svm.libsvm_sparse
+# cleanup[2] zipfile
+# cleanup[2] scipy.linalg.special_matrices
+# cleanup[2] numpy.version
+# cleanup[2] scipy.linalg._solvers
+# cleanup[2] scipy.optimize.moduleTNC
+# cleanup[2] kivy.uix.image
+# cleanup[2] scipy.linalg.matfuncs
+# cleanup[2] matplotlib.scale
+# cleanup[2] threading
+# cleanup[2] kivy.input.providers.linuxwacom
+# cleanup[2] kivy.uix.layout
+# cleanup[2] scipy.lib.six.moves.urllib_error
+# cleanup[2] scipy.fftpack
+# cleanup[2] scipy.sparse.linalg.dsolve._superlu
+# cleanup[2] kivy.graphics.context_instructions
+# cleanup[2] sklearn.externals.six.moves.urllib_parse
+# cleanup[2] matplotlib.mathtext
+# cleanup[2] matplotlib.offsetbox
+# cleanup[2] atexit
+# cleanup[2] scipy.special.spfun_stats
+# cleanup[2] numpy.oldnumeric
+# cleanup[2] calendar
+# cleanup[2] dateutil
+# cleanup[2] numpy.testing.decorators
+# cleanup[2] urllib
+# cleanup[2] scipy.signal.bsplines
+# cleanup[2] sklearn.metrics.cluster.expected_mutual_info_fast
+# cleanup[2] scipy.optimize._trustregion_ncg
+# cleanup[2] scipy.linalg._flapack
+# cleanup[2] scipy.interpolate.interpnd
+# cleanup[2] kivy.input.providers.tuio
+# cleanup[2] scipy.signal.dltisys
+# cleanup[2] multiprocessing.dummy.connection
+# cleanup[2] fcntl
+# cleanup[2] scipy.stats.stats
+# cleanup[2] Queue
+# cleanup[2] ctypes
+# cleanup[2] kivy.core.text.text_layout
+# cleanup[2] sklearn.utils._random
+# cleanup[2] sklearn.utils.lgamma
+# cleanup[2] matplotlib.axes
+# cleanup[2] scipy.stats.mstats_basic
+# cleanup[2] scipy.stats._tukeylambda_stats
+# cleanup[2] matplotlib.projections
+# cleanup[2] scipy.sparse.dok
+# cleanup[2] kivy.uix.behaviors.compoundselection
+# cleanup[2] kivy.lib.mtdev
+# cleanup[2] kivy.base
+# cleanup[2] scipy.linalg._decomp_polar
+# cleanup[2] kivy.graphics.vbo
+# cleanup[2] scipy.integrate._odepack
+# cleanup[2] scipy.sparse.csr
+# cleanup[2] kivy.core.gl
+# cleanup[2] sre_compile
+# cleanup[2] pkgutil
+# cleanup[2] numpy.polynomial.laguerre
+# cleanup[2] sre_constants
+# cleanup[2] json
+# cleanup[2] matplotlib.units
+# cleanup[2] kivy.core.image.img_gif
+# cleanup[2] numpy.core.function_base
+# cleanup[2] numpy.compat.py3k
+# cleanup[2] scipy.sparse.sparsetools.bsr
+# cleanup[2] numpy
+# cleanup[2] scipy.spatial.ckdtree
+# cleanup[2] matplotlib.backends.tkagg
+# cleanup[2] kivy.graphics.fbo
+# cleanup[2] kivy.input.factory
+# cleanup[2] scipy.integrate._dop
+# cleanup[2] numpy.ma
+# cleanup[2] scipy.lib.six.moves.urllib.parse
+# cleanup[2] scipy.sparse.csgraph._shortest_path
+# cleanup[2] matplotlib.container
+# cleanup[2] scipy.lib
+# cleanup[2] numpy.oldnumeric.typeconv
+# cleanup[2] sklearn.svm.liblinear
+# cleanup[2] scipy.optimize.slsqp
+# cleanup[2] matplotlib.artist
+# cleanup[2] scipy.signal._spectral
+# cleanup[2] sklearn.svm.libsvm
+# cleanup[2] scipy.fftpack.realtransforms
+# cleanup[2] scipy.sparse.csgraph._traversal
+# cleanup[2] zlib
+# cleanup[2] scipy.stats._support
+# cleanup[2] scipy.sparse.sparsetools.csgraph
+# cleanup[2] kivy.graphics.compiler
+# cleanup[2] json.decoder
+# cleanup[2] copy_reg
+# cleanup[2] matplotlib.backends._backend_agg
+# cleanup[2] scipy.integrate.lsoda
+# cleanup[2] scipy.signal.filter_design
+# cleanup[2] scipy.lib.six.moves.urllib.response
+# cleanup[2] io
+# cleanup[2] numpy.fft.info
+# cleanup[2] matplotlib._png
+# cleanup[2] shutil
+# cleanup[2] scipy.optimize._trustregion_dogleg
+# cleanup[2] numpy.linalg.info
+# cleanup[2] itertools
+# cleanup[2] kivy.core.text._text_sdl2
+# cleanup[2] encodings.hex_codec
+# cleanup[2] matplotlib.bezier
+# cleanup[2] numpy.fft.fftpack
+# cleanup[2] numpy.core
+# cleanup[2] scipy.sparse.sparsetools.csr
+# cleanup[2] scipy.fftpack.convolve
+# cleanup[2] scipy.sparse.linalg.eigen.arpack._arpack
+# cleanup[2] kivy.uix.behaviors.drag
+# cleanup[2] numpy.polynomial.polyutils
+# cleanup[2] struct
+# cleanup[2] scipy.optimize.cobyla
+# cleanup[2] sklearn.linear_model.cd_fast
+# cleanup[2] matplotlib
+# cleanup[2] sklearn.externals.six.moves.urllib_robotparser
+# cleanup[2] kivy.properties
+# cleanup[2] heapq
+# cleanup[2] kivy.input.postproc.doubletap
+# cleanup[2] distutils
+# cleanup[2] kivy.graphics.buffer
+# cleanup[2] matplotlib.backend_bases
+# cleanup[2] matplotlib.colors
+# cleanup[2] scipy.stats.morestats
+# cleanup[2] sklearn.linear_model.sgd_fast
+# cleanup[2] kivy.graphics.transformation
+# cleanup[2] numpy.random.info
+# cleanup[2] scipy.linalg.flinalg
+# cleanup[2] matplotlib.gridspec
+# cleanup[2] numpy.testing
+# cleanup[2] collections
+# cleanup[2] kivy.graphics
+# cleanup[2] scipy.linalg.decomp_lu
+# cleanup[2] scipy.sparse.coo
+# cleanup[2] scipy.linalg.blas
+# cleanup[2] sklearn.utils.murmurhash
+# cleanup[2] matplotlib._cntr
+# cleanup[2] zipimport
+# cleanup[2] sklearn.linear_model.sag_fast
+# cleanup[2] scipy.sparse.linalg.dsolve.umfpack.umfpack
+# cleanup[2] scipy.integrate.odepack
+# cleanup[2] textwrap
+# cleanup[2] _coo
+# cleanup[2] scipy.stats.rv
+# cleanup[2] kivy.core.image.img_pil
+# cleanup[2] signal
+# cleanup[2] matplotlib.stackplot
+# cleanup[2] kivy.uix.behaviors.codenavigation
+# cleanup[2] matplotlib.path
+# cleanup[2] scipy.optimize.minpack
+# cleanup[2] scipy.lib._util
+# cleanup[2] matplotlib.quiver
+# cleanup[2] matplotlib.tri.triinterpolate
+# cleanup[2] numpy.core.multiarray
+# cleanup[2] scipy.signal.spline
+# cleanup[2] distutils.version
+# cleanup[2] kivy.input.postproc.retaintouch
+# cleanup[2] numpy.ma.core
+# cleanup[2] kivy.core.image.img_tex
+# cleanup[2] kivy.uix.modalview
+# cleanup[2] scipy.interpolate._fitpack
+# cleanup[2] kivy.compat
+# cleanup[2] numpy.lib._datasource
+# cleanup[2] scipy.interpolate.rbf
+# cleanup[2] sklearn.utils._logistic_sigmoid
+# cleanup[2] scipy.version
+# cleanup[2] kivy._clock
+# cleanup[2] numpy.lib.index_tricks
+# cleanup[2] scipy.sparse.linalg.dsolve
+# cleanup[2] kivy.graphics.texture
+# cleanup[2] numpy.matrixlib
+# cleanup[2] scipy.stats._binned_statistic
+# cleanup[2] _multiprocessing
+# cleanup[2] kivy.app
+# cleanup[2] scipy.sparse.linalg
+# cleanup[2] sklearn.externals.six.moves.urllib_response
+# cleanup[2] kivy.core.window
+# cleanup[2] select
+# cleanup[2] kivy.graphics.stencil_instructions
+# cleanup[2] kivy.lang.parser
+# cleanup[2] scipy.interpolate.ndgriddata
+# cleanup[2] kivy.factory
+# cleanup[2] scipy.special._ufuncs
+# cleanup[2] UserDict
+# cleanup[2] scipy.optimize._lbfgsb
+# cleanup[2] inspect
+# cleanup[2] numpy.linalg
+# cleanup[2] scipy.special.orthogonal
+# cleanup[2] matplotlib.mlab
+# cleanup[2] matplotlib.font_manager
+# cleanup[2] kivy.uix.gridlayout
+# cleanup[2] kivy.input.providers
+# cleanup[2] kivy.lib.vidcore_lite
+# cleanup[2] numpy.linalg.lapack_lite
+# cleanup[2] matplotlib.tri.trifinder
+# cleanup[2] kivy.input.postproc.tripletap
+# cleanup[2] os
+# cleanup[2] marshal
+# cleanup[2] kivy.uix.floatlayout
+# cleanup[2] matplotlib._pylab_helpers
+# cleanup[2] matplotlib.tri.trirefine
+# cleanup[2] kivy.uix.behaviors.togglebutton
+# cleanup[2] kivy.config
+# cleanup[2] scipy.stats.distributions
+# cleanup[2] matplotlib.compat
+# cleanup[2] locale
+# cleanup[2] kivy.core.text
+# cleanup[2] dateutil.rrule
+# cleanup[2] operator
+# cleanup[2] numpy.polynomial.polytemplate
+# cleanup[2] scipy.linalg.decomp_svd
+# cleanup[2] scipy.optimize
+# cleanup[2] kivy.uix
+# cleanup[2] kivy.uix.anchorlayout
+# cleanup[2] numpy.core._methods
+# cleanup[2] sklearn.utils.sparsefuncs_fast
+# cleanup[2] scipy.linalg._matfuncs_sqrtm
+# cleanup[2] scipy.lib.decorator
+# cleanup[2] scipy.sparse.csc
+# cleanup[2] scipy.stats.contingency
+# cleanup[2] scipy.sparse.linalg.isolve.iterative
+# cleanup[2] scipy.interpolate.interpolate
+# cleanup[2] gzip
+# cleanup[2] sklearn.utils.seq_dataset
+# cleanup[2] scipy.sparse
+# cleanup[2] kivy.core.image
+# cleanup[2] numpy.core.getlimits
+# cleanup[2] scipy.fftpack.helper
+# cleanup[2] matplotlib._tri
+# cleanup[2] scipy.sparse.linalg.dsolve.umfpack
+# cleanup[2] numpy.fft
+# cleanup[2] scipy.stats.mvn
+# cleanup[2] sklearn.utils.arrayfuncs
+# cleanup[2] matplotlib.compat.subprocess
+# cleanup[2] numpy.lib.function_base
+# cleanup[2] kivy.core.image.img_dds
+# cleanup[2] scipy.spatial._distance_wrap
+# cleanup[2] kivy.uix.popup
+# cleanup[2] kivy.core
+# cleanup[2] scipy.linalg.decomp_schur
+# cleanup[2] kivy.utils
+# cleanup[2] numpy.polynomial.hermite
+# cleanup[2] kivy.parser
+# cleanup[2] numpy.polynomial.polynomial
+# cleanup[2] numpy.core._dotblas
+# cleanup[2] kivy.lib.osc.OSC
+# cleanup[2] scipy.special
+# cleanup[2] numpy.testing.numpytest
+# cleanup[2] scipy.signal
+# cleanup[2] scipy.misc.doccer
+# cleanup[2] kivy.core.text.text_sdl2
+# cleanup[2] numpy.core.defchararray
+# cleanup[2] scipy.optimize._basinhopping
+# cleanup[2] _abcoll
+# cleanup[2] kivy.graphics.instructions
+# cleanup[2] kivy.uix.relativelayout
+# cleanup[2] genericpath
+# cleanup[2] stat
+# cleanup[2] kivy.core.text.markup
+# cleanup[2] matplotlib.ticker
+# cleanup[2] matplotlib.image
+# cleanup[2] time
+# cleanup[2] matplotlib.delaunay
+# cleanup[2] kivy.input.postproc.dejitter
+# cleanup[2] scipy.signal.windows
+# cleanup[2] numpy.lib.format
+# cleanup[2] numpy.testing.nosetester
+# cleanup[2] scipy.sparse.extract
+# cleanup[2] scipy.signal.signaltools
+# cleanup[2] scipy.lib.six.moves.urllib_request
+# cleanup[2] matplotlib.dates
+# cleanup[2] scipy.optimize._cobyla
+# cleanup[2] sklearn.utils.weight_vector
+# cleanup[2] matplotlib.cm
+# cleanup[2] matplotlib.textpath
+# cleanup[2] scipy.spatial.kdtree
+# cleanup[2] matplotlib.table
+# cleanup[2] scipy.lib.six.moves.urllib.error
+# cleanup sys
+# cleanup __builtin__
+# cleanup ints: 1977 unfreed ints
+# cleanup floats: 2424 unfreed floats

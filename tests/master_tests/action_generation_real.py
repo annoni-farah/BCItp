@@ -8,10 +8,10 @@ from signal_processing.approach import Approach
 
 DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
 
-DATA_CAL_PATH = DATA_FOLDER_PATH + "A04T.npy"
+DATA_CAL_PATH = DATA_FOLDER_PATH + "A07T.npy"
 
 # EVENTS INFO PATH
-CAL_EVENTS_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/A04T.npy"
+CAL_EVENTS_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/A07T.npy"
 
 SAMPLING_FREQ = 250.0
 
@@ -77,6 +77,13 @@ while tend < data.shape[1]:
     g = ap.applyModelOnEpoch(buf, out_param='label')
 
     u = p[0] - p[1]
+
+    if u >= 0:
+        u = 1
+    else:
+        u = -1
+
+
     u_time = np.append(u_time, u)
     U = U + u
 

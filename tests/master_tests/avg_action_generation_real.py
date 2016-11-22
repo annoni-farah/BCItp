@@ -90,7 +90,7 @@ idx_4 = np.where(labels == 4)[0]
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 100
+N_RUNS = 5000
 first = True
 
 for a in range(N_RUNS):
@@ -132,6 +132,12 @@ for a in range(N_RUNS):
         g = ap2.applyModelOnEpoch(buf, out_param='label')
 
         u = p[0] - p[1]
+
+        if u >= 0:
+            u = 1
+        else:
+            u = -1
+
         u_time = np.append(u_time, u)
         U = U + u
 
@@ -185,7 +191,7 @@ plt.plot()
 
 plt.subplot(2, 1, 1)
 plt.plot(time, U_avg, 'k', linewidth=4.0, label='Mean')
-plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
+# plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
 # plt.axis('equal')
@@ -196,7 +202,7 @@ plt.legend(loc=0)
 
 plt.subplot(2, 1, 2)
 plt.plot(time, u_avg, 'k', linewidth=3.0, label='Mean')
-plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
+# plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 plt.axis([0, 10, -1.2, 1.2])
 # plt.axis('equal')
