@@ -55,7 +55,6 @@ ap2.defineApproach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
 ap2.setPathToCal(DATA_PATH, EVENTS_PATH)
 
 ap2.setValidChannels(range(22))
-ap2.define_bad_epochs(100)
 
 crossvalscore, result_report, TFNP = ap2.cross_validate_model(10, 0.2)
 

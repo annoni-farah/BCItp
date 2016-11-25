@@ -30,15 +30,11 @@ class Approach:
         self.learner.DesignCSP(csp_nei)
         self.learner.AssembleLearner()
 
-    def define_bad_epochs(self, max_amp):
-        self.max_amp = max_amp
-
     def trainModel(self):
 
         data, ev = self.loadData(self.data_cal_path, self.events_cal_path)
         epochs, labels = self.loadEpochs(data, ev)
         epochs = self.preProcess(epochs)
-        epochs, labels = self.reject_epochs(epochs, labels)
 
         self.learner.Learn(epochs, labels)
         self.learner.EvaluateSet(epochs, labels)
@@ -63,7 +59,6 @@ class Approach:
         epochs, labels = self.loadEpochs(data, ev)
 
         epochs = self.preProcess(epochs)
-        epochs, labels = self.reject_epochs(epochs, labels)
 
         score = self.learner.cross_evaluate_set(epochs, labels,
                                                 n_iter, test_perc)
@@ -126,21 +121,6 @@ class Approach:
         data_out = self.filter.ApplyFilter(data)
 
         return data_out
-
-    def reject_epochs(self, data, labels):
-
-        # bad_idx = find_bad_fft_epochs(data_in, self.max_fft_mse)
-        # data = np.delete(data_in, bad_idx, axis=0)
-        # labels = np.delete(labels_in, bad_idx, axis=0)
-
-        bad_idx_amp = find_bad_amplitude_epochs(data, self.max_amp)
-        data_out = np.delete(data, bad_idx_amp, axis=0)
-        labels_out = np.delete(labels, bad_idx_amp, axis=0)
-
-        return data_out, labels_out
-
-    # def get_fft_avg_model(self, epochs):
-    #         computeAvgFFT(epochs, ch, fs, range(nepochs))
 
     def setValidChannels(self, channels):
         self.channels = channels
