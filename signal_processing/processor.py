@@ -21,7 +21,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 # from mne.decoding import CSP # Import Common Spatial Patterns
 from sklearn.pipeline import Pipeline
 
-from algorithms.CommonSpatialPatterns import CSP
+from algorithms import CSP
 
 
 class Learner:
