@@ -76,6 +76,9 @@ class SampleManager(threading.Thread):
 
             if self.dummy:
                 loadedData = np.ones([2, 16])
+                self.board = playback.OpenBCIBoard(
+                    port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
+
             else:
                 self.loadedData = LoadDataAsMatrix(self.playback_path).T[:22]
                 if not self.playback_labels_path == '':
@@ -94,11 +97,13 @@ class SampleManager(threading.Thread):
 
                 self.playbackData = np.zeros([1, self.epochs.shape[1]])
 
-            self.board = playback.OpenBCIBoard(
-                port=p, baud=BAUD, daisy=self.daisy, data=self.playbackData)
+                self.board = playback.OpenBCIBoard(port=p,
+                                                   baud=BAUD,
+                                                   daisy=self.daisy,
+                                                   data=self.playbackData)
 
-            self.append_epoch()
-            self.append_epoch()
+                self.append_epoch()
+                self.append_epoch()
 
     def run(self):
 
