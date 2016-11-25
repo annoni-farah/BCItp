@@ -39,7 +39,7 @@ class StartScreen(Screen):
                 bd = os.path.join(PATH_TO_SESSION, d)
                 if os.path.isdir(bd):
                     all_subdirs.append(bd)
-            sname = max(all_subdirs, key=os.path.getmtime).split('/')[2]
+            sname = max(all_subdirs, key=os.path.getmtime).split('/')[-1]
 
         self.sh.info.name = sname
 
