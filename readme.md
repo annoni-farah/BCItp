@@ -20,8 +20,8 @@ sudo apt-get install sox
 # add daily updated kivy repository
 sudo add-apt-repository ppa:kivy-team/kivy-daily
 sudo apt-get update
-sudo apt-get install python-numpy python-scipy python-kivy python-biosig python-pip
-sudo pip install -U scikit-learn
+sudo apt-get install python-numpy python-scipy python-kivy python-pip
+sudo pip install -U sklearn
 
 ```
 
@@ -38,9 +38,7 @@ garden install bar
 
 ```shell 
 
-git clone https://github.com/rafaelmendes/bci_training_platform
-cd bci_training_platform
-git submodule update --init
+git clone https://github.com/rafaelmendes/bcitp
 
 ```
 
@@ -48,8 +46,7 @@ git submodule update --init
 
 ```shell 
 
-cd bci_training_platform
-python main.py
+python bcitp
 
 ```
 
