@@ -1,5 +1,4 @@
 from kivy.factory import Factory
-from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.properties import (StringProperty, NumericProperty, OptionProperty,
@@ -11,7 +10,6 @@ __all__ = ('StdSettingsContainer', 'StdSettingItem',
            'StdSettingString', 'StdSettingTitle')
 
 
-Builder.load_file('templates/settings.kv')
 
 
 class StdSettingsContainer(GridLayout):

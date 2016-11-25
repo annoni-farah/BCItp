@@ -12,7 +12,7 @@ from utils.sample_manager import SampleManager
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, \
-    ListProperty, BooleanProperty, ReferenceListProperty
+    ListProperty
 from kivy.clock import Clock
 
 

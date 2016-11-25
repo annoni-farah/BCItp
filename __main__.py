@@ -6,6 +6,10 @@ import os
 
 from kivy.uix.screenmanager import ScreenManager
 
+import screens.templates.settings_template
+
+from utils.session_info import SessionHeader
+
 from screens.start_screen import StartScreen
 from screens.settings.general_settings import GeneralSettings
 from screens.menus import BCIMenu, CalMenu, GameMenu, DroneMenu
@@ -24,10 +28,9 @@ from screens.game.target_start import TargetStart
 from screens.game.drone_settings import DroneSettings
 from screens.game.drone_start import DroneStart
 
-from utils.session_info import SessionHeader
 
-
-def load_all_kv_files(start="./screens/kv"):
+def load_all_kv_files(start=os.path.dirname(__file__) + "/screens/kv"):
+    print(start)
     pattern = re.compile(r".*?\.kv")
     kv_files = []
     for root, dirs, files in os.walk(start):
@@ -43,6 +46,8 @@ class MyApp(App):
         sh = SessionHeader()
 
         sm = ScreenManager()
+
+        # CREATE SCREENS
         start_screen = StartScreen(sh, name='start')
         settings_screen = GeneralSettings(sh, name='GeneralSettings')
         bci_screen = BCIMenu(sh, name='BCIMenu')
@@ -65,7 +70,9 @@ class MyApp(App):
         ardrone_settings_screen = DroneSettings(sh, name='DroneSettings')
         ardrone_start_screen = DroneStart(sh, name='DroneStart')
 
+        # ADD SCREENS TO SCREEN MANAGER
         sm.add_widget(start_screen)
+
         sm.add_widget(settings_screen)
         sm.add_widget(bci_screen)
 
@@ -90,11 +97,6 @@ class MyApp(App):
 
         return sm
 
-
-# run app
-# if __name__ == "__main__":
-#     # stream_thread.start()
-
-
-def open():
+if __name__ == "__main__":
+    load_all_kv_files()
     MyApp().run()
