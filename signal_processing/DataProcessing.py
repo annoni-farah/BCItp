@@ -164,13 +164,6 @@ class Learner:
 
         return guess
 
-    def PrintResults(self):
-        # class_balance = np.mean(labels == labels[0])
-        # class_balance = max(class_balance, 1. - class_balance)
-        class_balance = 0.5
-        print("Classification accuracy: %f / Chance level: %f" % (self.score,
-                                                                  class_balance))
-
     def GetResults(self):
         return self.score
 
