@@ -1,9 +1,8 @@
 import numpy as np
+import json
 
-from DataProcessing import Filter, Learner
 
-
-def loadDataAsMatrix(path):
+def load_data_as_np(path):
     """Loads text file content as numpy matrix
     Parameters
     ----------
@@ -26,7 +25,7 @@ def loadDataAsMatrix(path):
     return matrix
 
 
-def extractEpochs(data, e, smin, smax, ev_id):
+def extract_epochs(data, e, smin, smax, ev_id):
     """Extracts the epochs from data based on event information
     Parameters
     ----------
@@ -94,13 +93,13 @@ def extractEpochs(data, e, smin, smax, ev_id):
     return epochs, labels
 
 
-def saveMatrixAsTxt(data_in, path, mode='a'):
+def save_matrix_as_txt(data_in, path, mode='a'):
 
     with open(path, mode) as data_file:
         np.save(data_file, data_in)
 
 
-def loadChannelLabels(path):
+def load_channel_labels(path):
     # if os.path.exists("data/rafael/precal_config"):
     with open(path, "r") as data_file:
         data = json.load(data_file)
@@ -108,7 +107,7 @@ def loadChannelLabels(path):
     return data["ch_labels"].split(' ')
 
 
-def readEvents(events_path):
+def read_events(events_path):
 
     e = np.load(events_path)
     # insert dummy column to fit mne event list format

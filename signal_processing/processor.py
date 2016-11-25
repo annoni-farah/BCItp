@@ -5,39 +5,23 @@ Created on Fri Apr  1 11:33:00 2016
 @author: rafael
 """
 
-import os
-import sys
-import inspect
-
-cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split
-                                                              (inspect.getfile(inspect.currentframe()))[0], 'algorithms')))
-
-if cmd_subfolder not in sys.path:
-    sys.path.insert(0, cmd_subfolder)
-
 import numpy as np  # numpy - used for array and matrices operations
-import math as math  # used for basic mathematical operations
 
 import scipy.signal as sp
-import scipy.linalg as lg
-
-from scipy.fftpack import fft
-
-from math import pi
 
 # from mne import Epochs, pick_types, find_events
 
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.model_selection import cross_val_score, cross_val_predict
+from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report, make_scorer, accuracy_score
 from sklearn.metrics import precision_recall_fscore_support, confusion_matrix
 
-from sklearn.model_selection import ShuffleSplit, StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit
 
 # from mne.decoding import CSP # Import Common Spatial Patterns
 from sklearn.pipeline import Pipeline
 
-from CommonSpatialPatterns import CSP
+from algorithms.CommonSpatialPatterns import CSP
 
 
 class Learner:
@@ -49,21 +33,21 @@ class Learner:
         self.TFNP_rate = np.array([0, 0, 0, 0])
         self.cv_counter = 0
 
-    def DesignLDA(self):
+    def design_LDA(self):
         self.svc = LDA()
 
-    def DesignCSP(self, n_comp):
+    def design_CSP(self, n_comp):
         self.csp = CSP(n_components=n_comp, reg=None,
                        log=True, cov_est='epoch')
 
-    def AssembleLearner(self):
+    def assemble_learner(self):
         self.clf = Pipeline([('CSP', self.csp), ('SVC', self.svc)])
 
-    def Learn(self, train_epochs, train_labels):
+    def learn(self, train_epochs, train_labels):
 
         self.clf.fit(train_epochs, train_labels)
 
-    def EvaluateSet(self, eval_epochs, eval_labels):
+    def evaluate_set(self, eval_epochs, eval_labels):
 
         self.score = self.clf.score(eval_epochs, eval_labels)
 
@@ -77,6 +61,41 @@ class Learner:
         # report = classification_report(eval_labels, guess)
 
         # print(report)
+
+    def cross_evaluate_set(self, eval_epochs, eval_labels, n_iter=10, test_perc=0.2):
+
+        # cv = ShuffleSplit(n_iter, test_size=test_perc, random_state=42)
+        cv = StratifiedShuffleSplit(
+            n_iter, test_size=test_perc, random_state=42)
+
+        # scorer = make_scorer(classification_report)
+
+        scores = cross_val_score(
+            self.clf, eval_epochs, eval_labels, cv=cv,
+            scoring=make_scorer(self.my_score))
+
+        # predicted = cross_val_predict(
+        #     self.clf, eval_epochs, eval_labels, cv=10)
+
+        return scores.mean()
+
+    def evaluate_epoch(self, epoch, out_param='label'):
+
+        if out_param == 'prob':
+
+            guess = self.clf.predict_proba(epoch)
+
+        elif out_param == 'label':
+
+            guess = self.clf.predict(epoch)
+
+        return guess
+
+    def get_results(self):
+        return self.score
+
+    def Get_model(self):
+        return self.clf
 
     def my_score(self, y_true, y_pred):
         # score_report = classification_report(y_true, y_pred)
@@ -136,40 +155,6 @@ class Learner:
 
         return global_accuracy
 
-    def cross_evaluate_set(self, eval_epochs, eval_labels, n_iter=10, test_perc=0.2):
-
-        # cv = ShuffleSplit(n_iter, test_size=test_perc, random_state=42)
-        cv = StratifiedShuffleSplit(
-            n_iter, test_size=test_perc, random_state=42)
-
-        # scorer = make_scorer(classification_report)
-
-        scores = cross_val_score(
-            self.clf, eval_epochs, eval_labels, cv=cv, scoring=make_scorer(self.my_score))
-
-        # predicted = cross_val_predict(
-        #     self.clf, eval_epochs, eval_labels, cv=10)
-
-        return scores.mean()
-
-    def EvaluateEpoch(self, epoch, out_param='label'):
-
-        if out_param == 'prob':
-
-            guess = self.clf.predict_proba(epoch)
-
-        elif out_param == 'label':
-
-            guess = self.clf.predict(epoch)
-
-        return guess
-
-    def GetResults(self):
-        return self.score
-
-    def GetModel(self):
-        return self.clf
-
 
 class Filter:
 
@@ -189,7 +174,7 @@ class Filter:
                                window='hamming', pass_zero=False)
             self.a = [1]
 
-    def ApplyFilter(self, data_in):
+    def apply_filter(self, data_in):
 
         data_out = sp.filtfilt(self.b, self.a, data_in)
 
