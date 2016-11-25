@@ -1,21 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
-import sys
-sys.path.insert(0, '../../')
-
 from signal_processing.approach import Approach
-from sklearn.metrics import mean_squared_error
-
-import sys
 import math
-sys.path.insert(1, 'bci_ml')
-
-import numpy as np
-
 from random import randint
-
-from signal_processing.DataManipulation import saveMatrixAsTxt
 
 
 DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
@@ -47,26 +35,23 @@ DATA_PATH = DATA_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
 EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
 EVENT_IDS = [1, 2]
 
-ap = Approach()
+ap = Approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
+              FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
 
-ap.defineApproach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
-                  FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
+ap.set_cal_path(DATA_PATH, EVENTS_PATH)
 
-ap.setPathToCal(DATA_PATH, EVENTS_PATH)
+ap.set_valid_channels(range(22))
 
-ap.setValidChannels(range(22))
-ap.define_bad_epochs(100)
-
-autoscore = ap.trainModel()
+autoscore = ap.train_model()
 
 DATA_PATH = DATA_FOLDER_PATH + 'A0' + SUBJ + 'E.npy'
 
 # EVENTS INFO PATH
 EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'E.npy'
 
-ap.setPathToCal(DATA_PATH, EVENTS_PATH)
-ap.setPathToVal(DATA_PATH, EVENTS_PATH)
-valscore = ap.validateModel()
+ap.set_cal_path(DATA_PATH, EVENTS_PATH)
+ap.set_val_path(DATA_PATH, EVENTS_PATH)
+valscore = ap.validate_model()
 print('-----------------------------------')
 print('Validation Score {}'.format(valscore))
 # epochs = ap.preProcess(epochs)
@@ -83,9 +68,9 @@ print('-----------------------------------')
 # ========================================================
 # ========================================================
 
-data, ev = ap.loadData(DATA_PATH, EVENTS_PATH)
+data, ev = ap.load_data(DATA_PATH, EVENTS_PATH)
 
-epochs, labels = ap.loadEpochs(data, ev)
+epochs, labels = ap.load_epochs(data, ev)
 
 idx_1 = np.where(labels == 1)[0]
 idx_2 = np.where(labels == 2)[0]
@@ -116,7 +101,7 @@ for a in range(N_RUNS):
                 (new_data_labels, [1, int(new_data.shape[0])]))
             new_data = np.vstack((new_data, epochs[idx_1[k]].T))
 
-    data, events = ap.loadData(new_data, new_data_labels, data_format='npy')
+    data, events = ap.load_epochs(new_data, new_data_labels, data_format='npy')
 
     data = data.T
 
@@ -135,7 +120,7 @@ for a in range(N_RUNS):
 
         buf = data[:, idx]
 
-        p = ap.applyModelOnEpoch(buf, out_param='prob')[0]
+        p = ap.classify_epoch(buf, out_param='prob')[0]
 
         u = p[0] - p[1]
 

@@ -40,15 +40,16 @@ ap.set_valid_channels(range(22))
 
 crossvalscore, result_report, TFNP = ap.cross_validate_model(10, 0.2)
 
-score_label1 = np.mean(result_report[0])
-score_label2 = np.mean(result_report[1])
+# score_label1 = np.mean(result_report[0])
+# score_label2 = np.mean(result_report[1])
 
-precision_label1 = np.mean(result_report[2])
-precision_label2 = np.mean(result_report[3])
+# precision_label1 = np.mean(result_report[2])
+# precision_label2 = np.mean(result_report[3])
 
 autoscore = ap.train_model()
 
-print('Crossvalidation Score {}'.format(crossvalscore))
+# print('Crossvalidation Score {}'.format(crossvalscore))
+print('Self Validation Score {}'.format(autoscore))
 # print('Class 1 Score {}'.format(score_label1))
 # print('class 2 Score {}'.format(score_label2))
 # print('class 1 Precision {}'.format(precision_label1))
