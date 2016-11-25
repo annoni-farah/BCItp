@@ -1,12 +1,9 @@
 import os
-from ..utils.standards import PATH_TO_SESSION
+from utils.standards import PATH_TO_SESSION
 
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty
-
-
-Builder.load_file('bcitp/screens/start_screen.kv')
 
 
 class StartScreen(Screen):

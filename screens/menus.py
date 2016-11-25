@@ -2,11 +2,10 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
-from kivy.lang import Builder
 
 import os
 
-from ..utils.standards import FONT_SIZE, BUTTON_SIZE
+from utils.standards import FONT_SIZE, BUTTON_SIZE
 
 
 class CalMenu(Screen):
@@ -162,9 +161,6 @@ class DroneMenu(Screen):
 
         os.system('roslaunch ardrone_tutorials \
             keyboard_controller_simu_goal.launch &')
-
-
-Builder.load_file('bcitp/screens/bcimenu.kv')
 
 
 class BCIMenu(Screen):

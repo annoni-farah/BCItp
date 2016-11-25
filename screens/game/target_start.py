@@ -6,24 +6,19 @@ import time
 import numpy as np
 
 # Project's:
-from bcitp.utils.sample_manager import SampleManager
-from bcitp.utils.standards import PATH_TO_SESSION
-from bcitp.signal_processing.approach import Approach
-from bcitp.signal_processing.handler import save_matrix_as_txt
+from utils.sample_manager import SampleManager
+from utils.standards import PATH_TO_SESSION
+from signal_processing.approach import Approach
+from signal_processing.handler import save_matrix_as_txt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, \
     ListProperty, BooleanProperty
 from kivy.clock import Clock
-from kivy.lang import Builder
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
-
-
-# KV file:
-Builder.load_file('bcitp/screens/game/target_start.kv')
 
 
 ######################################################################

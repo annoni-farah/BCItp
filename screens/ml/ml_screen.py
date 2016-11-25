@@ -2,19 +2,14 @@
 # Generic:
 
 # Project's:
-from bcitp.utils.standards import PATH_TO_SESSION
-from bcitp.signal_processing.approach import Approach
+from utils.standards import PATH_TO_SESSION
+from signal_processing.approach import Approach
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-
-
-# KV file:
-Builder.load_file('bcitp/screens/ml/ml_screen.kv')
 
 
 ######################################################################

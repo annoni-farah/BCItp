@@ -7,18 +7,14 @@ import threading
 import numpy as np
 
 # Project's:
-from bcitp.utils.sample_manager import SampleManager
+from utils.sample_manager import SampleManager
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, \
     ListProperty, BooleanProperty, ReferenceListProperty
-from kivy.lang import Builder
 from kivy.clock import Clock
 
-
-# KV file:
-Builder.load_file('bcitp/screens/cal/cal_start.kv')
 
 ######################################################################
 

@@ -5,10 +5,6 @@
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
-
-# KV file:
-Builder.load_file('bcitp/screens/game/game_settings.kv')
 
 ######################################################################
 

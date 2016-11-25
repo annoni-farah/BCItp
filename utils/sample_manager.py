@@ -15,10 +15,10 @@ import collections  # circular buffer
 from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
 
-from bcitp.signal_processing.handler import extract_epochs, read_events
+from signal_processing.handler import extract_epochs, read_events
 
-import bcitp.hardware.open_bci_v3 as bci
-import bcitp.hardware.open_bci_playback as playback
+import hardware.open_bci_v3 as bci
+import hardware.open_bci_playback as playback
 
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'

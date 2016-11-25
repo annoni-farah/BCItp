@@ -2,15 +2,10 @@
 # Generic:
 
 # Project's:
-from bcitp.utils.standards import PATH_TO_SESSION
+from utils.standards import PATH_TO_SESSION
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
-
-# KV file:
-Builder.load_file('bcitp/screens/settings/cal_settings.kv')
-
 
 ######################################################################
 

@@ -6,11 +6,7 @@
 # KIVY modules:
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty, NumericProperty
-from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
-
-# KV file:
-Builder.load_file('bcitp/screens/settings/acquisition_settings.kv')
 
 
 ######################################################################

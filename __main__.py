@@ -1,4 +1,9 @@
 from kivy.app import App
+from kivy.lang import Builder
+
+import re
+import os
+
 from kivy.uix.screenmanager import ScreenManager
 
 from screens.start_screen import StartScreen
@@ -20,6 +25,16 @@ from screens.game.drone_settings import DroneSettings
 from screens.game.drone_start import DroneStart
 
 from utils.session_info import SessionHeader
+
+
+def load_all_kv_files(start="./screens/kv"):
+    pattern = re.compile(r".*?\.kv")
+    kv_files = []
+    for root, dirs, files in os.walk(start):
+        kv_files += [root + "/" + file_ for file_ in files if pattern.match(file_)]
+
+    for file_ in kv_files:
+        Builder.load_file(file_)
 
 
 class MyApp(App):
