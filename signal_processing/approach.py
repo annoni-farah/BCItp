@@ -38,8 +38,7 @@ class Approach:
         data, ev = self.loadData(self.data_cal_path, self.events_cal_path)
         epochs, labels = self.loadEpochs(data, ev)
         epochs = self.preProcess(epochs)
-
-        # epochs, labels = self.reject_epochs(epochs, labels)
+        epochs, labels = self.reject_epochs(epochs, labels)
 
         self.learner.Learn(epochs, labels)
         self.learner.EvaluateSet(epochs, labels)
@@ -69,7 +68,7 @@ class Approach:
         score = self.learner.cross_evaluate_set(epochs, labels,
                                                 n_iter, test_perc)
 
-        return score
+        return score, self.learner.report[1:], np.mean(self.learner.TFNP_rate[1:], axis=0)
 
     def applyModelOnDataSet(self, epochs, labels):
 
