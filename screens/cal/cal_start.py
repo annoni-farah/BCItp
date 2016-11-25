@@ -14,7 +14,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, \
     ListProperty
 from kivy.clock import Clock
-
+from kivy.garden.bar import Bar
 
 ######################################################################
 
