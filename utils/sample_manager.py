@@ -4,9 +4,8 @@
 # from threading import Thread
 import numpy as np
 import os
-from time import sleep
 
-from math import ceil, isnan, floor
+from math import floor
 from random import randint
 
 import threading
@@ -16,10 +15,10 @@ import collections  # circular buffer
 from utils import saveMatrixAsTxt
 from utils import LoadDataAsMatrix
 
-from DataManipulation import extractEpochs, readEvents
+from bcitp.signal_processing.handler import extract_epochs, read_events
 
-import open_bci_v3 as bci
-import open_bci_playback as playback
+import bcitp.hardware.open_bci_v3 as bci
+import bcitp.hardware.open_bci_playback as playback
 
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'
@@ -85,8 +84,8 @@ class SampleManager(threading.Thread):
                     self.current_playback_label = next(self.playback_labels)
                     self.next_playback_label = next(self.playback_labels)
 
-                ev = readEvents(self.playback_labels_path)
-                self.epochs, self.labels = extractEpochs(
+                ev = read_events(self.playback_labels_path)
+                self.epochs, self.labels = extract_epochs(
                     self.loadedData,
                     ev,
                     smin,
@@ -235,4 +234,3 @@ class SampleManager(threading.Thread):
 
     def jump_playback_data(self):
         self.board.sample_counter = self.board.playback_data.shape[0] - 50
-

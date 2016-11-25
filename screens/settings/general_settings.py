@@ -4,7 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
-from standards import FONT_SIZE, BUTTON_SIZE
+from ...utils.standards import FONT_SIZE, BUTTON_SIZE
 
 
 class GeneralSettings(Screen):

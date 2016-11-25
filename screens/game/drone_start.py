@@ -6,10 +6,10 @@ import numpy as np
 import time
 
 # Project's:
-from SampleManager import SampleManager
-from approach import Approach
-from standards import PATH_TO_SESSION
-from utils import saveMatrixAsTxt
+from bcitp.utils.sample_manager import SampleManager
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.signal_processing.approach import Approach
+from bcitp.signal_processing.handler import save_matrix_as_txt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
@@ -20,7 +20,7 @@ from kivy.uix.popup import Popup
 
 
 # KV file:
-Builder.load_file('screens/game/ardrone/drone_start.kv')
+Builder.load_file('bcitp/screens/game/drone_start.kv')
 
 
 DRONE_VEL = 1
@@ -365,5 +365,5 @@ class DroneResultsPopup(Popup):
                      '/' + 'game_data_' + game_name + '.npy')
 
         r = np.array(self.res)
-        saveMatrixAsTxt(r, path_res, mode='w')
-        saveMatrixAsTxt(r, path_data, mode='w')
+        save_matrix_as_txt(r, path_res, mode='w')
+        save_matrix_as_txt(r, path_data, mode='w')

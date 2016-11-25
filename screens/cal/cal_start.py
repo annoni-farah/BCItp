@@ -1,31 +1,24 @@
 # DEPENDENCIES -------------------------
 # Generic:
 import random
-import json
 import os
-import math
 import time
 import threading
 import numpy as np
 
 # Project's:
-from approach import Approach
-from SampleManager import SampleManager
+from bcitp.utils.sample_manager import SampleManager
 
 # KIVY modules:
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, \
     ListProperty, BooleanProperty, ReferenceListProperty
 from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.popup import Popup
 from kivy.clock import Clock
-from kivy.garden.bar import Bar
 
 
 # KV file:
-Builder.load_file('screens/cal/calstart.kv')
+Builder.load_file('bcitp/screens/cal/cal_start.kv')
 
 ######################################################################
 

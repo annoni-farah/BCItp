@@ -1,4 +1,6 @@
-# DEPENDENCIES --------------------------
+# DEPENDENCIES -------------------------
+# Generic:
+
 # Project's:
 
 # KIVY modules:
@@ -6,22 +8,21 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 
 # KV file:
-Builder.load_file('screens/game/ardrone/drone_settings.kv')
+Builder.load_file('bcitp/screens/game/game_settings.kv')
 
-# Generic:
 ######################################################################
 
 
-class DroneSettings(Screen):
+class GameSettings(Screen):
 
     # layout
     def __init__(self, session_header, **kwargs):
-        super(DroneSettings, self).__init__(**kwargs)
+        super(GameSettings, self).__init__(**kwargs)
         self.sh = session_header
 
-    def change_to_drone(self, *args):
+    def change_to_game(self, *args):
 
-        self.manager.current = 'DroneMenu'
+        self.manager.current = 'GameMenu'
         self.manager.transition.direction = 'right'
 
     def save_config(self, *args):
@@ -44,3 +45,10 @@ class DroneSettings(Screen):
     def update_settings(self):
 
         ids = self.ids
+
+        ids.game_threshold.value = self.sh.game.game_threshold
+        ids.window_overlap.value = self.sh.game.window_overlap * 1000
+        ids.warning_threshold.value = self.sh.game.warning_threshold
+        ids.forward_speed.value = self.sh.game.forward_speed * 1000.0
+        ids.inst_prob.value = self.sh.game.inst_prob * 1000.0
+        ids.keyb_enable.value = self.sh.game.keyb_enable

@@ -2,8 +2,8 @@
 # Generic:
 
 # Project's:
-from standards import PATH_TO_SESSION, FONT_SIZE
-from approach import Approach
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.signal_processing.approach import Approach
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
@@ -14,7 +14,7 @@ from kivy.uix.popup import Popup
 
 
 # KV file:
-Builder.load_file('screens/ml/mlmenu.kv')
+Builder.load_file('bcitp/screens/ml/ml_screen.kv')
 
 
 ######################################################################

@@ -10,7 +10,7 @@ from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 
 # KV file:
-Builder.load_file('screens/settings/acquisitionsettings.kv')
+Builder.load_file('bcitp/screens/settings/acquisition_settings.kv')
 
 
 ######################################################################

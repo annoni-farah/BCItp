@@ -1,48 +1,26 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 
-import os
-import sys
-import inspect
+from screens.start_screen import StartScreen
+from screens.settings.general_settings import GeneralSettings
+from screens.menus import BCIMenu, CalMenu, GameMenu, DroneMenu
 
-FOLDERS = ['signal_processing', 'signal_processing/approaches', 'utils',
-           'screens/settings', 'screens', 'screens/cal',
-           'hardware/openbci', 'hardware/ardrone', 'screens/ml',
-           'screens/precal', 'screens/cal', 'screens/val', 'screens/game',
-           'screens/game/ardrone', 'templates']
+from screens.settings.acquisition_settings import AcquisitionSettings
 
-for i in range(len(FOLDERS)):
-    cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(
-        os.path.split(inspect.getfile(inspect.currentframe()))[0], FOLDERS[i])))
-    if cmd_subfolder not in sys.path:
-        sys.path.insert(0, cmd_subfolder)
+from screens.settings.cal_settings import CalSettings
+from screens.cal.cal_start import CalStart
 
-from settings import *
+from screens.ml.ml_screen import MlMenu
 
-from ScreenStart import StartScreen
-from GeneralSettings import GeneralSettings
-from BCIMenu import BCIMenu
+from screens.game.game_settings import GameSettings
+from screens.game.bars_start import BarsStart
+from screens.game.target_start import TargetStart
 
-from AcquisitionSettings import AcquisitionSettings
+from screens.game.drone_settings import DroneSettings
+from screens.game.drone_start import DroneStart
 
-from CalMenu import CalMenu
-from CalSettings import CalSettings
-from CalStart import CalStart
+from utils.session_info import SessionHeader
 
-from mlmenu import MlMenu
-
-from GameMenu import GameMenu
-from GameSettings import GameSettings
-from BarsStart import BarsStart
-from TargetStart import TargetStart
-
-from drone_menu import DroneMenu
-from drone_settings import DroneSettings
-from drone_start import DroneStart
-
-from kivy.properties import StringProperty
-
-from SessionInfo import SessionHeader
 
 class MyApp(App):
 
@@ -99,7 +77,9 @@ class MyApp(App):
 
 
 # run app
-if __name__ == "__main__":
-    # stream_thread.start()
+# if __name__ == "__main__":
+#     # stream_thread.start()
 
+
+def open():
     MyApp().run()

@@ -4,10 +4,10 @@ import math
 import os
 
 # Project's:
-from SampleManager import SampleManager
-from standards import PATH_TO_SESSION
-from approach import Approach
-from utils import saveMatrixAsTxt
+from bcitp.utils.sample_manager import SampleManager
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.signal_processing.approach import Approach
+from bcitp.signal_processing.handler import save_matrix_as_txt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
@@ -15,10 +15,9 @@ from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
-from kivy.core.window import Window
 
 # KV file:
-Builder.load_file('screens/game/barsstart.kv')
+Builder.load_file('bcitp/screens/game/bars_start.kv')
 
 
 ######################################################################
@@ -219,4 +218,4 @@ class GameDataPopup(Popup):
         path = PATH_TO_SESSION + self.sh.info.name + \
             '/' + 'bar_data_' + game_name + '.npy'
 
-        saveMatrixAsTxt(self.data, path, mode='w')
+        save_matrix_as_txt(self.data, path, mode='w')
