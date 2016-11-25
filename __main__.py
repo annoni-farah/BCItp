@@ -29,6 +29,7 @@ from screens.game.drone_settings import DroneSettings
 from screens.game.drone_start import DroneStart
 
 
+# LOAD ALL KV FILES
 def load_all_kv_files(start=os.path.dirname(__file__) + "/screens/kv"):
     print(start)
     pattern = re.compile(r".*?\.kv")
