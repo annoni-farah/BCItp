@@ -58,7 +58,8 @@ class Approach:
         score = self.learner.cross_evaluate_set(epochs, labels,
                                                 n_iter, test_perc)
 
-        return score, self.learner.report[1:], np.mean(self.learner.TFNP_rate[1:], axis=0)
+        # return score, self.learner.report[1:], np.mean(self.learner.TFNP_rate[1:], axis=0)
+        return score
 
     def classify_set(self, epochs, labels):
 

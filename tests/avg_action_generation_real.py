@@ -56,7 +56,7 @@ print('-----------------------------------')
 print('Validation Score {}'.format(valscore))
 # epochs = ap.preProcess(epochs)
 
-crossvalscore, result_report, TFNP = ap.cross_validate_model(30, 0.3)
+crossvalscore = ap.cross_validate_model(30, 0.3)
 
 
 print('Crossvalidation Score {}'.format(crossvalscore))
@@ -101,7 +101,7 @@ for a in range(N_RUNS):
                 (new_data_labels, [1, int(new_data.shape[0])]))
             new_data = np.vstack((new_data, epochs[idx_1[k]].T))
 
-    data, events = ap.load_epochs(new_data, new_data_labels, data_format='npy')
+    data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
 
     data = data.T
 

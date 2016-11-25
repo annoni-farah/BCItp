@@ -51,10 +51,10 @@ class Learner:
 
         self.score = self.clf.score(eval_epochs, eval_labels)
 
-        guess = self.clf.predict(eval_epochs)
+        # guess = self.clf.predict(eval_epochs)
 
-        idx1 = np.where(eval_labels == 1)[0]
-        accuracy1 = accuracy_score(eval_labels[idx1], guess[idx1])
+        # idx1 = np.where(eval_labels == 1)[0]
+        # accuracy1 = accuracy_score(eval_labels[idx1], guess[idx1])
 
         # print('Validation Score class 1 {}'.format(accuracy1))
 
@@ -101,38 +101,38 @@ class Learner:
         # score_report = classification_report(y_true, y_pred)
         # print(score_report)
 
-        idx1 = np.where(y_true == 1)[0]
-        idx2 = np.where(y_true == 2)[0]
+        # idx1 = np.where(y_true == 1)[0]
+        # idx2 = np.where(y_true == 2)[0]
 
         # precision, recall, fscore, support = precision_recall_fscore_support(
         #     y_true[idx1], y_pred[idx1])
         # print('precision:', precision.mean())
 
-        CM = confusion_matrix(y_true[idx1], y_pred[idx1])
+        # CM = confusion_matrix(y_true[idx1], y_pred[idx1])
 
         # print(y_true[idx1])
         # print(y_pred[idx1])
 
-        # print(CM)
-        TN = CM[0, 0]
-        FN = CM[1, 0]
-        TP = CM[1, 1]
-        FP = CM[0, 1]
+        # # print(CM)
+        # TN = CM[0, 0]
+        # FN = CM[1, 0]
+        # TP = CM[1, 1]
+        # FP = CM[0, 1]
 
         # print(TN)
         # print(FP)
 
-        total = float(len(y_true[idx1]))
+        # total = float(len(y_true[idx1]))
         # print(total)
         # print(float(TN))
         # print(float(TN) / total)
-        TN_rate = float(TN) / total
-        FN_rate = float(FN) / total
-        TP_rate = float(TP) / total
-        FP_rate = float(FP) / total
+        # TN_rate = float(TN) / total
+        # FN_rate = float(FN) / total
+        # TP_rate = float(TP) / total
+        # FP_rate = float(FP) / total
 
-        self.TFNP_rate = np.vstack(
-            [self.TFNP_rate, [TN_rate, FN_rate, TP_rate, FP_rate]])
+        # self.TFNP_rate = np.vstack(
+        #     [self.TFNP_rate, [TN_rate, FN_rate, TP_rate, FP_rate]])
         # print('True Negatives: {}'.format(TN))
         # print('False Negatives: {}'.format(FN))
         # print('True Positives: {}'.format(TP))
@@ -148,8 +148,8 @@ class Learner:
         # print 'Accuracy for class 1', accuracy1
         # print 'Accuracy for class 2', accuracy2
 
-        global_accuracy = accuracy_score(y_true[idx1], y_pred[idx1])
-        self.cv_counter += 1
+        global_accuracy = accuracy_score(y_true, y_pred)
+        # self.cv_counter += 1
 
         # print('--------------------')
 
