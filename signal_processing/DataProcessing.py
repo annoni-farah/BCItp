@@ -201,11 +201,3 @@ class Filter:
         data_out = sp.filtfilt(self.b, self.a, data_in)
 
         return data_out
-
-    def ComputeEnergy(self, data_in):
-
-        data_squared = data_in ** 2
-        # energy in each channel [e(ch1) e(ch2) ...]
-        energy = np.mean(data_squared, axis=0)
-
-        return energy
