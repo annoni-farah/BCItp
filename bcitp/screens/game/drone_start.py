@@ -231,7 +231,7 @@ class DroneStart(Screen):
         if (U1 > 100) or (U2 > 100):
             self.drone.stop()
             self.set_bar_default()
-            self.sm.clear_buffer()
+            # self.sm.clear_buffer()
             self.sm.current_cmd = 0
             Clock.schedule_once(self.move_drone_forward, 2)
             if U1 > 100:
@@ -288,8 +288,8 @@ class DroneStart(Screen):
             try:
                 self.sm.current_cmd = next(self.cmd_list)
 
-                self.sm.clear_buffer()
-                self.sm.jump_playback_data()
+                # self.sm.clear_buffer()
+                # self.sm.jump_playback_data()
                 self.set_bar_default()
                 self.lock_check_pos = True
 
