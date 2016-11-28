@@ -100,5 +100,10 @@ class MyApp(App):
         return sm
 
 if __name__ == "__main__":
+    # try:
+        # load_all_kv_files()
+        # MyApp().run()
+    # except Exception as e:
+    #     print(e)
     load_all_kv_files()
     MyApp().run()
