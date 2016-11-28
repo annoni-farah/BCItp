@@ -4,10 +4,10 @@ import math
 import os
 
 # Project's:
-from utils.sample_manager import SampleManager
-from utils.standards import PATH_TO_SESSION
-from signal_processing.approach import Approach
-from signal_processing.handler import save_matrix_as_txt
+from bcitp.utils.sample_manager import SampleManager
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.signal_processing.approach import Approach
+from bcitp.signal_processing.handler import save_matrix_as_txt
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen

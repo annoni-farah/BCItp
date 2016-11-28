@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 
 import os
 
-from utils.standards import FONT_SIZE, BUTTON_SIZE
+from bcitp.utils.standards import FONT_SIZE, BUTTON_SIZE
 
 
 class CalMenu(Screen):

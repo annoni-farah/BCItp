@@ -7,7 +7,7 @@ import threading
 import numpy as np
 
 # Project's:
-from utils.sample_manager import SampleManager
+from bcitp.utils.sample_manager import SampleManager
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
@@ -21,11 +21,11 @@ from kivy.garden.bar import Bar
 
 class CalStart(Screen):
 
-    src = ["data/resources/cross.png",
-           "data/resources/left.png",
-           "data/resources/right.png",
-           "data/resources/blank.png",
-           "data/resources/break.png"]
+    src = ["bcitp/screens/resources/cross.png",
+           "bcitp/screens/resources/left.png",
+           "bcitp/screens/resources/right.png",
+           "bcitp/screens/resources/blank.png",
+           "bcitp/screens/resources/break.png"]
 
     fig_list = ListProperty(src)
     button_stream = StringProperty('Start Streaming')

@@ -2,7 +2,7 @@
 # Generic:
 
 # Project's:
-from utils.standards import PATH_TO_SESSION
+from bcitp.utils.standards import PATH_TO_SESSION
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen

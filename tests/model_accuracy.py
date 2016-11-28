@@ -1,5 +1,3 @@
-import numpy as np
-
 from signal_processing.approach import Approach
 
 DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"

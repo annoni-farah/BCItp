@@ -2,8 +2,8 @@
 # Generic:
 
 # Project's:
-from utils.standards import PATH_TO_SESSION
-from signal_processing.approach import Approach
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.signal_processing.approach import Approach
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
