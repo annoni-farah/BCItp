@@ -4,13 +4,16 @@ import math
 from .handler import load_data_as_np, read_events, extract_epochs
 
 import pickle
-import numpy as np
 
 
 class Approach:
 
-    def __init__(self, sample_rate, f_low, f_high, f_order,
-                 csp_nei, class_ids, epoch_start, epoch_end):
+    def __init__(self):
+        pass
+
+    def define_approach(self, sample_rate, f_low, f_high, f_order,
+                        csp_nei, class_ids, epoch_start, epoch_end):
+
         self.class_ids = class_ids
 
         # FEATURE EXTRACTION:
@@ -58,7 +61,8 @@ class Approach:
         score = self.learner.cross_evaluate_set(epochs, labels,
                                                 n_iter, test_perc)
 
-        # return score, self.learner.report[1:], np.mean(self.learner.TFNP_rate[1:], axis=0)
+        # return score, self.learner.report[1:],
+        # np.mean(self.learner.TFNP_rate[1:], axis=0)
         return score
 
     def classify_set(self, epochs, labels):

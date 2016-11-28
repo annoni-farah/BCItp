@@ -108,9 +108,9 @@ class popupMl(BoxLayout):
 
         sh = session_header
 
-        print(sh.acq.sample_rate)
+        ap = Approach()
 
-        ap = Approach(
+        ap.define_approach(
             sh.acq.sample_rate,
             sh.dp.f_low,
             sh.dp.f_high,

@@ -78,7 +78,7 @@ class DroneStart(Screen):
 
     def start_drone(self):
         # Hardware:
-        from ardrone_ros import ARDrone
+        from bcitp.hardware.ardrone_ros import ARDrone
         self.drone = ARDrone()
 
     def stream_stop(self):
@@ -95,17 +95,17 @@ class DroneStart(Screen):
         game_time = time.time() - self.game_start_time
         results = np.array([(self.pos_history), (game_time)])
         res = DroneResultsPopup(self.sh, results, self.sm.all_data)
-        # res.open()
+        res.open()
 
-        global I
-        if self.bad_run:
-            res.save_results('run' + str(I) + 'bad')
-        else:
-            res.save_results('run' + str(I))
-        I += 1
-        if I < 20:
-            sleep(4)
-            self.stream_start()
+        # global I
+        # if self.bad_run:
+        #     res.save_results('run' + str(I) + 'bad')
+        # else:
+        #     res.save_results('run' + str(I))
+        # I += 1
+        # if I < 20:
+        #     sleep(4)
+        #     self.stream_start()
 
     def stream_start(self):
         self.lock_check_pos = False
@@ -159,7 +159,7 @@ class DroneStart(Screen):
 
         if buf.shape[0] == self.sh.dp.buf_len:
 
-            self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
+            self.p = self.ap.classify_epoch(buf.T, 'prob')[0]
 
             if self.sh.game.inst_prob:
                 self.update_inst_bars()
@@ -269,7 +269,7 @@ class DroneStart(Screen):
     def load_approach(self):
 
         self.ap = Approach()
-        self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.info.name)
+        self.ap.load_pkl(PATH_TO_SESSION + self.sh.info.name)
 
     def store_pos(self, dt):
         new = [self.drone.pos_x, self.drone.pos_y]

@@ -111,7 +111,7 @@ class BarsStart(Screen):
 
         if buf.shape[0] == self.sh.dp.buf_len:
 
-            self.p = self.ap.applyModelOnEpoch(buf.T, 'prob')[0]
+            self.p = self.ap.classify_epoch(buf.T, 'prob')[0]
 
             if self.sh.game.inst_prob:
                 self.update_inst_bars()
@@ -199,7 +199,7 @@ class BarsStart(Screen):
     def load_approach(self):
 
         self.ap = Approach()
-        self.ap.loadFromPkl(PATH_TO_SESSION + self.sh.info.name)
+        self.ap.load_pkl(PATH_TO_SESSION + self.sh.info.name)
 
 
 class GameDataPopup(Popup):
