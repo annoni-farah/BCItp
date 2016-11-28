@@ -2,7 +2,7 @@
 # Generic:
 
 # Project's:
-from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.utils.standards import PATH_TO_SESSION, FONT_SIZE
 from bcitp.signal_processing.approach import Approach
 
 # KIVY modules:
@@ -108,30 +108,38 @@ class popupMl(BoxLayout):
 
         sh = session_header
 
-        ap = Approach()
+        print(sh.acq.sample_rate)
 
-        ap.defineApproach(sh.acq.sample_rate,
-                          sh.dp.f_low,
-                          sh.dp.f_high,
-                          sh.dp.f_order,
-                          sh.ml.nei,
-                          sh.ml.class_ids,
-                          sh.ml.epoch_start,
-                          sh.ml.epoch_end)
+        ap = Approach(
+            sh.acq.sample_rate,
+            sh.dp.f_low,
+            sh.dp.f_high,
+            sh.dp.f_order,
+            sh.ml.nei,
+            sh.ml.class_ids,
+            sh.ml.epoch_start,
+            sh.ml.epoch_end
+        )
 
-        ap.setPathToCal(sh.cal.data_cal_path, sh.cal.events_cal_path)
+        ap.set_cal_path(sh.cal.data_cal_path, sh.cal.events_cal_path)
 
-        ap.setValidChannels(sh.dp.channels)
+        ap.set_valid_channels(sh.dp.channels)
 
-        ap.define_bad_epochs(sh.ml.max_amp)
-
-        autoscore = ap.trainModel()
+        autoscore = ap.train_model()
         autoscore = round(autoscore, 3)
 
         crossvalscore = ap.cross_validate_model(sh.ml.n_iter, sh.ml.test_perc)
         crossvalscore = round(crossvalscore, 3)
 
-        ap.saveToPkl(PATH_TO_SESSION + sh.info.name)
+        ap.save_to_pkl(PATH_TO_SESSION + sh.info.name)
+
+        try:
+            ap.set_val_path(sh.cal.data_val_path, sh.cal.events_val_path)
+            valscore = ap.validate_model()
+            valscore = round(valscore, 3)
+        except Exception as e:
+            print(e)
+            valscore = 'NA'
 
         self.orientation = 'vertical'
 
@@ -141,11 +149,18 @@ class popupMl(BoxLayout):
         autoBox.add_widget(l1)
         autoBox.add_widget(l2)
 
-        valBox = BoxLayout()
+        crossvalBox = BoxLayout()
         l3 = Label(text='Cross Val Acc: %', font_size=FONT_SIZE)
         l4 = Label(text=str(crossvalscore), font_size=FONT_SIZE)
+        crossvalBox.add_widget(l3)
+        crossvalBox.add_widget(l4)
+
+        valBox = BoxLayout()
+        l3 = Label(text=' Val Acc: %', font_size=FONT_SIZE)
+        l4 = Label(text=str(valscore), font_size=FONT_SIZE)
         valBox.add_widget(l3)
         valBox.add_widget(l4)
 
         self.add_widget(autoBox)
         self.add_widget(valBox)
+        self.add_widget(crossvalBox)
