@@ -28,14 +28,16 @@ from screens.game.target_start import TargetStart
 from screens.game.drone_settings import DroneSettings
 from screens.game.drone_start import DroneStart
 
-
 # LOAD ALL KV FILES
+
+
 def load_all_kv_files(start=os.path.dirname(__file__) + "/screens/kv"):
     print(start)
     pattern = re.compile(r".*?\.kv")
     kv_files = []
     for root, dirs, files in os.walk(start):
-        kv_files += [root + "/" + file_ for file_ in files if pattern.match(file_)]
+        kv_files += [root + "/" +
+                     file_ for file_ in files if pattern.match(file_)]
 
     for file_ in kv_files:
         Builder.load_file(file_)
