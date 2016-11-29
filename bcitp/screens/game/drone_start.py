@@ -24,7 +24,7 @@ I = 1
 
 D_TO_TARGET = 10
 
-TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20, 20 - D_TO_TARGET]]  # simu1
+TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20 + D_TO_TARGET, 20]]  # simu1
 CMD_LIST = [1, 2, 2]
 
 # TARGET_POS_ARR = [[0, 0], [20, 0], [20, 20], [-20, 20]] # simu2
