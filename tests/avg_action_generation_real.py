@@ -1,15 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
-from signal_processing.approach import Approach
+import sys
+import os
 import math
 from random import randint
+
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from bcitp.signal_processing.approach import Approach
 
 
 DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
 EVENTS_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/"
 
-SUBJ = '1'
+SUBJ = '8'
 
 SAMPLING_FREQ = 250.0
 
@@ -35,8 +40,9 @@ DATA_PATH = DATA_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
 EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
 EVENT_IDS = [1, 2]
 
-ap = Approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
-              FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
+ap = Approach()
+ap.define_approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
+                   FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
 
 ap.set_cal_path(DATA_PATH, EVENTS_PATH)
 
@@ -52,14 +58,13 @@ EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'E.npy'
 ap.set_cal_path(DATA_PATH, EVENTS_PATH)
 ap.set_val_path(DATA_PATH, EVENTS_PATH)
 valscore = ap.validate_model()
-print('-----------------------------------')
-print('Validation Score {}'.format(valscore))
 # epochs = ap.preProcess(epochs)
 
 crossvalscore = ap.cross_validate_model(30, 0.3)
 
-
+print('-----------------------------------')
 print('Crossvalidation Score {}'.format(crossvalscore))
+print('Validation Score {}'.format(valscore))
 print('-----------------------------------')
 # print('Positive rate: {}'.format(TFNP[0] + TFNP[1]))
 # print('Negative rate: {}'.format(TFNP[2] + TFNP[3]))
@@ -79,7 +84,7 @@ idx_4 = np.where(labels == 4)[0]
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 100
+N_RUNS = 500
 first = True
 increment = 25
 
@@ -199,10 +204,14 @@ n_samples = u_time.shape[0]
 time = range(n_samples)
 time = [x * increment / SAMPLING_FREQ for x in time]
 
+U_avg_est = (valscore - (1 - valscore)) * \
+    np.array(time) / (increment / SAMPLING_FREQ)
+
 plt.plot()
 
 plt.subplot(2, 1, 1)
-plt.plot(time, U_avg, 'k', linewidth=4.0, label='Mean')
+plt.plot(time, U_avg, 'k',  linewidth=4.0, label='Mean')
+plt.plot(time, U_avg_est, 'g', linewidth=4.0, label='Estimated')
 # plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
