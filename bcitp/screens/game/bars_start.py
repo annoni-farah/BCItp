@@ -2,6 +2,7 @@
 # Generic:
 import math
 import os
+import collections
 
 # Project's:
 from bcitp.utils.sample_manager import SampleManager
@@ -43,7 +44,9 @@ class BarsStart(Screen):
 
         self.stream_flag = False
 
-        self.U = 0.0
+        self.U1 = 0.0
+        self.U2 = 0.0
+
         self.p = [0, 0]
 
     # BUTTON CALLBACKS
@@ -74,6 +77,15 @@ class BarsStart(Screen):
 
     def stream_start(self):
         self.load_approach()
+
+        TTA = 5.
+        increment = 25.
+        ABUF_LEN = TTA * self.sh.acq.sample_rate / increment
+        self.delta_ref = self.ap.accuracy * \
+            TTA / (increment / self.sh.acq.sample_rate)
+
+        self.U1_local = collections.deque(maxlen=ABUF_LEN)
+        self.U2_local = collections.deque(maxlen=ABUF_LEN)
 
         self.sm = SampleManager(self.sh.acq.com_port,
                                 self.sh.dp.buf_len,
@@ -143,41 +155,42 @@ class BarsStart(Screen):
 
         u = p1 - p2
 
-        self.U += u
-
-        U1 = 100 * (self.U + self.sh.game.game_threshold) / \
-            (2. * self.sh.game.game_threshold)
-
-        U2 = 100 - U1
-
-        U1_n = int(math.floor(U1))
-        U2_n = int(math.floor(U2))
-
-        if U1_n > self.sh.game.warning_threshold:
-            self.accum_color_left = [1, 1, 0, 1]
-        elif U2_n > self.sh.game.warning_threshold:
-            self.accum_color_right = [1, 1, 0, 1]
+        if u >= 0:
+            u1 = 1
+            u2 = 0
         else:
-            self.accum_color_left = [1, 0, 0, 1]
-            self.accum_color_right = [0, 0, 1, 1]
+            u1 = 0
+            u2 = 1
 
-        if U1_n in range(101):
-            self.accum_prob_left = U1_n
-        if U2_n in range(101):
-            self.accum_prob_right = U2_n
+        self.U1 = self.U1 + u1
+        self.U2 = self.U2 + u2
+        self.U1_local.append(self.U1)
+        self.U2_local.append(self.U2)
 
-        self.map_probs(U1, U2)
+        delta1 = self.U1_local[-1] - self.U1_local[0]
+        delta2 = self.U2_local[-1] - self.U2_local[0]
 
-    def map_probs(self, U1, U2):
+        BAR1 = 100 * (delta1 / self.delta_ref)
+        BAR2 = 100 * (delta2 / self.delta_ref)
 
-        if U1 > 100:
+        BAR1_n = int(math.floor(BAR1))
+        BAR2_n = int(math.floor(BAR2))
+
+        if BAR1_n < 100:
+            self.accum_prob_left = BAR1_n
+        if BAR2_n < 100:
+            self.accum_prob_right = BAR2_n
+
+        self.map_probs(BAR1, BAR2)
+
+    def map_probs(self, BAR1, BAR2):
+
+        if BAR1 > 100:
             os.system(self.sh.game.action_cmd1)
             self.set_bar_default()
-            self.sm.update_cmd()
-        elif U2 > 100:
+        elif BAR2 > 100:
             os.system(self.sh.game.action_cmd2)
             self.set_bar_default()
-            self.sm.update_cmd()
         else:
             pass
             # dont send any cmd
@@ -190,7 +203,8 @@ class BarsStart(Screen):
         self.inst_prob_left = 0
         self.inst_prob_right = 0
 
-        self.U = 0.0
+        self.U1_local.clear()
+        self.U2_local.clear()
 
     def update_current_label(self, dt):
 

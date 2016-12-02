@@ -131,15 +131,17 @@ class popupMl(BoxLayout):
         crossvalscore = ap.cross_validate_model(sh.ml.n_iter, sh.ml.test_perc)
         crossvalscore = round(crossvalscore, 3)
 
-        ap.save_to_pkl(PATH_TO_SESSION + sh.info.name)
-
         try:
             ap.set_val_path(sh.cal.data_val_path, sh.cal.events_val_path)
             valscore = ap.validate_model()
             valscore = round(valscore, 3)
+            ap.accuracy = valscore
         except Exception as e:
             print(e)
+            ap.accuracy = crossvalscore
             valscore = 'NA'
+
+        ap.save_to_pkl(PATH_TO_SESSION + sh.info.name)
 
         self.orientation = 'vertical'
 
