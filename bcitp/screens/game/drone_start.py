@@ -4,6 +4,7 @@ import math
 from time import sleep
 import numpy as np
 import time
+import collections
 
 # Project's:
 from bcitp.utils.sample_manager import SampleManager
@@ -57,9 +58,10 @@ class DroneStart(Screen):
         self.sh = session_header
 
         self.stream_flag = False
-
-        self.U = 0.0
         self.p = [0, 0]
+
+        self.U1 = 0.0
+        self.U2 = 0.0
 
     # BUTTON CALLBACKS
     # ----------------------
@@ -117,6 +119,12 @@ class DroneStart(Screen):
 
         self.load_approach()
 
+        TTA = 10.
+        ABUF_LEN = TTA * self.sh.acq.sample_rate / self.sh.game.window_overlap
+        self.delta_ref = self.ap.accuracy * ABUF_LEN
+        self.U1_local = collections.deque(maxlen=ABUF_LEN)
+        self.U2_local = collections.deque(maxlen=ABUF_LEN)
+
         self.sm = SampleManager(self.sh.acq.com_port,
                                 self.sh.dp.buf_len, daisy=self.sh.acq.daisy,
                                 mode=self.sh.acq.mode,
@@ -138,7 +146,7 @@ class DroneStart(Screen):
         Clock.schedule_once(self.move_drone_forward, 2)
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
-                                self.sh.game.window_overlap)
+                                self.sh.game.window_overlap / self.sh.acq.sample_rate)
         Clock.schedule_interval(self.store_pos, .2)
         Clock.schedule_interval(self.check_pos, 1. / 10.)
 
@@ -194,37 +202,35 @@ class DroneStart(Screen):
         p1 = self.p[0]
         p2 = self.p[1]
 
-        u = K * (p1 - p2)
+        u = p1 - p2
 
         if u >= 0:
-            u = 1
+            u1 = 1
+            u2 = 0
         else:
-            u = -1
+            u1 = 0
+            u2 = 1
 
-        self.U += u
+        self.U1 = self.U1 + u1
+        self.U2 = self.U2 + u2
+        self.U1_local.append(self.U1)
+        self.U2_local.append(self.U2)
 
-        U1 = 100 * (self.U + self.sh.game.game_threshold) / \
-            (2. * self.sh.game.game_threshold)
+        delta1 = self.U1_local[-1] - self.U1_local[0]
+        delta2 = self.U2_local[-1] - self.U2_local[0]
 
-        U2 = 100 - U1
+        BAR1 = 100 * (delta1 / self.delta_ref)
+        BAR2 = 100 * (delta2 / self.delta_ref)
 
-        U1_n = int(math.floor(U1))
-        U2_n = int(math.floor(U2))
+        BAR1_n = int(math.floor(BAR1))
+        BAR2_n = int(math.floor(BAR2))
 
-        if U1_n > self.sh.game.warning_threshold:
-            self.accum_color_left = [1, 1, 0, 1]
-        elif U2_n > self.sh.game.warning_threshold:
-            self.accum_color_right = [1, 1, 0, 1]
-        else:
-            self.accum_color_left = [1, 0, 0, 1]
-            self.accum_color_right = [0, 0, 1, 1]
+        if BAR1_n < 100:
+            self.accum_prob_left = BAR1_n
+        if BAR2_n < 100:
+            self.accum_prob_right = BAR2_n
 
-        if U1_n in range(101):
-            self.accum_prob_left = U1_n
-        if U2_n in range(101):
-            self.accum_prob_right = U2_n
-
-        self.map_probs(U1, U2)
+        self.map_probs(BAR1, BAR2)
 
     def map_probs(self, U1, U2):
 
@@ -259,8 +265,10 @@ class DroneStart(Screen):
         self.inst_prob_left = 0
         self.inst_prob_right = 0
 
-        self.U = 0.0
         self.p = [0.0, 0.0]
+
+        self.U1_local.clear()
+        self.U2_local.clear()
 
     def update_current_label(self, dt):
 

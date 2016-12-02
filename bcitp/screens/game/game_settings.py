@@ -26,7 +26,7 @@ class GameSettings(Screen):
         ids = self.ids
 
         self.sh.game.game_threshold = ids.game_threshold.value
-        self.sh.game.window_overlap = ids.window_overlap.value / 1000.0
+        self.sh.game.window_overlap = ids.window_overlap.value
         self.sh.game.warning_threshold = ids.warning_threshold.value
         self.sh.game.forward_speed = ids.forward_speed.value / 1000.0
         self.sh.game.inst_prob = ids.inst_prob.value / 1000.0
