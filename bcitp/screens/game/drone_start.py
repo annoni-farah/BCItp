@@ -58,7 +58,7 @@ class DroneStart(Screen):
         self.sh = session_header
 
         self.stream_flag = False
-        self.p = [0, 0]
+        self.p = None
 
         self.U1 = 0.0
         self.U2 = 0.0
@@ -146,7 +146,7 @@ class DroneStart(Screen):
         Clock.schedule_once(self.move_drone_forward, 2)
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
-                                self.sh.game.window_overlap / self.sh.acq.sample_rate)
+                                float(self.sh.game.window_overlap) / self.sh.acq.sample_rate)
         Clock.schedule_interval(self.store_pos, .2)
         Clock.schedule_interval(self.check_pos, 1. / 10.)
 
@@ -204,12 +204,18 @@ class DroneStart(Screen):
 
         u = p1 - p2
 
+        print u
+
         if u >= 0:
             u1 = 1
             u2 = 0
-        else:
+        elif u < 0:
             u1 = 0
             u2 = 1
+        else:
+            return
+
+        print u1, u2
 
         self.U1 = self.U1 + u1
         self.U2 = self.U2 + u2
@@ -265,8 +271,8 @@ class DroneStart(Screen):
         self.inst_prob_left = 0
         self.inst_prob_right = 0
 
-        self.p = [0.0, 0.0]
-
+        self.p = None
+        
         self.U1_local.clear()
         self.U2_local.clear()
 
