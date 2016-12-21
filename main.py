@@ -31,7 +31,7 @@ from bcitp.screens.game.drone_start import DroneStart
 # LOAD ALL KV FILES
 
 
-def load_all_kv_files(start="/home/rafael/codes/bcitp/bcitp/screens/kv"):
+def load_all_kv_files(start="bcitp/screens/kv"):
     pattern = re.compile(r".*?\.kv")
     kv_files = []
     for root, dirs, files in os.walk(start):
