@@ -3,3 +3,5 @@
 data/session/*
 data/session_list.txt
 backup/
+
+/docs/_build/
