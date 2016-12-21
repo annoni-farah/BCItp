@@ -3,6 +3,8 @@
 
 ## A brain computer interface training platform ##
 
+* for more detailed information see http://bcitp.readthedocs.io/ 
+
 ## Installation (Linux) ##
 
 
