@@ -272,7 +272,7 @@ class DroneStart(Screen):
         self.inst_prob_right = 0
 
         self.p = None
-        
+
         self.U1_local.clear()
         self.U2_local.clear()
 

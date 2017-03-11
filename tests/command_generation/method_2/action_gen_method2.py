@@ -7,7 +7,7 @@ import math
 from random import randint
 import collections
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 
 from bcitp.signal_processing.approach import Approach
 
