@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 COMMAND_PERIOD = 10  # ms
-Kp = 0.005
+Kp = 0.05
 
 yaw_h = []
 error_h = []
@@ -71,26 +71,33 @@ def generate_cmd(pos):
 
 
 def plot_data():
+    time = np.linspace(0, len(yaw_h) * COMMAND_PERIOD /
+                       1000., len(yaw_h))
+
     ref = np.empty(len(yaw_h))
     ref[:] = REF
     plt.subplot(3, 1, 1)
-    plt.plot(ref, label='Ref', linewidth=3.0)
-    plt.plot(yaw_h, label='yaw')
+    plt.plot(time, ref, 'k', label=r'$\theta_{ref}$', linewidth=3.0)
+    plt.plot(time, yaw_h, 'k', label=r'$\theta$', color='0.5', linewidth=3.0)
     plt.grid(True)
-    # plt.axis([0, len(ref), 0, 360])
+    plt.axis([0, time[-1], 0, 360])
+    plt.ylabel('Yaw (degrees)')
     plt.legend(loc=0)
 
     plt.subplot(3, 1, 2)
-    plt.plot(error_h, 'r', label='Error', linewidth=3.0)
+    plt.plot(time, error_h, 'k', label='Error', linewidth=3.0)
     plt.grid(True)
-    # plt.axis([0, len(ref), 0, 360])
-    plt.legend(loc=0)
+    plt.axis([0, time[-1], -360, 360])
+    plt.ylabel(r'$\theta_{error}$')
+    # plt.legend(loc=0)
 
     plt.subplot(3, 1, 3)
-    plt.plot(ctrl_h, 'g', label='Ctrl', linewidth=3.0)
+    plt.plot(time, ctrl_h, 'k', label='Yaw Rot. Speed (m/s)', linewidth=3.0)
     plt.grid(True)
-    # plt.axis([0, len(ref), 0, 360])
-    plt.legend(loc=0)
+    plt.axis([0, time[-1], -1.1, 1.1])
+    # plt.legend(loc=0)
+    plt.ylabel('Yaw Rot. Speed (m/s)')
+    plt.xlabel('Time (s)')
 
     plt.show()
 
@@ -106,6 +113,7 @@ rospy.Subscriber("/gazebo/model_states", ModelStates,
                  get_nav_data)
 
 # pub_reset.publish()
+pub_takeoff.publish()
 send_cmd(0)
 
 try:
