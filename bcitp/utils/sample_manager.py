@@ -64,8 +64,8 @@ class SampleManager(threading.Thread):
         self.event_list = np.array([]).reshape(0, 2)
 
         self.current_cmd = 0
-        smin = int(floor(2.5 * 250))
-        smax = int(floor(4.5 * 250))
+        smin = int(floor(3.25 * 250))
+        smax = int(floor(3.75 * 250))
         self.winning = 1
 
         if self.acq_mode == 'openbci':
@@ -143,7 +143,7 @@ class SampleManager(threading.Thread):
         self.updateCircBuf(indata)
         self.StoreData(indata)
 
-        if self.board.sample_counter > self.playbackData.shape[0] - 30:
+        if self.board.sample_counter > self.playbackData.shape[0] - 10:
             self.append_epoch()
 
         self.sample_counter += 1
@@ -206,7 +206,7 @@ class SampleManager(threading.Thread):
         saveMatrixAsTxt(self.event_list, path, mode='w')
 
     def append_epoch(self):
-        # print('Appending epoch: ', self.current_cmd)
+        print('Appending epoch: ', self.current_cmd)
 
         if self.current_cmd == 0:
             idx1 = np.where(self.labels == 1)[0]

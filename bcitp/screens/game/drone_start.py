@@ -21,15 +21,19 @@ from kivy.uix.popup import Popup
 
 DRONE_VEL = 1
 K = 1
-I = 1
+I = 0
 
-D_TO_TARGET = 10
+D_TO_TARGET = 10.
 
-TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20 + D_TO_TARGET, 20]]  # simu1
-CMD_LIST = [1, 2, 2]
+TTA = D_TO_TARGET / DRONE_VEL
 
-# TARGET_POS_ARR = [[0, 0], [20, 0], [20, 20], [-20, 20]] # simu2
-# CMD_LIST = [2, 1, 1]
+MAX_SCAPE = 40
+
+# TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20 + D_TO_TARGET, 20]]  # simu1
+# CMD_LIST = [1, 2, 2]
+
+TARGET_POS_ARR = [[0, 0], [20, 0], [20, 20], [-20 - D_TO_TARGET, 20]] # simu2
+CMD_LIST = [2, 1, 1]
 
 # TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]] # simu3
 # CMD_LIST = [1, 1]
@@ -97,17 +101,17 @@ class DroneStart(Screen):
         game_time = time.time() - self.game_start_time
         results = np.array([(self.pos_history), (game_time)])
         res = DroneResultsPopup(self.sh, results, self.sm.all_data)
-        res.open()
+        # res.open()
 
-        # global I
-        # if self.bad_run:
-        #     res.save_results('run' + str(I) + 'bad')
-        # else:
-        #     res.save_results('run' + str(I))
-        # I += 1
-        # if I < 20:
-        #     sleep(4)
-        #     self.stream_start()
+        global I
+        if self.bad_run:
+            res.save_results('run' + str(I) + 'bad')
+        else:
+            res.save_results('run' + str(I))
+        I += 1
+        if I < 30:
+            sleep(4)
+            self.stream_start()
 
     def stream_start(self):
         self.lock_check_pos = False
@@ -119,7 +123,6 @@ class DroneStart(Screen):
 
         self.load_approach()
 
-        TTA = 10.
         ABUF_LEN = TTA * self.sh.acq.sample_rate / self.sh.game.window_overlap
         self.delta_ref = self.ap.accuracy * ABUF_LEN
         self.U1_local = collections.deque(maxlen=ABUF_LEN)
@@ -146,7 +149,7 @@ class DroneStart(Screen):
         Clock.schedule_once(self.move_drone_forward, 2)
         Clock.schedule_interval(self.get_probs, 1. / 20.)
         Clock.schedule_interval(self.update_accum_bars,
-                                float(self.sh.game.window_overlap) / self.sh.acq.sample_rate)
+                                float(self.sh.game.window_overlap) / float(self.sh.acq.sample_rate))
         Clock.schedule_interval(self.store_pos, .2)
         Clock.schedule_interval(self.check_pos, 1. / 10.)
 
@@ -204,7 +207,7 @@ class DroneStart(Screen):
 
         u = p1 - p2
 
-        print u
+        # print u
 
         if u >= 0:
             u1 = 1
@@ -215,7 +218,7 @@ class DroneStart(Screen):
         else:
             return
 
-        print u1, u2
+        # print u1, u2
 
         self.U1 = self.U1 + u1
         self.U2 = self.U2 + u2
@@ -311,7 +314,7 @@ class DroneStart(Screen):
                 self.stream_stop()
 
         else:
-            if (abs(pos[0]) > 35 or abs(pos[1]) > 35):
+            if (abs(pos[0]) > MAX_SCAPE or abs(pos[1]) > MAX_SCAPE):
                 self.bad_run = True
                 self.stream_stop()
 

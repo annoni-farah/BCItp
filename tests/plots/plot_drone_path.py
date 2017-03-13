@@ -16,7 +16,8 @@ N = []
 plt.subplot(2, 1, 1)
 
 for i in range(N_sample):
-    RESULTS_PATH = '../data/session/A1/drone_runs_vel1/game_data_run' + str(i) + '.npy'
+# for i in [2]:  
+    RESULTS_PATH = '../../data/session/A7/game_data_run' + str(i) + '.npy'
     try:
         d = np.load(RESULTS_PATH)
         r = d[0]
@@ -25,7 +26,7 @@ for i in range(N_sample):
         plt.plot(r[:, 0], r[:, 1])
 
         if r_sum is None:
-            r_sum = np.zeros([510, 2])
+            r_sum = np.zeros([10, 2])
 
         r_sum = np.sum([r_sum, r[:r_sum.shape[0], :]], axis=0)
 
