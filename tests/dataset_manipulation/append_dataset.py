@@ -2,18 +2,18 @@ import numpy as np
 
 
 DATA_PATH = [
-    "/home/rafael/repo/bcitp/data/session/mario_1/data_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_3/data_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_4/data_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_5/data_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_1/data_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_3/data_cal.npy",
+    # "/home/rafael/codes/bcitp/data/session/mario_4/data_cal.npy",
+    # "/home/rafael/codes/bcitp/data/session/mario_5/data_cal.npy",
 ]
 
 
 EVENTS_PATH = [
-    "/home/rafael/repo/bcitp/data/session/mario_1/events_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_3/events_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_4/events_cal.npy",
-    "/home/rafael/repo/bcitp/data/session/mario_5/events_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_1/events_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_3/events_cal.npy",
+    # "/home/rafael/codes/bcitp/data/session/mario_4/events_cal.npy",
+    # "/home/rafael/codes/bcitp/data/session/mario_5/events_cal.npy",
 ]
 
 new_data = np.load(DATA_PATH[0])

@@ -64,8 +64,8 @@ class SampleManager(threading.Thread):
         self.event_list = np.array([]).reshape(0, 2)
 
         self.current_cmd = 0
-        smin = int(floor(3.25 * 250))
-        smax = int(floor(3.75 * 250))
+        smin = int(floor(0.75 * 125))
+        smax = int(floor(1.25 * 125))
         self.winning = 1
 
         if self.acq_mode == 'openbci':

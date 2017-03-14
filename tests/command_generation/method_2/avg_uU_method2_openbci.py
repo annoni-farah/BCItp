@@ -10,9 +10,11 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 
 from bcitp.signal_processing.approach import Approach
 
+DATASET_NAME = 'mario_2_other'
 
-DATA_PATH = "/home/rafael/repo/bcitp/data/session/mario_1345/data_cal.npy"
-EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/mario_1345/events_cal.npy"
+DATA_PATH = "/home/rafael/codes/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/codes/bcitp/data/session/" + \
+    DATASET_NAME + "/events_cal.npy"
 
 SAMPLING_FREQ = 125.0
 
@@ -26,10 +28,10 @@ FILT_ORDER = 5
 # EPOCH EXTRACTION CONFIG:
 EVENT_IDS = [1, 2]
 
-T_MIN = 1.2
+T_MIN = 2.2
 T_MAX = T_MIN + 2  # time before event, time after event
 
-CSP_N = 6
+CSP_N = 8
 
 # ================ TRAIN MODEL ===========================
 # ========================================================
@@ -48,6 +50,7 @@ autoscore = ap.train_model()
 crossvalscore = ap.cross_validate_model(10, 0.1)
 
 print('-----------------------------------')
+print('Selfvalidation Score {}'.format(autoscore))
 print('Crossvalidation Score {}'.format(crossvalscore))
 print('-----------------------------------')
 # print('Positive rate: {}'.format(TFNP[0] + TFNP[1]))
@@ -69,7 +72,7 @@ print len(idx_2)
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 1
+N_RUNS = 30
 first = True
 increment = 12
 
@@ -85,18 +88,20 @@ for a in range(N_RUNS):
     new_data = np.zeros([1, N_CHANNELS])
 
     for j in range(1):
-        if class_label == 1:
+        # if class_label == 1:
+        if True:
             # add epochs from class 1 (left)
-            for i in range(0, 50):
+            for i in range(0, 20):
                 k = randint(0, len(idx_1) - 1)
                 # k = i
                 new_data_labels = np.vstack(
                     (new_data_labels, [1, int(new_data.shape[0])]))
                 new_data = np.vstack((new_data, epochs[idx_1[k]].T))
 
-        elif class_label == 2:
+        # elif class_label == 2:
+        if True:
             # add epochs from class 2 (left)
-            for i in range(0, 50):
+            for i in range(0, 20):
                 k = randint(0, len(idx_2) - 1)
                 # k = i
                 new_data_labels = np.vstack(
@@ -104,10 +109,12 @@ for a in range(N_RUNS):
                 new_data = np.vstack((new_data, epochs[idx_2[k]].T))
 
     data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
-
     data = data.T
 
-    buf = np.array([data.shape[0], 250])
+    # data, ev = ap.load_data('/home/rafael/codes/bcitp/data/session/mario_hhff5/bar_data_left_right_left.npy',
+    #                         '/home/rafael/codes/bcitp/data/session/mario_hhff5/events_cal.npy')
+
+    buf = np.array([data.shape[0], (T_MAX - T_MIN) * SAMPLING_FREQ])
 
     u1_time = np.array([])
     U1_time = np.array([])
@@ -117,7 +124,7 @@ for a in range(N_RUNS):
     U1 = 0
     U2 = 0
     i = 0
-    tinit, tend = 0, 250
+    tinit, tend = 0, int((T_MAX - T_MIN) * SAMPLING_FREQ)
 
     while tend < data.shape[1]:
 
@@ -225,7 +232,7 @@ U2_avg_est = (1 - crossvalscore) * \
 
 plt.subplot(4, 1, 1)
 plt.plot(time, U1_avg, 'k',  linewidth=4.0, label='Mean')
-plt.plot(time, U1_avg_est, 'g', linewidth=4.0, label='Estimated')
+# plt.plot(time, U1_avg_est, 'g', linewidth=4.0, label='Estimated')
 # plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
@@ -248,7 +255,7 @@ plt.legend(loc=0)
 
 plt.subplot(4, 1, 3)
 plt.plot(time, U2_avg, 'k',  linewidth=4.0, label='Mean')
-plt.plot(time, U2_avg_est, 'g', linewidth=4.0, label='Estimated')
+# plt.plot(time, U2_avg_est, 'g', linewidth=4.0, label='Estimated')
 # plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
