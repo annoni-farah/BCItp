@@ -11,12 +11,12 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 from bcitp.signal_processing.approach import Approach
 
 
-DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
-EVENTS_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/"
+DATA_PATH = "/home/rafael/repo/bcitp/data/session/mario_4/data_cal.npy"
+EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/mario_4/events_cal.npy"
 
-SUBJ = '4'
+SAMPLING_FREQ = 125.0
 
-SAMPLING_FREQ = 250.0
+N_CHANNELS = 16
 
 # FILTER SPEC
 LOWER_CUTOFF = 8.
@@ -24,21 +24,15 @@ UPPER_CUTOFF = 30.
 FILT_ORDER = 7
 
 # EPOCH EXTRACTION CONFIG:
-EVENT_IDS = [1, 2, 3, 4]
+EVENT_IDS = [1, 2]
 
-T_MIN, T_MAX = 2.5, 4.5  # time before event, time after event
+T_MIN, T_MAX = 2, 4  # time before event, time after event
 
-CSP_N = 8
+CSP_N = 6
 
 # ================ TRAIN MODEL ===========================
 # ========================================================
 # ========================================================
-
-DATA_PATH = DATA_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
-
-# EVENTS INFO PATH
-EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'T.npy'
-EVENT_IDS = [1, 2]
 
 ap = Approach()
 ap.define_approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
@@ -46,25 +40,14 @@ ap.define_approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
 
 ap.set_cal_path(DATA_PATH, EVENTS_PATH)
 
-ap.set_valid_channels(range(22))
+ap.set_valid_channels(range(N_CHANNELS))
 
 autoscore = ap.train_model()
 
-DATA_PATH = DATA_FOLDER_PATH + 'A0' + SUBJ + 'E.npy'
-
-# EVENTS INFO PATH
-EVENTS_PATH = EVENTS_FOLDER_PATH + 'A0' + SUBJ + 'E.npy'
-
-ap.set_cal_path(DATA_PATH, EVENTS_PATH)
-ap.set_val_path(DATA_PATH, EVENTS_PATH)
-valscore = ap.validate_model()
-# epochs = ap.preProcess(epochs)
-
-crossvalscore = ap.cross_validate_model(30, 0.3)
+crossvalscore = ap.cross_validate_model(10, 0.1)
 
 print('-----------------------------------')
 print('Crossvalidation Score {}'.format(crossvalscore))
-print('Validation Score {}'.format(valscore))
 print('-----------------------------------')
 # print('Positive rate: {}'.format(TFNP[0] + TFNP[1]))
 # print('Negative rate: {}'.format(TFNP[2] + TFNP[3]))
@@ -79,12 +62,10 @@ epochs, labels = ap.load_epochs(data, ev)
 
 idx_1 = np.where(labels == 1)[0]
 idx_2 = np.where(labels == 2)[0]
-idx_3 = np.where(labels == 3)[0]
-idx_4 = np.where(labels == 4)[0]
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 100
+N_RUNS = 1
 first = True
 increment = 25
 
@@ -92,25 +73,37 @@ counter = 0
 counter1 = 0
 counter2 = 0
 
+class_label = 2
+
 for a in range(N_RUNS):
 
     new_data_labels = np.array([0, 0])
-    new_data = np.zeros([1, 22])
+    new_data = np.zeros([1, N_CHANNELS])
 
     for j in range(1):
-        # add epochs from class 1 (left)
-        for i in range(0, 6):
-            k = randint(0, len(idx_1) - 1)
-            # k = i
-            new_data_labels = np.vstack(
-                (new_data_labels, [1, int(new_data.shape[0])]))
-            new_data = np.vstack((new_data, epochs[idx_1[k]].T))
+        if class_label == 1:
+            # add epochs from class 1 (left)
+            for i in range(0, 50):
+                k = randint(0, len(idx_1) - 1)
+                # k = i
+                new_data_labels = np.vstack(
+                    (new_data_labels, [1, int(new_data.shape[0])]))
+                new_data = np.vstack((new_data, epochs[idx_1[k]].T))
+
+        elif class_label == 2:
+            # add epochs from class 2 (left)
+            for i in range(0, 50):
+                k = randint(0, len(idx_2) - 1)
+                # k = i
+                new_data_labels = np.vstack(
+                    (new_data_labels, [1, int(new_data.shape[0])]))
+                new_data = np.vstack((new_data, epochs[idx_2[k]].T))
 
     data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
 
     data = data.T
 
-    buf = np.array([data.shape[0], 500])
+    buf = np.array([data.shape[0], 250])
 
     u1_time = np.array([])
     U1_time = np.array([])
@@ -120,7 +113,7 @@ for a in range(N_RUNS):
     U1 = 0
     U2 = 0
     i = 0
-    tinit, tend = 0, 500
+    tinit, tend = 0, 250
 
     while tend < data.shape[1]:
 
@@ -220,10 +213,10 @@ n_samples = u1_time.shape[0]
 time = range(n_samples)
 time = [x * increment / SAMPLING_FREQ for x in time]
 
-U1_avg_est = (valscore) * \
+U1_avg_est = (crossvalscore) * \
     np.array(time) / (increment / SAMPLING_FREQ)
 
-U2_avg_est = (1 - valscore) * \
+U2_avg_est = (1 - crossvalscore) * \
     np.array(time) / (increment / SAMPLING_FREQ)
 
 plt.subplot(4, 1, 1)
@@ -233,7 +226,7 @@ plt.plot(time, U1_avg_est, 'g', linewidth=4.0, label='Estimated')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
 # plt.axis('equal')
-plt.ylabel('U')
+plt.ylabel('U1')
 # plt.xlabel('Time (s)')
 plt.grid(True)
 plt.legend(loc=0)
@@ -242,9 +235,9 @@ plt.subplot(4, 1, 2)
 plt.plot(time, u1_avg, 'k', linewidth=3.0, label='Mean')
 # plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
-plt.axis([0, 10, -1.2, 1.2])
+# plt.axis([0, 10, -1.2, 1.2])
 # plt.axis('equal')
-plt.ylabel('u')
+plt.ylabel('u1')
 plt.xlabel('Time (s)')
 plt.grid(True)
 plt.legend(loc=0)
@@ -256,7 +249,7 @@ plt.plot(time, U2_avg_est, 'g', linewidth=4.0, label='Estimated')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
 # plt.axis('equal')
-plt.ylabel('U')
+plt.ylabel('U2')
 # plt.xlabel('Time (s)')
 plt.grid(True)
 plt.legend(loc=0)
@@ -265,9 +258,9 @@ plt.subplot(4, 1, 4)
 plt.plot(time, u2_avg, 'k', linewidth=3.0, label='Mean')
 # plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
-plt.axis([0, 10, -1.2, 1.2])
+# plt.axis([0, 10, -1.2, 1.2])
 # plt.axis('equal')
-plt.ylabel('u')
+plt.ylabel('u2')
 plt.xlabel('Time (s)')
 plt.grid(True)
 plt.legend(loc=0)
