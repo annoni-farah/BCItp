@@ -10,10 +10,11 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 
 from bcitp.signal_processing.approach import Approach
 
-DATASET_NAME = 'mario_2_other'
+DATASET_NAME = 'mario_12'
+VAL_DATASET_NAME = 'mario_4'
 
-DATA_PATH = "/home/rafael/codes/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
-EVENTS_PATH = "/home/rafael/codes/bcitp/data/session/" + \
+DATA_PATH = "/home/rafael/repo/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/" + \
     DATASET_NAME + "/events_cal.npy"
 
 SAMPLING_FREQ = 125.0
@@ -28,10 +29,10 @@ FILT_ORDER = 5
 # EPOCH EXTRACTION CONFIG:
 EVENT_IDS = [1, 2]
 
-T_MIN = 2.2
-T_MAX = T_MIN + 2  # time before event, time after event
+T_MIN = 2
+T_MAX = T_MIN + 2 # time before event, time after event
 
-CSP_N = 8
+CSP_N = 6
 
 # ================ TRAIN MODEL ===========================
 # ========================================================
@@ -60,6 +61,10 @@ print('-----------------------------------')
 # ========================================================
 # ========================================================
 
+DATA_PATH = "/home/rafael/repo/bcitp/data/session/" + VAL_DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/" + \
+    DATASET_NAME + "/events_cal.npy"
+
 data, ev = ap.load_data(DATA_PATH, EVENTS_PATH)
 
 epochs, labels = ap.load_epochs(data, ev)
@@ -72,7 +77,7 @@ print len(idx_2)
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 30
+N_RUNS = 1
 first = True
 increment = 12
 
@@ -111,8 +116,8 @@ for a in range(N_RUNS):
     data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
     data = data.T
 
-    # data, ev = ap.load_data('/home/rafael/codes/bcitp/data/session/mario_hhff5/bar_data_left_right_left.npy',
-    #                         '/home/rafael/codes/bcitp/data/session/mario_hhff5/events_cal.npy')
+    # data, ev = ap.load_data('/home/rafael/repo/bcitp/data/session/mario_12/data_cal2.npy',
+    #                         '/home/rafael/repo/bcitp/data/session/mario_12/events_cal.npy')
 
     buf = np.array([data.shape[0], (T_MAX - T_MIN) * SAMPLING_FREQ])
 
