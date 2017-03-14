@@ -11,8 +11,8 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 from bcitp.signal_processing.approach import Approach
 
 
-DATA_PATH = "/home/rafael/repo/bcitp/data/session/mario_4/data_cal.npy"
-EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/mario_4/events_cal.npy"
+DATA_PATH = "/home/rafael/repo/bcitp/data/session/mario_1345/data_cal.npy"
+EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/mario_1345/events_cal.npy"
 
 SAMPLING_FREQ = 125.0
 
@@ -21,12 +21,13 @@ N_CHANNELS = 16
 # FILTER SPEC
 LOWER_CUTOFF = 8.
 UPPER_CUTOFF = 30.
-FILT_ORDER = 7
+FILT_ORDER = 5
 
 # EPOCH EXTRACTION CONFIG:
 EVENT_IDS = [1, 2]
 
-T_MIN, T_MAX = 2, 4  # time before event, time after event
+T_MIN = 1.2
+T_MAX = T_MIN + 2  # time before event, time after event
 
 CSP_N = 6
 
@@ -63,17 +64,20 @@ epochs, labels = ap.load_epochs(data, ev)
 idx_1 = np.where(labels == 1)[0]
 idx_2 = np.where(labels == 2)[0]
 
+print len(idx_1)
+print len(idx_2)
+
 # ================ APPEND EPOCHS =================
 
 N_RUNS = 1
 first = True
-increment = 25
+increment = 12
 
 counter = 0
 counter1 = 0
 counter2 = 0
 
-class_label = 2
+class_label = 1
 
 for a in range(N_RUNS):
 
