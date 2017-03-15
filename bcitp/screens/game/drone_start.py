@@ -29,11 +29,11 @@ TTA = D_TO_TARGET / DRONE_VEL
 
 MAX_SCAPE = 40
 
-TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20 + D_TO_TARGET, 20]]  # simu1
-CMD_LIST = [1, 2, 2]
+# TARGET_POS_ARR = [[0, 0], [-20, 0], [-20, 20], [20 + D_TO_TARGET, 20]]  # simu1
+# CMD_LIST = [1, 2, 2]
 
-# TARGET_POS_ARR = [[0, 0], [20, 0], [20, 20], [-20 - D_TO_TARGET, 20]] # simu2
-# CMD_LIST = [2, 1, 1]
+TARGET_POS_ARR = [[0, 0], [20, 0], [20, 20], [-20 - D_TO_TARGET, 20]] # simu2
+CMD_LIST = [2, 1, 1]
 
 # TARGET_POS_ARR = [[0, 20], [-20, 20], [-20, 0]] # simu3
 # CMD_LIST = [1, 1]

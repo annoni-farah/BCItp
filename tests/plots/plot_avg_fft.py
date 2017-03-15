@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 
-DATA_FOLDER_PATH = "/home/rafael/repo/bcitp/data/session/mario_3/"
+DATA_FOLDER_PATH = "/home/rafael/codes/bcitp/data/session/mario_6/"
 
 DATA_CAL_PATH = DATA_FOLDER_PATH + "data_cal.npy"
 
@@ -26,7 +26,7 @@ FILT_ORDER = 5
 # EPOCH EXTRACTION CONFIG:
 EVENT_IDS = [1, 2]
 
-T_MIN, T_MAX = 2.5, 4.5  # time before event, time after event
+T_MIN, T_MAX = 2.6, 4.6  # time before event, time after event
 
 CSP_N = 6
 

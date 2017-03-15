@@ -14,7 +14,7 @@ from bcitp.signal_processing.approach import Approach
 DATA_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_data/"
 EVENTS_FOLDER_PATH = "/home/rafael/Documents/eeg_data/eeg_comp/standard_events/"
 
-SUBJ = '4'
+SUBJ = '8'
 
 SAMPLING_FREQ = 250.0
 
@@ -84,7 +84,7 @@ idx_4 = np.where(labels == 4)[0]
 
 # ================ APPEND EPOCHS =================
 
-N_RUNS = 100
+N_RUNS = 1
 first = True
 increment = 25
 
@@ -105,6 +105,15 @@ for a in range(N_RUNS):
             new_data_labels = np.vstack(
                 (new_data_labels, [1, int(new_data.shape[0])]))
             new_data = np.vstack((new_data, epochs[idx_1[k]].T))
+
+    for j in range(1):
+        # add epochs from class 1 (left)
+        for i in range(0, 6):
+            k = randint(0, len(idx_2) - 1)
+            # k = i
+            new_data_labels = np.vstack(
+                (new_data_labels, [1, int(new_data.shape[0])]))
+            new_data = np.vstack((new_data, epochs[idx_2[k]].T))
 
     data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
 
@@ -228,7 +237,7 @@ U2_avg_est = (1 - valscore) * \
 
 plt.subplot(4, 1, 1)
 plt.plot(time, U1_avg, 'k',  linewidth=4.0, label='Mean')
-plt.plot(time, U1_avg_est, 'g', linewidth=4.0, label='Estimated')
+# plt.plot(time, U1_avg_est, 'g', linewidth=4.0, label='Estimated')
 # plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
@@ -242,7 +251,7 @@ plt.subplot(4, 1, 2)
 plt.plot(time, u1_avg, 'k', linewidth=3.0, label='Mean')
 # plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
-plt.axis([0, 10, -1.2, 1.2])
+plt.axis([0, 20, -1.2, 1.2])
 # plt.axis('equal')
 plt.ylabel('u')
 plt.xlabel('Time (s)')
@@ -251,7 +260,7 @@ plt.legend(loc=0)
 
 plt.subplot(4, 1, 3)
 plt.plot(time, U2_avg, 'k',  linewidth=4.0, label='Mean')
-plt.plot(time, U2_avg_est, 'g', linewidth=4.0, label='Estimated')
+# plt.plot(time, U2_avg_est, 'g', linewidth=4.0, label='Estimated')
 # plt.plot(time, U_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
 # plt.axis([0, 6, -20, 120])
@@ -265,7 +274,7 @@ plt.subplot(4, 1, 4)
 plt.plot(time, u2_avg, 'k', linewidth=3.0, label='Mean')
 # plt.plot(time, u_error, 'r', linewidth=.5, label='Max MSE')
 plt.grid(True)
-plt.axis([0, 10, -1.2, 1.2])
+plt.axis([0, 20, -1.2, 1.2])
 # plt.axis('equal')
 plt.ylabel('u')
 plt.xlabel('Time (s)')

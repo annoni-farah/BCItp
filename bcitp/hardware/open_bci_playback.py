@@ -36,7 +36,8 @@ class OpenBCIBoard(object):
 
         self.daisy = daisy
 
-        self.sample_rate = self.getSampleRate()
+        # self.sample_rate = self.getSampleRate()
+        self.sample_rate = 125.0
         print(self.sample_rate)
 
         self.packet_id = 0

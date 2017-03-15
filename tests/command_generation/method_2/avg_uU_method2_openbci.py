@@ -10,11 +10,11 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 
 from bcitp.signal_processing.approach import Approach
 
-DATASET_NAME = 'mario_12'
-VAL_DATASET_NAME = 'mario_4'
+DATASET_NAME = 'mario_7'
+VAL_DATASET_NAME = 'mario_7'
 
-DATA_PATH = "/home/rafael/repo/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
-EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/" + \
+DATA_PATH = "/home/rafael/codes/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/codes/bcitp/data/session/" + \
     DATASET_NAME + "/events_cal.npy"
 
 SAMPLING_FREQ = 125.0
@@ -30,9 +30,9 @@ FILT_ORDER = 5
 EVENT_IDS = [1, 2]
 
 T_MIN = 2
-T_MAX = T_MIN + 2 # time before event, time after event
+T_MAX = T_MIN + 2  # time before event, time after event
 
-CSP_N = 6
+CSP_N = 8
 
 # ================ TRAIN MODEL ===========================
 # ========================================================
@@ -61,11 +61,14 @@ print('-----------------------------------')
 # ========================================================
 # ========================================================
 
-DATA_PATH = "/home/rafael/repo/bcitp/data/session/" + VAL_DATASET_NAME + "/data_cal.npy"
-EVENTS_PATH = "/home/rafael/repo/bcitp/data/session/" + \
+DATA_PATH = "/home/rafael/codes/bcitp/data/session/" + \
+    VAL_DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/codes/bcitp/data/session/" + \
     DATASET_NAME + "/events_cal.npy"
 
 data, ev = ap.load_data(DATA_PATH, EVENTS_PATH)
+
+data = ap.preprocess(data)
 
 epochs, labels = ap.load_epochs(data, ev)
 
@@ -79,13 +82,13 @@ print len(idx_2)
 
 N_RUNS = 1
 first = True
-increment = 12
+increment = 250
 
 counter = 0
 counter1 = 0
 counter2 = 0
 
-class_label = 1
+class_label = 2
 
 for a in range(N_RUNS):
 
@@ -93,25 +96,25 @@ for a in range(N_RUNS):
     new_data = np.zeros([1, N_CHANNELS])
 
     for j in range(1):
-        # if class_label == 1:
-        if True:
+        if class_label == 1:
+            # if True:
             # add epochs from class 1 (left)
             for i in range(0, 20):
-                k = randint(0, len(idx_1) - 1)
+                # k = randint(0, len(idx_1) - 1)
                 # k = i
                 new_data_labels = np.vstack(
                     (new_data_labels, [1, int(new_data.shape[0])]))
-                new_data = np.vstack((new_data, epochs[idx_1[k]].T))
+                new_data = np.vstack((new_data, epochs[idx_1[i]].T))
 
-        # elif class_label == 2:
-        if True:
+        elif class_label == 2:
+            # if True:
             # add epochs from class 2 (left)
             for i in range(0, 20):
-                k = randint(0, len(idx_2) - 1)
+                # k = randint(0, len(idx_2) - 1)
                 # k = i
                 new_data_labels = np.vstack(
                     (new_data_labels, [1, int(new_data.shape[0])]))
-                new_data = np.vstack((new_data, epochs[idx_2[k]].T))
+                new_data = np.vstack((new_data, epochs[idx_2[i]].T))
 
     data, events = ap.load_data(new_data, new_data_labels, data_format='npy')
     data = data.T

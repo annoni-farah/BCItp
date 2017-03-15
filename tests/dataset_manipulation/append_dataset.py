@@ -3,7 +3,7 @@ import numpy as np
 
 DATA_PATH = [
     "/home/rafael/codes/bcitp/data/session/mario_1/data_cal.npy",
-    "/home/rafael/codes/bcitp/data/session/mario_3/data_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_4/data_cal.npy",
     # "/home/rafael/codes/bcitp/data/session/mario_4/data_cal.npy",
     # "/home/rafael/codes/bcitp/data/session/mario_5/data_cal.npy",
 ]
@@ -11,7 +11,7 @@ DATA_PATH = [
 
 EVENTS_PATH = [
     "/home/rafael/codes/bcitp/data/session/mario_1/events_cal.npy",
-    "/home/rafael/codes/bcitp/data/session/mario_3/events_cal.npy",
+    "/home/rafael/codes/bcitp/data/session/mario_4/events_cal.npy",
     # "/home/rafael/codes/bcitp/data/session/mario_4/events_cal.npy",
     # "/home/rafael/codes/bcitp/data/session/mario_5/events_cal.npy",
 ]

@@ -1,83 +1,67 @@
-"""CSP + LDA approach.
-Implements the CSP + LDA approach using a data from the V BCI competition
-"""
-from DataManipulation import *
-from DataProcessing import *
-
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
+import sys
+import os
+import math
+from random import randint
 
-DATA_FOLDER_PATH = "/home/rafael/codes/repo/bci_training_platform/data/session/rafael3_long/"
+sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 
-DATA_CAL_PATH = DATA_FOLDER_PATH + "data_cal.txt"
-DATA_VAL_PATH = DATA_FOLDER_PATH + "data_val.txt"
+from bcitp.signal_processing.approach import Approach
 
-ACQ_CONFIG_PATH = DATA_FOLDER_PATH + "openbci_config.txt"
+DATASET_NAME = 'mario_4'
+VAL_DATASET_NAME = 'mario_4'
 
-# EVENTS INFO PATH
-CAL_EVENTS_PATH = DATA_FOLDER_PATH + "events_cal.txt"
-VAL_EVENTS_PATH = DATA_FOLDER_PATH + "events_val.txt"
+DATA_PATH = "/home/rafael/codes/bcitp/data/session/" + DATASET_NAME + "/data_cal.npy"
+EVENTS_PATH = "/home/rafael/codes/bcitp/data/session/" + \
+    DATASET_NAME + "/events_cal.npy"
 
-SAMPLING_FREQ = 250
+SAMPLING_FREQ = 125.0
+
+N_CHANNELS = 16
 
 # FILTER SPEC
 LOWER_CUTOFF = 8.
-UPPER_CUTTOF = 30.
-FILT_ORDER = 4
+UPPER_CUTOFF = 30.
+FILT_ORDER = 5
 
 # EPOCH EXTRACTION CONFIG:
-EVENT_IDS = dict(LH=1, RH=2)
+EVENT_IDS = [1, 2]
 
-TMIN, TMAX = 0.5, 2.5 # time before event, time after event
-SMIN = TMIN * SAMPLING_FREQ
-SMAX = TMAX * SAMPLING_FREQ
+T_MIN = 3.5
+T_MAX = T_MIN + 2  # time before event, time after event
 
-### MAIN ###
+CSP_N = 6
 
-dp = DataFiltering()
+# ================ TRAIN MODEL ===========================
+# ========================================================
+# ========================================================
 
-dp.DesignFilter(LOWER_CUTOFF, UPPER_CUTTOF, SAMPLING_FREQ, FILT_ORDER)
+ap = Approach()
+ap.define_approach(SAMPLING_FREQ, LOWER_CUTOFF, UPPER_CUTOFF,
+                   FILT_ORDER, CSP_N, EVENT_IDS, T_MIN, T_MAX)
 
-# LOAD CALIBRATION DATA:
-data_cal = loadDataAsMatrix(DATA_CAL_PATH).T
-events_list_cal = readEvents(CAL_EVENTS_PATH)
+ap.set_cal_path(DATA_PATH, EVENTS_PATH)
 
-data_cal = dp.ApplyFilter(data_cal)
+ap.set_valid_channels(range(N_CHANNELS))
 
+autoscore = ap.train_model()
 
-# FEATURE EXTRACTION:
-epochs_cal, labels_cal = extractEpochs(data_cal, events_list_cal, SMIN, SMAX)
+crossvalscore = ap.cross_validate_model(10, 0.1)
 
-dl = DataLearner()
-
-dl.DesignLDA()
-dl.DesignCSP(6)
-dl.AssembleLearner()
-dl.Learn(epochs_cal, labels_cal)
-
-# LOAD VALIDATION DATA:
-data_val = loadDataAsMatrix(DATA_VAL_PATH).T
-events_list_val = readEvents(VAL_EVENTS_PATH)
-
-data_val = dp.ApplyFilter(data_val)
-
-# FEATURE EXTRACTION:
-epochs_val, labels_val = extractEpochs(data_val, events_list_val, SMIN, SMAX)
-
-dl.Evaluate(epochs_val, labels_val)
-
-dl.PrintResults()
+print('-----------------------------------')
+print('Selfvalidation Score {}'.format(autoscore))
+print('Crossvalidation Score {}'.format(crossvalscore))
+print('-----------------------------------')
+# print('Positive rate: {}'.format(TFNP[0] + TFNP[1]))
+# print('Negative rate: {}'.format(TFNP[2] + TFNP[3]))
 
 
+data, ev = ap.load_data(DATA_PATH, EVENTS_PATH)
+epochs, labels = ap.load_epochs(data, ev)
 
-
-
-
-
-
-
-
-
-
-
-
-
+for i in range(epochs.shape[0]):
+    label = ap.classify_epoch(epochs[i], out_param='label')
+    print('Epoch:' + str(i) + '| True Label:' +
+          str(labels[i]) + '| Classified Label:' + str(label))

@@ -17,17 +17,18 @@ plt.subplot(2, 1, 1)
 
 num_plots = 10
 colormap = plt.cm.gist_ncar
-color_arr = [colormap(i) for i in np.linspace(0, 0.9, num_plots)]
+color_possibilities = [colormap(i) for i in np.linspace(0, 0.9, num_plots)]
+color_arr = []
 
 for i in range(num_plots):
     # for i in [2]:
-    RESULTS_PATH = '../../data/session/A04/path_scenario1/game_data_run' + str(i) + '.npy'
+    RESULTS_PATH = '../../data/session/mario_6/drone_path/validation/path_scenario1/game_data_run' + str(i) + '.npy'
     try:
         d = np.load(RESULTS_PATH)
         r = d[0]
         r = r[1:]  # remove first point
-
-        plt.plot(r[:, 0], r[:, 1], color=color_arr[i])
+        color_arr.extend([color_possibilities[i]])
+        plt.plot(r[:, 0], r[:, 1], color=color_arr[-1])
 
         if r_sum is None:
             r_sum = np.zeros([1, 2])
@@ -67,7 +68,7 @@ tavg = np.empty([len(N)])
 tavg[:] = time_avg
 plt.subplot(2, 1, 2)
 plt.xticks(x, my_xticks)
-plt.bar(x, runtime, align='center', alpha=0.5, color=color_arr)
+plt.bar(x, runtime, align='center', alpha=1, color=color_arr)
 plt.plot(x, tavg, 'k', linewidth=4.0, label='Mean')
 # plt.axis([-60, 60, -60, 60]
 plt.xlabel('Run Number')

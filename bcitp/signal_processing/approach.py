@@ -73,7 +73,8 @@ class Approach:
 
     def classify_epoch(self, epoch, out_param='label'):
 
-        epoch_f = self.preprocess(epoch)
+        # epoch_f = self.preprocess(epoch)
+        epoch_f = epoch
 
         if not epoch == []:
             guess = self.learner.evaluate_epoch(epoch_f, out_param=out_param)

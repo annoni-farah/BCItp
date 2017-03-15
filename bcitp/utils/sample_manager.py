@@ -17,6 +17,8 @@ from utils import LoadDataAsMatrix
 
 from bcitp.signal_processing.handler import extract_epochs, read_events
 
+from bcitp.signal_processing.processor import Filter
+
 import bcitp.hardware.open_bci_v3 as bci
 import bcitp.hardware.open_bci_playback as playback
 
@@ -64,8 +66,8 @@ class SampleManager(threading.Thread):
         self.event_list = np.array([]).reshape(0, 2)
 
         self.current_cmd = 0
-        smin = int(floor(0.75 * 125))
-        smax = int(floor(1.25 * 125))
+        smin = int(floor(0.80 * 125))
+        smax = int(floor(1.20 * 125))
         self.winning = 1
 
         if self.acq_mode == 'openbci':
@@ -80,7 +82,11 @@ class SampleManager(threading.Thread):
                     port=p, baud=BAUD, daisy=self.daisy, data=loadedData)
 
             else:
-                self.loadedData = LoadDataAsMatrix(self.playback_path).T[:22]
+                data = LoadDataAsMatrix(self.playback_path).T[:22]
+                f = Filter(8, 30, 125,
+                           5, filt_type='iir', band_type='band')
+
+                self.loadedData = f.apply_filter(data)
                 if not self.playback_labels_path == '':
                     self.playback_labels = iter(
                         LoadDataAsMatrix(self.playback_labels_path))
@@ -206,7 +212,7 @@ class SampleManager(threading.Thread):
         saveMatrixAsTxt(self.event_list, path, mode='w')
 
     def append_epoch(self):
-        print('Appending epoch: ', self.current_cmd)
+        # print('Appending epoch: ', self.current_cmd)
 
         if self.current_cmd == 0:
             idx1 = np.where(self.labels == 1)[0]
