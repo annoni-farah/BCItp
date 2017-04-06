@@ -3,7 +3,7 @@ import numpy as np
 import json
 
 
-def LoadDataAsMatrix(path):
+def load_as_matrix(path):
     """Loads text file content as numpy matrix
     Parameters
     ----------
@@ -27,52 +27,7 @@ def LoadDataAsMatrix(path):
     return matrix
 
 
-def extractEpochs(data, events_list, events_id, tmin, tmax):
-    """Extracts the epochs from data based on event information
-    Parameters
-    ----------
-    data : raw data in mne format
-
-    events_list: list of events in mne format,
-    shape(time stamp (in samples), offset (can be a range arr), label)
-
-    event_id : labels of each class
-
-    tmin: time in seconds at which the epoch starts (event as reference)
-
-    tmax: time in seconds at which the epoch ends (event as reference)
-
-    Returns
-    -------
-    epochs: epochs in mne format
-
-    labels: labels of each extracted epoch
-
-    Examples
-    --------
-    >>> data, sfreq = loadBiosig(data_eval_path)
-    >>> raw = mne.io.RawArray(data, info)
-    >>> csv_path = "/PATH/TO/CSVFILE/events.csv"
-    >>> raw = addEvents(raw, eval_events_path)
-    >>> event_id = dict(LH=769, RH=770)
-    >>> tmin, tmax = 1, 3 # epoch starts 1 sec after event and ends 3 sec after
-    >>> epochs_train, labels_train = extractEpochs(raw, event_id, tmin, tmax)
-
-    """
-
-    picks = pick_types(data.info, meg=False, eeg=True, stim=False, eog=False,
-                       exclude='bads')
-
-    # Read epochs (train will be done only between 1 and 2s)
-    # Testing will be done with a running classifier
-    epochs = Epochs(data, events_list, events_id, tmin, tmax, proj=True, picks=picks,
-                    baseline=None, preload=True, add_eeg_ref=False, verbose=False)
-    labels = epochs.events[:, -1]
-
-    return epochs, labels
-
-
-def nanCleaner(data_in):
+def clean_nan(data_in):
     """Removes NaN from data by interpolation
     Parameters
     ----------
@@ -86,7 +41,7 @@ def nanCleaner(data_in):
     --------
     >>> data_path = "/PATH/TO/DATASET/dataset.gdf"
     >>> EEGdata_withNaN = loadBiosig(data_path)
-    >>> EEGdata_clean = nanCleaner(EEGdata_withNaN)
+    >>> EEGdata_clean = clean_nan(EEGdata_withNaN)
     """
     for i in range(data_in.shape[0]):
 
@@ -98,12 +53,12 @@ def nanCleaner(data_in):
     return data_in
 
 
-def saveMatrixAsTxt(data_in, path, mode='a'):
+def save_matrix_as_NPY(data_in, path, mode='a'):
 
     with open(path, mode) as data_file:
         np.save(data_file, data_in)
 
 
-def saveObjAsJson(obj, filename):
+def save_obj_as_json(obj, filename):
     with open(filename, "w") as file:
         file.write(json.dumps(obj.__dict__, file, indent=4))
