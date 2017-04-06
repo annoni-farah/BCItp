@@ -3,13 +3,9 @@
 
 # from threading import Thread
 import numpy as np
-import os
 
 
-from utils import saveMatrixAsTxt
-
-GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
-PATHTOUSERS = GLOBALPATH + '/data/users/'
+from utils import save_matrix_as_NPY
 
 
 class EventHandler():
@@ -34,7 +30,7 @@ class EventHandler():
 
     def SaveEvents(self, path):
 
-        saveMatrixAsTxt(self.event_list, path, mode='w')
+        save_matrix_as_NPY(self.event_list, path, mode='w')
 
     def clear_buffer(self):
         self.circBuff.clear()

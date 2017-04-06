@@ -11,8 +11,8 @@ import threading
 import collections  # circular buffer
 
 # BCITP PACKAGES
-from utils import saveMatrixAsNPY
-from utils import LoadDataAsMatrix
+from utils import save_matrix_as_NPY
+from utils import load_as_matrix
 
 import bcitp.hardware.open_bci_v3 as bci
 import bcitp.hardware.open_bci_playback as playback
@@ -54,7 +54,7 @@ class DataHandler(threading.Thread):
                 loadedData = np.ones([2, 16])
             else:
                 Logger.info('Outputing data from EEG file.')
-                loadedData = LoadDataAsMatrix(self.playback_path).T
+                loadedData = load_as_matrix(self.playback_path).T
 
             self.board = playback.OpenBCIBoard(port=p,
                                                baud=BAUD,
@@ -85,7 +85,7 @@ class DataHandler(threading.Thread):
             Saves the acquired EEG data into a .npy file
         '''
 
-        saveMatrixAsNPY(self.all_data, path, mode='w')
+        save_matrix_as_NPY(self.all_data, path, mode='w')
 
     def get_data(self, sample):
         '''
