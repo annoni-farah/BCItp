@@ -1,2 +1,11 @@
+Kivy==1.9.2.dev0
+Kivy-Garden==0.1.4
 matplotlib==1.5.2
-
+nose==1.3.7
+numpy==1.11.0
+pylab==0.1.3
+pyserial==3.0.1
+scikit-image==0.12.3
+scikit-learn==0.18.1
+scipy==0.17.0
+sklearn==0.0
