@@ -7,6 +7,9 @@ testing. The ouput data is always 0 as if the daisy module was not connected.
 import time
 import timeit
 
+# KIVY PACKAGES
+from kivy.logger import Logger
+
 SAMPLE_RATE = 250.0  # Hz
 
 
@@ -24,20 +27,17 @@ class OpenBCIBoard(object):
     def __init__(self, port=None, baud=115200, data=[], filter_data=True,
                  scaled_output=True, daisy=False, log=True, timeout=None):
 
-        print("Connecting to V3 simulator")
+        Logger.info('Connecting to V3 simulator.')
         # wait for device to be ready
 
         self.streaming = False
         self.scaling_output = scaled_output
-
-        self.t = 0
 
         self.playback_data = data
 
         self.daisy = daisy
 
         self.sample_rate = self.getSampleRate()
-        print(self.sample_rate)
 
         self.packet_id = 0
 
@@ -78,7 +78,6 @@ class OpenBCIBoard(object):
                 self.packet_id = (self.packet_id + 1) % 256
 
             channel_data = self.playback_data[self.sample_counter, :].tolist()
-            # print self.playback_data.shape
 
             sample = OpenBCISample(self.packet_id, channel_data, [])
             # if a daisy module is attached, wait to concatenate two samples
@@ -91,12 +90,8 @@ class OpenBCIBoard(object):
 
             self.sample_counter += 1
 
-            # if sample_counter == counter_max:
-            #     sample_counter = 0
-
             while 1.0 / self.sample_rate > time.time() - st:
                 pass
-            # time.sleep(1.0)
 
     """
 
@@ -105,11 +100,11 @@ class OpenBCIBoard(object):
   """
 
     def stop(self):
-        print("Stopping streaming...\nWait for buffer to flush...")
+        Logger.info('Stopping streaming...\nWait for buffer to flush...')
         self.streaming = False
 
     def disconnect(self):
-        print("Closing Serial...")
+        Logger.info('Closing Serial Port')
 
     """
 
@@ -118,8 +113,7 @@ class OpenBCIBoard(object):
   """
 
     def warn(self, text):
-
-        print("Warning: %s" % text)
+        Logger.info("Warning: %s" % text)
 
 
 class OpenBCISample(object):
