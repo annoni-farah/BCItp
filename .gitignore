@@ -4,4 +4,6 @@ data/session/*
 data/session_list.txt
 backup/
 
+.idea/
+
 /docs/_build/
