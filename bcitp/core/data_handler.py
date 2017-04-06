@@ -11,8 +11,8 @@ import threading
 import collections  # circular buffer
 
 # BCITP PACKAGES
-from utils import save_matrix_as_NPY
-from utils import load_as_matrix
+from bcitp.utils.utils import save_matrix_as_NPY
+from bcitp.utils.utils import load_as_matrix
 
 import bcitp.hardware.open_bci_v3 as bci
 import bcitp.hardware.open_bci_playback as playback
@@ -49,7 +49,7 @@ class DataHandler(threading.Thread):
 
         elif mode == 'simu':
             Logger.info('Simulation mode detected.')
-            if self.dummy:
+            if dummy:
                 Logger.info('Outputing dummy data.')
                 loadedData = np.ones([2, 16])
             else:
