@@ -13,3 +13,4 @@ venv
 
 dist/
 MANIFEST
+build/
