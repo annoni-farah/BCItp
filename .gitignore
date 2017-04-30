@@ -7,3 +7,6 @@ backup/
 .idea/
 
 /docs/_build/
+
+venv
+.cache
