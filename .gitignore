@@ -10,3 +10,6 @@ backup/
 
 venv
 .cache
+
+dist/
+MANIFEST
