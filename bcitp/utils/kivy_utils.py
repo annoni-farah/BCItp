@@ -1,7 +1,7 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
-from standards import FONT_SIZE
+from .standards import FONT_SIZE
 
 
 class ErrorPopup(BoxLayout):

@@ -77,7 +77,11 @@ class OpenBCIBoard(object):
             else:
                 self.packet_id = (self.packet_id + 1) % 256
 
-            channel_data = self.playback_data[self.sample_counter, :].tolist()
+            try:
+                channel_data = self.playback_data[
+                    self.sample_counter, :].tolist()
+            except:
+                channel_data = self.playback_data.tolist()
 
             sample = OpenBCISample(self.packet_id, channel_data, [])
             # if a daisy module is attached, wait to concatenate two samples
