@@ -1,11 +1,8 @@
-import math
-import collections
 from .approach import Approach
 from bcitp.utils.standards import PATH_TO_SESSION
-import os
 
 
-class Controller():
+class CommandDispatcher():
 
     def __init__(self, smanager, sessionheader):
 
