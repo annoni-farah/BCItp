@@ -6,5 +6,5 @@ setup(
     packages=['bcitp', ],
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     long_description=open('README.md').read(),
-    setup_requires=['Cython'],
+    setup_requires=['setuptools>=18.0', 'cython'],
 )
