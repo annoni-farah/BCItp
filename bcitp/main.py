@@ -8,32 +8,29 @@ import os
 
 from kivy.uix.screenmanager import ScreenManager
 
-import bcitp.screens.templates.settings_template
+from data_headers.session_info import SessionHeader
 
-from bcitp.utils.session_info import SessionHeader
+from screens.start_screen import StartScreen
+from screens.menus import BCIMenu, CalMenu, GameMenu, DroneMenu
 
-from bcitp.screens.start_screen import StartScreen
-from bcitp.screens.settings.general_settings import GeneralSettings
-from bcitp.screens.menus import BCIMenu, CalMenu, GameMenu, DroneMenu
+from screens.settings.acquisition_settings import AcquisitionSettings
 
-from bcitp.screens.settings.acquisition_settings import AcquisitionSettings
+from screens.settings.cal_settings import CalSettings
+from screens.cal.cal_start import CalStart
 
-from bcitp.screens.settings.cal_settings import CalSettings
-from bcitp.screens.cal.cal_start import CalStart
+from screens.ml.ml_screen import MlMenu
 
-from bcitp.screens.ml.ml_screen import MlMenu
+from screens.game.game_settings import GameSettings
+from screens.game.bars_start import BarsStart
+from screens.game.target_start import TargetStart
 
-from bcitp.screens.game.game_settings import GameSettings
-from bcitp.screens.game.bars_start import BarsStart
-from bcitp.screens.game.target_start import TargetStart
-
-from bcitp.screens.game.drone_settings import DroneSettings
-from bcitp.screens.game.drone_start import DroneStart
+from screens.game.drone_settings import DroneSettings
+from screens.game.drone_start import DroneStart
 
 # LOAD ALL KV FILES
 
 
-def load_all_kv_files(start="bcitp/screens/kv"):
+def load_all_kv_files(start="screens/kv"):
     pattern = re.compile(r".*?\.kv")
     kv_files = []
     for root, dirs, files in os.walk(start):

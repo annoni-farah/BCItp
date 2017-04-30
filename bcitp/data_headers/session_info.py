@@ -1,6 +1,6 @@
 
 import pickle
-from standards import PATH_TO_SESSION
+from utils.standards import PATH_TO_SESSION
 
 
 class SessionHeader:

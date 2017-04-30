@@ -1,6 +1,6 @@
 import os
 
-from bcitp.utils.standards import PATH_TO_SESSION
+from utils.standards import PATH_TO_SESSION
 
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
@@ -15,10 +15,6 @@ class StartScreen(Screen):
         super(StartScreen, self).__init__(**kwargs)
 
         self.sh = session_header
-
-    def change_to_gen_settings(self, *args):
-        self.manager.current = 'GeneralSettings'
-        self.manager.transition.direction = 'left'
 
     def change_to_bci(self, *args):
 

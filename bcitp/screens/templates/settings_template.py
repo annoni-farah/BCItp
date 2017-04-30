@@ -10,8 +10,6 @@ __all__ = ('StdSettingsContainer', 'StdSettingItem',
            'StdSettingString', 'StdSettingTitle')
 
 
-
-
 class StdSettingsContainer(GridLayout):
     pass
 
