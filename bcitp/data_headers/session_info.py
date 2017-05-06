@@ -1,6 +1,6 @@
 
 import pickle
-from utils.standards import PATH_TO_SESSION
+from bcitp.utils.standards import PATH_TO_SESSION
 
 
 class SessionHeader:

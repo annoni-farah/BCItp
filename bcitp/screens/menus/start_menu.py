@@ -1,9 +1,14 @@
 import os
 
-from utils.standards import PATH_TO_SESSION
+from bcitp.utils.standards import PATH_TO_SESSION
 
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
+from kivy.lang import Builder
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+Builder.load_file(dir_path + '/start_menu.kv')
 
 
 class StartScreen(Screen):
