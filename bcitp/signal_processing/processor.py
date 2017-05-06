@@ -57,10 +57,11 @@ class Learner:
 
     def learn(self, train_epochs, train_labels):
         '''
-            Trains the machine learning models based on the epochs and labels 
+            Trains the machine learning models based on the epochs and labels
             provided
 
-            :param train_epochs: epochs numpy matrix shape[epoch, samples, channels]
+            :param train_epochs: epochs numpy matrix
+                                    shape[epoch, samples, channels]
             :param train_labels: labels numpy matrix shape[epoch, label]
         '''
 
