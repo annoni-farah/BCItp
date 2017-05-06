@@ -14,3 +14,4 @@ venv
 dist/
 MANIFEST
 build/
+BCItp.egg-info/
