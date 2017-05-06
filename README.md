@@ -1,7 +1,7 @@
 # BCI Training Platform #
 --------------------------------
 
-[![Build Status](https://travis-ci.org/rafaelmendes/BCItp.svg?branch=master)](https://travis-ci.org/rafaelmendes/BCItp)
+[![Build Status](https://travis-ci.org/rafaelmendes/BCItp.svg?branch=dev)](https://travis-ci.org/rafaelmendes/BCItp)
 
 ## A brain computer interface training platform ##
 
