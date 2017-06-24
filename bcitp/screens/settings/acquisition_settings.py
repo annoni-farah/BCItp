@@ -1,20 +1,15 @@
 # DEPENDENCIES-------------------------
 # Generic:
-import os
 
 # Project's:
 
 # KIVY modules:
-from kivy.lang import Builder
 
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty, NumericProperty
 from kivy.uix.gridlayout import GridLayout
 
 ######################################################################
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-Builder.load_file(dir_path + '/acquisition_settings.kv')
 
 
 class AcquisitionSettings(Screen):
