@@ -34,11 +34,12 @@ from screens.settings.acquisition_settings import AcquisitionSettings
 # LOAD ALL KV FILES
 
 
-def load_all_kv_files(start="bcitp/screens"):
+def load_all_kv_files():
+    start_path = os.path.dirname(os.path.realpath(__file__))
     pattern = re.compile(r".*?\.kv")
     kv_files = []
     Logger.info('Loading kv layout files.')
-    for root, dirs, files in os.walk(start):
+    for root, dirs, files in os.walk(start_path):
         kv_files += [root + "/" +
                      file_ for file_ in files if pattern.match(file_)]
 
