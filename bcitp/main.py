@@ -19,16 +19,15 @@ from .screens.menus.menus import BCIMenu
 from .screens.menus.menus import CalMenu
 from .screens.menus.menus import GameMenu
 
-from screens.settings.acquisition_settings import AcquisitionSettings
+from .screens.settings.acquisition_settings import AcquisitionSettings
 
-# from screens.settings.cal_settings import CalSettings
-# from screens.cal.cal_start import CalStart
+from .screens.cal.cal_settings import CalSettings
+from .screens.cal.cal_start import CalStart
 
-# from screens.ml.ml_screen import MlMenu
+from .screens.ml.ml_screen import MlMenu
 
-# from screens.game.game_settings import GameSettings
-# from screens.game.bars_start import BarsStart
-# from screens.game.target_start import TargetStart
+from .screens.game.game_settings import GameSettings
+from .screens.game.bars_start import BarsStart
 
 
 # LOAD ALL KV FILES
@@ -60,41 +59,37 @@ class BCItp(App):
 
         # CREATE SCREENS
         start_menu = StartScreen(sh, name='start')
-        # settings_screen = GeneralSettings(sh, name='GeneralSettings')
         bci_screen = BCIMenu(sh, name='BCIMenu')
 
         acquisition_settings_screen = AcquisitionSettings(
             sh, name='AcquisitionSettings')
 
         cal_screen = CalMenu(sh, name='CalMenu')
-        # cal_settings_screen = CalSettings(sh, name='CalSettings')
-        # cal_start_screen = CalStart(sh, name='CalStart')
+        cal_settings_screen = CalSettings(sh, name='CalSettings')
+        cal_start_screen = CalStart(sh, name='CalStart')
 
-        # ml_screen = MlMenu(sh, name='MlMenu')
+        ml_screen = MlMenu(sh, name='MlMenu')
 
         game_screen = GameMenu(sh, name='GameMenu')
-        # game_settings_screen = GameSettings(sh, name='GameSettings')
-        # bars_start_screen = BarsStart(sh, name='BarsStart')
-        # target_start_screen = TargetStart(sh, name='TargetStart')
+        game_settings_screen = GameSettings(sh, name='GameSettings')
+        bars_start_screen = BarsStart(sh, name='BarsStart')
 
         # ADD SCREENS TO SCREEN MANAGER
         sm.add_widget(start_menu)
 
-        # sm.add_widget(settings_screen)
         sm.add_widget(bci_screen)
 
         sm.add_widget(acquisition_settings_screen)
 
         sm.add_widget(cal_screen)
-        # sm.add_widget(cal_settings_screen)
-        # sm.add_widget(cal_start_screen)
+        sm.add_widget(cal_settings_screen)
+        sm.add_widget(cal_start_screen)
 
-        # sm.add_widget(ml_screen)
+        sm.add_widget(ml_screen)
 
         sm.add_widget(game_screen)
-        # sm.add_widget(game_settings_screen)
-        # sm.add_widget(bars_start_screen)
-        # sm.add_widget(target_start_screen)
+        sm.add_widget(game_settings_screen)
+        sm.add_widget(bars_start_screen)
 
         sm.current = 'start'
 
