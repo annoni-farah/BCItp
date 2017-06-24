@@ -4,6 +4,7 @@ from kivy.uix.label import Label
 from kivy.properties import (StringProperty, NumericProperty, OptionProperty,
                              BooleanProperty)
 from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 
 __all__ = ('StdSettingsContainer', 'StdSettingItem',
            'StdSettingBoolean', 'StdSettingSlider',
@@ -87,8 +88,13 @@ class StdSettingSlider(StdSettingItem):
         ids.input.select_all()
 
 
+class SaveSettingButton(Button):
+    pass
+
 Factory.register('StdSettingsContainer', cls=StdSettingsContainer)
 Factory.register('StdSettingTitle', cls=StdSettingTitle)
 Factory.register('StdSettingBoolean', cls=StdSettingBoolean)
 Factory.register('StdSettingSlider', cls=StdSettingSlider)
 Factory.register('StdSettingString', cls=StdSettingString)
+Factory.register('SaveSettingButton', cls=SaveSettingButton)
+

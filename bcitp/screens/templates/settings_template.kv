@@ -111,3 +111,10 @@
             Button:
                 text: 'Cancel'
                 on_press: root.dismiss()
+
+
+<SaveSettingButton>:
+    text: 'Save'
+    on_press: root.save_session_name()
+    size_hint: None,None
+    size: 200,50
