@@ -13,8 +13,9 @@ from .data_headers.session_info import SessionHeader
 from .screens.menus.menus import StartScreen
 
 from .screens.menus.menus import BCIMenu
+from .screens.menus.menus import CalMenu
+from .screens.menus.menus import GameMenu
 
-# from screens.menus import CalMenu, GameMenu, DroneMenu
 
 # from screens.settings.acquisition_settings import AcquisitionSettings
 
@@ -27,8 +28,6 @@ from .screens.menus.menus import BCIMenu
 # from screens.game.bars_start import BarsStart
 # from screens.game.target_start import TargetStart
 
-# from screens.game.drone_settings import DroneSettings
-# from screens.game.drone_start import DroneStart
 
 # LOAD ALL KV FILES
 
@@ -59,20 +58,16 @@ class BCItp(App):
         # acquisition_settings_screen = AcquisitionSettings(
         #     sh, name='AcquisitionSettings')
 
-        # cal_screen = CalMenu(sh, name='CalMenu')
+        cal_screen = CalMenu(sh, name='CalMenu')
         # cal_settings_screen = CalSettings(sh, name='CalSettings')
         # cal_start_screen = CalStart(sh, name='CalStart')
 
         # ml_screen = MlMenu(sh, name='MlMenu')
 
-        # game_screen = GameMenu(sh, name='GameMenu')
+        game_screen = GameMenu(sh, name='GameMenu')
         # game_settings_screen = GameSettings(sh, name='GameSettings')
         # bars_start_screen = BarsStart(sh, name='BarsStart')
         # target_start_screen = TargetStart(sh, name='TargetStart')
-
-        # ardrone_menu_screen = DroneMenu(sh, name='DroneMenu')
-        # ardrone_settings_screen = DroneSettings(sh, name='DroneSettings')
-        # ardrone_start_screen = DroneStart(sh, name='DroneStart')
 
         # ADD SCREENS TO SCREEN MANAGER
         sm.add_widget(start_menu)
@@ -82,20 +77,16 @@ class BCItp(App):
 
         # sm.add_widget(acquisition_settings_screen)
 
-        # sm.add_widget(cal_screen)
+        sm.add_widget(cal_screen)
         # sm.add_widget(cal_settings_screen)
         # sm.add_widget(cal_start_screen)
 
         # sm.add_widget(ml_screen)
 
-        # sm.add_widget(game_screen)
+        sm.add_widget(game_screen)
         # sm.add_widget(game_settings_screen)
         # sm.add_widget(bars_start_screen)
         # sm.add_widget(target_start_screen)
-
-        # sm.add_widget(ardrone_menu_screen)
-        # sm.add_widget(ardrone_settings_screen)
-        # sm.add_widget(ardrone_start_screen)
 
         sm.current = 'start'
 
