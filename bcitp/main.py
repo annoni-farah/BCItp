@@ -10,14 +10,15 @@ from kivy.uix.screenmanager import ScreenManager
 
 from .data_headers.session_info import SessionHeader
 
+import bcitp.screens.templates.settings_template
+
 from .screens.menus.menus import StartScreen
 
 from .screens.menus.menus import BCIMenu
 from .screens.menus.menus import CalMenu
 from .screens.menus.menus import GameMenu
 
-
-# from screens.settings.acquisition_settings import AcquisitionSettings
+from screens.settings.acquisition_settings import AcquisitionSettings
 
 # from screens.settings.cal_settings import CalSettings
 # from screens.cal.cal_start import CalStart
@@ -55,8 +56,8 @@ class BCItp(App):
         # settings_screen = GeneralSettings(sh, name='GeneralSettings')
         bci_screen = BCIMenu(sh, name='BCIMenu')
 
-        # acquisition_settings_screen = AcquisitionSettings(
-        #     sh, name='AcquisitionSettings')
+        acquisition_settings_screen = AcquisitionSettings(
+            sh, name='AcquisitionSettings')
 
         cal_screen = CalMenu(sh, name='CalMenu')
         # cal_settings_screen = CalSettings(sh, name='CalSettings')
@@ -75,7 +76,7 @@ class BCItp(App):
         # sm.add_widget(settings_screen)
         sm.add_widget(bci_screen)
 
-        # sm.add_widget(acquisition_settings_screen)
+        sm.add_widget(acquisition_settings_screen)
 
         sm.add_widget(cal_screen)
         # sm.add_widget(cal_settings_screen)
