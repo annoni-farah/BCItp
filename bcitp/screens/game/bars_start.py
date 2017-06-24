@@ -5,7 +5,7 @@ import os
 import collections
 
 # Project's:
-from bcitp.utils.sample_manager import SampleManager
+from bcitp.handlers.data_handler import DataHandler
 from bcitp.utils.standards import PATH_TO_SESSION
 from bcitp.signal_processing.approach import Approach
 from bcitp.signal_processing.handler import save_matrix_as_txt
@@ -87,7 +87,7 @@ class BarsStart(Screen):
         self.U1_local = collections.deque(maxlen=ABUF_LEN)
         self.U2_local = collections.deque(maxlen=ABUF_LEN)
 
-        self.sm = SampleManager(self.sh.acq.com_port,
+        self.sm = DataHandler(self.sh.acq.com_port,
                                 self.sh.dp.buf_len,
                                 daisy=self.sh.acq.daisy,
                                 mode=self.sh.acq.mode,

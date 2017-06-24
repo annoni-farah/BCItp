@@ -2,7 +2,8 @@
 # Generic:
 
 # Project's:
-from bcitp.utils.standards import PATH_TO_SESSION, FONT_SIZE
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.screens.sizes import FONT_SIZE
 from bcitp.signal_processing.approach import Approach
 
 # KIVY modules:

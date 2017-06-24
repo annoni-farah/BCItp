@@ -18,11 +18,11 @@ import threading
 import collections  # circular buffer
 
 # BCITP PACKAGES
-from utils.utils import save_matrix_as_NPY
-from utils.utils import load_as_matrix
+from bcitp.utils.utils import save_matrix_as_NPY
+from bcitp.utils.utils import load_as_matrix
 
-import hardware.open_bci_v3 as bci
-import hardware.open_bci_playback as playback
+import bcitp.hardware.open_bci_v3 as bci
+import bcitp.hardware.open_bci_playback as playback
 
 GLOBALPATH = os.path.abspath(os.path.dirname(__file__))
 PATHTOUSERS = GLOBALPATH + '/data/users/'

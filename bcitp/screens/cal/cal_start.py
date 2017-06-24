@@ -7,7 +7,7 @@ import threading
 import numpy as np
 
 # Project's:
-from bcitp.utils.sample_manager import SampleManager
+from bcitp.handlers.data_handler import DataHandler
 
 # KIVY modules:
 from kivy.uix.screenmanager import Screen
@@ -62,13 +62,13 @@ class CalStart(Screen):
 
     def stream_start(self):
 
-        self.sm = SampleManager(self.sh.acq.com_port,
-                                self.sh.dp.buf_len,
-                                daisy=self.sh.acq.daisy,
-                                mode=self.sh.acq.mode,
-                                path=self.sh.acq.path_to_file,
-                                labels_path=self.sh.acq.path_to_labels_file,
-                                dummy=self.sh.acq.dummy)
+        self.sm = DataHandler(self.sh.acq.com_port,
+                              self.sh.dp.buf_len,
+                              daisy=self.sh.acq.daisy,
+                              mode=self.sh.acq.mode,
+                              path=self.sh.acq.path_to_file,
+                              labels_path=self.sh.acq.path_to_labels_file,
+                              dummy=self.sh.acq.dummy)
         self.sm.daemon = True
         self.sm.stop_flag = False
         self.sm.start()
