@@ -25,7 +25,11 @@
                 text: 'Back'
                 on_press: root.change_to_bci() 
 
-            SaveSettingButton:
+            Button:
+                text: 'Save'
+                on_press: root.save_session_name()
+                size_hint: None,None
+                size: 200,50
 
 
 <Menu>:

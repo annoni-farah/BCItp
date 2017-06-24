@@ -6,6 +6,7 @@ from kivy.lang import Builder
 import re
 import os
 
+from kivy.logger import Logger
 from kivy.uix.screenmanager import ScreenManager
 
 from .data_headers.session_info import SessionHeader
@@ -33,9 +34,10 @@ from screens.settings.acquisition_settings import AcquisitionSettings
 # LOAD ALL KV FILES
 
 
-def load_all_kv_files(start="screens/kv"):
+def load_all_kv_files(start="bcitp/screens"):
     pattern = re.compile(r".*?\.kv")
     kv_files = []
+    Logger.info('Loading kv layout files.')
     for root, dirs, files in os.walk(start):
         kv_files += [root + "/" +
                      file_ for file_ in files if pattern.match(file_)]
@@ -43,10 +45,14 @@ def load_all_kv_files(start="screens/kv"):
     for file_ in kv_files:
         Builder.load_file(file_)
 
+    Logger.info('Kv files Loaded.')
+
 
 class BCItp(App):
 
     def build(self):
+        load_all_kv_files()
+
         sh = SessionHeader()
 
         sm = ScreenManager()

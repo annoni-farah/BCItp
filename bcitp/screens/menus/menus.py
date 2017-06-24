@@ -1,8 +1,6 @@
 import os
 
-
 from kivy.properties import ObjectProperty, StringProperty
-from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -10,9 +8,6 @@ from kivy.uix.label import Label
 
 from bcitp.utils.standards import PATH_TO_SESSION
 from bcitp.screens.sizes import FONT_SIZE, BUTTON_SIZE
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-Builder.load_file(dir_path + '/menus.kv')
 
 
 class StartScreen(Screen):
