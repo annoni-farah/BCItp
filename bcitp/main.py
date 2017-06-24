@@ -10,9 +10,11 @@ from kivy.uix.screenmanager import ScreenManager
 
 from .data_headers.session_info import SessionHeader
 
-from .screens.menus.start_menu import StartScreen
+from .screens.menus.menus import StartScreen
 
-# from screens.menus import BCIMenu, CalMenu, GameMenu, DroneMenu
+from .screens.menus.menus import BCIMenu
+
+# from screens.menus import CalMenu, GameMenu, DroneMenu
 
 # from screens.settings.acquisition_settings import AcquisitionSettings
 
@@ -52,7 +54,7 @@ class BCItp(App):
         # CREATE SCREENS
         start_menu = StartScreen(sh, name='start')
         # settings_screen = GeneralSettings(sh, name='GeneralSettings')
-        # bci_screen = BCIMenu(sh, name='BCIMenu')
+        bci_screen = BCIMenu(sh, name='BCIMenu')
 
         # acquisition_settings_screen = AcquisitionSettings(
         #     sh, name='AcquisitionSettings')
@@ -76,7 +78,7 @@ class BCItp(App):
         sm.add_widget(start_menu)
 
         # sm.add_widget(settings_screen)
-        # sm.add_widget(bci_screen)
+        sm.add_widget(bci_screen)
 
         # sm.add_widget(acquisition_settings_screen)
 

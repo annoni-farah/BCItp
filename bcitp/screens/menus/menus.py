@@ -1,11 +1,65 @@
+import os
+
+
+from kivy.properties import ObjectProperty, StringProperty
+from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
-import os
+from bcitp.utils.standards import PATH_TO_SESSION
+from bcitp.screens.sizes import FONT_SIZE, BUTTON_SIZE
 
-from bcitp.utils.standards import FONT_SIZE, BUTTON_SIZE
+dir_path = os.path.dirname(os.path.realpath(__file__))
+Builder.load_file(dir_path + '/menus.kv')
+
+
+class StartScreen(Screen):
+    # layout
+    session_name = ObjectProperty(None)
+    label_msg = StringProperty('')
+
+    def __init__(self, session_header, **kwargs):
+        super(StartScreen, self).__init__(**kwargs)
+
+        self.sh = session_header
+
+    def change_to_bci(self, *args):
+
+        self.manager.current = 'BCIMenu'
+        self.manager.transition.direction = 'left'
+
+    def save_session_name(self, *args):
+
+        sname = self.session_name.text
+
+        if not os.path.isdir(PATH_TO_SESSION):
+            os.makedirs(PATH_TO_SESSION)
+
+        if sname == '':
+            # if no session_name is provided, use latest modified folder in
+            # data/session
+            all_subdirs = []
+            for d in os.listdir(PATH_TO_SESSION + '.'):
+                bd = os.path.join(PATH_TO_SESSION, d)
+                if os.path.isdir(bd):
+                    all_subdirs.append(bd)
+            sname = max(all_subdirs, key=os.path.getmtime).split('/')[-1]
+
+        self.sh.info.name = sname
+
+        if os.path.isdir(PATH_TO_SESSION + sname):
+
+            self.label_msg = "Session " + sname \
+                + " already exists. Data will be overwritten"
+            self.sh.loadFromPkl()
+
+        else:
+            os.makedirs(PATH_TO_SESSION + sname)
+            self.sh.saveToPkl()
+            self.label_msg = "Session Saved as: " + sname
+            self.sh.info.flag = True
 
 
 class CalMenu(Screen):
