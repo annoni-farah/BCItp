@@ -1,23 +1,19 @@
 from kivy.factory import Factory
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivy.properties import (StringProperty)
+from kivy.properties import (StringProperty, ObjectProperty)
 
-__all__ = ('StdMenuContainer', 'StdMenuItem', 'StdMenuTitle')
+__all__ = ('StdMenuContainer', 'StdMenuTitle')
 
 
 class StdMenuContainer(GridLayout):
     pass
 
 
-class StdMenuItem(GridLayout):
+class StdMenuButton(Button):
     title = StringProperty('<No title set>')
-    desc = StringProperty('')
-
-
-class StdMenuButton(GridLayout):
-    title = StringProperty('<No title set>')
-    desc = StringProperty('')
+    destination = ObjectProperty()
 
 
 class StdMenuTitle(Label):
@@ -27,5 +23,4 @@ class StdMenuTitle(Label):
 
 Factory.register('StdMenuContainer', cls=StdMenuContainer)
 Factory.register('StdMenuTitle', cls=StdMenuTitle)
-Factory.register('StdMenuItem', cls=StdMenuTitle)
 Factory.register('StdMenuButton', cls=StdMenuTitle)
