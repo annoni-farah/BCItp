@@ -4,7 +4,6 @@
     padding: 5
     size_hint_y: None
     height: self.minimum_height
-    
     on_minimum_height: 
         self.height=self.minimum_height
 
@@ -32,15 +31,42 @@
         text_size: self.size
         valign: 'top'
 
+<StdMenuButton>:
+    size_hint_y: None
+    height: 70
+    rows: 1
+    canvas:
+        Color:
+            rgba: 47 / 255., 167 / 255., 212 / 255., .1
+        Rectangle:
+            pos: self.x, self.y + 1
+            size: self.size
+        Color:
+            rgb: .2, .2, .2
+        Rectangle:
+            pos: self.x, self.y - 2
+            size: self.width, 1
+    Label:
+        size_hint_x: .6
+        id: labellayout
+        markup: True
+        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(root.title or '', root.desc or '')
+        font_size: '15sp'
+        text_size: self.size
+        valign: 'top'
+    Button:
+        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(root.title or '', root.desc or '')
+
+
 <StdMenuTitle>:
     size_hint_y: None
     height: 40
     markup: True
     text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(root.title or '', root.desc or '')
-    font_size: '15sp'
+    font_size: '25sp'
     text_size: self.size
     valign: 'top'
-    halign: 'right'
+    halign: 'left'
     canvas:
         Color:
             rgba: 47 / 255., 167 / 255., 212 / 255., .4

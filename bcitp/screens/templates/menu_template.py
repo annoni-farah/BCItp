@@ -15,6 +15,11 @@ class StdMenuItem(GridLayout):
     desc = StringProperty('')
 
 
+class StdMenuButton(GridLayout):
+    title = StringProperty('<No title set>')
+    desc = StringProperty('')
+
+
 class StdMenuTitle(Label):
     title = StringProperty('<No title set>')
     desc = StringProperty('')
@@ -22,3 +27,5 @@ class StdMenuTitle(Label):
 
 Factory.register('StdMenuContainer', cls=StdMenuContainer)
 Factory.register('StdMenuTitle', cls=StdMenuTitle)
+Factory.register('StdMenuItem', cls=StdMenuTitle)
+Factory.register('StdMenuButton', cls=StdMenuTitle)

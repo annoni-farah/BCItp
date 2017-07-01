@@ -12,6 +12,7 @@ from kivy.uix.screenmanager import ScreenManager
 from .data_headers.session_info import SessionHeader
 
 import bcitp.screens.templates.settings_template
+import bcitp.screens.templates.menu_template
 
 from .screens.menus.menus import StartScreen
 
