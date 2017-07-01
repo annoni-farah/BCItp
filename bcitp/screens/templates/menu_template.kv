@@ -1,5 +1,6 @@
 <StdMenuContainer>:
     cols: 1
+    orientation: 'vertical'
     spacing: 5
     padding: 5
     size_hint_y: None
@@ -29,7 +30,9 @@
 
 <StdMenuButton>:
     size_hint_y: None
-    height: 70
+    size_hint_x: None
+    height: 50
+    width: 300
     text: root.title
     on_press: root.destination()
 

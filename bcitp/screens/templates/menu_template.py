@@ -1,5 +1,5 @@
 from kivy.factory import Factory
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.properties import (StringProperty, ObjectProperty)
@@ -7,7 +7,7 @@ from kivy.properties import (StringProperty, ObjectProperty)
 __all__ = ('StdMenuContainer', 'StdMenuTitle')
 
 
-class StdMenuContainer(GridLayout):
+class StdMenuContainer(BoxLayout):
     pass
 
 
